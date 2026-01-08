@@ -18,11 +18,14 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
-
+#include "memory/vaddr.h"
 static int is_batch_mode = false;
 
 void init_regex();
 void init_wp_pool();
+
+//user change
+// extern bool make_token(char *e);
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -52,6 +55,75 @@ static int cmd_q(char *args) {
   return -1;
 }
 
+static int cmd_si(char *args) {
+  int step = 1;
+  printf("step = %d\n", expr(args,NULL));
+  if (args != NULL) {
+    step = strtol(args, NULL, 0);
+  }
+  cpu_exec(step);
+  return 0;
+}
+
+static int cmd_info(char *args) {
+  if(args[0] == 'r') {
+    isa_reg_display();
+  }
+  return 0;
+}
+
+static int cmd_x(char *args) {
+  char *temp;
+  int n = strtol(args, &temp, 10);
+  int m = strtol(temp, NULL, 16);
+  int i;
+  for (i = 0; i < n; i++)
+  {
+    printf("%08x: %08x\n", m+i, vaddr_read(m+i,1));
+  }
+  return 0;
+}
+
+char buf[10300];
+static int cmd_test(char *args)
+{
+  FILE *fp = fopen("/home/ylqt/study/YSYX_data/ysyx-workbench/nemu/test/result.txt", "r");
+  if (fp == NULL) {
+    printf("open test.log failed\n");
+    return -1;
+  }
+  unsigned int tag_data = 0;
+  char *temp;
+  int success = 0;
+  int i = 0;
+  unsigned get_data;
+  for (i = 0; i < strtol(args, NULL, 0); i++)
+  {
+    if (fgets(buf, sizeof(buf), fp) == NULL)
+    {
+      printf("read test.log failed\n");
+      return -1;
+    }
+  tag_data=strtol(buf, &temp, 0);
+  buf[strlen(buf)-1] = '\0';
+  get_data=(unsigned int)expr(temp,NULL);
+  printf("i=%u ", i);
+  printf("tag_data = %u ", tag_data);
+  printf("get_data = %u", get_data);
+  if(get_data == tag_data)
+  {
+    success++;
+    printf("\n");
+  }else
+  {
+    printf("  error!!!\n\n");
+  }
+  }
+  printf("success = %d\n", success);
+  fclose(fp);
+  return 0;
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -62,6 +134,10 @@ static struct {
   { "help", "Display information about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
+  { "si", "Step into the next instruction", cmd_si },
+  { "info", "Display information about the program", cmd_info },
+  { "x", "Show memory content", cmd_x },
+  { "test", "Test the program", cmd_test },
 
   /* TODO: Add more commands */
 
@@ -137,7 +213,6 @@ void sdb_mainloop() {
 void init_sdb() {
   /* Compile the regular expressions. */
   init_regex();
-
   /* Initialize the watchpoint pool. */
   init_wp_pool();
 }

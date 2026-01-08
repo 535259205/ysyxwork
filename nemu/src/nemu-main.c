@@ -15,11 +15,14 @@
 
 #include <common.h>
 
+#define TEST 0
+
 void init_monitor(int, char *[]);
 void am_init_monitor();
 void engine_start();
 int is_exit_status_bad();
 
+#if !TEST
 int main(int argc, char *argv[]) {
   /* Initialize the monitor. */
 #ifdef CONFIG_TARGET_AM
@@ -33,3 +36,10 @@ int main(int argc, char *argv[]) {
 
   return is_exit_status_bad();
 }
+#else
+int main(int argc, char *argv[]) {
+
+}
+
+#endif
+
