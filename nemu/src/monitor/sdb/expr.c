@@ -26,6 +26,10 @@ enum {
   TK_EQ,
 
   /* TODO: Add more token types */
+  TK_LE,     // <= 小于等于
+  TK_GE,     // >= 大于等于 
+  TK_AND,    // && 逻辑与
+  TK_OR,     // || 逻辑或
   TK_NUM,    // 数字
   TK_PLUS,   // +
   TK_MINUS,  // -
@@ -45,6 +49,11 @@ static struct rule {
    */
 
   {" +", TK_NOTYPE},    // 空格（跳过）
+  {"\\|\\|", TK_OR},    // || 逻辑或
+  {"&&", TK_AND},       // && 逻辑与
+  {"==", TK_EQ},        // == 等于号
+  {"<=", TK_LE},        // <= 小于等于
+  {">=", TK_GE},        // >= 大于等于
   {"==", TK_EQ},        // 等于号
   {"\\+", TK_PLUS},     // 加号
   {"\\-", TK_MINUS},    // 减号
@@ -153,14 +162,22 @@ bool check_parentheses(uint32_t p, uint32_t q) {//逻辑有错误
   return count == 0;
 }
 
+// 运算符优先级（严格遵循C语言规则，数值越大优先级越高）
 static int get_op_priority(int op_type) {
   switch (op_type) {
-    case TK_PLUS:
-    case TK_MINUS: return 1; // 加减优先级最低
-    case TK_MUL:
-    case TK_DIV: return 2;   // 乘除优先级更高
-    case TK_EQ: return 0;    // 等于号优先级最低（扩展用）
-    default: return -1;      // 非运算符
+    case TK_OR:     return 0; // || 优先级最低
+    case TK_AND:    return 1; // &&
+    case TK_EQ:     // ==
+    case TK_LE:     // <=
+    case TK_GE:     // >= 关系运算符同级
+                    return 2;
+    case TK_PLUS:   // +
+    case TK_MINUS:  // -
+                    return 3;
+    case TK_MUL:    // *
+    case TK_DIV:    // /
+                    return 4; // 乘除优先级最高
+    default:        return -1;// 非运算符
   }
 }
 
@@ -236,14 +253,24 @@ int eval(uint32_t p,uint32_t q)
       int left_val = eval(p, main_op_pos - 1);
       int right_val = eval(main_op_pos + 1, q);
 
-      // 根据主运算符进行计算
-      switch (tokens[main_op_pos].type) {
-        case TK_PLUS: return left_val + right_val;
+    switch (tokens[main_op_pos].type) {
+        case TK_PLUS:  return left_val + right_val;
         case TK_MINUS: return left_val - right_val;
-        case TK_MUL: return left_val * right_val;
-        case TK_DIV: return left_val / right_val;
-        case TK_EQ: return left_val == right_val; // 等于号扩展
-        default: assert(0); // 不应该到达这里
+        case TK_MUL:   return left_val * right_val;
+        case TK_DIV:   
+          if (right_val == 0) {
+            printf("Error: Division by zero\n");
+            return 0;
+          }
+          return left_val / right_val;
+        case TK_EQ:    return (left_val == right_val) ? 1 : 0;
+        case TK_LE:    return (left_val <= right_val) ? 1 : 0; // <= 求值
+        case TK_GE:    return (left_val >= right_val) ? 1 : 0; // >= 求值
+        case TK_AND:   return (left_val && right_val) ? 1 : 0; // && 逻辑与
+        case TK_OR:    return (left_val || right_val) ? 1 : 0; // || 逻辑或
+        default:
+          printf("Error: Unsupported operator (type=%d)\n", tokens[main_op_pos].type);
+          return 0;
       }
        
     }
