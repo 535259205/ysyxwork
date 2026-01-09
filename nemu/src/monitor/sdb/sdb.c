@@ -19,14 +19,14 @@
 #include <readline/history.h>
 #include "sdb.h"
 #include "memory/vaddr.h"
+
 static int is_batch_mode = false;
 
 void init_regex();
 void init_wp_pool();
-
-//user change
-// extern bool make_token(char *e);
-
+// user change
+void add_scan(char *args);
+void delete_scan(int no);
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
   static char *line_read = NULL;
@@ -65,9 +65,14 @@ static int cmd_si(char *args) {
   return 0;
 }
 
-static int cmd_info(char *args) {
+extern void wp_display(void);
+static int cmd_info(char *args)
+{
   if(args[0] == 'r') {
     isa_reg_display();
+  }
+  else if(args[0] == 'w') {
+    wp_display();
   }
   return 0;
 }
@@ -81,6 +86,20 @@ static int cmd_x(char *args) {
   {
     printf("%08x: %08x\n", m+i, vaddr_read(m+i,1));
   }
+  return 0;
+}
+static int cmd_p(char *args) {
+  printf("%d\n", expr(args,NULL));
+  return 0;
+}
+
+//设置新的监视点
+static int cmd_w(char *args) {
+  add_scan(args);
+  return 0;
+}
+static int cmd_d(char *args) {
+  delete_scan(strtol(args, NULL, 0));
   return 0;
 }
 
@@ -138,6 +157,9 @@ static struct {
   { "info", "Display information about the program", cmd_info },
   { "x", "Show memory content", cmd_x },
   { "test", "Test the program", cmd_test },
+  { "p", "Print the value of an expression", cmd_p },
+  { "w", "Set a watchpoint", cmd_w },
+  { "d", "Delete a watchpoint", cmd_d },
 
   /* TODO: Add more commands */
 

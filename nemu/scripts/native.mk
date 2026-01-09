@@ -40,6 +40,23 @@ run: run-env
 gdb: run-env
 	$(call git_commit, "gdb NEMU")
 	gdb -s $(BINARY) --args $(NEMU_EXEC)
+count:
+	@echo "===== nemu/ .c/.h 文件行数统计 ====="
+	@echo "1. 总行数（含空行/注释）："
+	@find ../ -name "*.c" -o -name "*.h" | xargs wc -l | tail -1
+	@echo "2. 非空行数（排除空行/纯空白行）："
+	@find ./ -name "*.c" -o -name "*.h" | xargs grep -v "^[[:space:]]*$$" | wc -l
+	@echo "===== PA1编写的行数（对比pa0分支） ====="
+	@if git rev-parse --verify pa0 >/dev/null 2>&1; then \
+		pa0_total=$$(git show pa0:$$(find ./ -name "*.c" -o -name "*.h" | tr '\n' ' ') | wc -l 2>/dev/null); \
+		current_total=$$(find ./ -name "*.c" -o -name "*.h" | xargs wc -l | tail -1 | awk '{print $$1}'); \
+		pa0_nonempty=$$(git show pa0:$$(find ./ -name "*.c" -o -name "*.h" | tr '\n' ' ') | grep -v "^[[:space:]]*$$" | wc -l 2>/dev/null); \
+		current_nonempty=$$(find ./ -name "*.c" -o -name "*.h" | xargs grep -v "^[[:space:]]*$$" | wc -l); \
+		echo "PA1编写的总行数：$$((current_total - pa0_total))"; \
+		echo "PA1编写的非空行数：$$((current_nonempty - pa0_nonempty))"; \
+	else \
+		echo "⚠️  未找到pa0分支，请确认分支存在！"; \
+	fi
 
 clean-tools = $(dir $(shell find ./tools -maxdepth 2 -mindepth 2 -name "Makefile"))
 $(clean-tools):

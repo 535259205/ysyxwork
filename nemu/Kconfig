@@ -1,5 +1,13 @@
 mainmenu "NEMU Configuration Menu"
 
+config WATCHPOINT
+  bool "Enable watchpoint support"
+  default n  # 默认关闭，避免影响性能
+  help
+    Enable watchpoint feature. When enabled, NEMU will check watchpoints
+    in trace_and_difftest() function after each instruction execution.
+    Disable this option to improve performance if watchpoint is not needed.
+
 choice
   prompt "Base ISA"
   default ISA_riscv
