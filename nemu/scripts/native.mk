@@ -48,9 +48,11 @@ count:
 	@find ./ -name "*.c" -o -name "*.h" | xargs grep -v "^[[:space:]]*$$" | wc -l
 	@echo "===== PA1编写的行数（对比pa0分支） ====="
 	@if git rev-parse --verify pa0 >/dev/null 2>&1; then \
-		pa0_total=$$(git show pa0:$$(find ./ -name "*.c" -o -name "*.h" | tr '\n' ' ') | wc -l 2>/dev/null); \
+		# pa0_total=$$(git show pa0:$$(find ./ -name "*.c" -o -name "*.h" | tr '\n' ' ') | wc -l 2>/dev/null); \
+		pa0_total=266829;\
 		current_total=$$(find ./ -name "*.c" -o -name "*.h" | xargs wc -l | tail -1 | awk '{print $$1}'); \
-		pa0_nonempty=$$(git show pa0:$$(find ./ -name "*.c" -o -name "*.h" | tr '\n' ' ') | grep -v "^[[:space:]]*$$" | wc -l 2>/dev/null); \
+		# pa0_nonempty=$$(git show pa0:$$(find ./ -name "*.c" -o -name "*.h" | tr '\n' ' ') | grep -v "^[[:space:]]*$$" | wc -l 2>/dev/null); \
+		pa0_nonempty=230404;\
 		current_nonempty=$$(find ./ -name "*.c" -o -name "*.h" | xargs grep -v "^[[:space:]]*$$" | wc -l); \
 		echo "PA1编写的总行数：$$((current_total - pa0_total))"; \
 		echo "PA1编写的非空行数：$$((current_nonempty - pa0_nonempty))"; \
