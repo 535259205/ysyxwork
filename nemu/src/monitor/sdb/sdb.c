@@ -74,6 +74,14 @@ static int cmd_info(char *args)
   }
   else if(args[0] == 'w') {
     wp_display();
+  }//i用来打印循环缓冲区的指令
+  else if(args[0] == 'i') {
+    extern void iringbuf_show();
+    iringbuf_show();
+  }//m用来打印循环缓冲区的内存操作
+  else if(args[0] == 'm') {
+    extern void iringbuf_memshow();
+    iringbuf_memshow();
   }
   return 0;
 }

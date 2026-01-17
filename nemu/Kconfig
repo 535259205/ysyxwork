@@ -7,6 +7,13 @@ config WATCHPOINT
     Enable watchpoint feature. When enabled, NEMU will check watchpoints
     in trace_and_difftest() function after each instruction execution.
     Disable this option to improve performance if watchpoint is not needed.
+config MTRACE
+  bool "Enable mtrace support"
+  default n  # 默认关闭，避免影响性能
+  help
+    Enable mtrace feature. When enabled, NEMU will trace memory accesses
+    in trace_and_difftest() function after each instruction execution.
+    Disable this option to improve performance if mtrace is not needed.
 
 choice
   prompt "Base ISA"

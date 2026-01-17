@@ -36,7 +36,13 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc)
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 #endif
+  //小于MAX_INST_TO_PRINT时输出指令相关的信息
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
+  //USER CODE
+  extern void iringbuf_add(char *s);
+  iringbuf_add(_this->logbuf);
+  //
+  
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
   //SCAN_ALL_POINT
   #if CONFIG_WATCHPOINT
@@ -101,6 +107,7 @@ void assert_fail_msg() {
 }
 
 /* Simulate how the CPU works. */
+//CPU执行程序
 void cpu_exec(uint64_t n) {
   g_print_step = (n < MAX_INST_TO_PRINT);
   switch (nemu_state.state) {
