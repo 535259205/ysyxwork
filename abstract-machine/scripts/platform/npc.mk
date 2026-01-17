@@ -26,7 +26,12 @@ image: image-dep
 	@$(OBJCOPY) -S --set-section-flags .bss=alloc,contents -O binary $(IMAGE).elf $(IMAGE).bin
 
 run: insert-arg
-	echo "TODO: add command here to run simulation for other architectures"
+ifeq ($(ARCH),minirv-npc)
+	@cp $(IMAGE).bin /home/ylqt/study/YSYX_data/ysyx-workbench/npc/hex/test.bin
+	@$(MAKE) -C /home/ylqt/study/YSYX_data/ysyx-workbench/npc sim
+else
+	@echo "TODO: add command here to run simulation for other architectures"
+endif
 
 
 .PHONY: insert-arg

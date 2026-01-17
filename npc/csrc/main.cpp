@@ -133,7 +133,7 @@ int main(int argc, char** argv) {
   {
     dut->clk=!dut->clk;
     dut->rst = 0;
-    if (sim_time >= 8)
+    if (sim_time >= 16)
       dut->rst = 1;
     dut->eval();
 
@@ -148,6 +148,5 @@ int main(int argc, char** argv) {
   delete dut;
 
   //0成功 1失败
-  // return 0;
   return !ebreak_flag;
 }
