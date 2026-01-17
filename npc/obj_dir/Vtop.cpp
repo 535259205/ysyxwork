@@ -1,108 +1,140 @@
 // Verilated -*- C++ -*-
-// DESCRIPTION: Verilator output: Design implementation internals
-// See Vtop.h for the primary calling header
+// DESCRIPTION: Verilator output: Model implementation (design independent parts)
 
-#include "Vtop.h"
-#include "Vtop__Syms.h"
+#include "Vtop__pch.h"
+#include "verilated_vcd_c.h"
 
-//==========
+//============================================================
+// Constructors
+
+Vtop::Vtop(VerilatedContext* _vcontextp__, const char* _vcname__)
+    : VerilatedModel{*_vcontextp__}
+    , vlSymsp{new Vtop__Syms(contextp(), _vcname__, this)}
+    , rst{vlSymsp->TOP.rst}
+    , clk{vlSymsp->TOP.clk}
+    , rootp{&(vlSymsp->TOP)}
+{
+    // Register model with the context
+    contextp()->addModel(this);
+    contextp()->traceBaseModelCbAdd(
+        [this](VerilatedTraceBaseC* tfp, int levels, int options) { traceBaseModel(tfp, levels, options); });
+}
+
+Vtop::Vtop(const char* _vcname__)
+    : Vtop(Verilated::threadContextp(), _vcname__)
+{
+}
+
+//============================================================
+// Destructor
+
+Vtop::~Vtop() {
+    delete vlSymsp;
+}
+
+//============================================================
+// Evaluation function
+
+#ifdef VL_DEBUG
+void Vtop___024root___eval_debug_assertions(Vtop___024root* vlSelf);
+#endif  // VL_DEBUG
+void Vtop___024root___eval_static(Vtop___024root* vlSelf);
+void Vtop___024root___eval_initial(Vtop___024root* vlSelf);
+void Vtop___024root___eval_settle(Vtop___024root* vlSelf);
+void Vtop___024root___eval(Vtop___024root* vlSelf);
 
 void Vtop::eval_step() {
-    VL_DEBUG_IF(VL_DBG_MSGF("+++++TOP Evaluate Vtop::eval\n"); );
-    Vtop__Syms* __restrict vlSymsp = this->__VlSymsp;  // Setup global symbol table
-    Vtop* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+++++TOP Evaluate Vtop::eval_step\n"); );
 #ifdef VL_DEBUG
     // Debug assertions
-    _eval_debug_assertions();
+    Vtop___024root___eval_debug_assertions(&(vlSymsp->TOP));
 #endif  // VL_DEBUG
-    // Initialize
-    if (VL_UNLIKELY(!vlSymsp->__Vm_didInit)) _eval_initial_loop(vlSymsp);
-    // Evaluate till stable
-    int __VclockLoop = 0;
-    QData __Vchange = 1;
-    do {
-        VL_DEBUG_IF(VL_DBG_MSGF("+ Clock loop\n"););
-        vlSymsp->__Vm_activity = true;
-        _eval(vlSymsp);
-        if (VL_UNLIKELY(++__VclockLoop > 100)) {
-            // About to fail, so enable debug to see what's not settling.
-            // Note you must run make with OPT=-DVL_DEBUG for debug prints.
-            int __Vsaved_debug = Verilated::debug();
-            Verilated::debug(1);
-            __Vchange = _change_request(vlSymsp);
-            Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("vsrc/top.v", 1, "",
-                "Verilated model didn't converge\n"
-                "- See DIDNOTCONVERGE in the Verilator manual");
-        } else {
-            __Vchange = _change_request(vlSymsp);
-        }
-    } while (VL_UNLIKELY(__Vchange));
-}
-
-void Vtop::_eval_initial_loop(Vtop__Syms* __restrict vlSymsp) {
-    vlSymsp->__Vm_didInit = true;
-    _eval_initial(vlSymsp);
     vlSymsp->__Vm_activity = true;
-    // Evaluate till stable
-    int __VclockLoop = 0;
-    QData __Vchange = 1;
-    do {
-        _eval_settle(vlSymsp);
-        _eval(vlSymsp);
-        if (VL_UNLIKELY(++__VclockLoop > 100)) {
-            // About to fail, so enable debug to see what's not settling.
-            // Note you must run make with OPT=-DVL_DEBUG for debug prints.
-            int __Vsaved_debug = Verilated::debug();
-            Verilated::debug(1);
-            __Vchange = _change_request(vlSymsp);
-            Verilated::debug(__Vsaved_debug);
-            VL_FATAL_MT("vsrc/top.v", 1, "",
-                "Verilated model didn't DC converge\n"
-                "- See DIDNOTCONVERGE in the Verilator manual");
-        } else {
-            __Vchange = _change_request(vlSymsp);
-        }
-    } while (VL_UNLIKELY(__Vchange));
+    vlSymsp->__Vm_deleter.deleteAll();
+    if (VL_UNLIKELY(!vlSymsp->__Vm_didInit)) {
+        vlSymsp->__Vm_didInit = true;
+        VL_DEBUG_IF(VL_DBG_MSGF("+ Initial\n"););
+        Vtop___024root___eval_static(&(vlSymsp->TOP));
+        Vtop___024root___eval_initial(&(vlSymsp->TOP));
+        Vtop___024root___eval_settle(&(vlSymsp->TOP));
+    }
+    VL_DEBUG_IF(VL_DBG_MSGF("+ Eval\n"););
+    Vtop___024root___eval(&(vlSymsp->TOP));
+    // Evaluate cleanup
+    Verilated::endOfEval(vlSymsp->__Vm_evalMsgQp);
 }
 
-VL_INLINE_OPT void Vtop::_combo__TOP__1(Vtop__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop::_combo__TOP__1\n"); );
-    Vtop* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
-    // Body
-    vlTOPp->f = ((IData)(vlTOPp->a) ^ (IData)(vlTOPp->b));
+//============================================================
+// Events and timing
+bool Vtop::eventsPending() { return false; }
+
+uint64_t Vtop::nextTimeSlot() {
+    VL_FATAL_MT(__FILE__, __LINE__, "", "No delays in the design");
+    return 0;
 }
 
-void Vtop::_eval(Vtop__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop::_eval\n"); );
-    Vtop* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
-    // Body
-    vlTOPp->_combo__TOP__1(vlSymsp);
+//============================================================
+// Utilities
+
+const char* Vtop::name() const {
+    return vlSymsp->name();
 }
 
-VL_INLINE_OPT QData Vtop::_change_request(Vtop__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop::_change_request\n"); );
-    Vtop* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
-    // Body
-    return (vlTOPp->_change_request_1(vlSymsp));
+//============================================================
+// Invoke final blocks
+
+void Vtop___024root___eval_final(Vtop___024root* vlSelf);
+
+VL_ATTR_COLD void Vtop::final() {
+    Vtop___024root___eval_final(&(vlSymsp->TOP));
 }
 
-VL_INLINE_OPT QData Vtop::_change_request_1(Vtop__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop::_change_request_1\n"); );
-    Vtop* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
-    // Body
-    // Change detection
-    QData __req = false;  // Logically a bool
-    return __req;
+//============================================================
+// Implementations of abstract methods from VerilatedModel
+
+const char* Vtop::hierName() const { return vlSymsp->name(); }
+const char* Vtop::modelName() const { return "Vtop"; }
+unsigned Vtop::threads() const { return 1; }
+void Vtop::prepareClone() const { contextp()->prepareClone(); }
+void Vtop::atClone() const {
+    contextp()->threadPoolpOnClone();
+}
+std::unique_ptr<VerilatedTraceConfig> Vtop::traceConfig() const {
+    return std::unique_ptr<VerilatedTraceConfig>{new VerilatedTraceConfig{false, false, false}};
+};
+
+//============================================================
+// Trace configuration
+
+void Vtop___024root__trace_decl_types(VerilatedVcd* tracep);
+
+void Vtop___024root__trace_init_top(Vtop___024root* vlSelf, VerilatedVcd* tracep);
+
+VL_ATTR_COLD static void trace_init(void* voidSelf, VerilatedVcd* tracep, uint32_t code) {
+    // Callback from tracep->open()
+    Vtop___024root* const __restrict vlSelf VL_ATTR_UNUSED = static_cast<Vtop___024root*>(voidSelf);
+    Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    if (!vlSymsp->_vm_contextp__->calcUnusedSigs()) {
+        VL_FATAL_MT(__FILE__, __LINE__, __FILE__,
+            "Turning on wave traces requires Verilated::traceEverOn(true) call before time 0.");
+    }
+    vlSymsp->__Vm_baseCode = code;
+    tracep->pushPrefix(vlSymsp->name(), VerilatedTracePrefixType::SCOPE_MODULE);
+    Vtop___024root__trace_decl_types(tracep);
+    Vtop___024root__trace_init_top(vlSelf, tracep);
+    tracep->popPrefix();
 }
 
-#ifdef VL_DEBUG
-void Vtop::_eval_debug_assertions() {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop::_eval_debug_assertions\n"); );
-    // Body
-    if (VL_UNLIKELY((a & 0xfeU))) {
-        Verilated::overWidthError("a");}
-    if (VL_UNLIKELY((b & 0xfeU))) {
-        Verilated::overWidthError("b");}
+VL_ATTR_COLD void Vtop___024root__trace_register(Vtop___024root* vlSelf, VerilatedVcd* tracep);
+
+VL_ATTR_COLD void Vtop::traceBaseModel(VerilatedTraceBaseC* tfp, int levels, int options) {
+    (void)levels; (void)options;
+    VerilatedVcdC* const stfp = dynamic_cast<VerilatedVcdC*>(tfp);
+    if (VL_UNLIKELY(!stfp)) {
+        vl_fatal(__FILE__, __LINE__, __FILE__,"'Vtop::trace()' called on non-VerilatedVcdC object;"
+            " use --trace-fst with VerilatedFst object, and --trace-vcd with VerilatedVcd object");
+    }
+    stfp->spTrace()->addModel(this);
+    stfp->spTrace()->addInitCb(&trace_init, &(vlSymsp->TOP));
+    Vtop___024root__trace_register(&(vlSymsp->TOP), stfp->spTrace());
 }
-#endif  // VL_DEBUG
