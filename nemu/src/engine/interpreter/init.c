@@ -18,6 +18,7 @@
 void sdb_mainloop();
 
 void engine_start() {
+  //批处理模式
 #ifdef CONFIG_TARGET_AM
   cpu_exec(-1);
 #else
