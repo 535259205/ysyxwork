@@ -52,6 +52,7 @@ static int cmd_c(char *args) {
 
 
 static int cmd_q(char *args) {
+  nemu_state.state = NEMU_QUIT;
   return -1;
 }
 
@@ -84,7 +85,7 @@ static int cmd_x(char *args) {
   int i;
   for (i = 0; i < n; i++)
   {
-    printf("%08x: %08x\n", m+i, vaddr_read(m+i,1));
+    printf("%08x: %08x\n", m+i, vaddr_read(m+i*4,4));
   }
   return 0;
 }

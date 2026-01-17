@@ -103,13 +103,10 @@ typedef struct token {
 static Token tokens[32*500] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
-// 辅助函数：区分单目解引用*和双目乘号*
 static void distinguish_deref_mul() {
   for (int i = 0; i < nr_token; i++) {
     if (tokens[i].type != TK_MUL) continue;
 
-    // 以下情况*是单目解引用：
-    // 1. 在表达式开头；2. 左括号后面；3. 运算符后面（+、-、*、/、==、!=、&&、||、<=、>=）
     if (i == 0 || 
         tokens[i-1].type == TK_LPAREN || 
         tokens[i-1].type == TK_PLUS || 
@@ -122,7 +119,7 @@ static void distinguish_deref_mul() {
         tokens[i-1].type == TK_OR || 
         tokens[i-1].type == TK_LE || 
         tokens[i-1].type == TK_GE) {
-      tokens[i].type = TK_DEREF; // 标记为单目解引用
+      tokens[i].type = TK_DEREF; 
     }
   }
 }
@@ -173,32 +170,33 @@ static bool make_token(char *e) {
   distinguish_deref_mul();
   return true;
 }
-bool check_parentheses(uint32_t p, uint32_t q) {//逻辑有错误
+bool check_parentheses(uint32_t p, uint32_t q) {
+  // 首先检查第一个标记是否是 (，最后一个标记是否是 )
+  if (tokens[p].type != TK_LPAREN || tokens[q].type != TK_RPAREN) {
+    return false;
+  }
+
   int count = 0;
-  int i = 0;
-  int flag = 0;
-  for(i=p;i<=q;i++)
-  {
-    if(tokens[i].type == TK_LPAREN)
-    {
+  for (uint32_t i = p; i <= q; i++) {
+    if (tokens[i].type == TK_LPAREN) {
       count++;
-      flag = 1;
-    }
-    if(tokens[i].type == TK_RPAREN)
-    {
+    } else if (tokens[i].type == TK_RPAREN) {
       count--;
-      flag = 1;
-    }
-    if(count <= 0 && i>p && i<q)
-    {
-      return 0;
+      // 如果在处理完所有标记之前括号数变为负数，说明括号不匹配
+      if (count < 0) {
+        return false;
+      }
+      // 如果括号数变为0且不是最后一个标记，说明中间有完整的括号对
+      if (count == 0 && i < q) {
+        return false;
+      }
     }
   }
 
-  return count == 0 && flag == 1;
+  // 最后检查括号是否完全匹配
+  return count == 0;
 }
 
-// 运算符优先级（数值越大优先级越高）
 static int get_op_priority(int op_type) {
   switch (op_type) {
     case TK_OR:     return 0;  // || 最低
@@ -220,24 +218,20 @@ static int get_op_priority(int op_type) {
   }
 }
 
-// 查找主运算符（优先级最低的运算符，处理单目/双目）
 static uint32_t find_main_op(uint32_t p, uint32_t q, bool *success) {
   *success = true;
   int min_prio = 6; // 初始值高于所有运算符优先级
   uint32_t main_op_pos = -1;
   int bracket_count = 0;
 
-  // 左结合运算符：从右往左找；单目运算符是前缀，不影响主运算符查找
   for (int i = q; i >= (int)p; i--) {
-    // 跳过括号内的内容
     if (tokens[i].type == TK_LPAREN) bracket_count--;
     if (tokens[i].type == TK_RPAREN) bracket_count++;
     if (bracket_count != 0) continue;
 
     int prio = get_op_priority(tokens[i].type);
-    if (prio == -1) continue; // 非运算符
+    if (prio == -1) continue; 
 
-    // 更新主运算符：优先级更低，或同优先级取右侧（左结合）
     if (prio < min_prio) {
       min_prio = prio;
       main_op_pos = i;
@@ -251,12 +245,15 @@ static uint32_t find_main_op(uint32_t p, uint32_t q, bool *success) {
   return main_op_pos;
 }
 
-// 辅助函数：读取寄存器值
 static uint32_t get_reg_value(char *reg_str)
 {
   // 去掉开头的$，如$eax → eax
   char *reg_name_temp = reg_str;
   reg_name_temp++;
+  if(strcmp(reg_name_temp,"pc") == 0)
+  {
+    return cpu.pc;
+  }
   for (int i = 0; i < 32;i++)
   {
     if(strcmp(reg_name_temp,reg_name(i)) == 0)
@@ -267,9 +264,8 @@ static uint32_t get_reg_value(char *reg_str)
   return 0;
 }
 
-// 辅助函数：读取内存值（指针解引用）
 static uint32_t mem_read(uint32_t addr) {
-  uint32_t data=vaddr_read(addr,1);
+  uint32_t data=vaddr_read(addr,4);
   return data;
 }
 
@@ -310,11 +306,9 @@ int eval(uint32_t p,uint32_t q)
         return mem_read(addr); // 读取内存值
       }
 
-      // 双目运算符：递归计算左右子表达式
       int left_val, right_val;
       left_val = eval(p, main_op_pos - 1);
 
-      // 短路优化：|| 和 &&
       if (tokens[main_op_pos].type == TK_OR && left_val != 0) {
         return 1;
       }
@@ -324,7 +318,6 @@ int eval(uint32_t p,uint32_t q)
 
       right_val = eval(main_op_pos + 1, q);
 
-      // 运算符求值
       switch (tokens[main_op_pos].type) {
         case TK_PLUS:  return left_val + right_val;
         case TK_MINUS: return left_val - right_val;
