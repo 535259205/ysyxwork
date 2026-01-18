@@ -149,7 +149,7 @@ int JudgeFun(Decode *_this,uint32_t fun_index,uint32_t scanENTER_flag)
 
     return FT_NONE;
 }
-
+//////////////有BUG不太对 按照资料的示例来讲recursion 应该到达起始顶峰的时候是call f1 后ret f0的
 void FtraceScan(Decode *_this)
 {
     // 解析符号表，查找函数符号

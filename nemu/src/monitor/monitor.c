@@ -67,8 +67,9 @@ static long load_img() {
   fclose(fp);
   return size;
 }
-
+ #ifdef CONFIG_FTRACE
 static char *elf_file = NULL;
+#endif
 extern int FtraceInit(char * elf_file);
 static int parse_args(int argc, char *argv[]) {
   //识别命令行参数 1.长选型名 2.参数要求 3.传入参数指针 4.短选型名
@@ -88,7 +89,9 @@ static int parse_args(int argc, char *argv[]) {
       case 'p': sscanf(optarg, "%d", &difftest_port); break;
       case 'l': log_file = optarg; break;
       case 'd': diff_so_file = optarg; break;//差异测试文件
+      #ifdef CONFIG_FTRACE
       case 't': elf_file = optarg;FtraceInit(elf_file);break; // 设置跟踪模式
+      #endif
       case 1: img_file = optarg; return 0;
       default:
         printf("Usage: %s [OPTION...] IMAGE [args]\n\n", argv[0]);

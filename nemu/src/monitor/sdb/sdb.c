@@ -67,6 +67,7 @@ static int cmd_si(char *args) {
 }
 
 extern void wp_display(void);
+extern void dtrace_show(void);
 static int cmd_info(char *args)
 {
   if(args[0] == 'r') {
@@ -82,6 +83,9 @@ static int cmd_info(char *args)
   else if(args[0] == 'm') {
     extern void iringbuf_memshow();
     iringbuf_memshow();
+  }
+  else if(args[0] == 'd') {
+    dtrace_show();
   }
   return 0;
 }

@@ -30,6 +30,7 @@ typedef struct {
   io_callback_t callback;
 } IOMap;
 
+
 static inline bool map_inside(IOMap *map, paddr_t addr) {
   return (addr >= map->low && addr <= map->high);
 }

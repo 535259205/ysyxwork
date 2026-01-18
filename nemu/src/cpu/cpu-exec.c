@@ -43,14 +43,13 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc)
   iringbuf_add(_this->logbuf);
   //ftrace
   extern void FtraceScan(Decode *_this);
-  FtraceScan(_this);
+  IFDEF(CONFIG_FTRACE, FtraceScan(_this));
 
 
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
   //SCAN_ALL_POINT
-  #if CONFIG_WATCHPOINT
-  all_scan();
-  #endif
+  IFDEF(CONFIG_WATCHPOINT, all_scan());
+
 }
 
 static void exec_once(Decode *s, vaddr_t pc) {
