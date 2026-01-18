@@ -25,7 +25,7 @@ all:
 sim:
 	$(call git_commit, "sim RTL")
 	./obj_dir/V$(TOP_MODULE)
-	gtkwave waveform.vcd
+	# gtkwave waveform.vcd
 
 # 7. 清理目标
 clean:

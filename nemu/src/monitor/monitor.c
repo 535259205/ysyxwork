@@ -68,22 +68,27 @@ static long load_img() {
   return size;
 }
 
+static char *elf_file = NULL;
+extern int FtraceInit(char * elf_file);
 static int parse_args(int argc, char *argv[]) {
+  //识别命令行参数 1.长选型名 2.参数要求 3.传入参数指针 4.短选型名
   const struct option table[] = {
-    {"batch"    , no_argument      , NULL, 'b'},
-    {"log"      , required_argument, NULL, 'l'},
-    {"diff"     , required_argument, NULL, 'd'},
-    {"port"     , required_argument, NULL, 'p'},
-    {"help"     , no_argument      , NULL, 'h'},
+    {"batch"    , no_argument      , NULL, 'b'},//批处理模式
+    {"log"      , required_argument, NULL, 'l'},//日志文件
+    {"diff"     , required_argument, NULL, 'd'},//差异测试文件
+    {"port"     , required_argument, NULL, 'p'},//差异测试端口
+    {"help"     , no_argument      , NULL, 'h'},//帮助
+    {"trace"    , required_argument, NULL, 't'},//跟踪模式
     {0          , 0                , NULL,  0 },
   };
   int o;
-  while ( (o = getopt_long(argc, argv, "-bhl:d:p:", table, NULL)) != -1) {
+  while ( (o = getopt_long(argc, argv, "-bhl:d:p:t:", table, NULL)) != -1) {
     switch (o) {
-      case 'b': sdb_set_batch_mode(); break;
+      case 'b': sdb_set_batch_mode(); break;//设置批处理模式
       case 'p': sscanf(optarg, "%d", &difftest_port); break;
       case 'l': log_file = optarg; break;
-      case 'd': diff_so_file = optarg; break;
+      case 'd': diff_so_file = optarg; break;//差异测试文件
+      case 't': elf_file = optarg;FtraceInit(elf_file);break; // 设置跟踪模式
       case 1: img_file = optarg; return 0;
       default:
         printf("Usage: %s [OPTION...] IMAGE [args]\n\n", argv[0]);
@@ -91,6 +96,7 @@ static int parse_args(int argc, char *argv[]) {
         printf("\t-l,--log=FILE           output log to FILE\n");
         printf("\t-d,--diff=REF_SO        run DiffTest with reference REF_SO\n");
         printf("\t-p,--port=PORT          run DiffTest with port PORT\n");
+        printf("\t-t,--trace              enable trace mode\n");
         printf("\n");
         exit(0);
     }
