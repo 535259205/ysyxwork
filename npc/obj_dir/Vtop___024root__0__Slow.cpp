@@ -466,6 +466,7 @@ VL_ATTR_COLD void Vtop___024root____Vm_traceActivitySetAll(Vtop___024root* vlSel
     // Body
     vlSelfRef.__Vm_traceActivity[0U] = 1U;
     vlSelfRef.__Vm_traceActivity[1U] = 1U;
+    vlSelfRef.__Vm_traceActivity[2U] = 1U;
 }
 
 VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
@@ -493,6 +494,7 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__jump = VL_SCOPED_RAND_RESET_I(1, __VscopeHash, 17483046977668594442ull);
     vlSelf->top__DOT__Pc_area_pc__DOT__rom_code = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 15764729214794699865ull);
     vlSelf->top__DOT__Pc_area_pc__DOT__PC_cnt = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 8326028562529068937ull);
+    vlSelf->top__DOT__Pc_area_pc__DOT__cnt_temp = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 17960025884504250774ull);
     vlSelf->top__DOT__Decode_area_encode__DOT__com_grp_rs1 = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 9765972450936793860ull);
     vlSelf->top__DOT__Decode_area_encode__DOT__com_grp_rs2 = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 8253472125426187721ull);
     vlSelf->top__DOT__Decode_area_encode__DOT___zz_com_grp_rd_1 = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 15714215656201535370ull);
@@ -544,7 +546,7 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     for (int __Vi0 = 0; __Vi0 < 1; ++__Vi0) {
         vlSelf->__VnbaTriggered[__Vi0] = 0;
     }
-    for (int __Vi0 = 0; __Vi0 < 2; ++__Vi0) {
+    for (int __Vi0 = 0; __Vi0 < 3; ++__Vi0) {
         vlSelf->__Vm_traceActivity[__Vi0] = 0;
     }
 }

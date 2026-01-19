@@ -40,7 +40,8 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc)
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   //USER CODE
   extern void iringbuf_add(char *s);
-  iringbuf_add(_this->logbuf);
+  //记得修改menuconfig 添加新的宏定义
+  IFDEF(CONFIG_FTRACE, iringbuf_add(_this->logbuf));
   //ftrace
   extern void FtraceScan(Decode *_this);
   IFDEF(CONFIG_FTRACE, FtraceScan(_this));

@@ -1,0 +1,8 @@
+#ifndef PMEM_ADDR_H_
+#define PMEM_ADDR_H_
+
+#define PUART_BASE_ADDR 0x10000000
+#define PTIME_BASE_ADDR 0x20000000
+
+
+#endif

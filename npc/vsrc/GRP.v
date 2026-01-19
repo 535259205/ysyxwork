@@ -52,6 +52,11 @@ module GRP (
   wire                rd_vaild;
   wire       [31:0]   _zz_1;
 
+  debug_fun debug (
+    .clk  (clk         ), //i
+    .addr (32'h0       ), //i
+    .data (reg_10[31:0])  //i
+  );
   always @(*) begin
     case(com_encode_rs1_sel)
       5'b00000 : _zz_com_encode_rs1 = reg_0;

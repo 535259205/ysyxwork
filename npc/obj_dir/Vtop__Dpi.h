@@ -16,6 +16,8 @@ extern "C" {
 
 
     // DPI IMPORTS
+    // DPI import at vsrc/debug_fun.v:7:30
+    extern void debug(int addr, int data);
     // DPI import at vsrc/ebreak_fun.v:4:30
     extern void ebreak(int test);
     // DPI import at vsrc/mem_fun.v:17:29

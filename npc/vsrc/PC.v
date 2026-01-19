@@ -15,6 +15,14 @@ module PC (
   wire       [31:0]   rom_addr;
   wire       [31:0]   rom_code;
   reg        [31:0]   PC_cnt;
+  reg        [31:0]   cnt_temp;
+always@(posedge clk or negedge rst)
+begin
+  if(!rst)
+    cnt_temp<=32'd0;
+  else
+    cnt_temp<=cnt_temp+1;
+end
 
   rom_fun rom (
     .addr (rom_addr[31:0]), //i
