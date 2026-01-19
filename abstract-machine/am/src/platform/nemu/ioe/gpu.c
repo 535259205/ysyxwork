@@ -2,19 +2,48 @@
 #include <nemu.h>
 
 #define SYNC_ADDR (VGACTL_ADDR + 4)
-
-void __am_gpu_init() {
+int gpu_w;
+int gpu_h;
+void __am_gpu_init()
+{
+  AM_GPU_CONFIG_T info = io_read(AM_GPU_CONFIG);
+  int i;
+  gpu_w = info.width;                            // TODO: get the correct width
+  gpu_h = info.height;                           // TODO: get the correct height
+  uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR; // 设置地址ADDR
+  for (i = 0; i < gpu_w * gpu_h; i++)
+    fb[i] = i;
+  outl(SYNC_ADDR, 1);
 }
 
 void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
+  uint32_t vga_ctl = inl(VGACTL_ADDR);
+  int width = vga_ctl >> 16;
+  int height = vga_ctl & 0xffff;
   *cfg = (AM_GPU_CONFIG_T) {
     .present = true, .has_accel = false,
-    .width = 0, .height = 0,
-    .vmemsz = 0
+    .width = width, .height = height,
+    .vmemsz = width * height * 4 // 每个像素4字节
   };
 }
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
+  // 绘制缓存代码 
+  int x, y; void *pixels; int w, h;
+  uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;//设置地址ADDR
+  x = ctl->x;
+  y = ctl->y;
+  w = ctl->w;
+  h = ctl->h;
+  pixels = ctl->pixels;
+  int i, j;
+  for (i = 0; i < h; i++) {
+    for (j = 0; j < w; j++) {
+      uint32_t pixel = ((uint32_t *)pixels)[i * w + j];
+      fb[(y + i) * gpu_w + (x + j)] = pixel;
+    }
+  }
+  
   if (ctl->sync) {
     outl(SYNC_ADDR, 1);
   }
