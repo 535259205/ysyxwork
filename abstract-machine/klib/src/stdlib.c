@@ -29,14 +29,29 @@ int atoi(const char* nptr) {
   return x;
 }
 
-void *malloc(size_t size) {
+static char *hbrk;
+
+void *malloc(size_t size)
+{
   // On native, malloc() will be called during initializaion of C runtime.
   // Therefore do not call panic() here, else it will yield a dead recursion:
   //   panic() -> putchar() -> (glibc) -> malloc() -> panic()
-#if !(defined(__ISA_NATIVE__) && defined(__NATIVE_USE_KLIB__))
-  panic("Not implemented");
-#endif
-  return NULL;
+  // #if !(defined(__ISA_NATIVE__) && defined(__NATIVE_USE_KLIB__))
+  //   panic("Not implemented");
+  // #endif
+
+  if (hbrk == NULL) {
+    hbrk = (char *)ROUNDUP(heap.start, 8); // 8字节对齐
+  }
+  size = (size_t)ROUNDUP(size, 8);
+  
+  // 保存当前地址作为分配的起始地址
+  char *old = hbrk;
+  // 更新hbrk到新的位置
+  hbrk += size;
+  assert((uintptr_t)hbrk <= (uintptr_t)heap.end);
+  
+  return old;
 }
 
 void free(void *ptr) {

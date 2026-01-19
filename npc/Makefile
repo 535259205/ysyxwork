@@ -5,7 +5,7 @@ TOP_MODULE := top
 
 VERILATOR_INC := $(shell dirname $(shell find ~/environment -name "verilated.h"))
 
-USE_WAVE ?=1
+USE_WAVE ?=0
 
 $(info VERILATOR_INC = $(VERILATOR_INC))
 

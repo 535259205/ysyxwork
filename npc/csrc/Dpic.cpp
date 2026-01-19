@@ -4,6 +4,7 @@
 #include "verilated.h"
 #include "PMEM_ADDR.h"
 #include "stdio.h"
+#include <time.h>   // 微秒级
 
 #define USE_MEM 2
 
@@ -11,6 +12,7 @@ uint32_t mem[1024*1024*16];
 uint32_t rom[1024*1024*16] = {0};
 int ebreak_flag = 0;
 int reg_a0 = 1;
+struct timespec TimStart,TimEnd;
 
 extern "C" void ebreak(int test)
 {
@@ -79,9 +81,14 @@ extern "C" void mem_w( int data, int addr, int len)
 
 uint32_t pmem_r(uint32_t addr, int len)
 {
-    if(addr == PTIME_BASE_ADDR)
+    if(addr == PTIME_BASE_ADDR || addr == PTIME_BASE_ADDR+4)
     {
-        return 0;
+      clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &TimEnd);
+      uint64_t usec = (TimEnd.tv_sec - TimStart.tv_sec)*1000000;
+      if(addr == PTIME_BASE_ADDR)
+        return usec&0xFFFFFFFF;
+      else
+        return usec>>32;
     }
     return 0;
 }
@@ -144,6 +151,8 @@ void mem_init(void)
   {
     mem[i] = rom[i];
   }
+  //计时开始
+  clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &TimStart);
 
 }
 

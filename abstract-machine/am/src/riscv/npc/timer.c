@@ -1,10 +1,12 @@
 #include <am.h>
-
+#include "stdint.h"
 void __am_timer_init() {
 }
 
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
-  uptime->us = 0;
+  unsigned int *data1 = (unsigned int *)0x20000000;
+  unsigned int *data2 = (unsigned int *)0x20000004;
+  uptime->us = *data1|((uint64_t)(*data2)<<32);
 }
 
 void __am_timer_rtc(AM_TIMER_RTC_T *rtc) {
