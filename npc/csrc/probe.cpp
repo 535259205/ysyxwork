@@ -1,0 +1,37 @@
+#include <iostream>
+#include "stdio.h"
+#include "sdb.h"
+
+int ebreak_flag = 0;
+uint32_t DebugBuf[2048];
+//0-31 GRP 寄存器
+//32   PC  寄存器
+
+extern "C" void ebreak(int test)
+{
+  ebreak_flag = test;
+}
+extern "C" void debug(int addr , int data)
+{
+  DebugBuf[addr] = (uint32_t)data;
+}
+
+void info_reg(struct SdbReg * info){
+  for(int i = 0;i<32;i++){
+    info->reg[i] = DebugBuf[i];
+  }
+  info->pc = DebugBuf[32];
+  info->npc = DebugBuf[33];
+  info->inst = DebugBuf[34];
+}
+void ShowReg(void)
+{
+  struct SdbReg info;
+  info_reg(&info);
+  printf("pc  = 0x%08X\n", info.pc);
+  printf("npc = 0x%08X\n", info.npc);
+  printf("cod = 0x%08X\n", info.inst);
+  for(int i = 0;i<32;i++){
+    printf("x%2d = 0x%08X\n", i, info.reg[i]);
+  }
+}

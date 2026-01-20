@@ -52,10 +52,40 @@ module GRP (
   wire                rd_vaild;
   wire       [31:0]   _zz_1;
 
-  debug_fun debug (
-    .clk  (clk         ), //i
-    .addr (32'h0       ), //i
-    .data (reg_10[31:0])  //i
+  my_debug_1 debug (
+    .data_0  (reg_0[31:0] ), //i
+    .data_1  (reg_1[31:0] ), //i
+    .data_2  (reg_2[31:0] ), //i
+    .data_3  (reg_3[31:0] ), //i
+    .data_4  (reg_4[31:0] ), //i
+    .data_5  (reg_5[31:0] ), //i
+    .data_6  (reg_6[31:0] ), //i
+    .data_7  (reg_7[31:0] ), //i
+    .data_8  (reg_8[31:0] ), //i
+    .data_9  (reg_9[31:0] ), //i
+    .data_10 (reg_10[31:0]), //i
+    .data_11 (reg_11[31:0]), //i
+    .data_12 (reg_12[31:0]), //i
+    .data_13 (reg_13[31:0]), //i
+    .data_14 (reg_14[31:0]), //i
+    .data_15 (reg_15[31:0]), //i
+    .data_16 (reg_16[31:0]), //i
+    .data_17 (reg_17[31:0]), //i
+    .data_18 (reg_18[31:0]), //i
+    .data_19 (reg_19[31:0]), //i
+    .data_20 (reg_20[31:0]), //i
+    .data_21 (reg_21[31:0]), //i
+    .data_22 (reg_22[31:0]), //i
+    .data_23 (reg_23[31:0]), //i
+    .data_24 (reg_24[31:0]), //i
+    .data_25 (reg_25[31:0]), //i
+    .data_26 (reg_26[31:0]), //i
+    .data_27 (reg_27[31:0]), //i
+    .data_28 (reg_28[31:0]), //i
+    .data_29 (reg_29[31:0]), //i
+    .data_30 (reg_30[31:0]), //i
+    .data_31 (reg_31[31:0]), //i
+    .clk     (clk         )  //i
   );
   always @(*) begin
     case(com_encode_rs1_sel)

@@ -1,3 +1,6 @@
+
+`timescale 1ns/1ps  // 这一行是关键，记录下这个尺度
+
 module mem_fun(
   input         clk,
   input         w_vaild,

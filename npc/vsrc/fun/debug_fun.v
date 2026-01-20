@@ -1,3 +1,6 @@
+
+`timescale 1ns/1ps  // 这一行是关键，记录下这个尺度
+
 module debug_fun(
   input         clk,
   input         [31:0]addr,

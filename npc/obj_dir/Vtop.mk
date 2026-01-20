@@ -37,15 +37,23 @@ VM_PREFIX = Vtop
 VM_MODPREFIX = Vtop
 # User CFLAGS (from -CFLAGS on Verilator command line)
 VM_USER_CFLAGS = \
-  -I/home/ylqt/environment/oss_cad_suite/oss-cad-suite/share/verilator/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/npc/include \
+  -I/home/ylqt/environment/oss_cad_suite/oss-cad-suite/share/verilator/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/npc/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/npc/../nemu/tools/capstone/repo/include -g \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \
+  -L/home/ylqt/study/YSYX_data/ysyx-workbench/npc/../nemu/tools/capstone/repo -lcapstone \
 
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
-  Dpic \
+  disasm \
+  ftrace \
+  iringbuf \
   main \
+  mem \
+  probe \
+  sdb \
+  sim \
+  timer \
 
 # User .cpp directories (from .cpp's on Verilator command line)
 VM_USER_DIR = \
@@ -61,9 +69,23 @@ include $(VERILATOR_ROOT)/include/verilated.mk
 ### Executable rules... (from --exe)
 VPATH += $(VM_USER_DIR)
 
-Dpic.o: ./csrc/Dpic.cpp 
+disasm.o: ./csrc/disasm.cpp 
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<
+ftrace.o: ./csrc/ftrace.cpp 
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<
+iringbuf.o: ./csrc/iringbuf.cpp 
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<
 main.o: ./csrc/main.cpp 
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<
+mem.o: ./csrc/mem.cpp 
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<
+probe.o: ./csrc/probe.cpp 
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<
+sdb.o: ./csrc/sdb.cpp 
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<
+sim.o: ./csrc/sim.cpp 
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<
+timer.o: ./csrc/timer.cpp 
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<
 
 ### Link rules... (from --exe)

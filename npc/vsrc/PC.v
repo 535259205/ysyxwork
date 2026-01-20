@@ -13,24 +13,26 @@ module PC (
 );
 
   wire       [31:0]   rom_addr;
+  wire       [31:0]   debug_data_0;
+  wire       [31:0]   debug_data_1;
   wire       [31:0]   rom_code;
   reg        [31:0]   PC_cnt;
-  reg        [31:0]   cnt_temp;
-always@(posedge clk or negedge rst)
-begin
-  if(!rst)
-    cnt_temp<=32'd0;
-  else
-    cnt_temp<=cnt_temp+1;
-end
 
   rom_fun rom (
     .addr (rom_addr[31:0]), //i
     .code (rom_code[31:0])  //o
   );
+  my_debug debug (
+    .data_0 (debug_data_0[31:0]   ), //i
+    .data_1 (debug_data_1[31:0]   ), //i
+    .data_2 (com_encode_code[31:0]), //i
+    .clk    (clk                  )  //i
+  );
   assign rom_addr = PC_cnt;
   assign com_encode_code = rom_code;
   assign com_encode_PC = PC_cnt;
+  assign debug_data_0 = PC_cnt;
+  assign debug_data_1 = (com_encode_nPC_vaild ? com_encode_nPC : PC_cnt);
   always @(posedge clk or negedge rst) begin
     if(!rst) begin
       PC_cnt <= 32'h80000000;
