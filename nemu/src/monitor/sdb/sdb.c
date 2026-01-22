@@ -97,7 +97,7 @@ static int cmd_x(char *args) {
   int i;
   for (i = 0; i < n; i++)
   {
-    printf("%08x: %08x\n", m+i, vaddr_read(m+i*4,4));
+    printf("0x%08x: 0x%08x\n", m+i*4, vaddr_read(m+i*4,4));
   }
   return 0;
 }

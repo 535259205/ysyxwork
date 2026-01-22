@@ -47,7 +47,7 @@ int cmd_x(char * args)
     extern uint32_t * mem_scan(uint32_t addr);
     uint32_t *tar_addr = mem_scan(addr);
     for(int i = 0;i<num;i++){
-        printf("0x%08X = 0x%08X", addr+i*4, tar_addr[i]);
+        printf("0x%08X = 0x%08X\n", addr+i*4, tar_addr[i]);
     }
     return 0;
 }
@@ -81,6 +81,12 @@ void SdbRun(void)
     char cmd[128];
     char *cmd_n;
     char *args;
+
+    #ifdef BATCH_MODE
+    printf("batch mode\n");
+    cmd_c(NULL);
+    return;
+    #endif
 
     match_len = sizeof(match) / sizeof(match[0]);
     while (1)

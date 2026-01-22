@@ -17,8 +17,11 @@ void iringbuf_add(char * s)
 void iringbuf_showall()
 {
     int i;
-    for (i = 0; i < BUF_LEN; i ++) {
-        printf("%s\n", buf[i]);
+    int index_temp = 0;
+    for (i = 0; i < BUF_LEN; i++)
+    {
+        index_temp = (BufIndex + i) % BUF_LEN;
+        printf("%s\n", buf[index_temp]);
     }
 }
 void iringbuf_shownow(void)
@@ -35,7 +38,10 @@ void iringbuf_memadd(const char* Prefix, uint32_t addr, int len, uint32_t data)
 void iringbuf_memshow()
 {
     int i;
-    for (i = 0; i < BUF_LEN; i ++) {
-        printf("%s\n", buf_mem[i]);
+    int index_temp = 0;
+    for (i = 0; i < BUF_LEN; i++)
+    {
+        index_temp = (BufMemIndex + i) % BUF_LEN;
+        printf("%s\n", buf_mem[index_temp]);
     }
 }

@@ -23,30 +23,39 @@ void difftest_reg_init(void)
     difftest_regcpy(temp, DIFFTEST_TO_REF);
 
 }
+int all_count = 0;
 int difftest_exec_reg(struct SdbReg info)
 {
     uint32_t temp[33]={0};
     difftest_exec(1);
     difftest_regcpy(temp, DIFFTEST_TO_DUT);
 
+    //寄存器判断
     for (int i = 0; i < 32; i++)
     {
         if(temp[i]!=info.reg[i]){
             printf("reg %d diff: 0x%x != 0x%x\n", i, temp[i], info.reg[i]);
-            printf("pc diff: 0x%x\n", temp[32]);
+            printf("pc diff: 0x%x != 0x%x\n", temp[32], info.pc);
+            printf("all_count=%d\n", all_count);
+            extern void iringbuf_showall();
+            extern void iringbuf_memshow();
+            iringbuf_showall();
+            iringbuf_memshow();
             return 0;
         }
     }
-
     if(temp[32]!=info.pc){
         printf("pc diff: 0x%x != 0x%x\n", temp[32], info.pc);
         return 0;
     }
+
+
+    all_count++;
     return 1;
 }
 void difftest_cpymem(uint32_t * data,uint32_t len)
 {
-    difftest_memcpy(CONFIG_MBASE, (uint32_t *)data, len, DIFFTEST_TO_REF);
+    difftest_memcpy(CONFIG_MBASE, (uint32_t *)data, len*4, DIFFTEST_TO_REF);
 }
 void difftest_myinit(void)
 {

@@ -38,15 +38,19 @@ extern "C" void mem_w( int data, int addr, int len)
   {
     case 0:
       data_temp &= 0xffffff00;
+      tar_data  &= ~(0xffffff00);
       break;
     case 1:
       data_temp &= 0xffff00ff;
+      tar_data  &= ~(0xffff00ff);
       break;
     case 2:
       data_temp &= 0xff00ffff;
+      tar_data  &= ~(0xff00ffff);
       break;
     case 3:
       data_temp &= 0x00ffffff;
+      tar_data  &= ~(0x00ffffff);
       break;
     default:
       break;
@@ -54,6 +58,9 @@ extern "C" void mem_w( int data, int addr, int len)
   switch (len)
   {
     case 1:
+      mem[tar_addr] = data_temp|tar_data;
+      break;
+    case 2:
       mem[tar_addr] = data_temp|tar_data;
       break;
     case 4:
@@ -76,11 +83,10 @@ uint32_t pmem_r(uint32_t addr, int len)
 
 extern "C"  int mem_r( int addr, int len)
 {
-
   uint32_t tar_addr = (addr&0x7fffffff)>>2;
   if (tar_addr >= 1024*1024*16){
     uint32_t temp=pmem_r(addr, len);
-    iringbuf_memadd("mem_r", addr, len, temp);
+    iringbuf_memadd("mio_r", addr, len, temp);
     return temp;
   }
   uint32_t data_temp=mem[tar_addr];
@@ -90,6 +96,10 @@ extern "C"  int mem_r( int addr, int len)
   {
     case 1:
       tar_data = (data_temp>>(8*(addrl)))&0xFF;
+      break;
+    case 2:
+
+      tar_data = (data_temp>>(8*(addrl)))&0xFFFF;
       break;
     case 4:
       tar_data = data_temp;

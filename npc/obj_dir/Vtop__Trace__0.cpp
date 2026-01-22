@@ -68,20 +68,15 @@ void Vtop___024root__trace_chg_0_sub_0(Vtop___024root* vlSelf, VerilatedVcd::Buf
                                                 >> 0x0000000fU))),5);
         bufp->chgCData(oldp+39,((0x0000001fU & (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
                                                 >> 0x00000014U))),5);
-        bufp->chgBit(oldp+40,(vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC_vaild));
-        bufp->chgBit(oldp+41,(vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_vaild));
-        bufp->chgCData(oldp+42,(vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_len),2);
-        bufp->chgBit(oldp+43,(vlSelfRef.top__DOT__Decode_area_encode_com_exmem_r_ready));
-        bufp->chgCData(oldp+44,(vlSelfRef.top__DOT__Decode_area_encode_com_exmem_r_len),2);
-        bufp->chgBit(oldp+45,(vlSelfRef.top__DOT__Decode_area_encode__DOT__ErrorReg));
-        bufp->chgBit(oldp+46,(vlSelfRef.top__DOT__Decode_area_encode__DOT__ebreak));
-        bufp->chgIData(oldp+47,((((- (IData)((vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
-                                              >> 0x0000001fU))) 
-                                  << 0x0000000cU) | 
-                                 (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
-                                  >> 0x00000014U))),32);
-        bufp->chgIData(oldp+48,((0xfffff000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)),32);
-        bufp->chgIData(oldp+49,((((- (IData)((vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+        bufp->chgBit(oldp+40,(vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_vaild));
+        bufp->chgCData(oldp+41,(vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_len),2);
+        bufp->chgBit(oldp+42,(vlSelfRef.top__DOT__Decode_area_encode_com_exmem_r_ready));
+        bufp->chgCData(oldp+43,(vlSelfRef.top__DOT__Decode_area_encode_com_exmem_r_len),2);
+        bufp->chgBit(oldp+44,(vlSelfRef.top__DOT__Decode_area_encode__DOT__ErrorReg));
+        bufp->chgBit(oldp+45,(vlSelfRef.top__DOT__Decode_area_encode__DOT__ebreak));
+        bufp->chgIData(oldp+46,(vlSelfRef.top__DOT__Decode_area_encode__DOT__imm_I),32);
+        bufp->chgIData(oldp+47,((0xfffff000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)),32);
+        bufp->chgIData(oldp+48,((((- (IData)((vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
                                               >> 0x0000001fU))) 
                                   << 0x0000000cU) | 
                                  ((0x00000fe0U & (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
@@ -89,21 +84,53 @@ void Vtop___024root__trace_chg_0_sub_0(Vtop___024root* vlSelf, VerilatedVcd::Buf
                                   | (0x0000001fU & 
                                      (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
                                       >> 7U))))),32);
+        bufp->chgIData(oldp+49,((((- (IData)((vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                              >> 0x0000001fU))) 
+                                  << 0x0000000dU) | 
+                                 ((((2U & (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                           >> 0x0000001eU)) 
+                                    | (1U & (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                             >> 7U))) 
+                                   << 0x0000000bU) 
+                                  | ((0x000007e0U & 
+                                      (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                       >> 0x00000014U)) 
+                                     | (0x0000001eU 
+                                        & (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                           >> 7U)))))),32);
+        bufp->chgIData(oldp+50,(((((0x00000ffeU & (
+                                                   (- (IData)(
+                                                              (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                                               >> 0x0000001fU))) 
+                                                   << 1U)) 
+                                   | (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                      >> 0x0000001fU)) 
+                                  << 0x00000014U) | 
+                                 ((((0x000001feU & 
+                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                      >> 0x0000000bU)) 
+                                    | (1U & (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                             >> 0x00000014U))) 
+                                   << 0x0000000bU) 
+                                  | (0x000007feU & 
+                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                      >> 0x00000014U))))),32);
     }
     if (VL_UNLIKELY((vlSelfRef.__Vm_traceActivity[3U]))) {
-        bufp->chgIData(oldp+50,(vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd),32);
         bufp->chgIData(oldp+51,(vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC),32);
-        bufp->chgIData(oldp+52,(vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_data),32);
-        bufp->chgIData(oldp+53,(vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_addr),32);
-        bufp->chgIData(oldp+54,(vlSelfRef.top__DOT__Decode_area_encode_com_exmem_r_addr),32);
-        bufp->chgIData(oldp+55,(vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1),32);
-        bufp->chgIData(oldp+56,(vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs2),32);
+        bufp->chgBit(oldp+52,(vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC_vaild));
+        bufp->chgIData(oldp+53,(vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_data),32);
+        bufp->chgIData(oldp+54,(vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_addr),32);
+        bufp->chgIData(oldp+55,(vlSelfRef.top__DOT__Decode_area_encode_com_exmem_r_addr),32);
+        bufp->chgIData(oldp+56,(vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1),32);
+        bufp->chgIData(oldp+57,(vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs2),32);
     }
-    bufp->chgBit(oldp+57,(vlSelfRef.rst));
-    bufp->chgBit(oldp+58,(vlSelfRef.clk));
-    bufp->chgIData(oldp+59,(vlSelfRef.top__DOT__Pc_area_pc__DOT__PC_cnt),32);
-    bufp->chgIData(oldp+60,(vlSelfRef.top__DOT__Exmem_area_exmem__DOT__mem_r_data),32);
-    bufp->chgIData(oldp+61,(((IData)(vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC_vaild)
+    bufp->chgBit(oldp+58,(vlSelfRef.rst));
+    bufp->chgBit(oldp+59,(vlSelfRef.clk));
+    bufp->chgIData(oldp+60,(vlSelfRef.top__DOT__Pc_area_pc__DOT__PC_cnt),32);
+    bufp->chgIData(oldp+61,(vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd),32);
+    bufp->chgIData(oldp+62,(vlSelfRef.top__DOT__Exmem_area_exmem__DOT__mem_r_data),32);
+    bufp->chgIData(oldp+63,(((IData)(vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC_vaild)
                               ? vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC
                               : vlSelfRef.top__DOT__Pc_area_pc__DOT__PC_cnt)),32);
 }

@@ -22,15 +22,15 @@ import "DPI-C" function int mem_r(input int addr,input int len);
 
 assign w_ready=1;
 assign r_vaild=1;
-always@(negedge clk)
+always@(r_addr,r_len)
 begin
     if(r_ready)
-        r_data<=mem_r(r_addr,r_len+1);
+      r_data<=mem_r(r_addr,r_len+1);
 end
-always@(negedge clk)
+always@(w_addr,w_data,w_len)
 begin
     if(w_vaild)
-        mem_w(w_data,w_addr,w_len+1);
+      mem_w(w_data,w_addr,w_len+1);
 end 
 
 endmodule

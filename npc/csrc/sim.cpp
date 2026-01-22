@@ -60,7 +60,7 @@ void SimInit(int argc, char **argv)
     dut->trace(m_trace, 5); //顶层类设置测试波形参数
     m_trace->open("./waveform.vcd"); //设置波形写入的文件
 #endif
-//初始化difftest寄存器
+    //初始化difftest寄存器
     extern void difftest_reg_init(void);
     difftest_reg_init();
 
