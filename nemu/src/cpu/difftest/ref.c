@@ -18,16 +18,73 @@
 #include <difftest-def.h>
 #include <memory/paddr.h>
 
+
+//1. 内存拷贝
 __EXPORT void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction) {
-  assert(0);
+  // 检查输入参数有效性
+  if (buf == NULL) {
+    printf("Error: difftest_memcpy: buf is NULL\n");
+    return;
+  }
+  
+  if(direction == DIFFTEST_TO_REF) { //npc->nemu
+    uint8_t *src = (uint8_t *)buf;
+    size_t copy_len = n;
+    
+    // 确保起始地址在物理内存范围内
+    if (addr < CONFIG_MBASE) {
+      printf("Error: difftest_memcpy: starting address 0x%08x is below CONFIG_MBASE 0x%08x\n", 
+             (uint32_t)addr, (uint32_t)CONFIG_MBASE);
+      return;
+    }
+    
+    // 确保不超出 NEMU 的物理内存范围
+    if (addr + copy_len > CONFIG_MBASE + CONFIG_MSIZE) {
+      copy_len = CONFIG_MBASE + CONFIG_MSIZE - addr;
+      printf("Warning: difftest_memcpy truncated to %zu bytes due to memory limit\n", copy_len);
+    }
+    
+    for(size_t i = 0; i < copy_len; i++) {
+      paddr_write(addr + i, 1, src[i]);
+    }
+  } else { //nemu->npc
+    size_t copy_len = n;
+    
+    // 确保起始地址在物理内存范围内
+    if (addr < CONFIG_MBASE) {
+      printf("Error: difftest_memcpy: starting address 0x%08x is below CONFIG_MBASE 0x%08x\n", 
+             (uint32_t)addr, (uint32_t)CONFIG_MBASE);
+      return;
+    }
+    
+    // 确保不超出 NEMU 的物理内存范围
+    if (addr + copy_len > CONFIG_MBASE + CONFIG_MSIZE) {
+      copy_len = CONFIG_MBASE + CONFIG_MSIZE - addr;
+      printf("Warning: difftest_memcpy truncated to %zu bytes due to memory limit\n", copy_len);
+    }
+    
+    memcpy(buf, guest_to_host(addr), copy_len);
+  }
 }
 
+//2. 寄存器拷贝
+//cpu 组成 uint32_t的32位宽 32个寄存器 然后是一个32位宽的PC寄存器
 __EXPORT void difftest_regcpy(void *dut, bool direction) {
-  assert(0);
+  if(direction == DIFFTEST_TO_REF)//npc->nemu
+  {
+    memcpy(&cpu, dut, sizeof(cpu));
+  }
+  else
+  {
+    memcpy(dut, &cpu, sizeof(cpu));
+  }
+  // assert(0);
 }
 
+//3. 执行n条指令
 __EXPORT void difftest_exec(uint64_t n) {
-  assert(0);
+  cpu_exec(n);
+  // assert(0);
 }
 
 __EXPORT void difftest_raise_intr(word_t NO) {

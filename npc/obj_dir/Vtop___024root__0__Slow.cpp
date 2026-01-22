@@ -96,7 +96,6 @@ VL_ATTR_COLD bool Vtop___024root___trigger_anySet__stl(const VlUnpacked<QData/*6
     return (0U);
 }
 
-void Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__rom__DOT__rom_r_TOP(IData/*31:0*/ addr, IData/*31:0*/ &rom_r__Vfuncrtn);
 void Vtop___024root____Vdpiimwrap_top__DOT__Decode_area_encode__DOT__ebreak_module__DOT__ebreak_TOP(IData/*31:0*/ test);
 
 VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
@@ -104,8 +103,6 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     auto& vlSelfRef = std::ref(*vlSelf).get();
     // Body
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__rom__DOT__rom_r_TOP(vlSelfRef.top__DOT__Pc_area_pc__DOT__PC_cnt, vlSelfRef.__Vfunc_top__DOT__Pc_area_pc__DOT__rom__DOT__rom_r__0__Vfuncout);
-    vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code = vlSelfRef.__Vfunc_top__DOT__Pc_area_pc__DOT__rom__DOT__rom_r__0__Vfuncout;
     vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC_vaild = 0U;
     vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd_vaild = 1U;
     vlSelfRef.top__DOT__Decode_area_encode_com_exmem_r_len = 0U;
@@ -326,7 +323,7 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
                                  >> 0x00000014U)) | 
                  (0x0000001fU & (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
                                  >> 7U)))));
-    vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_grp_rd_1 
+    vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_exmem_r_addr 
         = (vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1 
            + (((- (IData)((vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
                            >> 0x0000001fU))) << 0x0000000cU) 
@@ -369,7 +366,7 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
                                 if ((0x00000067U == 
                                      (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
                                     vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC 
-                                        = vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_grp_rd_1;
+                                        = vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_exmem_r_addr;
                                 }
                             }
                         }
@@ -377,11 +374,11 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
                 }
                 if ((0x00002003U == (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
                     vlSelfRef.top__DOT__Decode_area_encode_com_exmem_r_addr 
-                        = vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_grp_rd_1;
+                        = vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_exmem_r_addr;
                 } else if ((0x00004003U == (0x0000707fU 
                                             & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
                     vlSelfRef.top__DOT__Decode_area_encode_com_exmem_r_addr 
-                        = vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_grp_rd_1;
+                        = vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_exmem_r_addr;
                 }
             }
         }
@@ -391,7 +388,7 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
                    + vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs2);
         } else if ((0x00000013U == (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
             vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd 
-                = vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_grp_rd_1;
+                = ((IData)(0x00000010U) + vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_exmem_r_addr);
         } else if ((0x00002003U == (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
             vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd 
                 = vlSelfRef.top__DOT__Exmem_area_exmem__DOT__mem_r_data;
@@ -466,6 +463,8 @@ VL_ATTR_COLD void Vtop___024root____Vm_traceActivitySetAll(Vtop___024root* vlSel
     // Body
     vlSelfRef.__Vm_traceActivity[0U] = 1U;
     vlSelfRef.__Vm_traceActivity[1U] = 1U;
+    vlSelfRef.__Vm_traceActivity[2U] = 1U;
+    vlSelfRef.__Vm_traceActivity[3U] = 1U;
 }
 
 VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
@@ -495,7 +494,7 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__Pc_area_pc__DOT__PC_cnt = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 8326028562529068937ull);
     vlSelf->top__DOT__Decode_area_encode__DOT__com_grp_rs1 = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 9765972450936793860ull);
     vlSelf->top__DOT__Decode_area_encode__DOT__com_grp_rs2 = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 8253472125426187721ull);
-    vlSelf->top__DOT__Decode_area_encode__DOT___zz_com_grp_rd_1 = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 15714215656201535370ull);
+    vlSelf->top__DOT__Decode_area_encode__DOT___zz_com_exmem_r_addr = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 17168022471386477983ull);
     vlSelf->top__DOT__Decode_area_encode__DOT___zz_com_exmem_w_addr = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 1633296606305075337ull);
     vlSelf->top__DOT__Decode_area_encode__DOT__ErrorReg = VL_SCOPED_RAND_RESET_I(1, __VscopeHash, 18013199514279129247ull);
     vlSelf->top__DOT__Decode_area_encode__DOT__ebreak = VL_SCOPED_RAND_RESET_I(1, __VscopeHash, 5785110413847118405ull);
@@ -532,7 +531,7 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__Grp_area_grp__DOT__reg_30 = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 12422202200246803648ull);
     vlSelf->top__DOT__Grp_area_grp__DOT__reg_31 = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 10370790529267850723ull);
     vlSelf->top__DOT__Exmem_area_exmem__DOT__mem_r_data = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 3946740664658209643ull);
-    vlSelf->__Vfunc_top__DOT__Pc_area_pc__DOT__rom__DOT__rom_r__0__Vfuncout = 0;
+    vlSelf->__Vdly__top__DOT__Pc_area_pc__DOT__PC_cnt = 0;
     for (int __Vi0 = 0; __Vi0 < 1; ++__Vi0) {
         vlSelf->__VstlTriggered[__Vi0] = 0;
     }
@@ -544,7 +543,7 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     for (int __Vi0 = 0; __Vi0 < 1; ++__Vi0) {
         vlSelf->__VnbaTriggered[__Vi0] = 0;
     }
-    for (int __Vi0 = 0; __Vi0 < 2; ++__Vi0) {
+    for (int __Vi0 = 0; __Vi0 < 4; ++__Vi0) {
         vlSelf->__Vm_traceActivity[__Vi0] = 0;
     }
 }

@@ -37,14 +37,15 @@ VM_PREFIX = Vtop
 VM_MODPREFIX = Vtop
 # User CFLAGS (from -CFLAGS on Verilator command line)
 VM_USER_CFLAGS = \
-  -I/home/ylqt/environment/oss_cad_suite/oss-cad-suite/share/verilator/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/npc/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/npc/../nemu/tools/capstone/repo/include -g \
+  -I/home/ylqt/environment/oss_cad_suite/oss-cad-suite/share/verilator/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/npc/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/npc/../nemu/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/npc/../nemu/src/isa/riscv32/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/npc/../nemu/tools/capstone/repo/include -D__GUEST_ISA__=riscv32 -g \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \
-  -L/home/ylqt/study/YSYX_data/ysyx-workbench/npc/../nemu/tools/capstone/repo -lcapstone \
+  -L/home/ylqt/study/YSYX_data/ysyx-workbench/npc/../nemu/tools/capstone/repo -lcapstone -lreadline /home/ylqt/study/YSYX_data/ysyx-workbench/npc/../nemu/build/riscv32-nemu-interpreter-so \
 
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
+  difftest \
   disasm \
   ftrace \
   iringbuf \
@@ -69,6 +70,8 @@ include $(VERILATOR_ROOT)/include/verilated.mk
 ### Executable rules... (from --exe)
 VPATH += $(VM_USER_DIR)
 
+difftest.o: ./csrc/difftest.cpp 
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<
 disasm.o: ./csrc/disasm.cpp 
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<
 ftrace.o: ./csrc/ftrace.cpp 

@@ -24,7 +24,7 @@ extern "C" {
     extern int mem_r(int addr, int len);
     // DPI import at vsrc/fun/mem_fun.v:19:30
     extern void mem_w(int data, int addr, int len);
-    // DPI import at vsrc/fun/rom_fun.v:9:29
+    // DPI import at vsrc/fun/rom_fun.v:10:29
     extern int rom_r(int addr);
 
 #ifdef __cplusplus

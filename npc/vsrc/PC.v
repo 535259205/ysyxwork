@@ -19,6 +19,7 @@ module PC (
   reg        [31:0]   PC_cnt;
 
   rom_fun rom (
+    .clk  (clk           ), //i
     .addr (rom_addr[31:0]), //i
     .code (rom_code[31:0])  //o
   );

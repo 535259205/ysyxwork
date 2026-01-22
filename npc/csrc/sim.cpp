@@ -26,6 +26,7 @@ int SimStep(uint32_t n)
             #endif
             sim_time++;
         }
+        
         extern void info_reg(struct SdbReg * info);
         extern void DisasmEncode(uint32_t address,uint32_t len);
         struct SdbReg infoa;
@@ -35,9 +36,14 @@ int SimStep(uint32_t n)
             extern void iringbuf_shownow(void);
             iringbuf_shownow();
         }
-        extern void FtraceScan(struct SdbReg *_this);
+        extern void FtraceScan(struct SdbReg *info);
         FtraceScan(&infoa);
 
+        //差分测试运行一步
+        extern int difftest_exec_reg(struct SdbReg info);
+        if(!difftest_exec_reg(infoa)){//此时报错
+            return 1;
+        }
         if(ebreak_flag){
             return 1;
         }
@@ -54,11 +60,15 @@ void SimInit(int argc, char **argv)
     dut->trace(m_trace, 5); //顶层类设置测试波形参数
     m_trace->open("./waveform.vcd"); //设置波形写入的文件
 #endif
+//初始化difftest寄存器
+    extern void difftest_reg_init(void);
+    difftest_reg_init();
+
     //设备复位
     for(int i=0;i<=16;i++){
         dut->clk=!dut->clk;
         dut->rst = 0;
-        if (sim_time >= 16)
+        if (sim_time >= 15)
             dut->rst = 1;
         dut->eval();
 #if USE_WAVE1
