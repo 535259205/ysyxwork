@@ -8,13 +8,19 @@ Context* __am_irq_handle(Context *c) {
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
+      case 0x8:  // 机器模式下的ecall指令
+        // 检查a7寄存器的值，确定是yield请求
+        if (c->gpr[17] == -1) {  // x17是a7寄存器
+          ev.event = EVENT_YIELD;
+        } else {
+          ev.event = EVENT_SYSCALL;
+        }
+        break;
       default: ev.event = EVENT_ERROR; break;
     }
-
     c = user_handler(ev, c);
     assert(c != NULL);
   }
-
   return c;
 }
 
@@ -29,8 +35,13 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 
   return true;
 }
-
+//kstack 栈的范围 entry 内核线程瑞口 arg 内核线程参数
+//你需要在kstack的底部创建一个以entry为入口的上下文结构(目前你可以先忽略arg参数), 然后返回这一结构的指针.
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
+  printf("ENTER kcontext\n\n\n\n");
+
+
+
   return NULL;
 }
 

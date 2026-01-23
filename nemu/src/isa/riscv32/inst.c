@@ -22,8 +22,15 @@
 #define Mr vaddr_read
 #define Mw vaddr_write
 
+// CSR 寄存器地址
+#define CSR_CYCLE 0x0
+#define CSR_MTVEC 0x305
+#define CSR_MCAUSE 0x342
+#define CSR_MSTATUS 0x300
+#define CSR_MEPC 0x341
+
 enum {
-  TYPE_I, TYPE_U, TYPE_S, TYPE_J,TYPE_R,TYPE_B,
+  TYPE_I, TYPE_U, TYPE_S, TYPE_J,TYPE_R,TYPE_B, TYPE_CSR,
   TYPE_N, // none
 };
 
@@ -40,6 +47,8 @@ enum {
                            (BITS(i, 7, 7) << 11) | \
                            (BITS(i, 30, 25) << 5) | \
                            (BITS(i, 11, 8) << 1); } while(0)
+// #define immCSR() do { *imm = (BITS(i, 19, 15)); } while(0)
+#define immCSR() do { *imm = (BITS(i, 31, 20)); } while(0)
 
 static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_t *imm, int type) {
   uint32_t i = s->isa.inst;
@@ -53,6 +62,7 @@ static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_
     case TYPE_J:                   immJ(); break; 
     case TYPE_R: src1R(); src2R();         break;
     case TYPE_B: src1R(); src2R(); immB(); break;
+    case TYPE_CSR: src1R();*src2 = (uint32_t)rs1;immCSR();break; // src2是imm[4:0] src1是rs1  imm是csrp[11:0]
     case TYPE_N: break;
     default: panic("unsupported type = %d", type);
   }
@@ -132,9 +142,124 @@ static int decode_exec(Decode *s) {
 
 
 
+
   INSTPAT("??????? ????? ????? ??? ????? 11011 11", jal    , J, R(rd) = s->pc + 4; s->dnpc = s->pc + imm);
 
-  INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
+  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall, CSR, s->dnpc = isa_raise_intr(8, s->pc)); // 进入中断地址
+  INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , CSR, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
+  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret , CSR, s->dnpc = cpu.mepc+4);//返回被打断处的程序继续运行
+  
+  // CSRRW CSR读写指令
+  INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , CSR, { 
+    word_t *csr = NULL;
+    switch(imm) {
+      case CSR_CYCLE: csr = &cpu.cycle; break;
+      case CSR_MTVEC: csr = &cpu.mtvec; break;
+      case CSR_MCAUSE: csr = &cpu.mcause; break;
+      case CSR_MSTATUS: csr = &cpu.mstatus; break;
+      case CSR_MEPC: csr = &cpu.mepc; break;
+      default: panic("Unsupported CSR register: 0x%x", imm);
+    }
+    word_t tmp = *csr;
+    // cycle寄存器是只读的，忽略写入操作
+    if (imm != CSR_CYCLE) {
+      *csr = src1;
+    }
+    if (rd != 0) R(rd) = tmp; 
+  });
+  
+  // CSRRS 读取并设置位操作
+  INSTPAT("??????? ????? ????? 010 ????? 11100 11", csrrs  , CSR, { 
+    word_t *csr = NULL;
+    switch(imm) {
+      case CSR_CYCLE: csr = &cpu.cycle; break;
+      case CSR_MTVEC: csr = &cpu.mtvec; break;
+      case CSR_MCAUSE: csr = &cpu.mcause; break;
+      case CSR_MSTATUS: csr = &cpu.mstatus; break;
+      case CSR_MEPC: csr = &cpu.mepc; break;
+      default: panic("Unsupported CSR register: 0x%x", imm);
+    }
+    word_t tmp = *csr;
+    // cycle寄存器是只读的，忽略位设置操作
+    if (imm != CSR_CYCLE) {
+      *csr |= src1;
+    }
+    if (rd != 0) R(rd) = tmp;
+  });
+  // CSRRC 读并清除位指令
+  INSTPAT("??????? ????? ????? 011 ????? 11100 11", csrrc  , CSR, { 
+    word_t *csr = NULL;
+    switch(imm) {
+      case CSR_CYCLE: csr = &cpu.cycle; break;
+      case CSR_MTVEC: csr = &cpu.mtvec; break;
+      case CSR_MCAUSE: csr = &cpu.mcause; break;
+      case CSR_MSTATUS: csr = &cpu.mstatus; break;
+      case CSR_MEPC: csr = &cpu.mepc; break;
+      default: panic("Unsupported CSR register: 0x%x", imm);
+    }
+    word_t tmp = *csr;
+    // cycle寄存器是只读的，忽略位清除操作
+    if (imm != CSR_CYCLE) {
+      *csr &= ~src1;
+    }
+    if (rd != 0) R(rd) = tmp;
+  });  
+    // CSRRWI 立即数读写指令
+  INSTPAT("??????? ????? ????? 101 ????? 11100 11", csrrwi , CSR, { 
+    word_t *csr = NULL;
+    switch(imm) {
+      case CSR_CYCLE: csr = &cpu.cycle; break;
+      case CSR_MTVEC: csr = &cpu.mtvec; break;
+      case CSR_MCAUSE: csr = &cpu.mcause; break;
+      case CSR_MSTATUS: csr = &cpu.mstatus; break;
+      case CSR_MEPC: csr = &cpu.mepc; break;
+      default: panic("Unsupported CSR register: 0x%x", imm);
+    }
+    word_t tmp = *csr;
+    // cycle寄存器是只读的，忽略位清除操作
+    if (imm != CSR_CYCLE) {
+      *csr = src2;
+    }
+    if (rd != 0) R(rd) = tmp;
+  });  
+
+    // CSRRSI 立即数并设置位命令
+  INSTPAT("??????? ????? ????? 110 ????? 11100 11", csrrsi , CSR, { 
+    word_t *csr = NULL;
+    switch(imm) {
+      case CSR_CYCLE: csr = &cpu.cycle; break;
+      case CSR_MTVEC: csr = &cpu.mtvec; break;
+      case CSR_MCAUSE: csr = &cpu.mcause; break;
+      case CSR_MSTATUS: csr = &cpu.mstatus; break;
+      case CSR_MEPC: csr = &cpu.mepc; break;
+      default: panic("Unsupported CSR register: 0x%x", imm);
+    }
+    word_t tmp = *csr;
+    // cycle寄存器是只读的，忽略位清除操作
+    if (imm != CSR_CYCLE) {
+      *csr = tmp|src2;
+    }
+    if (rd != 0) R(rd) = tmp;
+  });  
+    // CSRRCI 立即数读并清除位命令
+  INSTPAT("??????? ????? ????? 111 ????? 11100 11", csrrci , CSR, { 
+    word_t *csr = NULL;
+    switch(imm) {
+      case CSR_CYCLE: csr = &cpu.cycle; break;
+      case CSR_MTVEC: csr = &cpu.mtvec; break;
+      case CSR_MCAUSE: csr = &cpu.mcause; break;
+      case CSR_MSTATUS: csr = &cpu.mstatus; break;
+      case CSR_MEPC: csr = &cpu.mepc; break;
+      default: panic("Unsupported CSR register: 0x%x", imm);
+    }
+    word_t tmp = *csr;
+    // cycle寄存器是只读的，忽略位清除操作
+    if (imm != CSR_CYCLE) {
+      *csr = tmp&(~src2);
+    }
+    if (rd != 0) R(rd) = tmp;
+  });  
+
   INSTPAT("??????? ????? ????? ??? ????? ????? ??", inv    , N, INV(s->pc));
   INSTPAT_END();
 

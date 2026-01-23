@@ -23,6 +23,7 @@ void difftest_reg_init(void)
     difftest_regcpy(temp, DIFFTEST_TO_REF);
 
 }
+/// 可能要修改因为NEMU的寄存器修改了多了一些中断控制相关的寄存器
 int all_count = 0;
 int difftest_exec_reg(struct SdbReg info)
 {

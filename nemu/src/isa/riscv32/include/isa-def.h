@@ -21,6 +21,13 @@
 typedef struct {
   word_t gpr[MUXDEF(CONFIG_RVE, 16, 32)];
   vaddr_t pc;
+
+  //CSR 寄存器地址
+  word_t mtvec;    //中断向量表基地址
+  word_t mcause;  //中断类型（原因）
+  word_t mstatus; //状态寄存器
+  word_t mepc;    //中断指针
+  word_t cycle;   //时钟周期计数器
 } MUXDEF(CONFIG_RV64, riscv64_CPU_state, riscv32_CPU_state);
 
 // decode
