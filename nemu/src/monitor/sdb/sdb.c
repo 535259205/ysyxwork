@@ -87,6 +87,10 @@ static int cmd_info(char *args)
   else if(args[0] == 'd') {
     dtrace_show();
   }
+  else if(args[0] == 'e') {
+    extern void etrace_show(void);
+    etrace_show();
+  }
   return 0;
 }
 

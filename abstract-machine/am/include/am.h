@@ -21,6 +21,7 @@ typedef struct {
 typedef struct Context Context;
 
 // An event of type @event, caused by @cause of pointer @ref
+// 由指针 @ref 的 @cause 引发的 @event 类型的事件
 typedef struct {
   enum {
     EVENT_NULL = 0,
