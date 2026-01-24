@@ -14,7 +14,6 @@
 ***************************************************************************************/
 
 #include <isa.h>
-extern void etrace_add_intr(word_t intr_no, vaddr_t epc, vaddr_t mtvec);
 word_t isa_raise_intr(word_t NO, vaddr_t epc)
 {
   /* TODO: Trigger an interrupt/exception with ``NO''.
@@ -25,7 +24,8 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc)
     从mtvec寄存器中取出异常入口地址
     跳转到异常入口地址
    */
-  etrace_add_intr(NO, epc, cpu.mtvec);
+  // extern void etrace_add_intr(word_t intr_no, vaddr_t epc, vaddr_t mtvec);
+  // etrace_add_intr(NO, epc, cpu.mtvec);
   cpu.mcause = NO;
   cpu.mepc = epc;
   return cpu.mtvec;

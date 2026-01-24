@@ -10,50 +10,78 @@ __EXPORT void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction)
 __EXPORT void difftest_regcpy(void *dut, bool direction);
 __EXPORT void difftest_init(int port);
 }
-//怎么写？每运行一次比较一下寄存器？如果是内存操作去比较内存否则比较寄存器
-//如果寄存器出现差异就报错？
-//报错从哪里报错？ NPC里面吗？ 还是NEMU里面？
-//
 
-//1代表相同 0 代表不同
+static CPU_state cpu_dut = {};
+static CPU_state cpu_ref = {};//用于接收NEMU的数据
+static uint32_t cpu_temp[sizeof(CPU_state)] = {};
+
+
 void difftest_reg_init(void)
 {
-    uint32_t temp[33]={0};
-    temp[32] = 0x80000000;
-    difftest_regcpy(temp, DIFFTEST_TO_REF);
-
+    cpu_ref.pc = 0x80000000;
+    cpu_ref.mtvec = RESET_VECTOR;   // 设置中断向量表基地址
+    cpu_ref.mstatus = 0x00001800;   // MPP=11 (machine mode), MIE=0 (禁用中断)
+    cpu_ref.mcause = 0x00000000;    // 无异常/中断
+    cpu_ref.mepc = 0x00000000;      // 异常返回地址
+    cpu_ref.cycle = 0;              // 时钟周期计数器
+    difftest_regcpy(&cpu_ref.gpr[0], DIFFTEST_TO_REF);
 }
-/// 可能要修改因为NEMU的寄存器修改了多了一些中断控制相关的寄存器
-int all_count = 0;
-int difftest_exec_reg(struct SdbReg info)
-{
-    uint32_t temp[33]={0};
-    difftest_exec(1);
-    difftest_regcpy(temp, DIFFTEST_TO_DUT);
 
-    //寄存器判断
-    for (int i = 0; i < 32; i++)
+//1代表相同 0 代表不同
+int difftest_comp(struct SdbReg *info)
+{
+    for (int i = 0; i < 32;i++)
     {
-        if(temp[i]!=info.reg[i]){
-            printf("reg %d diff: 0x%x != 0x%x\n", i, temp[i], info.reg[i]);
-            printf("pc diff: 0x%x != 0x%x\n", temp[32], info.pc);
-            printf("all_count=%d\n", all_count);
-            extern void iringbuf_showall();
-            extern void iringbuf_memshow();
-            iringbuf_showall();
-            iringbuf_memshow();
+        if(cpu_ref.gpr[i]!=info->reg[i]){ // 使用 -> 访问指针成员
+            printf("reg %d diff: 0x%x != 0x%x\n", i, cpu_ref.gpr[i], info->reg[i]);
+            printf("pc diff: 0x%x != 0x%x\n", cpu_ref.pc, info->pc);
             return 0;
         }
     }
-    if(temp[32]!=info.pc){
-        printf("pc diff: 0x%x != 0x%x\n", temp[32], info.pc);
+    if(cpu_ref.pc!=info->pc){ // 使用 -> 访问指针成员
+        printf("pc diff: 0x%x != 0x%x\n", cpu_ref.pc, info->pc);
         return 0;
     }
+    if(cpu_ref.mtvec!=info->mtvec){ // 使用 -> 访问指针成员
+        printf("mtvec diff: 0x%x != 0x%x\n", cpu_ref.mtvec, info->mtvec);
+        return 0;
+    }
+    if(cpu_ref.mcause!=info->mcause){ // 使用 -> 访问指针成员
+        printf("mcause diff: 0x%x != 0x%x\n", cpu_ref.mcause, info->mcause);
+        return 0;
+    }
+    if(cpu_ref.mstatus!=info->mstatus){ // 使用 -> 访问指针成员
+        printf("mstatus diff: 0x%x != 0x%x\n", cpu_ref.mstatus, info->mstatus);
+        return 0;
+    }
+    if(cpu_ref.mepc!=info->mepc){ // 使用 -> 访问指针成员
+        printf("mepc diff: 0x%x != 0x%x\n", cpu_ref.mepc, info->mepc);
+        return 0;
+    }
+    return 1;
+}
 
+//1代表相同 0 代表不同
+int difftest_exec_reg(struct SdbReg *info)
+{
+    static int all_count = 0;
+    difftest_exec(1);
+    difftest_regcpy(&cpu_ref.gpr[0], DIFFTEST_TO_DUT);
 
+    // 寄存器判断 - 注意使用指针访问 为0代表报错
+    if(!difftest_comp(info)){
+        extern void iringbuf_showall();
+        extern void iringbuf_memshow();
+        iringbuf_showall();
+        iringbuf_memshow();
+        printf("all_count: %d\n", all_count);
+        return 0;
+    }
     all_count++;
     return 1;
 }
+
+
 void difftest_cpymem(uint32_t * data,uint32_t len)
 {
     difftest_memcpy(CONFIG_MBASE, (uint32_t *)data, len*4, DIFFTEST_TO_REF);

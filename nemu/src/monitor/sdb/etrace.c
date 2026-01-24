@@ -67,16 +67,3 @@ void etrace_clear() {
   etrace_tail = 0;
   etrace_count = 0;
 }
-
-// 命令处理函数
-int cmd_etrace(char *args) {
-  if (args == NULL) {
-    etrace_show();
-  } else if (strcmp(args, "clear") == 0) {
-    etrace_clear();
-    puts("etrace buffer cleared\n");
-  } else {
-    puts("Usage: etrace [clear]\n");
-  }
-  return 0;
-}

@@ -5,15 +5,19 @@
 #include "stdio.h"
 #include "sdb.h"
 
-#define USE_WAVE1 1
+#define USE_WAVE1 0
 #define SHOW_LIMIT 10
 #define USE_ITRACE 1
+#define USE_FTRACE 0
+#define USE_DIFFTEST 1
 
 Vtop *dut = new Vtop(); 
 vluint64_t sim_time = 0;
 VerilatedVcdC *m_trace = new VerilatedVcdC();
 
 extern int ebreak_flag;
+
+static struct SdbReg infoa;
 
 int SimStep(uint32_t n)
 {
@@ -29,25 +33,33 @@ int SimStep(uint32_t n)
         
         extern void info_reg(struct SdbReg * info);
         extern void DisasmEncode(uint32_t address,uint32_t len);
-        struct SdbReg infoa;
         info_reg(&infoa);
         DisasmEncode(infoa.pc,1);
         if(n<=SHOW_LIMIT){
             extern void iringbuf_shownow(void);
             iringbuf_shownow();
         }
+        #if USE_FTRACE
         extern void FtraceScan(struct SdbReg *info);
         FtraceScan(&infoa);
+        #endif
 
         //差分测试运行一步
-        extern int difftest_exec_reg(struct SdbReg info);
-        if(!difftest_exec_reg(infoa)){//此时报错
+        
+        #if USE_DIFFTEST
+        extern int difftest_exec_reg(struct SdbReg *info);
+        if(!difftest_exec_reg(&infoa)){//此时报错
             return 1;
         }
-        if(ebreak_flag){
-            return 1;
-        }
+        #endif
 
+        static int count=0;
+        count++;
+        if (ebreak_flag)
+        {
+            printf("ebreak_flag is set at count %d\n", count);
+            return 1;
+        }
     }
     return 0;
 }

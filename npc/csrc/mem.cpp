@@ -34,27 +34,57 @@ extern "C" void mem_w( int data, int addr, int len)
   uint32_t data_temp=mem[tar_addr];
   uint32_t addrl=addr&0x3;
   uint32_t tar_data=data<<(8*(addrl));
-  switch(addrl)
-  {
-    case 0:
-      data_temp &= 0xffffff00;
-      tar_data  &= ~(0xffffff00);
-      break;
-    case 1:
-      data_temp &= 0xffff00ff;
-      tar_data  &= ~(0xffff00ff);
-      break;
-    case 2:
-      data_temp &= 0xff00ffff;
-      tar_data  &= ~(0xff00ffff);
-      break;
-    case 3:
-      data_temp &= 0x00ffffff;
-      tar_data  &= ~(0x00ffffff);
-      break;
-    default:
-      break;
+  
+  // 根据长度和地址偏移设置不同的掩码
+  if (len == 1) {
+    // 单字节写入掩码
+    switch(addrl)
+    {
+      case 0:
+        data_temp &= 0xffffff00;
+        tar_data  &= ~(0xffffff00);
+        break;
+      case 1:
+        data_temp &= 0xffff00ff;
+        tar_data  &= ~(0xffff00ff);
+        break;
+      case 2:
+        data_temp &= 0xff00ffff;
+        tar_data  &= ~(0xff00ffff);
+        break;
+      case 3:
+        data_temp &= 0x00ffffff;
+        tar_data  &= ~(0x00ffffff);
+        break;
+      default:
+        break;
+    }
+  } else if (len == 2) {
+    // 双字节写入掩码
+    switch(addrl)
+    {
+      case 0:
+        data_temp &= 0xffff0000;  // 保留高16位，修改低16位
+        tar_data  &= ~(0xffff0000);
+        break;
+      case 1:
+        data_temp &= 0xff0000ff;  // 保留第1和第4字节，修改中间2字节
+        tar_data  &= ~(0xff0000ff);
+        break;
+      case 2:
+        data_temp &= 0x0000ffff;  // 保留低16位，修改高16位
+        tar_data  &= ~(0x0000ffff);
+        break;
+      case 3:
+        // 跨4字节边界的2字节写入，这里简单处理，实际可能需要更复杂的逻辑
+        data_temp &= 0x00ffffff;
+        tar_data  &= ~(0x00ffffff);
+        break;
+      default:
+        break;
+    }
   }
+  
   switch (len)
   {
     case 1:
@@ -167,5 +197,3 @@ void mem_init(void)
   difftest_cpymem(rom, MEM_SIZE);
   //MEM_SIZE
 }
-
-

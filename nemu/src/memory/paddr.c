@@ -67,6 +67,9 @@ word_t paddr_read(paddr_t addr, int len) {
 
 void paddr_write(paddr_t addr, int len, word_t data) {
   extern void iringbuf_memadd(const char *Prefix, vaddr_t addr, int len, word_t data);
+  if (addr == 0x10000000) {
+    return;
+  }
 
   if (likely(in_pmem(addr)))
   {

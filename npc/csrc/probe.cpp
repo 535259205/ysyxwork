@@ -23,6 +23,13 @@ void info_reg(struct SdbReg * info){
   info->pc = DebugBuf[32];
   info->npc = DebugBuf[33];
   info->inst = DebugBuf[34];
+
+  info->mtvec = DebugBuf[35];
+  info->mcause = DebugBuf[36];
+  info->mstatus = DebugBuf[37];
+  info->mepc = DebugBuf[38];
+  info->cycle_l = DebugBuf[39];
+  info->cycle_h = DebugBuf[40];
 }
 void ShowReg(void)
 {
@@ -31,6 +38,10 @@ void ShowReg(void)
   printf("pc  = 0x%08X\n", info.pc);
   printf("npc = 0x%08X\n", info.npc);
   printf("cod = 0x%08X\n", info.inst);
+  printf("mtvec = 0x%08X\n", info.mtvec);
+  printf("mcause = 0x%08X\n", info.mcause);
+  printf("mstatus = 0x%08X\n", info.mstatus);
+  printf("mepc = 0x%08X\n", info.mepc);
   for(int i = 0;i<32;i++){
     printf("x%2d = 0x%08X\n", i, info.reg[i]);
   }

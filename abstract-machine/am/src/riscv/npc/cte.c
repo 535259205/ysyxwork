@@ -8,15 +8,29 @@ Context* __am_irq_handle(Context *c) {
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
+      case 0x8:  // 机器模式下的ecall指令
+        // 检查a7寄存器的值，确定是yield请求
+        #ifdef __riscv_e
+        if (c->gpr[15] == -1) 
+        #else
+        if (c->gpr[17] == -1)   // x17是a7寄存器
+        #endif
+        {
+          ev.event = EVENT_YIELD; // event 暂时好像没用在这个yieldos里面
+        }
+        else
+        {
+          ev.event = EVENT_SYSCALL;
+        }
+        break;
       default: ev.event = EVENT_ERROR; break;
     }
-
     c = user_handler(ev, c);
     assert(c != NULL);
   }
-
   return c;
 }
+
 
 extern void __am_asm_trap(void);
 
@@ -29,9 +43,33 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 
   return true;
 }
+#define CONTEXT_SIZE  ((NR_REGS + 3) * sizeof(uintptr_t))
 
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
-  return NULL;
+  // 在栈的底部创建Context结构栈是向下增长的
+  Context *ctx = (Context *)((uintptr_t)kstack.end - CONTEXT_SIZE);
+  
+  // 初始化所有通用寄存器为0
+  for (int i = 0; i < NR_REGS; i++) {
+    ctx->gpr[i] = 0;
+  }
+  
+  // 设置参数寄存器
+  ctx->gpr[10] = (uintptr_t)arg;  // a0寄存器保存调用函数的第一个参数
+  
+  // 初始化mcause为0
+  ctx->mcause = 0;
+  
+  // 设置mstatus寄存器：
+  // - MPP 设为0 (User mode)
+  // - MPIE 设为1，以便mret后启用中断
+  ctx->mstatus = (1 << 11);  // MIE = 1
+  
+  // 设置mepc为入口函数的地址，这样mret后会跳转到entry
+  ctx->mepc = (uintptr_t)entry;
+  
+  
+  return ctx;
 }
 
 void yield() {

@@ -34,6 +34,8 @@ void isa_reg_display() {
   printf("mcause\t0x%08x\n", cpu.mcause);
   printf("mepc\t0x%08x\n", cpu.mepc);
   printf("mstatus\t0x%08x\n", cpu.mstatus);
+  printf("mtvec\t0x%08x\n", cpu.mtvec);
+  
   
 }
 

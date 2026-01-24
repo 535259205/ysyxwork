@@ -24,7 +24,15 @@ module Encode (
   output reg           com_exmem_r_ready,
   input  wire [31:0]   com_exmem_r_data,
   output reg  [31:0]   com_exmem_r_addr,
-  output reg  [1:0]    com_exmem_r_len
+  output reg  [1:0]    com_exmem_r_len,
+  output reg  [31:0]   com_csr_w_data,
+  input  wire [31:0]   com_csr_r_data,
+  output reg           com_csr_vaild,
+  output wire [11:0]   com_csr_csr_sel,
+  output reg           com_csr_ecall,
+  output wire [31:0]   com_csr_w_pc,
+  input  wire [31:0]   com_csr_r_pc,
+  output reg           com_csr_mret
 );
 
   wire       [11:0]   _zz_imm_I;
@@ -100,6 +108,8 @@ module Encode (
   wire       [31:0]   imm_S;
   wire       [31:0]   imm_B;
   wire       [31:0]   imm_J;
+  wire       [11:0]   csr_csr_code;
+  wire       [31:0]   csr_imm;
 
   assign _zz_imm_I = code[31 : 20];
   assign _zz_imm_S = {code[31 : 25],code[11 : 7]};
@@ -180,6 +190,10 @@ module Encode (
     com_exmem_r_len = 2'b00;
     com_pc_nPC = 32'h0;
     com_pc_nPC_vaild = 1'b0;
+    com_csr_vaild = 1'b0;
+    com_csr_w_data = 32'h0;
+    com_csr_ecall = 1'b0;
+    com_csr_mret = 1'b0;
     casez(code)
       32'b0000000??????????000?????0110011 : begin
         com_grp_rd = _zz_com_grp_rd;
@@ -347,8 +361,50 @@ module Encode (
         com_pc_nPC_vaild = 1'b1;
         com_grp_rd = _zz_com_grp_rd_37;
       end
+      32'b?????????????????001?????1110011 : begin
+        com_csr_vaild = 1'b1;
+        com_grp_rd = com_csr_r_data;
+        com_csr_w_data = com_grp_rs1;
+      end
+      32'b?????????????????010?????1110011 : begin
+        com_csr_vaild = 1'b1;
+        com_grp_rd = com_csr_r_data;
+        com_csr_w_data = (com_grp_rs1 | com_csr_r_data);
+      end
+      32'b?????????????????011?????1110011 : begin
+        com_csr_vaild = 1'b1;
+        com_grp_rd = com_csr_r_data;
+        com_csr_w_data = (com_csr_r_data & (~ com_grp_rs1));
+      end
+      32'b?????????????????101?????1110011 : begin
+        com_csr_vaild = 1'b1;
+        com_grp_rd = com_csr_r_data;
+        com_csr_w_data = csr_imm;
+      end
+      32'b?????????????????110?????1110011 : begin
+        com_csr_vaild = 1'b1;
+        com_grp_rd = com_csr_r_data;
+        com_csr_w_data = (csr_imm | com_csr_r_data);
+      end
+      32'b?????????????????111?????1110011 : begin
+        com_csr_vaild = 1'b1;
+        com_grp_rd = com_csr_r_data;
+        com_csr_w_data = (csr_imm & (~ com_csr_r_data));
+      end
       32'h00100073 : begin
         ebreak = 1'b1;
+      end
+      32'h00000073 : begin
+        com_csr_ecall = 1'b1;
+        com_pc_nPC = com_csr_r_pc;
+        com_pc_nPC_vaild = 1'b1;
+        com_grp_rd_vaild = 1'b0;
+      end
+      32'h30200073 : begin
+        com_csr_mret = 1'b1;
+        com_pc_nPC = com_csr_r_pc;
+        com_pc_nPC_vaild = 1'b1;
+        com_grp_rd_vaild = 1'b0;
       end
       default : begin
         ErrorReg = 1'b1;
@@ -368,5 +424,9 @@ module Encode (
   assign com_grp_rs1_sel = num_rs1;
   assign com_grp_rs2_sel = num_rs2;
   assign com_grp_rd_sel = num_rd;
+  assign csr_csr_code = code[31 : 20];
+  assign csr_imm = {27'h0,code[19 : 15]};
+  assign com_csr_csr_sel = csr_csr_code;
+  assign com_csr_w_pc = com_pc_PC;
 
 endmodule

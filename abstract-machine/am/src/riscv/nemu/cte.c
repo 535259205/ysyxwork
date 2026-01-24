@@ -10,7 +10,11 @@ Context* __am_irq_handle(Context *c) {
     switch (c->mcause) {
       case 0x8:  // 机器模式下的ecall指令
         // 检查a7寄存器的值，确定是yield请求
+        #ifdef __riscv_e
+        if (c->gpr[15] == -1) {
+        #else
         if (c->gpr[17] == -1) {  // x17是a7寄存器
+        #endif
           ev.event = EVENT_YIELD;
         } else {
           ev.event = EVENT_SYSCALL;

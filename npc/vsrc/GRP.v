@@ -52,7 +52,7 @@ module GRP (
   wire                rd_vaild;
   wire       [31:0]   _zz_1;
 
-  my_debug_1 debug (
+  my_debug_2 debug (
     .data_0  (reg_0[31:0] ), //i
     .data_1  (reg_1[31:0] ), //i
     .data_2  (reg_2[31:0] ), //i

@@ -26,10 +26,10 @@ all:
 		-Wno-WIDTH \
 		-Wno-UNDRIVEN \
 		-Wno-UNUSED \
-		-CFLAGS "-I$(VERILATOR_INC) -I$(CURDIR)/include $(INCDIFFTEST) $(INCCAPSTONE) -D__GUEST_ISA__=riscv32 -DBATCH_MODE -g" \
-		-LDFLAGS "-L$(CURDIR)/../nemu/tools/capstone/repo -lcapstone -lreadline $(LIBDIFFTEST)"
+		-CFLAGS "-I$(VERILATOR_INC) -I$(CURDIR)/include $(INCDIFFTEST) $(INCCAPSTONE) -D__GUEST_ISA__=riscv32  -g -fsanitize=address" \
+		-LDFLAGS "-L$(CURDIR)/../nemu/tools/capstone/repo -lcapstone -lreadline $(LIBDIFFTEST) -fsanitize=address"
 	make -C obj_dir -f V$(TOP_MODULE).mk V$(TOP_MODULE)
-
+#-DBATCH_MODE
 # 6. 仿真目标
 sim:
 	$(call git_commit, "sim RTL")	

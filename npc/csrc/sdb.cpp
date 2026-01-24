@@ -12,8 +12,8 @@ int cmd_q(char *args)
 }
 int cmd_si(char *args)
 {
-    printf("si %s\n", args);
     uint32_t n = strtol(args, NULL, 0);
+    printf("si %d\n", n);
     extern int SimStep(uint32_t n);
     if(SimStep(n)==1){
         printf("ebreak\n");

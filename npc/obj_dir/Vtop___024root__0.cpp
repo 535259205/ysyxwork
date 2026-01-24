@@ -6,8 +6,8 @@
 
 extern "C" int rom_r(int addr);
 
-void Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__rom__DOT__rom_r_TOP(IData/*31:0*/ addr, IData/*31:0*/ &rom_r__Vfuncrtn) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__rom__DOT__rom_r_TOP\n"); );
+void Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__rom__DOT__rom_r_TOP(IData/*31:0*/ addr, IData/*31:0*/ &rom_r__Vfuncrtn) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__rom__DOT__rom_r_TOP\n"); );
     // Body
     int addr__Vcvt;
     addr__Vcvt = addr;
@@ -18,8 +18,8 @@ void Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__rom__DOT__rom_r_TOP
 
 extern "C" void debug(int addr, int data);
 
-void Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(IData/*31:0*/ addr, IData/*31:0*/ data) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP\n"); );
+void Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(IData/*31:0*/ addr, IData/*31:0*/ data) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP\n"); );
     // Body
     int addr__Vcvt;
     addr__Vcvt = addr;
@@ -30,8 +30,8 @@ void Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_f
 
 extern "C" void ebreak(int test);
 
-void Vtop___024root____Vdpiimwrap_top__DOT__Decode_area_encode__DOT__ebreak_module__DOT__ebreak_TOP(IData/*31:0*/ test) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root____Vdpiimwrap_top__DOT__Decode_area_encode__DOT__ebreak_module__DOT__ebreak_TOP\n"); );
+void Vtop___024root____Vdpiimwrap_top__DOT__encode_1__DOT__ebreak_module__DOT__ebreak_TOP(IData/*31:0*/ test) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root____Vdpiimwrap_top__DOT__encode_1__DOT__ebreak_module__DOT__ebreak_TOP\n"); );
     // Body
     int test__Vcvt;
     test__Vcvt = test;
@@ -40,8 +40,8 @@ void Vtop___024root____Vdpiimwrap_top__DOT__Decode_area_encode__DOT__ebreak_modu
 
 extern "C" void mem_w(int data, int addr, int len);
 
-void Vtop___024root____Vdpiimwrap_top__DOT__Exmem_area_exmem__DOT__mem__DOT__mem_w_TOP(IData/*31:0*/ data, IData/*31:0*/ addr, IData/*31:0*/ len) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root____Vdpiimwrap_top__DOT__Exmem_area_exmem__DOT__mem__DOT__mem_w_TOP\n"); );
+void Vtop___024root____Vdpiimwrap_top__DOT__exmem_1__DOT__mem__DOT__mem_w_TOP(IData/*31:0*/ data, IData/*31:0*/ addr, IData/*31:0*/ len) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root____Vdpiimwrap_top__DOT__exmem_1__DOT__mem__DOT__mem_w_TOP\n"); );
     // Body
     int data__Vcvt;
     data__Vcvt = data;
@@ -54,8 +54,8 @@ void Vtop___024root____Vdpiimwrap_top__DOT__Exmem_area_exmem__DOT__mem__DOT__mem
 
 extern "C" int mem_r(int addr, int len);
 
-void Vtop___024root____Vdpiimwrap_top__DOT__Exmem_area_exmem__DOT__mem__DOT__mem_r_TOP(IData/*31:0*/ addr, IData/*31:0*/ len, IData/*31:0*/ &mem_r__Vfuncrtn) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root____Vdpiimwrap_top__DOT__Exmem_area_exmem__DOT__mem__DOT__mem_r_TOP\n"); );
+void Vtop___024root____Vdpiimwrap_top__DOT__exmem_1__DOT__mem__DOT__mem_r_TOP(IData/*31:0*/ addr, IData/*31:0*/ len, IData/*31:0*/ &mem_r__Vfuncrtn) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root____Vdpiimwrap_top__DOT__exmem_1__DOT__mem__DOT__mem_r_TOP\n"); );
     // Body
     int addr__Vcvt;
     addr__Vcvt = addr;
@@ -76,20 +76,20 @@ void Vtop___024root___eval_triggers__act(Vtop___024root* vlSelf) {
     auto& vlSelfRef = std::ref(*vlSelf).get();
     // Body
     vlSelfRef.__VactTriggered[0U] = (QData)((IData)(
-                                                    (((((((IData)(vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_len) 
-                                                          != (IData)(vlSelfRef.__Vtrigprevexpr___TOP__top__DOT__Decode_area_encode_com_exmem_w_len__0)) 
+                                                    (((((((IData)(vlSelfRef.top__DOT__encode_1_com_exmem_w_len) 
+                                                          != (IData)(vlSelfRef.__Vtrigprevexpr___TOP__top__DOT__encode_1_com_exmem_w_len__0)) 
                                                          << 3U) 
-                                                        | ((vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_data 
-                                                            != vlSelfRef.__Vtrigprevexpr___TOP__top__DOT__Decode_area_encode_com_exmem_w_data__0) 
+                                                        | ((vlSelfRef.top__DOT__encode_1_com_exmem_w_data 
+                                                            != vlSelfRef.__Vtrigprevexpr___TOP__top__DOT__encode_1_com_exmem_w_data__0) 
                                                            << 2U)) 
-                                                       | (((vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_addr 
-                                                            != vlSelfRef.__Vtrigprevexpr___TOP__top__DOT__Decode_area_encode_com_exmem_w_addr__0) 
+                                                       | (((vlSelfRef.top__DOT__encode_1_com_exmem_w_addr 
+                                                            != vlSelfRef.__Vtrigprevexpr___TOP__top__DOT__encode_1_com_exmem_w_addr__0) 
                                                            << 1U) 
-                                                          | ((IData)(vlSelfRef.top__DOT__Decode_area_encode_com_exmem_r_len) 
-                                                             != (IData)(vlSelfRef.__Vtrigprevexpr___TOP__top__DOT__Decode_area_encode_com_exmem_r_len__0)))) 
+                                                          | ((IData)(vlSelfRef.top__DOT__encode_1_com_exmem_r_len) 
+                                                             != (IData)(vlSelfRef.__Vtrigprevexpr___TOP__top__DOT__encode_1_com_exmem_r_len__0)))) 
                                                       << 4U) 
-                                                     | ((((vlSelfRef.top__DOT__Decode_area_encode_com_exmem_r_addr 
-                                                           != vlSelfRef.__Vtrigprevexpr___TOP__top__DOT__Decode_area_encode_com_exmem_r_addr__0) 
+                                                     | ((((vlSelfRef.top__DOT__encode_1_com_exmem_r_addr 
+                                                           != vlSelfRef.__Vtrigprevexpr___TOP__top__DOT__encode_1_com_exmem_r_addr__0) 
                                                           << 3U) 
                                                          | (((~ (IData)(vlSelfRef.clk)) 
                                                              & (IData)(vlSelfRef.__Vtrigprevexpr___TOP__clk__0)) 
@@ -101,16 +101,16 @@ void Vtop___024root___eval_triggers__act(Vtop___024root* vlSelf) {
                                                               & (~ (IData)(vlSelfRef.__Vtrigprevexpr___TOP__clk__0))))))));
     vlSelfRef.__Vtrigprevexpr___TOP__clk__0 = vlSelfRef.clk;
     vlSelfRef.__Vtrigprevexpr___TOP__rst__0 = vlSelfRef.rst;
-    vlSelfRef.__Vtrigprevexpr___TOP__top__DOT__Decode_area_encode_com_exmem_r_addr__0 
-        = vlSelfRef.top__DOT__Decode_area_encode_com_exmem_r_addr;
-    vlSelfRef.__Vtrigprevexpr___TOP__top__DOT__Decode_area_encode_com_exmem_r_len__0 
-        = vlSelfRef.top__DOT__Decode_area_encode_com_exmem_r_len;
-    vlSelfRef.__Vtrigprevexpr___TOP__top__DOT__Decode_area_encode_com_exmem_w_addr__0 
-        = vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_addr;
-    vlSelfRef.__Vtrigprevexpr___TOP__top__DOT__Decode_area_encode_com_exmem_w_data__0 
-        = vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_data;
-    vlSelfRef.__Vtrigprevexpr___TOP__top__DOT__Decode_area_encode_com_exmem_w_len__0 
-        = vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_len;
+    vlSelfRef.__Vtrigprevexpr___TOP__top__DOT__encode_1_com_exmem_r_addr__0 
+        = vlSelfRef.top__DOT__encode_1_com_exmem_r_addr;
+    vlSelfRef.__Vtrigprevexpr___TOP__top__DOT__encode_1_com_exmem_r_len__0 
+        = vlSelfRef.top__DOT__encode_1_com_exmem_r_len;
+    vlSelfRef.__Vtrigprevexpr___TOP__top__DOT__encode_1_com_exmem_w_addr__0 
+        = vlSelfRef.top__DOT__encode_1_com_exmem_w_addr;
+    vlSelfRef.__Vtrigprevexpr___TOP__top__DOT__encode_1_com_exmem_w_data__0 
+        = vlSelfRef.top__DOT__encode_1_com_exmem_w_data;
+    vlSelfRef.__Vtrigprevexpr___TOP__top__DOT__encode_1_com_exmem_w_len__0 
+        = vlSelfRef.top__DOT__encode_1_com_exmem_w_len;
     if (VL_UNLIKELY(((1U & (~ (IData)(vlSelfRef.__VactDidInit)))))) {
         vlSelfRef.__VactDidInit = 1U;
         vlSelfRef.__VactTriggered[0U] = (8ULL | vlSelfRef.__VactTriggered
@@ -155,10 +155,10 @@ void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     auto& vlSelfRef = std::ref(*vlSelf).get();
     // Body
-    if (vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_vaild) {
-        Vtop___024root____Vdpiimwrap_top__DOT__Exmem_area_exmem__DOT__mem__DOT__mem_w_TOP(vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_data, vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_addr, 
+    if (vlSelfRef.top__DOT__encode_1_com_exmem_w_vaild) {
+        Vtop___024root____Vdpiimwrap_top__DOT__exmem_1__DOT__mem__DOT__mem_w_TOP(vlSelfRef.top__DOT__encode_1_com_exmem_w_data, vlSelfRef.top__DOT__encode_1_com_exmem_w_addr, 
                                                                                 ((IData)(1U) 
-                                                                                + (IData)(vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_len)));
+                                                                                + (IData)(vlSelfRef.top__DOT__encode_1_com_exmem_w_len)));
     }
 }
 
@@ -167,44 +167,52 @@ void Vtop___024root___nba_sequent__TOP__1(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     auto& vlSelfRef = std::ref(*vlSelf).get();
     // Body
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000020U, vlSelfRef.top__DOT__Pc_area_pc__DOT__PC_cnt);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000021U, 
-                                                                                ((IData)(vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC_vaild)
-                                                                                 ? vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC
-                                                                                 : vlSelfRef.top__DOT__Pc_area_pc__DOT__PC_cnt));
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000022U, vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0U, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_0);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(1U, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_1);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(2U, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_2);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(3U, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_3);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(4U, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_4);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(5U, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_5);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(6U, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_6);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(7U, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_7);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(8U, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_8);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(9U, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_9);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x0000000aU, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_10);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x0000000bU, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_11);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x0000000cU, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_12);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x0000000dU, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_13);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x0000000eU, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_14);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x0000000fU, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_15);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000010U, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_16);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000011U, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_17);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000012U, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_18);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000013U, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_19);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000014U, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_20);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000015U, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_21);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000016U, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_22);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000017U, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_23);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000018U, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_24);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000019U, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_25);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x0000001aU, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_26);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x0000001bU, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_27);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x0000001cU, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_28);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x0000001dU, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_29);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x0000001eU, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_30);
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x0000001fU, vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_31);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000020U, vlSelfRef.top__DOT__pc_1__DOT__PC_cnt);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000021U, 
+                                                                                ((IData)(vlSelfRef.top__DOT__encode_1_com_pc_nPC_vaild)
+                                                                                 ? vlSelfRef.top__DOT__encode_1_com_pc_nPC
+                                                                                 : vlSelfRef.top__DOT__pc_1__DOT__PC_cnt));
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000027U, (IData)(vlSelfRef.top__DOT__csr_1__DOT__mcycle));
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000028U, (IData)(
+                                                                                (vlSelfRef.top__DOT__csr_1__DOT__mcycle 
+                                                                                >> 0x00000020U)));
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000022U, vlSelfRef.top__DOT__pc_1__DOT__rom_code);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000024U, vlSelfRef.top__DOT__csr_1__DOT__mcause);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000025U, vlSelfRef.top__DOT__csr_1__DOT__mstatus);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000023U, vlSelfRef.top__DOT__csr_1__DOT__mtvec);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000026U, vlSelfRef.top__DOT__csr_1__DOT__mepc);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0U, vlSelfRef.top__DOT__grp_1__DOT__reg_0);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(1U, vlSelfRef.top__DOT__grp_1__DOT__reg_1);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(2U, vlSelfRef.top__DOT__grp_1__DOT__reg_2);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(3U, vlSelfRef.top__DOT__grp_1__DOT__reg_3);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(4U, vlSelfRef.top__DOT__grp_1__DOT__reg_4);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(5U, vlSelfRef.top__DOT__grp_1__DOT__reg_5);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(6U, vlSelfRef.top__DOT__grp_1__DOT__reg_6);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(7U, vlSelfRef.top__DOT__grp_1__DOT__reg_7);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(8U, vlSelfRef.top__DOT__grp_1__DOT__reg_8);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(9U, vlSelfRef.top__DOT__grp_1__DOT__reg_9);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x0000000aU, vlSelfRef.top__DOT__grp_1__DOT__reg_10);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x0000000bU, vlSelfRef.top__DOT__grp_1__DOT__reg_11);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x0000000cU, vlSelfRef.top__DOT__grp_1__DOT__reg_12);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x0000000dU, vlSelfRef.top__DOT__grp_1__DOT__reg_13);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x0000000eU, vlSelfRef.top__DOT__grp_1__DOT__reg_14);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x0000000fU, vlSelfRef.top__DOT__grp_1__DOT__reg_15);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000010U, vlSelfRef.top__DOT__grp_1__DOT__reg_16);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000011U, vlSelfRef.top__DOT__grp_1__DOT__reg_17);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000012U, vlSelfRef.top__DOT__grp_1__DOT__reg_18);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000013U, vlSelfRef.top__DOT__grp_1__DOT__reg_19);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000014U, vlSelfRef.top__DOT__grp_1__DOT__reg_20);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000015U, vlSelfRef.top__DOT__grp_1__DOT__reg_21);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000016U, vlSelfRef.top__DOT__grp_1__DOT__reg_22);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000017U, vlSelfRef.top__DOT__grp_1__DOT__reg_23);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000018U, vlSelfRef.top__DOT__grp_1__DOT__reg_24);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x00000019U, vlSelfRef.top__DOT__grp_1__DOT__reg_25);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x0000001aU, vlSelfRef.top__DOT__grp_1__DOT__reg_26);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x0000001bU, vlSelfRef.top__DOT__grp_1__DOT__reg_27);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x0000001cU, vlSelfRef.top__DOT__grp_1__DOT__reg_28);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x0000001dU, vlSelfRef.top__DOT__grp_1__DOT__reg_29);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x0000001eU, vlSelfRef.top__DOT__grp_1__DOT__reg_30);
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__debug__DOT__debug_fun_1__DOT__debug_TOP(0x0000001fU, vlSelfRef.top__DOT__grp_1__DOT__reg_31);
 }
 
 void Vtop___024root___nba_sequent__TOP__2(Vtop___024root* vlSelf) {
@@ -212,277 +220,324 @@ void Vtop___024root___nba_sequent__TOP__2(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     auto& vlSelfRef = std::ref(*vlSelf).get();
     // Body
-    vlSelfRef.__Vdly__top__DOT__Pc_area_pc__DOT__PC_cnt 
-        = vlSelfRef.top__DOT__Pc_area_pc__DOT__PC_cnt;
+    vlSelfRef.__Vdly__top__DOT__pc_1__DOT__PC_cnt = vlSelfRef.top__DOT__pc_1__DOT__PC_cnt;
     if (vlSelfRef.rst) {
-        vlSelfRef.__Vdly__top__DOT__Pc_area_pc__DOT__PC_cnt 
-            = ((IData)(vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC_vaild)
-                ? vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC
-                : ((IData)(4U) + vlSelfRef.top__DOT__Pc_area_pc__DOT__PC_cnt));
-        if (vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd_vaild) {
-            if ((0U != (0x0000001fU & (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+        vlSelfRef.__Vdly__top__DOT__pc_1__DOT__PC_cnt 
+            = ((IData)(vlSelfRef.top__DOT__encode_1_com_pc_nPC_vaild)
+                ? vlSelfRef.top__DOT__encode_1_com_pc_nPC
+                : ((IData)(4U) + vlSelfRef.top__DOT__pc_1__DOT__PC_cnt));
+        vlSelfRef.top__DOT__csr_1__DOT__mcycle = vlSelfRef.top__DOT__csr_1__DOT___zz_mcycle;
+        if (vlSelfRef.top__DOT__encode_1_com_csr_ecall) {
+            vlSelfRef.top__DOT__csr_1__DOT__mcause = 8U;
+            vlSelfRef.top__DOT__csr_1__DOT__mepc = vlSelfRef.top__DOT__pc_1__DOT__PC_cnt;
+        } else if ((1U & (~ (IData)(vlSelfRef.top__DOT__encode_1_com_csr_mret)))) {
+            if (vlSelfRef.top__DOT__encode_1_com_csr_vaild) {
+                if ((0x0300U != (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                 >> 0x00000014U))) {
+                    if ((0x0305U != (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                     >> 0x00000014U))) {
+                        if ((0x0342U == (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                         >> 0x00000014U))) {
+                            vlSelfRef.top__DOT__csr_1__DOT__mcause 
+                                = vlSelfRef.top__DOT__encode_1_com_csr_w_data;
+                        }
+                        if ((0x0342U != (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                         >> 0x00000014U))) {
+                            if ((0x0341U == (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                             >> 0x00000014U))) {
+                                vlSelfRef.top__DOT__csr_1__DOT__mepc 
+                                    = vlSelfRef.top__DOT__encode_1_com_csr_w_data;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if ((1U & (~ (IData)(vlSelfRef.top__DOT__encode_1_com_csr_ecall)))) {
+            if ((1U & (~ (IData)(vlSelfRef.top__DOT__encode_1_com_csr_mret)))) {
+                if (vlSelfRef.top__DOT__encode_1_com_csr_vaild) {
+                    if ((0x0300U == (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                     >> 0x00000014U))) {
+                        vlSelfRef.top__DOT__csr_1__DOT__mstatus 
+                            = vlSelfRef.top__DOT__encode_1_com_csr_w_data;
+                    }
+                    if ((0x0300U != (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                     >> 0x00000014U))) {
+                        if ((0x0305U == (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                         >> 0x00000014U))) {
+                            vlSelfRef.top__DOT__csr_1__DOT__mtvec 
+                                = vlSelfRef.top__DOT__encode_1_com_csr_w_data;
+                        }
+                    }
+                }
+            }
+        }
+        if (vlSelfRef.top__DOT__encode_1_com_grp_rd_vaild) {
+            if ((0U != (0x0000001fU & (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                        >> 7U)))) {
                 if ((1U & ((IData)(1U) << (0x0000001fU 
-                                           & (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                           & (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                               >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_0 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_0 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((2U & ((IData)(1U) << (0x0000001fU 
-                                           & (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                           & (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                               >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_1 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_1 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((4U & ((IData)(1U) << (0x0000001fU 
-                                           & (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                           & (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                               >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_2 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_2 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((8U & ((IData)(1U) << (0x0000001fU 
-                                           & (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                           & (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                               >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_3 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_3 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x00000010U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_4 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_4 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x00000020U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_5 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_5 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x00000040U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_6 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_6 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x00000080U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_7 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_7 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x00000100U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_8 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_8 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x00000200U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_9 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_9 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x00000400U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_10 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_10 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x00000800U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_11 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_11 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x00001000U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_12 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_12 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x00002000U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_13 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_13 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x00004000U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_14 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_14 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x00008000U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_15 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_15 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x00010000U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_16 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_16 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x00020000U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_17 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_17 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x00040000U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_18 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_18 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x00080000U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_19 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_19 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x00100000U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_20 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_20 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x00200000U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_21 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_21 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x00400000U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_22 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_22 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x00800000U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_23 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_23 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x01000000U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_24 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_24 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x02000000U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_25 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_25 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x04000000U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_26 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_26 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x08000000U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_27 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_27 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x10000000U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_28 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_28 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x20000000U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_29 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_29 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((0x40000000U & ((IData)(1U) << 
                                     (0x0000001fU & 
-                                     (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                     (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                       >> 7U))))) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_30 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_30 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
                 if ((((IData)(1U) << (0x0000001fU & 
-                                      (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                                      (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                        >> 7U))) >> 0x1fU)) {
-                    vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_31 
-                        = vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd;
+                    vlSelfRef.top__DOT__grp_1__DOT__reg_31 
+                        = vlSelfRef.top__DOT__encode_1_com_grp_rd;
                 }
             }
         }
     } else {
-        vlSelfRef.__Vdly__top__DOT__Pc_area_pc__DOT__PC_cnt = 0x80000000U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_0 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_1 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_2 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_3 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_4 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_5 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_6 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_7 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_8 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_9 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_10 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_11 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_12 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_13 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_14 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_15 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_16 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_17 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_18 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_19 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_20 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_21 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_22 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_23 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_24 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_25 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_26 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_27 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_28 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_29 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_30 = 0U;
-        vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_31 = 0U;
+        vlSelfRef.__Vdly__top__DOT__pc_1__DOT__PC_cnt = 0x80000000U;
+        vlSelfRef.top__DOT__csr_1__DOT__mcycle = 0ULL;
+        vlSelfRef.top__DOT__csr_1__DOT__mcause = 0U;
+        vlSelfRef.top__DOT__csr_1__DOT__mstatus = 0x00001800U;
+        vlSelfRef.top__DOT__csr_1__DOT__mtvec = 0x80000000U;
+        vlSelfRef.top__DOT__csr_1__DOT__mepc = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_0 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_1 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_2 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_3 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_4 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_5 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_6 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_7 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_8 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_9 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_10 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_11 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_12 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_13 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_14 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_15 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_16 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_17 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_18 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_19 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_20 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_21 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_22 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_23 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_24 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_25 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_26 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_27 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_28 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_29 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_30 = 0U;
+        vlSelfRef.top__DOT__grp_1__DOT__reg_31 = 0U;
     }
-    vlSelfRef.top__DOT__pip_ctrl_3_up_valid = ((IData)(vlSelfRef.rst) 
-                                               && (IData)(vlSelfRef.top__DOT__pip_ctrl_2_up_valid));
-    vlSelfRef.top__DOT__pip_ctrl_2_up_valid = ((IData)(vlSelfRef.rst) 
-                                               && (IData)(vlSelfRef.top__DOT__pip_ctrl_1_up_valid));
-    vlSelfRef.top__DOT__pip_ctrl_1_up_valid = vlSelfRef.rst;
+    vlSelfRef.top__DOT__csr_1__DOT___zz_mcycle = (1ULL 
+                                                  + vlSelfRef.top__DOT__csr_1__DOT__mcycle);
 }
 
 void Vtop___024root___nba_sequent__TOP__3(Vtop___024root* vlSelf) {
@@ -490,15 +545,15 @@ void Vtop___024root___nba_sequent__TOP__3(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     auto& vlSelfRef = std::ref(*vlSelf).get();
     // Locals
-    IData/*31:0*/ __Vfunc_top__DOT__Exmem_area_exmem__DOT__mem__DOT__mem_r__37__Vfuncout;
-    __Vfunc_top__DOT__Exmem_area_exmem__DOT__mem__DOT__mem_r__37__Vfuncout = 0;
+    IData/*31:0*/ __Vfunc_top__DOT__exmem_1__DOT__mem__DOT__mem_r__43__Vfuncout;
+    __Vfunc_top__DOT__exmem_1__DOT__mem__DOT__mem_r__43__Vfuncout = 0;
     // Body
-    if (vlSelfRef.top__DOT__Decode_area_encode_com_exmem_r_ready) {
-        Vtop___024root____Vdpiimwrap_top__DOT__Exmem_area_exmem__DOT__mem__DOT__mem_r_TOP(vlSelfRef.top__DOT__Decode_area_encode_com_exmem_r_addr, 
+    if (vlSelfRef.top__DOT__encode_1_com_exmem_r_ready) {
+        Vtop___024root____Vdpiimwrap_top__DOT__exmem_1__DOT__mem__DOT__mem_r_TOP(vlSelfRef.top__DOT__encode_1_com_exmem_r_addr, 
                                                                                 ((IData)(1U) 
-                                                                                + (IData)(vlSelfRef.top__DOT__Decode_area_encode_com_exmem_r_len)), __Vfunc_top__DOT__Exmem_area_exmem__DOT__mem__DOT__mem_r__37__Vfuncout);
-        vlSelfRef.top__DOT__Exmem_area_exmem__DOT__mem_r_data 
-            = __Vfunc_top__DOT__Exmem_area_exmem__DOT__mem__DOT__mem_r__37__Vfuncout;
+                                                                                + (IData)(vlSelfRef.top__DOT__encode_1_com_exmem_r_len)), __Vfunc_top__DOT__exmem_1__DOT__mem__DOT__mem_r__43__Vfuncout);
+        vlSelfRef.top__DOT__exmem_1__DOT__mem_r_data 
+            = __Vfunc_top__DOT__exmem_1__DOT__mem__DOT__mem_r__43__Vfuncout;
     }
 }
 
@@ -507,195 +562,307 @@ void Vtop___024root___nba_sequent__TOP__4(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     auto& vlSelfRef = std::ref(*vlSelf).get();
     // Locals
-    IData/*31:0*/ __Vfunc_top__DOT__Pc_area_pc__DOT__rom__DOT__rom_r__0__Vfuncout;
-    __Vfunc_top__DOT__Pc_area_pc__DOT__rom__DOT__rom_r__0__Vfuncout = 0;
+    IData/*31:0*/ __Vfunc_top__DOT__pc_1__DOT__rom__DOT__rom_r__0__Vfuncout;
+    __Vfunc_top__DOT__pc_1__DOT__rom__DOT__rom_r__0__Vfuncout = 0;
     // Body
-    Vtop___024root____Vdpiimwrap_top__DOT__Pc_area_pc__DOT__rom__DOT__rom_r_TOP(vlSelfRef.top__DOT__Pc_area_pc__DOT__PC_cnt, __Vfunc_top__DOT__Pc_area_pc__DOT__rom__DOT__rom_r__0__Vfuncout);
-    vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code = __Vfunc_top__DOT__Pc_area_pc__DOT__rom__DOT__rom_r__0__Vfuncout;
-    vlSelfRef.top__DOT__Decode_area_encode_com_exmem_r_ready = 0U;
-    vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd_vaild = 1U;
-    vlSelfRef.top__DOT__Decode_area_encode__DOT__ErrorReg = 0U;
-    vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_vaild = 0U;
-    vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_len = 0U;
-    vlSelfRef.top__DOT__Decode_area_encode_com_exmem_r_len = 0U;
-    vlSelfRef.top__DOT__Decode_area_encode__DOT__ebreak = 0U;
+    Vtop___024root____Vdpiimwrap_top__DOT__pc_1__DOT__rom__DOT__rom_r_TOP(vlSelfRef.top__DOT__pc_1__DOT__PC_cnt, __Vfunc_top__DOT__pc_1__DOT__rom__DOT__rom_r__0__Vfuncout);
+    vlSelfRef.top__DOT__pc_1__DOT__rom_code = __Vfunc_top__DOT__pc_1__DOT__rom__DOT__rom_r__0__Vfuncout;
+    vlSelfRef.top__DOT__encode_1__DOT__ErrorReg = 0U;
+    vlSelfRef.top__DOT__encode_1_com_csr_vaild = 0U;
+    vlSelfRef.top__DOT__encode_1_com_grp_rd_vaild = 1U;
+    vlSelfRef.top__DOT__encode_1_com_exmem_w_vaild = 0U;
+    vlSelfRef.top__DOT__encode_1_com_exmem_r_ready = 0U;
+    vlSelfRef.top__DOT__encode_1_com_exmem_w_len = 0U;
+    vlSelfRef.top__DOT__encode_1_com_exmem_r_len = 0U;
+    vlSelfRef.top__DOT__encode_1__DOT__ebreak = 0U;
+    vlSelfRef.top__DOT__encode_1_com_csr_mret = 0U;
+    vlSelfRef.top__DOT__encode_1_com_csr_ecall = 0U;
     if ((1U & (~ ((((((((0x00000033U == (0xfe00707fU 
-                                         & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)) 
+                                         & vlSelfRef.top__DOT__pc_1__DOT__rom_code)) 
                         | (0x40000033U == (0xfe00707fU 
-                                           & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                           & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                        | (0x00007033U == (0xfe00707fU 
-                                          & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                          & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                       | (0x00006033U == (0xfe00707fU 
-                                         & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                         & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                      | (0x00004033U == (0xfe00707fU 
-                                        & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                        & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                     | (0x00001033U == (0xfe00707fU 
-                                       & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                   | (0x00005033U == (0xfe00707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                  | (0x40005033U == (0xfe00707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)))))) {
+                                       & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                   | (0x00005033U == (0xfe00707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                  | (0x40005033U == (0xfe00707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code)))))) {
         if ((1U & (~ ((((((((0x00002033U == (0xfe00707fU 
-                                             & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)) 
+                                             & vlSelfRef.top__DOT__pc_1__DOT__rom_code)) 
                             | (0x00003033U == (0xfe00707fU 
-                                               & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                               & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                            | (0x00000013U == (0x0000707fU 
-                                              & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                              & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                           | (0x00004013U == (0x0000707fU 
-                                             & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                             & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                          | (0x00006013U == (0x0000707fU 
-                                            & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                            & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                         | (0x00007013U == (0x0000707fU 
-                                           & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                           & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                        | (0x00001013U == (0xfe00707fU 
-                                          & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                          & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                       | (0x00005013U == (0xfe00707fU 
-                                         & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)))))) {
-            if (((((((((0x40005013U == (0xfe00707fU 
-                                        & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)) 
-                       | (0x00002013U == (0x0000707fU 
-                                          & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                      | (0x00003013U == (0x0000707fU 
-                                         & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                     | (3U == (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                    | (0x00001003U == (0x0000707fU 
-                                       & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                   | (0x00002003U == (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                  | (0x00004003U == (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                 | (0x00005003U == (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)))) {
-                if ((0x40005013U != (0xfe00707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                    if ((0x00002013U != (0x0000707fU 
-                                         & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                        if ((0x00003013U != (0x0000707fU 
-                                             & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                            vlSelfRef.top__DOT__Decode_area_encode_com_exmem_r_ready = 1U;
-                            vlSelfRef.top__DOT__Decode_area_encode_com_exmem_r_len 
-                                = ((3U == (0x0000707fU 
-                                           & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))
-                                    ? 0U : ((0x00001003U 
-                                             == (0x0000707fU 
-                                                 & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))
-                                             ? 1U : 
-                                            ((0x00002003U 
-                                              == (0x0000707fU 
-                                                  & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))
-                                              ? 3U : 
-                                             ((0x00004003U 
-                                               == (0x0000707fU 
-                                                   & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))
-                                               ? 0U
-                                               : 1U))));
-                        }
-                    }
-                }
-            }
+                                         & vlSelfRef.top__DOT__pc_1__DOT__rom_code)))))) {
             if ((1U & (~ ((((((((0x40005013U == (0xfe00707fU 
-                                                 & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)) 
+                                                 & vlSelfRef.top__DOT__pc_1__DOT__rom_code)) 
                                 | (0x00002013U == (0x0000707fU 
-                                                   & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                                   & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                                | (0x00003013U == (0x0000707fU 
-                                                  & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                                  & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                               | (3U == (0x0000707fU 
-                                        & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                        & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                              | (0x00001003U == (0x0000707fU 
-                                                & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                                & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                             | (0x00002003U == (0x0000707fU 
-                                               & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                               & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                            | (0x00004003U == (0x0000707fU 
-                                              & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                              & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                           | (0x00005003U == (0x0000707fU 
-                                             & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)))))) {
-                if (((((((((0x00000067U == (0x0000707fU 
-                                            & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)) 
-                           | (0x00002023U == (0x0000707fU 
-                                              & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                          | (0x00001023U == (0x0000707fU 
-                                             & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                         | (0x00000023U == (0x0000707fU 
-                                            & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                        | (0x00000063U == (0x0000707fU 
-                                           & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                       | (0x00001063U == (0x0000707fU 
-                                          & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                      | (0x00004063U == (0x0000707fU 
-                                         & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                     | (0x00005063U == (0x0000707fU 
-                                        & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)))) {
-                    if ((0x00000067U != (0x0000707fU 
-                                         & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                        vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd_vaild = 0U;
-                        if ((0x00002023U == (0x0000707fU 
-                                             & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                            vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_vaild = 1U;
-                            vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_len = 3U;
-                        } else if ((0x00001023U == 
-                                    (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                            vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_vaild = 1U;
-                            vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_len = 1U;
-                        } else if ((0x00000023U == 
-                                    (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                            vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_vaild = 1U;
-                            vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_len = 0U;
-                        }
-                    }
-                } else if ((0x00006063U == (0x0000707fU 
-                                            & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                    vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd_vaild = 0U;
-                } else if ((0x00007063U == (0x0000707fU 
-                                            & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                    vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd_vaild = 0U;
-                }
+                                             & vlSelfRef.top__DOT__pc_1__DOT__rom_code)))))) {
                 if ((1U & (~ ((((((((0x00000067U == 
-                                     (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)) 
+                                     (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code)) 
                                     | (0x00002023U 
                                        == (0x0000707fU 
-                                           & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                           & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                                    | (0x00001023U == 
                                       (0x0000707fU 
-                                       & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                       & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                                   | (0x00000023U == 
-                                     (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                     (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                                  | (0x00000063U == 
-                                    (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                    (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                                 | (0x00001063U == (0x0000707fU 
-                                                   & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                                   & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                                | (0x00004063U == (0x0000707fU 
-                                                  & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                                  & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                               | (0x00005063U == (0x0000707fU 
-                                                 & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)))))) {
-                    if ((0x00006063U != (0x0000707fU 
-                                         & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                        if ((0x00007063U != (0x0000707fU 
-                                             & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                            if ((0x00000037U != (0x0000007fU 
-                                                 & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                                if ((0x00000017U != 
-                                     (0x0000007fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                                    if ((0x0000006fU 
-                                         != (0x0000007fU 
-                                             & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                                        if ((0x00100073U 
-                                             != vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)) {
-                                            vlSelfRef.top__DOT__Decode_area_encode__DOT__ErrorReg = 1U;
+                                                 & vlSelfRef.top__DOT__pc_1__DOT__rom_code)))))) {
+                    if ((1U & (~ ((((((((0x00006063U 
+                                         == (0x0000707fU 
+                                             & vlSelfRef.top__DOT__pc_1__DOT__rom_code)) 
+                                        | (0x00007063U 
+                                           == (0x0000707fU 
+                                               & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                                       | (0x00000037U 
+                                          == (0x0000007fU 
+                                              & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                                      | (0x00000017U 
+                                         == (0x0000007fU 
+                                             & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                                     | (0x0000006fU 
+                                        == (0x0000007fU 
+                                            & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                                    | (0x00001073U 
+                                       == (0x0000707fU 
+                                           & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                                   | (0x00002073U == 
+                                      (0x0000707fU 
+                                       & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                                  | (0x00003073U == 
+                                     (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code)))))) {
+                        if ((0x00005073U != (0x0000707fU 
+                                             & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                            if ((0x00006073U != (0x0000707fU 
+                                                 & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                                if ((0x00007073U != 
+                                     (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                                    if ((0x00100073U 
+                                         != vlSelfRef.top__DOT__pc_1__DOT__rom_code)) {
+                                        if ((0x00000073U 
+                                             != vlSelfRef.top__DOT__pc_1__DOT__rom_code)) {
+                                            if ((0x30200073U 
+                                                 != vlSelfRef.top__DOT__pc_1__DOT__rom_code)) {
+                                                vlSelfRef.top__DOT__encode_1__DOT__ErrorReg = 1U;
+                                            }
+                                            if ((0x30200073U 
+                                                 == vlSelfRef.top__DOT__pc_1__DOT__rom_code)) {
+                                                vlSelfRef.top__DOT__encode_1_com_csr_mret = 1U;
+                                            }
                                         }
-                                        if ((0x00100073U 
-                                             == vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)) {
-                                            vlSelfRef.top__DOT__Decode_area_encode__DOT__ebreak = 1U;
+                                        if ((0x00000073U 
+                                             == vlSelfRef.top__DOT__pc_1__DOT__rom_code)) {
+                                            vlSelfRef.top__DOT__encode_1_com_csr_ecall = 1U;
                                         }
                                     }
+                                    if ((0x00100073U 
+                                         == vlSelfRef.top__DOT__pc_1__DOT__rom_code)) {
+                                        vlSelfRef.top__DOT__encode_1__DOT__ebreak = 1U;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (((((((((0x00006063U == (0x0000707fU 
+                                                & vlSelfRef.top__DOT__pc_1__DOT__rom_code)) 
+                               | (0x00007063U == (0x0000707fU 
+                                                  & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                              | (0x00000037U == (0x0000007fU 
+                                                 & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                             | (0x00000017U == (0x0000007fU 
+                                                & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                            | (0x0000006fU == (0x0000007fU 
+                                               & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                           | (0x00001073U == (0x0000707fU 
+                                              & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                          | (0x00002073U == (0x0000707fU 
+                                             & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                         | (0x00003073U == (0x0000707fU 
+                                            & vlSelfRef.top__DOT__pc_1__DOT__rom_code)))) {
+                        if ((0x00006063U != (0x0000707fU 
+                                             & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                            if ((0x00007063U != (0x0000707fU 
+                                                 & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                                if ((0x00000037U != 
+                                     (0x0000007fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                                    if ((0x00000017U 
+                                         != (0x0000007fU 
+                                             & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                                        if ((0x0000006fU 
+                                             != (0x0000007fU 
+                                                 & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                                            vlSelfRef.top__DOT__encode_1_com_csr_vaild = 1U;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else if ((0x00005073U == (0x0000707fU 
+                                                & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                        vlSelfRef.top__DOT__encode_1_com_csr_vaild = 1U;
+                    } else if ((0x00006073U == (0x0000707fU 
+                                                & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                        vlSelfRef.top__DOT__encode_1_com_csr_vaild = 1U;
+                    } else if ((0x00007073U == (0x0000707fU 
+                                                & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                        vlSelfRef.top__DOT__encode_1_com_csr_vaild = 1U;
+                    }
+                }
+                if (((((((((0x00000067U == (0x0000707fU 
+                                            & vlSelfRef.top__DOT__pc_1__DOT__rom_code)) 
+                           | (0x00002023U == (0x0000707fU 
+                                              & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                          | (0x00001023U == (0x0000707fU 
+                                             & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                         | (0x00000023U == (0x0000707fU 
+                                            & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                        | (0x00000063U == (0x0000707fU 
+                                           & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                       | (0x00001063U == (0x0000707fU 
+                                          & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                      | (0x00004063U == (0x0000707fU 
+                                         & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                     | (0x00005063U == (0x0000707fU 
+                                        & vlSelfRef.top__DOT__pc_1__DOT__rom_code)))) {
+                    if ((0x00000067U != (0x0000707fU 
+                                         & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                        vlSelfRef.top__DOT__encode_1_com_grp_rd_vaild = 0U;
+                        if ((0x00002023U == (0x0000707fU 
+                                             & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                            vlSelfRef.top__DOT__encode_1_com_exmem_w_vaild = 1U;
+                            vlSelfRef.top__DOT__encode_1_com_exmem_w_len = 3U;
+                        } else if ((0x00001023U == 
+                                    (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                            vlSelfRef.top__DOT__encode_1_com_exmem_w_vaild = 1U;
+                            vlSelfRef.top__DOT__encode_1_com_exmem_w_len = 1U;
+                        } else if ((0x00000023U == 
+                                    (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                            vlSelfRef.top__DOT__encode_1_com_exmem_w_vaild = 1U;
+                            vlSelfRef.top__DOT__encode_1_com_exmem_w_len = 0U;
+                        }
+                    }
+                } else if (((((((((0x00006063U == (0x0000707fU 
+                                                   & vlSelfRef.top__DOT__pc_1__DOT__rom_code)) 
+                                  | (0x00007063U == 
+                                     (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                                 | (0x00000037U == 
+                                    (0x0000007fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                                | (0x00000017U == (0x0000007fU 
+                                                   & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                               | (0x0000006fU == (0x0000007fU 
+                                                  & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                              | (0x00001073U == (0x0000707fU 
+                                                 & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                             | (0x00002073U == (0x0000707fU 
+                                                & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                            | (0x00003073U == (0x0000707fU 
+                                               & vlSelfRef.top__DOT__pc_1__DOT__rom_code)))) {
+                    if ((0x00006063U == (0x0000707fU 
+                                         & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                        vlSelfRef.top__DOT__encode_1_com_grp_rd_vaild = 0U;
+                    } else if ((0x00007063U == (0x0000707fU 
+                                                & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                        vlSelfRef.top__DOT__encode_1_com_grp_rd_vaild = 0U;
+                    }
+                } else if ((0x00005073U != (0x0000707fU 
+                                            & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                    if ((0x00006073U != (0x0000707fU 
+                                         & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                        if ((0x00007073U != (0x0000707fU 
+                                             & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                            if ((0x00100073U != vlSelfRef.top__DOT__pc_1__DOT__rom_code)) {
+                                if ((0x00000073U == vlSelfRef.top__DOT__pc_1__DOT__rom_code)) {
+                                    vlSelfRef.top__DOT__encode_1_com_grp_rd_vaild = 0U;
+                                } else if ((0x30200073U 
+                                            == vlSelfRef.top__DOT__pc_1__DOT__rom_code)) {
+                                    vlSelfRef.top__DOT__encode_1_com_grp_rd_vaild = 0U;
                                 }
                             }
                         }
                     }
                 }
             }
+            if (((((((((0x40005013U == (0xfe00707fU 
+                                        & vlSelfRef.top__DOT__pc_1__DOT__rom_code)) 
+                       | (0x00002013U == (0x0000707fU 
+                                          & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                      | (0x00003013U == (0x0000707fU 
+                                         & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                     | (3U == (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                    | (0x00001003U == (0x0000707fU 
+                                       & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                   | (0x00002003U == (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                  | (0x00004003U == (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                 | (0x00005003U == (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code)))) {
+                if ((0x40005013U != (0xfe00707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                    if ((0x00002013U != (0x0000707fU 
+                                         & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                        if ((0x00003013U != (0x0000707fU 
+                                             & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                            vlSelfRef.top__DOT__encode_1_com_exmem_r_ready = 1U;
+                            vlSelfRef.top__DOT__encode_1_com_exmem_r_len 
+                                = ((3U == (0x0000707fU 
+                                           & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                                    ? 0U : ((0x00001003U 
+                                             == (0x0000707fU 
+                                                 & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                                             ? 1U : 
+                                            ((0x00002003U 
+                                              == (0x0000707fU 
+                                                  & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                                              ? 3U : 
+                                             ((0x00004003U 
+                                               == (0x0000707fU 
+                                                   & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                                               ? 0U
+                                               : 1U))));
+                        }
+                    }
+                }
+            }
         }
     }
-    vlSelfRef.top__DOT__Decode_area_encode__DOT__imm_I 
-        = (((- (IData)((vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
-                        >> 0x0000001fU))) << 0x0000000cU) 
-           | (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
-              >> 0x00000014U));
-    if (vlSelfRef.top__DOT__Decode_area_encode__DOT__ebreak) {
-        Vtop___024root____Vdpiimwrap_top__DOT__Decode_area_encode__DOT__ebreak_module__DOT__ebreak_TOP(1U);
+    vlSelfRef.top__DOT__encode_1__DOT__imm_I = (((- (IData)(
+                                                            (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                                             >> 0x0000001fU))) 
+                                                 << 0x0000000cU) 
+                                                | (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                                   >> 0x00000014U));
+    if (vlSelfRef.top__DOT__encode_1__DOT__ebreak) {
+        Vtop___024root____Vdpiimwrap_top__DOT__encode_1__DOT__ebreak_module__DOT__ebreak_TOP(1U);
     }
 }
 
@@ -704,7 +871,7 @@ void Vtop___024root___nba_sequent__TOP__5(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     auto& vlSelfRef = std::ref(*vlSelf).get();
     // Body
-    vlSelfRef.top__DOT__Pc_area_pc__DOT__PC_cnt = vlSelfRef.__Vdly__top__DOT__Pc_area_pc__DOT__PC_cnt;
+    vlSelfRef.top__DOT__pc_1__DOT__PC_cnt = vlSelfRef.__Vdly__top__DOT__pc_1__DOT__PC_cnt;
 }
 
 void Vtop___024root___nba_comb__TOP__0(Vtop___024root* vlSelf) {
@@ -712,366 +879,516 @@ void Vtop___024root___nba_comb__TOP__0(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     auto& vlSelfRef = std::ref(*vlSelf).get();
     // Body
-    vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs2 
-        = ((0U == (0x0000001fU & (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+    vlSelfRef.top__DOT__csr_1__DOT__com_encode_r_data 
+        = ((0x0b00U == (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                        >> 0x00000014U)) ? (IData)(vlSelfRef.top__DOT__csr_1__DOT__mcycle)
+            : ((0x0b80U == (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                            >> 0x00000014U)) ? (IData)(
+                                                       (vlSelfRef.top__DOT__csr_1__DOT__mcycle 
+                                                        >> 0x00000020U))
+                : ((0x0300U == (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                >> 0x00000014U)) ? vlSelfRef.top__DOT__csr_1__DOT__mstatus
+                    : ((0x0305U == (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                    >> 0x00000014U))
+                        ? vlSelfRef.top__DOT__csr_1__DOT__mtvec
+                        : ((0x0342U == (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                        >> 0x00000014U))
+                            ? vlSelfRef.top__DOT__csr_1__DOT__mcause
+                            : ((0x0341U == (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                            >> 0x00000014U))
+                                ? vlSelfRef.top__DOT__csr_1__DOT__mepc
+                                : 0U))))));
+    vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs2 
+        = ((0U == (0x0000001fU & (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                   >> 0x00000014U)))
-            ? 0U : ((0x01000000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                     ? ((0x00800000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                         ? ((0x00400000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                             ? ((0x00200000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                 ? ((0x00100000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_31
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_30)
-                                 : ((0x00100000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_29
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_28))
-                             : ((0x00200000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                 ? ((0x00100000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_27
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_26)
-                                 : ((0x00100000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_25
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_24)))
-                         : ((0x00400000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                             ? ((0x00200000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                 ? ((0x00100000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_23
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_22)
-                                 : ((0x00100000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_21
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_20))
-                             : ((0x00200000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                 ? ((0x00100000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_19
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_18)
-                                 : ((0x00100000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_17
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_16))))
-                     : ((0x00800000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                         ? ((0x00400000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                             ? ((0x00200000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                 ? ((0x00100000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_15
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_14)
-                                 : ((0x00100000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_13
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_12))
-                             : ((0x00200000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                 ? ((0x00100000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_11
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_10)
-                                 : ((0x00100000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_9
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_8)))
-                         : ((0x00400000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                             ? ((0x00200000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                 ? ((0x00100000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_7
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_6)
-                                 : ((0x00100000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_5
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_4))
-                             : ((0x00200000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                 ? ((0x00100000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_3
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_2)
-                                 : ((0x00100000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_1
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_0))))));
-    vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1 
-        = ((0U == (0x0000001fU & (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+            ? 0U : ((0x01000000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                     ? ((0x00800000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                         ? ((0x00400000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                             ? ((0x00200000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                 ? ((0x00100000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_31
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_30)
+                                 : ((0x00100000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_29
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_28))
+                             : ((0x00200000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                 ? ((0x00100000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_27
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_26)
+                                 : ((0x00100000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_25
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_24)))
+                         : ((0x00400000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                             ? ((0x00200000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                 ? ((0x00100000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_23
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_22)
+                                 : ((0x00100000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_21
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_20))
+                             : ((0x00200000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                 ? ((0x00100000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_19
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_18)
+                                 : ((0x00100000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_17
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_16))))
+                     : ((0x00800000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                         ? ((0x00400000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                             ? ((0x00200000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                 ? ((0x00100000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_15
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_14)
+                                 : ((0x00100000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_13
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_12))
+                             : ((0x00200000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                 ? ((0x00100000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_11
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_10)
+                                 : ((0x00100000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_9
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_8)))
+                         : ((0x00400000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                             ? ((0x00200000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                 ? ((0x00100000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_7
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_6)
+                                 : ((0x00100000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_5
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_4))
+                             : ((0x00200000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                 ? ((0x00100000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_3
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_2)
+                                 : ((0x00100000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_1
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_0))))));
+    vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1 
+        = ((0U == (0x0000001fU & (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                   >> 0x0000000fU)))
-            ? 0U : ((0x00080000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                     ? ((0x00040000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                         ? ((0x00020000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                             ? ((0x00010000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                 ? ((0x00008000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_31
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_30)
-                                 : ((0x00008000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_29
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_28))
-                             : ((0x00010000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                 ? ((0x00008000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_27
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_26)
-                                 : ((0x00008000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_25
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_24)))
-                         : ((0x00020000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                             ? ((0x00010000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                 ? ((0x00008000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_23
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_22)
-                                 : ((0x00008000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_21
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_20))
-                             : ((0x00010000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                 ? ((0x00008000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_19
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_18)
-                                 : ((0x00008000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_17
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_16))))
-                     : ((0x00040000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                         ? ((0x00020000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                             ? ((0x00010000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                 ? ((0x00008000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_15
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_14)
-                                 : ((0x00008000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_13
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_12))
-                             : ((0x00010000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                 ? ((0x00008000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_11
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_10)
-                                 : ((0x00008000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_9
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_8)))
-                         : ((0x00020000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                             ? ((0x00010000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                 ? ((0x00008000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_7
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_6)
-                                 : ((0x00008000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_5
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_4))
-                             : ((0x00010000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                 ? ((0x00008000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_3
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_2)
-                                 : ((0x00008000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)
-                                     ? vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_1
-                                     : vlSelfRef.top__DOT__Grp_area_grp__DOT__reg_0))))));
-    vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_pc_nPC_1 
-        = (vlSelfRef.top__DOT__Pc_area_pc__DOT__PC_cnt 
-           + (((- (IData)((vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
-                           >> 0x0000001fU))) << 0x0000000dU) 
-              | ((((2U & (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
-                          >> 0x0000001eU)) | (1U & 
-                                              (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
-                                               >> 7U))) 
-                  << 0x0000000bU) | ((0x000007e0U & 
-                                      (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
-                                       >> 0x00000014U)) 
-                                     | (0x0000001eU 
-                                        & (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
-                                           >> 7U))))));
-    vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_data = 0U;
-    vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_exmem_w_addr 
-        = (vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1 
-           + (((- (IData)((vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+            ? 0U : ((0x00080000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                     ? ((0x00040000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                         ? ((0x00020000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                             ? ((0x00010000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                 ? ((0x00008000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_31
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_30)
+                                 : ((0x00008000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_29
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_28))
+                             : ((0x00010000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                 ? ((0x00008000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_27
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_26)
+                                 : ((0x00008000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_25
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_24)))
+                         : ((0x00020000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                             ? ((0x00010000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                 ? ((0x00008000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_23
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_22)
+                                 : ((0x00008000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_21
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_20))
+                             : ((0x00010000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                 ? ((0x00008000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_19
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_18)
+                                 : ((0x00008000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_17
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_16))))
+                     : ((0x00040000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                         ? ((0x00020000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                             ? ((0x00010000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                 ? ((0x00008000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_15
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_14)
+                                 : ((0x00008000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_13
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_12))
+                             : ((0x00010000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                 ? ((0x00008000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_11
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_10)
+                                 : ((0x00008000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_9
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_8)))
+                         : ((0x00020000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                             ? ((0x00010000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                 ? ((0x00008000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_7
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_6)
+                                 : ((0x00008000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_5
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_4))
+                             : ((0x00010000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                 ? ((0x00008000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_3
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_2)
+                                 : ((0x00008000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                                     ? vlSelfRef.top__DOT__grp_1__DOT__reg_1
+                                     : vlSelfRef.top__DOT__grp_1__DOT__reg_0))))));
+    vlSelfRef.top__DOT__csr_1_com_encode_r_pc = 0U;
+    if (vlSelfRef.top__DOT__encode_1_com_csr_ecall) {
+        vlSelfRef.top__DOT__csr_1_com_encode_r_pc = vlSelfRef.top__DOT__csr_1__DOT__mtvec;
+    } else if (vlSelfRef.top__DOT__encode_1_com_csr_mret) {
+        vlSelfRef.top__DOT__csr_1_com_encode_r_pc = 
+            ((IData)(4U) + vlSelfRef.top__DOT__csr_1__DOT__mepc);
+    }
+    vlSelfRef.top__DOT__encode_1__DOT___zz_com_pc_nPC_1 
+        = (vlSelfRef.top__DOT__pc_1__DOT__PC_cnt + 
+           (((- (IData)((vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                         >> 0x0000001fU))) << 0x0000000dU) 
+            | ((((2U & (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                        >> 0x0000001eU)) | (1U & (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                                  >> 7U))) 
+                << 0x0000000bU) | ((0x000007e0U & (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                                   >> 0x00000014U)) 
+                                   | (0x0000001eU & 
+                                      (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                       >> 7U))))));
+    vlSelfRef.top__DOT__encode_1_com_exmem_w_data = 0U;
+    vlSelfRef.top__DOT__encode_1_com_csr_w_data = 0U;
+    vlSelfRef.top__DOT__encode_1__DOT___zz_com_exmem_w_addr 
+        = (vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1 
+           + (((- (IData)((vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                            >> 0x0000001fU))) << 0x0000000cU) 
-              | ((0x00000fe0U & (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+              | ((0x00000fe0U & (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                  >> 0x00000014U)) | 
-                 (0x0000001fU & (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
+                 (0x0000001fU & (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
                                  >> 7U)))));
-    vlSelfRef.top__DOT__Decode_area_encode__DOT____VdfgExtracted_hf015dc25__0 
-        = VL_LTES_III(32, vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs2, vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1);
-    vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_grp_rd_18 
-        = (vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1 
-           + vlSelfRef.top__DOT__Decode_area_encode__DOT__imm_I);
-    vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_grp_rd_14 
-        = VL_LTS_III(32, vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1, vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs2);
-    vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_addr = 0U;
-    vlSelfRef.top__DOT__Decode_area_encode_com_exmem_r_addr = 0U;
-    vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC_vaild = 0U;
-    vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC = 0U;
+    vlSelfRef.top__DOT__encode_1__DOT____VdfgExtracted_hf015dc25__0 
+        = VL_LTES_III(32, vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs2, vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1);
+    vlSelfRef.top__DOT__encode_1__DOT___zz_com_grp_rd_18 
+        = (vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1 
+           + vlSelfRef.top__DOT__encode_1__DOT__imm_I);
+    vlSelfRef.top__DOT__encode_1__DOT___zz_com_grp_rd_14 
+        = VL_LTS_III(32, vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1, vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs2);
+    vlSelfRef.top__DOT__encode_1_com_exmem_w_addr = 0U;
+    vlSelfRef.top__DOT__encode_1_com_exmem_r_addr = 0U;
+    vlSelfRef.top__DOT__encode_1_com_pc_nPC_vaild = 0U;
+    vlSelfRef.top__DOT__encode_1_com_pc_nPC = 0U;
     if ((1U & (~ ((((((((0x00000033U == (0xfe00707fU 
-                                         & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)) 
+                                         & vlSelfRef.top__DOT__pc_1__DOT__rom_code)) 
                         | (0x40000033U == (0xfe00707fU 
-                                           & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                           & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                        | (0x00007033U == (0xfe00707fU 
-                                          & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                          & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                       | (0x00006033U == (0xfe00707fU 
-                                         & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                         & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                      | (0x00004033U == (0xfe00707fU 
-                                        & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                        & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                     | (0x00001033U == (0xfe00707fU 
-                                       & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                   | (0x00005033U == (0xfe00707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                  | (0x40005033U == (0xfe00707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)))))) {
+                                       & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                   | (0x00005033U == (0xfe00707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                  | (0x40005033U == (0xfe00707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code)))))) {
         if ((1U & (~ ((((((((0x00002033U == (0xfe00707fU 
-                                             & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)) 
+                                             & vlSelfRef.top__DOT__pc_1__DOT__rom_code)) 
                             | (0x00003033U == (0xfe00707fU 
-                                               & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                               & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                            | (0x00000013U == (0x0000707fU 
-                                              & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                              & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                           | (0x00004013U == (0x0000707fU 
-                                             & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                             & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                          | (0x00006013U == (0x0000707fU 
-                                            & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                            & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                         | (0x00007013U == (0x0000707fU 
-                                           & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                           & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                        | (0x00001013U == (0xfe00707fU 
-                                          & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                          & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                       | (0x00005013U == (0xfe00707fU 
-                                         & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)))))) {
+                                         & vlSelfRef.top__DOT__pc_1__DOT__rom_code)))))) {
             if ((1U & (~ ((((((((0x40005013U == (0xfe00707fU 
-                                                 & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)) 
+                                                 & vlSelfRef.top__DOT__pc_1__DOT__rom_code)) 
                                 | (0x00002013U == (0x0000707fU 
-                                                   & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                                   & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                                | (0x00003013U == (0x0000707fU 
-                                                  & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                                  & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                               | (3U == (0x0000707fU 
-                                        & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                        & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                              | (0x00001003U == (0x0000707fU 
-                                                & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                                & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                             | (0x00002003U == (0x0000707fU 
-                                               & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                               & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                            | (0x00004003U == (0x0000707fU 
-                                              & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                              & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                           | (0x00005003U == (0x0000707fU 
-                                             & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)))))) {
+                                             & vlSelfRef.top__DOT__pc_1__DOT__rom_code)))))) {
                 if (((((((((0x00000067U == (0x0000707fU 
-                                            & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)) 
+                                            & vlSelfRef.top__DOT__pc_1__DOT__rom_code)) 
                            | (0x00002023U == (0x0000707fU 
-                                              & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                              & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                           | (0x00001023U == (0x0000707fU 
-                                             & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                             & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                          | (0x00000023U == (0x0000707fU 
-                                            & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                            & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                         | (0x00000063U == (0x0000707fU 
-                                           & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                           & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                        | (0x00001063U == (0x0000707fU 
-                                          & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                          & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                       | (0x00004063U == (0x0000707fU 
-                                         & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                         & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                      | (0x00005063U == (0x0000707fU 
-                                        & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)))) {
+                                        & vlSelfRef.top__DOT__pc_1__DOT__rom_code)))) {
                     if ((0x00000067U != (0x0000707fU 
-                                         & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
+                                         & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
                         if ((0x00002023U == (0x0000707fU 
-                                             & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                            vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_data 
-                                = vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs2;
-                            vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_addr 
-                                = vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_exmem_w_addr;
+                                             & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                            vlSelfRef.top__DOT__encode_1_com_exmem_w_data 
+                                = vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs2;
+                            vlSelfRef.top__DOT__encode_1_com_exmem_w_addr 
+                                = vlSelfRef.top__DOT__encode_1__DOT___zz_com_exmem_w_addr;
                         } else if ((0x00001023U == 
-                                    (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                            vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_data 
-                                = vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs2;
-                            vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_addr 
-                                = vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_exmem_w_addr;
+                                    (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                            vlSelfRef.top__DOT__encode_1_com_exmem_w_data 
+                                = vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs2;
+                            vlSelfRef.top__DOT__encode_1_com_exmem_w_addr 
+                                = vlSelfRef.top__DOT__encode_1__DOT___zz_com_exmem_w_addr;
                         } else if ((0x00000023U == 
-                                    (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                            vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_data 
-                                = vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs2;
-                            vlSelfRef.top__DOT__Decode_area_encode_com_exmem_w_addr 
-                                = vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_exmem_w_addr;
+                                    (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                            vlSelfRef.top__DOT__encode_1_com_exmem_w_data 
+                                = vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs2;
+                            vlSelfRef.top__DOT__encode_1_com_exmem_w_addr 
+                                = vlSelfRef.top__DOT__encode_1__DOT___zz_com_exmem_w_addr;
                         }
                     }
                     if ((0x00000067U == (0x0000707fU 
-                                         & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                        vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC_vaild = 1U;
-                        vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC 
-                            = vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_grp_rd_18;
+                                         & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                        vlSelfRef.top__DOT__encode_1_com_pc_nPC_vaild = 1U;
+                        vlSelfRef.top__DOT__encode_1_com_pc_nPC 
+                            = vlSelfRef.top__DOT__encode_1__DOT___zz_com_grp_rd_18;
                     } else if ((0x00002023U != (0x0000707fU 
-                                                & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
+                                                & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
                         if ((0x00001023U != (0x0000707fU 
-                                             & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
+                                             & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
                             if ((0x00000023U != (0x0000707fU 
-                                                 & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
+                                                 & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
                                 if ((0x00000063U == 
-                                     (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                                    if ((vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1 
-                                         == vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs2)) {
-                                        vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC_vaild = 1U;
-                                        vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC 
-                                            = vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_pc_nPC_1;
+                                     (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                                    if ((vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1 
+                                         == vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs2)) {
+                                        vlSelfRef.top__DOT__encode_1_com_pc_nPC_vaild = 1U;
+                                        vlSelfRef.top__DOT__encode_1_com_pc_nPC 
+                                            = vlSelfRef.top__DOT__encode_1__DOT___zz_com_pc_nPC_1;
                                     }
                                 } else if ((0x00001063U 
                                             == (0x0000707fU 
-                                                & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                                    if ((vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1 
-                                         != vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs2)) {
-                                        vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC_vaild = 1U;
-                                        vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC 
-                                            = vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_pc_nPC_1;
+                                                & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                                    if ((vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1 
+                                         != vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs2)) {
+                                        vlSelfRef.top__DOT__encode_1_com_pc_nPC_vaild = 1U;
+                                        vlSelfRef.top__DOT__encode_1_com_pc_nPC 
+                                            = vlSelfRef.top__DOT__encode_1__DOT___zz_com_pc_nPC_1;
                                     }
                                 } else if ((0x00004063U 
                                             == (0x0000707fU 
-                                                & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                                    if (vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_grp_rd_14) {
-                                        vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC_vaild = 1U;
-                                        vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC 
-                                            = vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_pc_nPC_1;
+                                                & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                                    if (vlSelfRef.top__DOT__encode_1__DOT___zz_com_grp_rd_14) {
+                                        vlSelfRef.top__DOT__encode_1_com_pc_nPC_vaild = 1U;
+                                        vlSelfRef.top__DOT__encode_1_com_pc_nPC 
+                                            = vlSelfRef.top__DOT__encode_1__DOT___zz_com_pc_nPC_1;
                                     }
-                                } else if (vlSelfRef.top__DOT__Decode_area_encode__DOT____VdfgExtracted_hf015dc25__0) {
-                                    vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC_vaild = 1U;
-                                    vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC 
-                                        = vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_pc_nPC_1;
+                                } else if (vlSelfRef.top__DOT__encode_1__DOT____VdfgExtracted_hf015dc25__0) {
+                                    vlSelfRef.top__DOT__encode_1_com_pc_nPC_vaild = 1U;
+                                    vlSelfRef.top__DOT__encode_1_com_pc_nPC 
+                                        = vlSelfRef.top__DOT__encode_1__DOT___zz_com_pc_nPC_1;
                                 }
                             }
                         }
                     }
-                } else if ((0x00006063U == (0x0000707fU 
-                                            & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                    if ((vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1 
-                         < vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs2)) {
-                        vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC_vaild = 1U;
-                        vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC 
-                            = vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_pc_nPC_1;
-                    }
-                } else if ((0x00007063U == (0x0000707fU 
-                                            & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                    if ((vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs2 
-                         <= vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1)) {
-                        vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC_vaild = 1U;
-                        vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC 
-                            = vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_pc_nPC_1;
-                    }
-                } else if ((0x00000037U != (0x0000007fU 
-                                            & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                    if ((0x00000017U != (0x0000007fU 
-                                         & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                        if ((0x0000006fU == (0x0000007fU 
-                                             & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                            vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC_vaild = 1U;
-                            vlSelfRef.top__DOT__Decode_area_encode_com_pc_nPC 
-                                = (vlSelfRef.top__DOT__Pc_area_pc__DOT__PC_cnt 
-                                   + ((((0x00000ffeU 
-                                         & ((- (IData)(
-                                                       (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
-                                                        >> 0x0000001fU))) 
-                                            << 1U)) 
-                                        | (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
-                                           >> 0x0000001fU)) 
-                                       << 0x00000014U) 
-                                      | ((((0x000001feU 
-                                            & (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
-                                               >> 0x0000000bU)) 
-                                           | (1U & 
-                                              (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
-                                               >> 0x00000014U))) 
-                                          << 0x0000000bU) 
-                                         | (0x000007feU 
-                                            & (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
-                                               >> 0x00000014U)))));
+                } else if (((((((((0x00006063U == (0x0000707fU 
+                                                   & vlSelfRef.top__DOT__pc_1__DOT__rom_code)) 
+                                  | (0x00007063U == 
+                                     (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                                 | (0x00000037U == 
+                                    (0x0000007fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                                | (0x00000017U == (0x0000007fU 
+                                                   & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                               | (0x0000006fU == (0x0000007fU 
+                                                  & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                              | (0x00001073U == (0x0000707fU 
+                                                 & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                             | (0x00002073U == (0x0000707fU 
+                                                & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                            | (0x00003073U == (0x0000707fU 
+                                               & vlSelfRef.top__DOT__pc_1__DOT__rom_code)))) {
+                    if ((0x00006063U == (0x0000707fU 
+                                         & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                        if ((vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1 
+                             < vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs2)) {
+                            vlSelfRef.top__DOT__encode_1_com_pc_nPC_vaild = 1U;
+                            vlSelfRef.top__DOT__encode_1_com_pc_nPC 
+                                = vlSelfRef.top__DOT__encode_1__DOT___zz_com_pc_nPC_1;
                         }
+                    } else if ((0x00007063U == (0x0000707fU 
+                                                & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                        if ((vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs2 
+                             <= vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1)) {
+                            vlSelfRef.top__DOT__encode_1_com_pc_nPC_vaild = 1U;
+                            vlSelfRef.top__DOT__encode_1_com_pc_nPC 
+                                = vlSelfRef.top__DOT__encode_1__DOT___zz_com_pc_nPC_1;
+                        }
+                    } else if ((0x00000037U != (0x0000007fU 
+                                                & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                        if ((0x00000017U != (0x0000007fU 
+                                             & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                            if ((0x0000006fU == (0x0000007fU 
+                                                 & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                                vlSelfRef.top__DOT__encode_1_com_pc_nPC_vaild = 1U;
+                                vlSelfRef.top__DOT__encode_1_com_pc_nPC 
+                                    = (vlSelfRef.top__DOT__pc_1__DOT__PC_cnt 
+                                       + ((((0x00000ffeU 
+                                             & ((- (IData)(
+                                                           (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                                            >> 0x0000001fU))) 
+                                                << 1U)) 
+                                            | (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                               >> 0x0000001fU)) 
+                                           << 0x00000014U) 
+                                          | ((((0x000001feU 
+                                                & (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                                   >> 0x0000000bU)) 
+                                               | (1U 
+                                                  & (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                                     >> 0x00000014U))) 
+                                              << 0x0000000bU) 
+                                             | (0x000007feU 
+                                                & (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                                   >> 0x00000014U)))));
+                            }
+                        }
+                    }
+                } else if ((0x00005073U != (0x0000707fU 
+                                            & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                    if ((0x00006073U != (0x0000707fU 
+                                         & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                        if ((0x00007073U != (0x0000707fU 
+                                             & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                            if ((0x00100073U != vlSelfRef.top__DOT__pc_1__DOT__rom_code)) {
+                                if ((0x00000073U == vlSelfRef.top__DOT__pc_1__DOT__rom_code)) {
+                                    vlSelfRef.top__DOT__encode_1_com_pc_nPC_vaild = 1U;
+                                    vlSelfRef.top__DOT__encode_1_com_pc_nPC 
+                                        = vlSelfRef.top__DOT__csr_1_com_encode_r_pc;
+                                } else if ((0x30200073U 
+                                            == vlSelfRef.top__DOT__pc_1__DOT__rom_code)) {
+                                    vlSelfRef.top__DOT__encode_1_com_pc_nPC_vaild = 1U;
+                                    vlSelfRef.top__DOT__encode_1_com_pc_nPC 
+                                        = vlSelfRef.top__DOT__csr_1_com_encode_r_pc;
+                                }
+                            }
+                        }
+                    }
+                }
+                if ((1U & (~ ((((((((0x00000067U == 
+                                     (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code)) 
+                                    | (0x00002023U 
+                                       == (0x0000707fU 
+                                           & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                                   | (0x00001023U == 
+                                      (0x0000707fU 
+                                       & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                                  | (0x00000023U == 
+                                     (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                                 | (0x00000063U == 
+                                    (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                                | (0x00001063U == (0x0000707fU 
+                                                   & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                               | (0x00004063U == (0x0000707fU 
+                                                  & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                              | (0x00005063U == (0x0000707fU 
+                                                 & vlSelfRef.top__DOT__pc_1__DOT__rom_code)))))) {
+                    if (((((((((0x00006063U == (0x0000707fU 
+                                                & vlSelfRef.top__DOT__pc_1__DOT__rom_code)) 
+                               | (0x00007063U == (0x0000707fU 
+                                                  & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                              | (0x00000037U == (0x0000007fU 
+                                                 & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                             | (0x00000017U == (0x0000007fU 
+                                                & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                            | (0x0000006fU == (0x0000007fU 
+                                               & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                           | (0x00001073U == (0x0000707fU 
+                                              & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                          | (0x00002073U == (0x0000707fU 
+                                             & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                         | (0x00003073U == (0x0000707fU 
+                                            & vlSelfRef.top__DOT__pc_1__DOT__rom_code)))) {
+                        if ((0x00006063U != (0x0000707fU 
+                                             & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                            if ((0x00007063U != (0x0000707fU 
+                                                 & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                                if ((0x00000037U != 
+                                     (0x0000007fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                                    if ((0x00000017U 
+                                         != (0x0000007fU 
+                                             & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                                        if ((0x0000006fU 
+                                             != (0x0000007fU 
+                                                 & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                                            vlSelfRef.top__DOT__encode_1_com_csr_w_data 
+                                                = (
+                                                   (0x00001073U 
+                                                    == 
+                                                    (0x0000707fU 
+                                                     & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                                                    ? vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1
+                                                    : 
+                                                   ((0x00002073U 
+                                                     == 
+                                                     (0x0000707fU 
+                                                      & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                                                     ? 
+                                                    (vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1 
+                                                     | vlSelfRef.top__DOT__csr_1__DOT__com_encode_r_data)
+                                                     : 
+                                                    (vlSelfRef.top__DOT__csr_1__DOT__com_encode_r_data 
+                                                     & (~ vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1))));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else if ((0x00005073U == (0x0000707fU 
+                                                & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                        vlSelfRef.top__DOT__encode_1_com_csr_w_data 
+                            = (0x0000001fU & (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                              >> 0x0000000fU));
+                    } else if ((0x00006073U == (0x0000707fU 
+                                                & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                        vlSelfRef.top__DOT__encode_1_com_csr_w_data 
+                            = ((0x0000001fU & (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                               >> 0x0000000fU)) 
+                               | vlSelfRef.top__DOT__csr_1__DOT__com_encode_r_data);
+                    } else if ((0x00007073U == (0x0000707fU 
+                                                & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                        vlSelfRef.top__DOT__encode_1_com_csr_w_data 
+                            = (0x0000001fU & ((vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                               >> 0x0000000fU) 
+                                              & (~ vlSelfRef.top__DOT__csr_1__DOT__com_encode_r_data)));
                     }
                 }
             }
             if (((((((((0x40005013U == (0xfe00707fU 
-                                        & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)) 
+                                        & vlSelfRef.top__DOT__pc_1__DOT__rom_code)) 
                        | (0x00002013U == (0x0000707fU 
-                                          & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                          & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                       | (0x00003013U == (0x0000707fU 
-                                         & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                     | (3U == (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                         & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                     | (3U == (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                     | (0x00001003U == (0x0000707fU 
-                                       & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                   | (0x00002003U == (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                  | (0x00004003U == (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                 | (0x00005003U == (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)))) {
-                if ((0x40005013U != (0xfe00707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
+                                       & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                   | (0x00002003U == (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                  | (0x00004003U == (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                 | (0x00005003U == (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code)))) {
+                if ((0x40005013U != (0xfe00707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
                     if ((0x00002013U != (0x0000707fU 
-                                         & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
+                                         & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
                         if ((0x00003013U != (0x0000707fU 
-                                             & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                            vlSelfRef.top__DOT__Decode_area_encode_com_exmem_r_addr 
-                                = vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_grp_rd_18;
+                                             & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                            vlSelfRef.top__DOT__encode_1_com_exmem_r_addr 
+                                = vlSelfRef.top__DOT__encode_1__DOT___zz_com_grp_rd_18;
                         }
                     }
                 }
@@ -1085,159 +1402,265 @@ void Vtop___024root___nba_comb__TOP__1(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     auto& vlSelfRef = std::ref(*vlSelf).get();
     // Body
-    vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd = 0U;
-    if (((((((((0x00000033U == (0xfe00707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)) 
-               | (0x40000033U == (0xfe00707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-              | (0x00007033U == (0xfe00707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-             | (0x00006033U == (0xfe00707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-            | (0x00004033U == (0xfe00707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-           | (0x00001033U == (0xfe00707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-          | (0x00005033U == (0xfe00707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-         | (0x40005033U == (0xfe00707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)))) {
-        vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd 
-            = ((0x00000033U == (0xfe00707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))
-                ? (vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1 
-                   + vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs2)
-                : ((0x40000033U == (0xfe00707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))
-                    ? (vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1 
-                       - vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs2)
-                    : ((0x00007033U == (0xfe00707fU 
-                                        & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))
-                        ? (vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1 
-                           & vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs2)
-                        : ((0x00006033U == (0xfe00707fU 
-                                            & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))
-                            ? (vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1 
-                               | vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs2)
-                            : ((0x00004033U == (0xfe00707fU 
-                                                & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))
-                                ? (vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1 
-                                   ^ vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs2)
-                                : ((0x00001033U == 
-                                    (0xfe00707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))
-                                    ? (vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1 
-                                       << (0x0000001fU 
-                                           & vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs2))
-                                    : ((0x00005033U 
-                                        == (0xfe00707fU 
-                                            & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))
-                                        ? (vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1 
-                                           >> (0x0000001fU 
-                                               & vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs2))
-                                        : VL_SHIFTRS_III(32,32,5, vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1, 
+    vlSelfRef.top__DOT__encode_1_com_grp_rd = 0U;
+    if (((((((((0x00000033U == (0xfe00707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code)) 
+               | (0x40000033U == (0xfe00707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+              | (0x00007033U == (0xfe00707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+             | (0x00006033U == (0xfe00707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+            | (0x00004033U == (0xfe00707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+           | (0x00001033U == (0xfe00707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+          | (0x00005033U == (0xfe00707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+         | (0x40005033U == (0xfe00707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code)))) {
+        vlSelfRef.top__DOT__encode_1_com_grp_rd = (
+                                                   (0x00000033U 
+                                                    == 
+                                                    (0xfe00707fU 
+                                                     & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                                                    ? 
+                                                   (vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1 
+                                                    + vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs2)
+                                                    : 
+                                                   ((0x40000033U 
+                                                     == 
+                                                     (0xfe00707fU 
+                                                      & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                                                     ? 
+                                                    (vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1 
+                                                     - vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs2)
+                                                     : 
+                                                    ((0x00007033U 
+                                                      == 
+                                                      (0xfe00707fU 
+                                                       & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                                                      ? 
+                                                     (vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1 
+                                                      & vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs2)
+                                                      : 
+                                                     ((0x00006033U 
+                                                       == 
+                                                       (0xfe00707fU 
+                                                        & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                                                       ? 
+                                                      (vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1 
+                                                       | vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs2)
+                                                       : 
+                                                      ((0x00004033U 
+                                                        == 
+                                                        (0xfe00707fU 
+                                                         & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                                                        ? 
+                                                       (vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1 
+                                                        ^ vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs2)
+                                                        : 
+                                                       ((0x00001033U 
+                                                         == 
+                                                         (0xfe00707fU 
+                                                          & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                                                         ? 
+                                                        (vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1 
+                                                         << 
                                                          (0x0000001fU 
-                                                          & vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs2)))))))));
+                                                          & vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs2))
+                                                         : 
+                                                        ((0x00005033U 
+                                                          == 
+                                                          (0xfe00707fU 
+                                                           & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                                                          ? 
+                                                         (vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1 
+                                                          >> 
+                                                          (0x0000001fU 
+                                                           & vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs2))
+                                                          : 
+                                                         VL_SHIFTRS_III(32,32,5, vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1, 
+                                                                        (0x0000001fU 
+                                                                         & vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs2)))))))));
     } else if (((((((((0x00002033U == (0xfe00707fU 
-                                       & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)) 
+                                       & vlSelfRef.top__DOT__pc_1__DOT__rom_code)) 
                       | (0x00003033U == (0xfe00707fU 
-                                         & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                         & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                      | (0x00000013U == (0x0000707fU 
-                                        & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                        & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                     | (0x00004013U == (0x0000707fU 
-                                       & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                   | (0x00006013U == (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                  | (0x00007013U == (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                 | (0x00001013U == (0xfe00707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                | (0x00005013U == (0xfe00707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)))) {
-        vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd 
-            = ((0x00002033U == (0xfe00707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))
-                ? (IData)(vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_grp_rd_14)
-                : ((0x00003033U == (0xfe00707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))
-                    ? (vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1 
-                       < vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs2)
-                    : ((0x00000013U == (0x0000707fU 
-                                        & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))
-                        ? vlSelfRef.top__DOT__Decode_area_encode__DOT___zz_com_grp_rd_18
-                        : ((0x00004013U == (0x0000707fU 
-                                            & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))
-                            ? (vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1 
-                               ^ vlSelfRef.top__DOT__Decode_area_encode__DOT__imm_I)
-                            : ((0x00006013U == (0x0000707fU 
-                                                & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))
-                                ? (vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1 
-                                   | vlSelfRef.top__DOT__Decode_area_encode__DOT__imm_I)
-                                : ((0x00007013U == 
-                                    (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))
-                                    ? (vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1 
-                                       & vlSelfRef.top__DOT__Decode_area_encode__DOT__imm_I)
-                                    : ((0x00001013U 
-                                        == (0xfe00707fU 
-                                            & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))
-                                        ? (vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1 
-                                           << (0x0000001fU 
-                                               & (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
-                                                  >> 0x00000014U)))
-                                        : (vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1 
-                                           >> (0x0000001fU 
-                                               & (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
-                                                  >> 0x00000014U))))))))));
+                                       & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                   | (0x00006013U == (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                  | (0x00007013U == (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                 | (0x00001013U == (0xfe00707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                | (0x00005013U == (0xfe00707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code)))) {
+        vlSelfRef.top__DOT__encode_1_com_grp_rd = (
+                                                   (0x00002033U 
+                                                    == 
+                                                    (0xfe00707fU 
+                                                     & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                                                    ? (IData)(vlSelfRef.top__DOT__encode_1__DOT___zz_com_grp_rd_14)
+                                                    : 
+                                                   ((0x00003033U 
+                                                     == 
+                                                     (0xfe00707fU 
+                                                      & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                                                     ? 
+                                                    (vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1 
+                                                     < vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs2)
+                                                     : 
+                                                    ((0x00000013U 
+                                                      == 
+                                                      (0x0000707fU 
+                                                       & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                                                      ? vlSelfRef.top__DOT__encode_1__DOT___zz_com_grp_rd_18
+                                                      : 
+                                                     ((0x00004013U 
+                                                       == 
+                                                       (0x0000707fU 
+                                                        & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                                                       ? 
+                                                      (vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1 
+                                                       ^ vlSelfRef.top__DOT__encode_1__DOT__imm_I)
+                                                       : 
+                                                      ((0x00006013U 
+                                                        == 
+                                                        (0x0000707fU 
+                                                         & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                                                        ? 
+                                                       (vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1 
+                                                        | vlSelfRef.top__DOT__encode_1__DOT__imm_I)
+                                                        : 
+                                                       ((0x00007013U 
+                                                         == 
+                                                         (0x0000707fU 
+                                                          & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                                                         ? 
+                                                        (vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1 
+                                                         & vlSelfRef.top__DOT__encode_1__DOT__imm_I)
+                                                         : 
+                                                        ((0x00001013U 
+                                                          == 
+                                                          (0xfe00707fU 
+                                                           & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                                                          ? 
+                                                         (vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1 
+                                                          << 
+                                                          (0x0000001fU 
+                                                           & (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                                              >> 0x00000014U)))
+                                                          : 
+                                                         (vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1 
+                                                          >> 
+                                                          (0x0000001fU 
+                                                           & (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                                              >> 0x00000014U))))))))));
     } else if (((((((((0x40005013U == (0xfe00707fU 
-                                       & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)) 
+                                       & vlSelfRef.top__DOT__pc_1__DOT__rom_code)) 
                       | (0x00002013U == (0x0000707fU 
-                                         & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                         & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                      | (0x00003013U == (0x0000707fU 
-                                        & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                    | (3U == (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                   | (0x00001003U == (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                  | (0x00002003U == (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                 | (0x00004003U == (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                | (0x00005003U == (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)))) {
-        vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd 
-            = ((0x40005013U == (0xfe00707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))
-                ? VL_SHIFTRS_III(32,32,5, vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1, 
-                                 (0x0000001fU & (vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code 
-                                                 >> 0x00000014U)))
-                : ((0x00002013U == (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))
-                    ? VL_LTS_III(32, vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1, vlSelfRef.top__DOT__Decode_area_encode__DOT__imm_I)
-                    : ((0x00003013U == (0x0000707fU 
-                                        & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))
-                        ? (vlSelfRef.top__DOT__Decode_area_encode__DOT__com_grp_rs1 
-                           < vlSelfRef.top__DOT__Decode_area_encode__DOT__imm_I)
-                        : ((3U == (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))
-                            ? (((- (IData)((1U & (vlSelfRef.top__DOT__Exmem_area_exmem__DOT__mem_r_data 
-                                                  >> 7U)))) 
-                                << 8U) | (0x000000ffU 
-                                          & vlSelfRef.top__DOT__Exmem_area_exmem__DOT__mem_r_data))
-                            : ((0x00001003U == (0x0000707fU 
-                                                & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))
-                                ? (((- (IData)((1U 
-                                                & (vlSelfRef.top__DOT__Exmem_area_exmem__DOT__mem_r_data 
-                                                   >> 0x0000000fU)))) 
-                                    << 0x00000010U) 
-                                   | (0x0000ffffU & vlSelfRef.top__DOT__Exmem_area_exmem__DOT__mem_r_data))
-                                : vlSelfRef.top__DOT__Exmem_area_exmem__DOT__mem_r_data)))));
+                                        & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                    | (3U == (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                   | (0x00001003U == (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                  | (0x00002003U == (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                 | (0x00004003U == (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                | (0x00005003U == (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code)))) {
+        vlSelfRef.top__DOT__encode_1_com_grp_rd = (
+                                                   (0x40005013U 
+                                                    == 
+                                                    (0xfe00707fU 
+                                                     & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                                                    ? 
+                                                   VL_SHIFTRS_III(32,32,5, vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1, 
+                                                                  (0x0000001fU 
+                                                                   & (vlSelfRef.top__DOT__pc_1__DOT__rom_code 
+                                                                      >> 0x00000014U)))
+                                                    : 
+                                                   ((0x00002013U 
+                                                     == 
+                                                     (0x0000707fU 
+                                                      & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                                                     ? 
+                                                    VL_LTS_III(32, vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1, vlSelfRef.top__DOT__encode_1__DOT__imm_I)
+                                                     : 
+                                                    ((0x00003013U 
+                                                      == 
+                                                      (0x0000707fU 
+                                                       & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                                                      ? 
+                                                     (vlSelfRef.top__DOT__encode_1__DOT__com_grp_rs1 
+                                                      < vlSelfRef.top__DOT__encode_1__DOT__imm_I)
+                                                      : 
+                                                     ((3U 
+                                                       == 
+                                                       (0x0000707fU 
+                                                        & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                                                       ? 
+                                                      (((- (IData)(
+                                                                   (1U 
+                                                                    & (vlSelfRef.top__DOT__exmem_1__DOT__mem_r_data 
+                                                                       >> 7U)))) 
+                                                        << 8U) 
+                                                       | (0x000000ffU 
+                                                          & vlSelfRef.top__DOT__exmem_1__DOT__mem_r_data))
+                                                       : 
+                                                      ((0x00001003U 
+                                                        == 
+                                                        (0x0000707fU 
+                                                         & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                                                        ? 
+                                                       (((- (IData)(
+                                                                    (1U 
+                                                                     & (vlSelfRef.top__DOT__exmem_1__DOT__mem_r_data 
+                                                                        >> 0x0000000fU)))) 
+                                                         << 0x00000010U) 
+                                                        | (0x0000ffffU 
+                                                           & vlSelfRef.top__DOT__exmem_1__DOT__mem_r_data))
+                                                        : vlSelfRef.top__DOT__exmem_1__DOT__mem_r_data)))));
     } else if (((((((((0x00000067U == (0x0000707fU 
-                                       & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)) 
+                                       & vlSelfRef.top__DOT__pc_1__DOT__rom_code)) 
                       | (0x00002023U == (0x0000707fU 
-                                         & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                         & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                      | (0x00001023U == (0x0000707fU 
-                                        & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
+                                        & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
                     | (0x00000023U == (0x0000707fU 
-                                       & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                   | (0x00000063U == (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                  | (0x00001063U == (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                 | (0x00004063U == (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) 
-                | (0x00005063U == (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code)))) {
-        if ((0x00000067U == (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-            vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd 
-                = ((IData)(4U) + vlSelfRef.top__DOT__Pc_area_pc__DOT__PC_cnt);
+                                       & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                   | (0x00000063U == (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                  | (0x00001063U == (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                 | (0x00004063U == (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                | (0x00005063U == (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code)))) {
+        if ((0x00000067U == (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+            vlSelfRef.top__DOT__encode_1_com_grp_rd 
+                = ((IData)(4U) + vlSelfRef.top__DOT__pc_1__DOT__PC_cnt);
         }
-    } else if ((0x00006063U != (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-        if ((0x00007063U != (0x0000707fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-            if ((0x00000037U == (0x0000007fU & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd 
-                    = (0xfffff000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code);
-            } else if ((0x00000017U == (0x0000007fU 
-                                        & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd 
-                    = (vlSelfRef.top__DOT__Pc_area_pc__DOT__PC_cnt 
-                       + (0xfffff000U & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code));
-            } else if ((0x0000006fU == (0x0000007fU 
-                                        & vlSelfRef.top__DOT__Pc_area_pc__DOT__rom_code))) {
-                vlSelfRef.top__DOT__Decode_area_encode_com_grp_rd 
-                    = ((IData)(4U) + vlSelfRef.top__DOT__Pc_area_pc__DOT__PC_cnt);
+    } else if (((((((((0x00006063U == (0x0000707fU 
+                                       & vlSelfRef.top__DOT__pc_1__DOT__rom_code)) 
+                      | (0x00007063U == (0x0000707fU 
+                                         & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                     | (0x00000037U == (0x0000007fU 
+                                        & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                    | (0x00000017U == (0x0000007fU 
+                                       & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                   | (0x0000006fU == (0x0000007fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                  | (0x00001073U == (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                 | (0x00002073U == (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) 
+                | (0x00003073U == (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code)))) {
+        if ((0x00006063U != (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+            if ((0x00007063U != (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+                vlSelfRef.top__DOT__encode_1_com_grp_rd 
+                    = ((0x00000037U == (0x0000007fU 
+                                        & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                        ? (0xfffff000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code)
+                        : ((0x00000017U == (0x0000007fU 
+                                            & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                            ? (vlSelfRef.top__DOT__pc_1__DOT__PC_cnt 
+                               + (0xfffff000U & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                            : ((0x0000006fU == (0x0000007fU 
+                                                & vlSelfRef.top__DOT__pc_1__DOT__rom_code))
+                                ? ((IData)(4U) + vlSelfRef.top__DOT__pc_1__DOT__PC_cnt)
+                                : vlSelfRef.top__DOT__csr_1__DOT__com_encode_r_data)));
             }
         }
+    } else if ((0x00005073U == (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+        vlSelfRef.top__DOT__encode_1_com_grp_rd = vlSelfRef.top__DOT__csr_1__DOT__com_encode_r_data;
+    } else if ((0x00006073U == (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+        vlSelfRef.top__DOT__encode_1_com_grp_rd = vlSelfRef.top__DOT__csr_1__DOT__com_encode_r_data;
+    } else if ((0x00007073U == (0x0000707fU & vlSelfRef.top__DOT__pc_1__DOT__rom_code))) {
+        vlSelfRef.top__DOT__encode_1_com_grp_rd = vlSelfRef.top__DOT__csr_1__DOT__com_encode_r_data;
     }
 }
 
