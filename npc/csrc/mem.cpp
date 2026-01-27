@@ -128,7 +128,6 @@ extern "C"  int mem_r( int addr, int len)
       tar_data = (data_temp>>(8*(addrl)))&0xFF;
       break;
     case 2:
-
       tar_data = (data_temp>>(8*(addrl)))&0xFFFF;
       break;
     case 4:

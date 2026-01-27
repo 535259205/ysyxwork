@@ -11,9 +11,9 @@ module CSR (
   input  wire [31:0]   com_encode_w_pc,
   output reg  [31:0]   com_encode_r_pc,
   input  wire          com_encode_mret,
-  input  wire          flush,
   input  wire          clk,
-  input  wire          rst
+  input  wire          rst,
+  input  wire          other_newClockEnable
 );
 
   wire       [31:0]   debug_data_4;
@@ -68,6 +68,12 @@ module CSR (
       12'h341 : begin
         com_encode_r_data = mepc;
       end
+      12'hf11 : begin
+        com_encode_r_data = 32'h79737978;
+      end
+      12'hf12 : begin
+        com_encode_r_data = 32'h018ce19a;
+      end
       default : begin
         com_encode_r_data = 32'h0;
       end
@@ -84,29 +90,31 @@ module CSR (
       mepc <= 32'h0;
       mtvec <= 32'h80000000;
     end else begin
-      mcycle <= _zz_mcycle;
-      if(com_encode_ecall) begin
-        mcause <= 32'h00000008;
-        mepc <= com_encode_w_pc;
-      end else begin
-        if(!com_encode_mret) begin
-          if(com_encode_vaild) begin
-            case(com_encode_csr_sel)
-              12'h300 : begin
-                mstatus <= com_encode_w_data;
-              end
-              12'h305 : begin
-                mtvec <= com_encode_w_data;
-              end
-              12'h342 : begin
-                mcause <= com_encode_w_data;
-              end
-              12'h341 : begin
-                mepc <= com_encode_w_data;
-              end
-              default : begin
-              end
-            endcase
+      if(other_newClockEnable) begin
+        mcycle <= _zz_mcycle;
+        if(com_encode_ecall) begin
+          mcause <= 32'h00000008;
+          mepc <= com_encode_w_pc;
+        end else begin
+          if(!com_encode_mret) begin
+            if(com_encode_vaild) begin
+              case(com_encode_csr_sel)
+                12'h300 : begin
+                  mstatus <= com_encode_w_data;
+                end
+                12'h305 : begin
+                  mtvec <= com_encode_w_data;
+                end
+                12'h342 : begin
+                  mcause <= com_encode_w_data;
+                end
+                12'h341 : begin
+                  mepc <= com_encode_w_data;
+                end
+                default : begin
+                end
+              endcase
+            end
           end
         end
       end

@@ -5,7 +5,7 @@
 #include "stdio.h"
 #include "sdb.h"
 
-#define USE_WAVE1 0
+#define USE_WAVE1 1
 #define SHOW_LIMIT 10
 #define USE_ITRACE 1
 #define USE_FTRACE 0
@@ -19,18 +19,34 @@ extern int ebreak_flag;
 
 static struct SdbReg infoa;
 
+static volatile int step_flag = 0;
+
+extern "C" void SimStep1(int step_data)
+{
+    step_flag++;
+}
+
+
 int SimStep(uint32_t n)
 {
     for(uint32_t i = 0; i < n; i++){
-        for(int j = 0;j<2;j++){
+        for(;;){
+            for(int j=0;j<2;j++)
+            {
             dut->clk=!dut->clk;
             dut->eval();
+            
             #if USE_WAVE1
             m_trace->dump(sim_time); //将当前时间点的信号值写入波形文件
-            #endif
             sim_time++;
+            #endif
+            }
+            if(step_flag==2)
+            {
+                step_flag--;
+                break;
+            }
         }
-        
         extern void info_reg(struct SdbReg * info);
         extern void DisasmEncode(uint32_t address,uint32_t len);
         info_reg(&infoa);

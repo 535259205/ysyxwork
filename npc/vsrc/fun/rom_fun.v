@@ -9,7 +9,7 @@ module rom_fun(
 
 import "DPI-C" function int rom_r(input int addr);
 
-always@(negedge clk)
+always@(posedge clk)
 begin
     code<=rom_r(addr);
 end 

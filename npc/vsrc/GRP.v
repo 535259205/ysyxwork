@@ -3,7 +3,6 @@
 
 `timescale 1ns/1ps 
 module GRP (
-  input  wire          flush,
   input  wire [31:0]   com_encode_rd,
   input  wire [4:0]    com_encode_rd_sel,
   input  wire          com_encode_rd_vaild,
@@ -12,7 +11,8 @@ module GRP (
   output reg  [31:0]   com_encode_rs2,
   input  wire [4:0]    com_encode_rs2_sel,
   input  wire          clk,
-  input  wire          rst
+  input  wire          rst,
+  input  wire          other_newClockEnable
 );
 
   reg        [31:0]   _zz_com_encode_rs1;
@@ -49,7 +49,6 @@ module GRP (
   reg        [31:0]   reg_29;
   reg        [31:0]   reg_30;
   reg        [31:0]   reg_31;
-  wire                rd_vaild;
   wire       [31:0]   _zz_1;
 
   my_debug_2 debug (
@@ -161,7 +160,6 @@ module GRP (
     endcase
   end
 
-  assign rd_vaild = (flush ? 1'b0 : com_encode_rd_vaild);
   assign _zz_1 = ({31'd0,1'b1} <<< com_encode_rd_sel);
   always @(*) begin
     if((com_encode_rs1_sel != 5'h0)) begin
@@ -214,103 +212,105 @@ module GRP (
       reg_30 <= 32'h0;
       reg_31 <= 32'h0;
     end else begin
-      if(rd_vaild) begin
-        if((com_encode_rd_sel != 5'h0)) begin
-          if(_zz_1[0]) begin
-            reg_0 <= com_encode_rd;
-          end
-          if(_zz_1[1]) begin
-            reg_1 <= com_encode_rd;
-          end
-          if(_zz_1[2]) begin
-            reg_2 <= com_encode_rd;
-          end
-          if(_zz_1[3]) begin
-            reg_3 <= com_encode_rd;
-          end
-          if(_zz_1[4]) begin
-            reg_4 <= com_encode_rd;
-          end
-          if(_zz_1[5]) begin
-            reg_5 <= com_encode_rd;
-          end
-          if(_zz_1[6]) begin
-            reg_6 <= com_encode_rd;
-          end
-          if(_zz_1[7]) begin
-            reg_7 <= com_encode_rd;
-          end
-          if(_zz_1[8]) begin
-            reg_8 <= com_encode_rd;
-          end
-          if(_zz_1[9]) begin
-            reg_9 <= com_encode_rd;
-          end
-          if(_zz_1[10]) begin
-            reg_10 <= com_encode_rd;
-          end
-          if(_zz_1[11]) begin
-            reg_11 <= com_encode_rd;
-          end
-          if(_zz_1[12]) begin
-            reg_12 <= com_encode_rd;
-          end
-          if(_zz_1[13]) begin
-            reg_13 <= com_encode_rd;
-          end
-          if(_zz_1[14]) begin
-            reg_14 <= com_encode_rd;
-          end
-          if(_zz_1[15]) begin
-            reg_15 <= com_encode_rd;
-          end
-          if(_zz_1[16]) begin
-            reg_16 <= com_encode_rd;
-          end
-          if(_zz_1[17]) begin
-            reg_17 <= com_encode_rd;
-          end
-          if(_zz_1[18]) begin
-            reg_18 <= com_encode_rd;
-          end
-          if(_zz_1[19]) begin
-            reg_19 <= com_encode_rd;
-          end
-          if(_zz_1[20]) begin
-            reg_20 <= com_encode_rd;
-          end
-          if(_zz_1[21]) begin
-            reg_21 <= com_encode_rd;
-          end
-          if(_zz_1[22]) begin
-            reg_22 <= com_encode_rd;
-          end
-          if(_zz_1[23]) begin
-            reg_23 <= com_encode_rd;
-          end
-          if(_zz_1[24]) begin
-            reg_24 <= com_encode_rd;
-          end
-          if(_zz_1[25]) begin
-            reg_25 <= com_encode_rd;
-          end
-          if(_zz_1[26]) begin
-            reg_26 <= com_encode_rd;
-          end
-          if(_zz_1[27]) begin
-            reg_27 <= com_encode_rd;
-          end
-          if(_zz_1[28]) begin
-            reg_28 <= com_encode_rd;
-          end
-          if(_zz_1[29]) begin
-            reg_29 <= com_encode_rd;
-          end
-          if(_zz_1[30]) begin
-            reg_30 <= com_encode_rd;
-          end
-          if(_zz_1[31]) begin
-            reg_31 <= com_encode_rd;
+      if(other_newClockEnable) begin
+        if(com_encode_rd_vaild) begin
+          if((com_encode_rd_sel != 5'h0)) begin
+            if(_zz_1[0]) begin
+              reg_0 <= com_encode_rd;
+            end
+            if(_zz_1[1]) begin
+              reg_1 <= com_encode_rd;
+            end
+            if(_zz_1[2]) begin
+              reg_2 <= com_encode_rd;
+            end
+            if(_zz_1[3]) begin
+              reg_3 <= com_encode_rd;
+            end
+            if(_zz_1[4]) begin
+              reg_4 <= com_encode_rd;
+            end
+            if(_zz_1[5]) begin
+              reg_5 <= com_encode_rd;
+            end
+            if(_zz_1[6]) begin
+              reg_6 <= com_encode_rd;
+            end
+            if(_zz_1[7]) begin
+              reg_7 <= com_encode_rd;
+            end
+            if(_zz_1[8]) begin
+              reg_8 <= com_encode_rd;
+            end
+            if(_zz_1[9]) begin
+              reg_9 <= com_encode_rd;
+            end
+            if(_zz_1[10]) begin
+              reg_10 <= com_encode_rd;
+            end
+            if(_zz_1[11]) begin
+              reg_11 <= com_encode_rd;
+            end
+            if(_zz_1[12]) begin
+              reg_12 <= com_encode_rd;
+            end
+            if(_zz_1[13]) begin
+              reg_13 <= com_encode_rd;
+            end
+            if(_zz_1[14]) begin
+              reg_14 <= com_encode_rd;
+            end
+            if(_zz_1[15]) begin
+              reg_15 <= com_encode_rd;
+            end
+            if(_zz_1[16]) begin
+              reg_16 <= com_encode_rd;
+            end
+            if(_zz_1[17]) begin
+              reg_17 <= com_encode_rd;
+            end
+            if(_zz_1[18]) begin
+              reg_18 <= com_encode_rd;
+            end
+            if(_zz_1[19]) begin
+              reg_19 <= com_encode_rd;
+            end
+            if(_zz_1[20]) begin
+              reg_20 <= com_encode_rd;
+            end
+            if(_zz_1[21]) begin
+              reg_21 <= com_encode_rd;
+            end
+            if(_zz_1[22]) begin
+              reg_22 <= com_encode_rd;
+            end
+            if(_zz_1[23]) begin
+              reg_23 <= com_encode_rd;
+            end
+            if(_zz_1[24]) begin
+              reg_24 <= com_encode_rd;
+            end
+            if(_zz_1[25]) begin
+              reg_25 <= com_encode_rd;
+            end
+            if(_zz_1[26]) begin
+              reg_26 <= com_encode_rd;
+            end
+            if(_zz_1[27]) begin
+              reg_27 <= com_encode_rd;
+            end
+            if(_zz_1[28]) begin
+              reg_28 <= com_encode_rd;
+            end
+            if(_zz_1[29]) begin
+              reg_29 <= com_encode_rd;
+            end
+            if(_zz_1[30]) begin
+              reg_30 <= com_encode_rd;
+            end
+            if(_zz_1[31]) begin
+              reg_31 <= com_encode_rd;
+            end
           end
         end
       end

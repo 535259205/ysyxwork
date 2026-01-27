@@ -16,16 +16,16 @@ extern "C" {
 
 
     // DPI IMPORTS
+    // DPI import at vsrc/fun/step_fun.v:6:30
+    extern void SimStep1(int step_data);
     // DPI import at vsrc/fun/debug_fun.v:10:30
     extern void debug(int addr, int data);
     // DPI import at vsrc/fun/ebreak_fun.v:7:30
     extern void ebreak(int test);
-    // DPI import at vsrc/fun/mem_fun.v:20:29
+    // DPI import at vsrc/fun/mem_fun.v:19:29
     extern int mem_r(int addr, int len);
-    // DPI import at vsrc/fun/mem_fun.v:19:30
+    // DPI import at vsrc/fun/mem_fun.v:18:30
     extern void mem_w(int data, int addr, int len);
-    // DPI import at vsrc/fun/rom_fun.v:10:29
-    extern int rom_r(int addr);
 
 #ifdef __cplusplus
 }
