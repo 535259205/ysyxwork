@@ -9,22 +9,24 @@ AM_SRCS := platform/nemu/trm.c \
 
 CFLAGS    += -fdata-sections -ffunction-sections
 CFLAGS    += -I$(AM_HOME)/am/src/platform/nemu/include
-
+#链接脚本
 LDSCRIPTS += $(AM_HOME)/scripts/linker.ld
 LDFLAGS   += --defsym=_pmem_start=0x80000000 --defsym=_entry_offset=0x0
 LDFLAGS   += --gc-sections -e _start
-#批处理模式标志位
-NEMUFLAGS += -l $(shell dirname $(IMAGE).elf)/nemu-log.txt
+#批处理模式标志位 传入日志参数
+NEMUFLAGS += -l $(shell dirname $(IMAGE).elf)/nemu-log.txt --t=$(IMAGE).elf
 #-b --t=$(IMAGE).elf
 
-
+#image-dep
+#mainargs 用于插入到可执行文件中而不是nemu中 最终传入的.c 的不变变的是二进制文件
 MAINARGS_MAX_LEN = 64
 MAINARGS_PLACEHOLDER = the_insert-arg_rule_in_Makefile_will_insert_mainargs_here
 CFLAGS += -DMAINARGS_MAX_LEN=$(MAINARGS_MAX_LEN) -DMAINARGS_PLACEHOLDER=$(MAINARGS_PLACEHOLDER)
-
+#向二进制文件找到对应字符串替换为mainargs
 insert-arg: image
 	@python $(AM_HOME)/tools/insert-arg.py $(IMAGE).bin $(MAINARGS_MAX_LEN) $(MAINARGS_PLACEHOLDER) "$(mainargs)"
-
+#生成解析后的txt文件
+#去掉素有的 -S 去掉所有符号表和重定位信息  将 ELF 格式转换为裸机程序可以直接运行的二进制格式。
 image: image-dep
 	@$(OBJDUMP) -d $(IMAGE).elf > $(IMAGE).txt
 	@echo + OBJCOPY "->" $(IMAGE_REL).bin

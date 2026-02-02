@@ -43,6 +43,12 @@ typedef word_t vaddr_t;
 typedef MUXDEF(PMEM64, uint64_t, uint32_t) paddr_t;
 #define FMT_PADDR MUXDEF(PMEM64, "0x%016" PRIx64, "0x%08" PRIx32)
 typedef uint16_t ioaddr_t;
+/*USER
+volatile static int dummy;
+会生成 37个dummy变量实体
+加入debug后仍然37个因为未初始化的同名static变量声明会被合并
+然后都进行初始化会报错
+*/
 
 #include <debug.h>
 

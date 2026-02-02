@@ -29,7 +29,7 @@ typedef struct Decode {
 // --- pattern matching mechanism ---
 __attribute__((always_inline))
 static inline void pattern_decode(const char *str, int len,
-    uint64_t *key, uint64_t *mask, uint64_t *shift) {
+    uint64_t *key, uint64_t *mask, uint64_t *shift) {//模式匹配key 确定位 mask掩码位 连续的不确定位（'?'）的数量
   uint64_t __key = 0, __mask = 0, __shift = 0;
 #define macro(i) \
   if ((i) >= len) goto finish; \
@@ -86,7 +86,7 @@ finish:
 }
 
 
-// --- pattern matching wrappers for decode ---
+// --- pattern matching wrappers for decode ---解码程序 ##__VA_ARGS__处理可变阐述
 #define INSTPAT(pattern, ...) do { \
   uint64_t key, mask, shift; \
   pattern_decode(pattern, STRLEN(pattern), &key, &mask, &shift); \
@@ -96,7 +96,7 @@ finish:
   } \
 } while (0)
 
-#define INSTPAT_START(name) { const void * __instpat_end = &&concat(__instpat_end_, name);
+#define INSTPAT_START(name) { const void * __instpat_end = &&concat(__instpat_end_, name);      //&&取标签地址__instpat_end 为 __instpat_end_标签的地址 比如goto __instpat_end_
 #define INSTPAT_END(name)   concat(__instpat_end_, name): ; }
 
 #endif

@@ -8,11 +8,14 @@ void __am_gpu_init()
 {
   AM_GPU_CONFIG_T info = io_read(AM_GPU_CONFIG);
   int i;
-  gpu_w = info.width;                            // TODO: get the correct width
+  //获取配置信息
+  gpu_w = info.width;                            // TODO: get the correct width 
   gpu_h = info.height;                           // TODO: get the correct height
   uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR; // 设置地址ADDR
+  //初始化显存
   for (i = 0; i < gpu_w * gpu_h; i++)
     fb[i] = i;
+  //刷新地址
   outl(SYNC_ADDR, 1);
 }
 

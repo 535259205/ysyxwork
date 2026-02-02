@@ -14,7 +14,7 @@
 
 #define putstr(s) \
   ({ for (const char *p = s; *p; p++) putch(*p); })
-
+//reg 自动生成对应类型的结构体 并调用ioe_read 或 ioe_write 函数 之后返回这个结构体
 #define io_read(reg) \
   ({ reg##_T __io_param; \
     ioe_read(reg, &__io_param); \

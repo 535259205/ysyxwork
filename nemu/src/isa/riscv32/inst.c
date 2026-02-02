@@ -28,6 +28,12 @@
 #define CSR_MCAUSE 0x342
 #define CSR_MSTATUS 0x300
 #define CSR_MEPC 0x341
+// 实现__lshrdi3函数用于对接nemu运行nemu
+long long __lshrdi3(long long a, int b) {
+  if (b >= 64) return 0;
+  if (b == 0) return a;
+  return (unsigned long long)a >> b;
+}
 
 enum {
   TYPE_I, TYPE_U, TYPE_S, TYPE_J,TYPE_R,TYPE_B, TYPE_CSR,
@@ -67,9 +73,9 @@ static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_
     default: panic("unsupported type = %d", type);
   }
 }
-
+//__VA_ARGS__ 为传入的可变参数 这里是自定义函数
 static int decode_exec(Decode *s) {
-  s->dnpc = s->snpc;
+  s->dnpc = s->snpc;//设置动态PC地址
 
 #define INSTPAT_INST(s) ((s)->isa.inst)
 #define INSTPAT_MATCH(s, name, type, ... /* execute body */ ) { \
@@ -123,7 +129,7 @@ static int decode_exec(Decode *s) {
   INSTPAT("??????? ????? ????? 010 ????? 00000 11", lw     , I, R(rd) = Mr(src1 + imm, 4));
   INSTPAT("??????? ????? ????? 100 ????? 00000 11", lbu    , I, R(rd) = Mr(src1 + imm, 1)&0xFF);
   INSTPAT("??????? ????? ????? 101 ????? 00000 11", lhu    , I, R(rd) = Mr(src1 + imm, 2)&0xFFFF);
-  INSTPAT("??????? ????? ????? 000 ????? 11001 11", jalr   , I, R(rd) = s->pc + 4; s->dnpc = src1 + imm);
+  INSTPAT("??????? ????? ????? 000 ????? 11001 11", jalr   , I, R(rd) = s->pc + 4; s->dnpc = (src1 + imm)&~3);
   //ECALL指令
 
   INSTPAT("??????? ????? ????? 000 ????? 01000 11", sb     , S, Mw(src1 + imm, 1, src2));
@@ -145,9 +151,9 @@ static int decode_exec(Decode *s) {
 
   INSTPAT("??????? ????? ????? ??? ????? 11011 11", jal    , J, R(rd) = s->pc + 4; s->dnpc = s->pc + imm);
 
-  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall, CSR, s->dnpc = isa_raise_intr(8, s->pc)); // 进入中断地址
+  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall, CSR, s->dnpc = isa_raise_intr(8, s->pc+4)); // 进入中断地址
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , CSR, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
-  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret , CSR, s->dnpc = (cpu.mepc+4));//返回被打断处的程序继续运行
+  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret , CSR, s->dnpc = (cpu.mepc));//返回被打断处的程序继续运行
   
   // CSRRW CSR读写指令
   INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , CSR, { 
@@ -269,6 +275,6 @@ static int decode_exec(Decode *s) {
 }
 
 int isa_exec_once(Decode *s) {
-  s->isa.inst = inst_fetch(&s->snpc, 4);
+  s->isa.inst = inst_fetch(&s->snpc, 4);//取指令和PC+4
   return decode_exec(s);
 }

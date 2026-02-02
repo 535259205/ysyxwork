@@ -64,6 +64,13 @@ int difftest_comp(struct SdbReg *info)
 //1代表相同 0 代表不同
 int difftest_exec_reg(struct SdbReg *info)
 {
+    static int temp = 0;
+    if(temp==0)
+    {
+        temp++;
+        return 1;
+    }
+
     static int all_count = 0;
     difftest_exec(1);
     difftest_regcpy(&cpu_ref.gpr[0], DIFFTEST_TO_DUT);

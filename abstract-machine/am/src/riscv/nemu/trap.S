@@ -41,35 +41,35 @@ f(30) f(31)
 .globl __am_asm_trap
 __am_asm_trap:
   addi sp, sp, -CONTEXT_SIZE
-
+#寄存器压栈
   MAP(REGS, PUSH)
-
+#读取相关寄存器异常、状态、pc
   csrr t0, mcause
   csrr t1, mstatus
   csrr t2, mepc
-
+# 存储异常、状态、pc 同样压栈
   STORE t0, OFFSET_CAUSE(sp)
   STORE t1, OFFSET_STATUS(sp)
   STORE t2, OFFSET_EPC(sp)
 
-  # set mstatus.MPRV to pass difftest
+#   set mstatus.MPRV to pass difftest 访问特权级修改位设置1
   li a0, (1 << 17)
   or t1, t1, a0
   csrw mstatus, t1
-
+  #栈指针放到a0 a0是函数的第一个传递参数 然后有指针就可以访问栈中的上下文
   mv a0, sp
   call __am_irq_handle
   
   mv sp, a0 
 
 
-
+# 从栈中弹出异常、状态、pc
   LOAD t1, OFFSET_STATUS(sp)
   LOAD t2, OFFSET_EPC(sp)
   csrw mstatus, t1
   csrw mepc, t2
-
+#出栈
   MAP(REGS, POP)
-
+#还原栈指针
   addi sp, sp, CONTEXT_SIZE
   mret

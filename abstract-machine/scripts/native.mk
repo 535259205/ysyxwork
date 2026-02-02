@@ -11,7 +11,7 @@ AM_SRCS := native/trm.c \
            native/ioe/uart.c \
            native/ioe/audio.c \
            native/ioe/disk.c \
-
+#-fpie 生成位置独立的可执行文件 依赖库
 CFLAGS  += -fpie $(shell sdl2-config --cflags)
 ASFLAGS += -fpie -pie
 comma = ,

@@ -69,6 +69,6 @@ static int decode_exec(Decode *s) {
 }
 
 int isa_exec_once(Decode *s) {
-  s->isa.inst = inst_fetch(&s->snpc, 4);
+  s->isa.inst = inst_fetch(&s->snpc, 4);//正常的下一步指令 取指令和snpc自加4
   return decode_exec(s);
 }

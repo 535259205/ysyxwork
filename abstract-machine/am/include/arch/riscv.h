@@ -14,7 +14,7 @@ struct Context {
   uintptr_t mstatus;
   uintptr_t mepc;
   // uintptr_t mepc, mcause, gpr[NR_REGS], mstatus;
-  void *pdir;
+  void *pdir;//虚拟内存支持
 };
 
 #ifdef __riscv_e

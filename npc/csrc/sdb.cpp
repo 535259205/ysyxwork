@@ -3,7 +3,7 @@
 #include "sdb.h"
 #include "string.h"
 
-#define BATCH_MODE 1
+// #define BATCH_MODE
 
 static uint32_t match_len;
 extern struct SdbMatch match[];
@@ -84,7 +84,7 @@ void SdbRun(void)
     char *cmd_n;
     char *args;
 
-    #if BATCH_MODE==1
+    #ifdef BATCH_MODE
     printf("batch mode\n");
     cmd_c(NULL);
     return;

@@ -18,7 +18,47 @@
 #include "../local-include/reg.h"
 
 bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
-  return false;
+  // 检查通用寄存器
+  for(int i=0; i<MUXDEF(CONFIG_RVE,16,32); i++) {
+    if(ref_r->gpr[i] != cpu.gpr[i]) {
+      printf("reg %s diff: ref 0x%08x, dut 0x%08x\n", reg_name(i), ref_r->gpr[i], cpu.gpr[i]);
+      return false;
+    }
+  }
+  
+  // 检查程序计数器
+  if(ref_r->pc != pc) {
+    printf("pc diff: ref 0x%08x, dut 0x%08x\n", ref_r->pc, pc);
+    return false;
+  }
+  
+  // 检查CSR寄存器
+  // if(ref_r->mtvec != cpu.mtvec) {
+  //   printf("mtvec diff: ref 0x%08x, dut 0x%08x\n", ref_r->mtvec, cpu.mtvec);
+  //   return false;
+  // }
+  
+  // if(ref_r->mcause != cpu.mcause) {
+  //   printf("mcause diff: ref 0x%08x, dut 0x%08x\n", ref_r->mcause, cpu.mcause);
+  //   return false;
+  // }
+  
+  // if(ref_r->mstatus != cpu.mstatus) {
+  //   printf("mstatus diff: ref 0x%08x, dut 0x%08x\n", ref_r->mstatus, cpu.mstatus);
+  //   return false;
+  // }
+  
+  // if(ref_r->mepc != cpu.mepc) {
+  //   printf("mepc diff: ref 0x%08x, dut 0x%08x\n", ref_r->mepc, cpu.mepc);
+  //   return false;
+  // }
+  
+  // if(ref_r->cycle != cpu.cycle) {
+  //   printf("cycle diff: ref 0x%08x, dut 0x%08x\n", ref_r->cycle, cpu.cycle);
+  //   return false;
+  // }
+  
+  return true;
 }
 
 void isa_difftest_attach() {

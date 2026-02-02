@@ -14,7 +14,13 @@ config MTRACE
     Enable mtrace feature. When enabled, NEMU will trace memory accesses
     in trace_and_difftest() function after each instruction execution.
     Disable this option to improve performance if mtrace is not needed.
-config FTTRACE
+config ETRACE
+  bool "Enable etrace support"
+  default n  # 默认关闭，避免影响性能
+  help
+    Enable etrace feature. When enabled, NEMU will trace interrupts
+    in trace_and_difftest() function after each instruction execution.
+config FTRACE
   bool "Enable ftrace support"
   default n  # 默认关闭，避免影响性能
   help

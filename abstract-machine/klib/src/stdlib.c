@@ -41,9 +41,9 @@ void *malloc(size_t size)
   // #endif
 
   if (hbrk == NULL) {
-    hbrk = (char *)ROUNDUP(heap.start, 8); // 8字节对齐
+    hbrk = (char *)ROUNDUP(heap.start, 4); // 4字节对齐 64位为8字节对齐
   }
-  size = (size_t)ROUNDUP(size, 8);
+  size = (size_t)ROUNDUP(size, 4);
   
   // 保存当前地址作为分配的起始地址
   char *old = hbrk;

@@ -73,13 +73,14 @@ static struct rule {
   {"\\)", TK_RPAREN},   // 右括号
   {"[0-9]+", TK_NUM},   // 数字（0-9的任意组合）
 };
-
+// 定义正则表达式规则的数量
 #define NR_REGEX ARRLEN(rules)
-
+// 定义正则表达式对象数组
 static regex_t re[NR_REGEX] = {};
 
 /* Rules are used for many times.
  * Therefore we compile them only once before any usage.
+ * 编译所有正则表达式规则。
  */
 void init_regex() {
   int i;
@@ -87,7 +88,9 @@ void init_regex() {
   int ret;
 
   for (i = 0; i < NR_REGEX; i ++) {
+    // 编译当前正则表达式规则 re[i]正则结果  ules[i].regex代编译的正则字符串
     ret = regcomp(&re[i], rules[i].regex, REG_EXTENDED);
+    // 如果编译失败，打印错误信息并panic
     if (ret != 0) {
       regerror(ret, &re[i], error_msg, 128);
       panic("regex compilation failed: %s\n%s", error_msg, rules[i].regex);
@@ -99,14 +102,17 @@ typedef struct token {
   int type;
   char str[32];
 } Token;
-
+// 定义标记数组，用于存储解析后的表达式令牌
 static Token tokens[32*500] __attribute__((used)) = {};
+//当前的标记数量
 static int nr_token __attribute__((used))  = 0;
 
+// 区分单目解引用*和双目乘号*
 static void distinguish_deref_mul() {
   for (int i = 0; i < nr_token; i++) {
+    //只处理乘号*
     if (tokens[i].type != TK_MUL) continue;
-
+//前一个 是运算或者是左括号，当前乘号*是双目乘号 单目运算符操作数为1个 双目运算符操作数是两个
     if (i == 0 || 
         tokens[i-1].type == TK_LPAREN || 
         tokens[i-1].type == TK_PLUS || 
@@ -125,22 +131,24 @@ static void distinguish_deref_mul() {
 }
 
 static bool make_token(char *e) {
-  int position = 0;
+  int position = 0; //当前处理字符串的位置
   int i;
-  regmatch_t pmatch;
+  regmatch_t pmatch; //存储正则表达式匹配结果的结构 存储字符串开始到子字符串开始和结束的偏移量
   nr_token = 0;
 
   while (e[position] != '\0') {
     /* Try all rules one by one. */
     for (i = 0; i < NR_REGEX; i ++) {
+      // 进行正则表达式匹配
+      //re[i] 编译后的正则结果 e + position代匹配的目标字符串的起始位置 1：匹配一个结果  &pmatch：匹配结果存储位置 0：默认标志（用于微调匹配规则）
       if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
-        char *substr_start = e + position;
-        int substr_len = pmatch.rm_eo;
+        char *substr_start = e + position;//子字符串起始位置
+        int substr_len = pmatch.rm_eo;//子字符串长度
 
         Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
             i, rules[i].regex, position, substr_len, substr_len, substr_start);
 
-        position += substr_len;
+        position += substr_len;//更新偏移量
 
         /* TODO: Now a new token is recognized with rules[i]. Add codes
          * to record the token in the array `tokens'. For certain types
@@ -148,9 +156,10 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
-          case TK_NOTYPE:
+          case TK_NOTYPE://没有皮皮上
             break;
           default:
+          // 其他类型的令牌，直接记录令牌类型和字符串内容
             tokens[nr_token].type = rules[i].token_type;
             strncpy(tokens[nr_token].str, substr_start, substr_len);
             tokens[nr_token].str[substr_len] = '\0';
@@ -161,7 +170,7 @@ static bool make_token(char *e) {
         break;
       }
     }
-
+    // 如果所有规则都没有匹配成功，打印错误信息并返回false
     if (i == NR_REGEX) {
       printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
       return false;
@@ -196,7 +205,7 @@ bool check_parentheses(uint32_t p, uint32_t q) {
   // 最后检查括号是否完全匹配
   return count == 0;
 }
-
+//获取运算符优先级
 static int get_op_priority(int op_type) {
   switch (op_type) {
     case TK_OR:     return 0;  // || 最低
@@ -218,13 +227,15 @@ static int get_op_priority(int op_type) {
   }
 }
 
+//找主运算符
 static uint32_t find_main_op(uint32_t p, uint32_t q, bool *success) {
   *success = true;
   int min_prio = 6; // 初始值高于所有运算符优先级
   uint32_t main_op_pos = -1;
-  int bracket_count = 0;
-
+  int bracket_count = 0;// 括号计数器，用于跳过括号内的内
+  //从右遍历
   for (int i = q; i >= (int)p; i--) {
+    //感觉左括号++右括号--更好
     if (tokens[i].type == TK_LPAREN) bracket_count--;
     if (tokens[i].type == TK_RPAREN) bracket_count++;
     if (bracket_count != 0) continue;
@@ -271,6 +282,7 @@ static uint32_t mem_read(uint32_t addr) {
 
 int eval(uint32_t p,uint32_t q)
 {
+  //递归求值从P到Q的表达式
   if (p > q)
   {
     printf("Bad expression: %d > %d\n", p, q);
@@ -293,12 +305,14 @@ int eval(uint32_t p,uint32_t q)
       /* The expression is surrounded by a matched pair of parentheses.
       * If that is the case, just throw away the parentheses.
       */
+     //去括号
       return eval(p + 1, q - 1);
     }
     else {
       /* TODO: Add more cases. */
       // 查找主运算符
       bool op_success;
+      //查找主运算符的位置
       uint32_t main_op_pos = find_main_op(p, q, &op_success);
       // 处理单目运算符（解引用*）
       if (tokens[main_op_pos].type == TK_DEREF) {
@@ -307,7 +321,7 @@ int eval(uint32_t p,uint32_t q)
       }
 
       int left_val, right_val;
-      left_val = eval(p, main_op_pos - 1);
+      left_val = eval(p, main_op_pos - 1);//求解主运算符左边
 
       if (tokens[main_op_pos].type == TK_OR && left_val != 0) {
         return 1;

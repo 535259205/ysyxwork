@@ -53,30 +53,30 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc)
 
 }
 
-static void exec_once(Decode *s, vaddr_t pc) {
+static void exec_once(Decode *s, vaddr_t pc) {//S刚进来还是空参数
   s->pc = pc;
   s->snpc = pc;
   isa_exec_once(s);
-  cpu.pc = s->dnpc;
+  cpu.pc = s->dnpc;//更新PC
 #ifdef CONFIG_ITRACE
   char *p = s->logbuf;
   p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);
   int ilen = s->snpc - s->pc;
   int i;
-  uint8_t *inst = (uint8_t *)&s->isa.inst;
+  uint8_t *inst = (uint8_t *)&s->isa.inst;//下面都是记录指令
 #ifdef CONFIG_ISA_x86
   for (i = 0; i < ilen; i ++) {
 #else
-  for (i = ilen - 1; i >= 0; i --) {
+  for (i = ilen - 1; i >= 0; i --) {//逆序输出指令
 #endif
     p += snprintf(p, 4, " %02x", inst[i]);
   }
-  int ilen_max = MUXDEF(CONFIG_ISA_x86, 8, 4);
+  int ilen_max = MUXDEF(CONFIG_ISA_x86, 8, 4);//x86指令最大长度为8字节 其他为4字节
   int space_len = ilen_max - ilen;
   if (space_len < 0) space_len = 0;
   space_len = space_len * 3 + 1;
   memset(p, ' ', space_len);
-  p += space_len;
+  p += space_len;     //指针偏移
 
   void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
   disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
@@ -84,14 +84,15 @@ static void exec_once(Decode *s, vaddr_t pc) {
 #endif
 }
 
+//循环执行
 static void execute(uint64_t n) {
   Decode s;
   for (;n > 0; n --) {
-    exec_once(&s, cpu.pc);
-    g_nr_guest_inst ++;
-    trace_and_difftest(&s, cpu.pc);
+    exec_once(&s, cpu.pc);//单步运行
+    g_nr_guest_inst ++;//总共运行的指令条数
+    trace_and_difftest(&s, cpu.pc);//差分测试运行
     if (nemu_state.state != NEMU_RUNNING) break;
-    IFDEF(CONFIG_DEVICE, device_update());
+    IFDEF(CONFIG_DEVICE, device_update());//设备更新
   }
 }
 
@@ -112,15 +113,15 @@ void assert_fail_msg() {
 /* Simulate how the CPU works. */
 //CPU执行程序
 void cpu_exec(uint64_t n) {
-  g_print_step = (n < MAX_INST_TO_PRINT);
-  switch (nemu_state.state) {
+  g_print_step = (n < MAX_INST_TO_PRINT);//输出标志位
+  switch (nemu_state.state) {//状态判断
     case NEMU_END: case NEMU_ABORT: case NEMU_QUIT:
       printf("Program execution has ended. To restart the program, exit NEMU and run again.\n");
       return;
     default: nemu_state.state = NEMU_RUNNING;
   }
 
-  uint64_t timer_start = get_time();
+  uint64_t timer_start = get_time();//计算运行时间
 
   execute(n);
 

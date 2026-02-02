@@ -56,7 +56,6 @@ __EXPORT void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction)
              (uint32_t)addr, (uint32_t)CONFIG_MBASE);
       return;
     }
-    
     // 确保不超出 NEMU 的物理内存范围
     if (addr + copy_len > CONFIG_MBASE + CONFIG_MSIZE) {
       copy_len = CONFIG_MBASE + CONFIG_MSIZE - addr;
@@ -88,7 +87,13 @@ __EXPORT void difftest_exec(uint64_t n) {
 }
 
 __EXPORT void difftest_raise_intr(word_t NO) {
-  assert(0);
+
+  word_t entry = isa_raise_intr(NO, cpu.pc);
+  
+  // 更新程序计数器到中断处理程序入口
+  cpu.pc = entry;
+
+  // assert(0);
 }
 
 __EXPORT void difftest_init(int port) {

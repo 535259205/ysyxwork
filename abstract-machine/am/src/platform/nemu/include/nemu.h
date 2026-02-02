@@ -5,7 +5,8 @@
 
 #include ISA_H // the macro `ISA_H` is defined in CFLAGS
                // it will be expanded as "x86/x86.h", "mips/mips32.h", ...
-
+//第一个冒号为空代表汇编没有任何输出不会把汇编的值写入C变量，第二个冒号是输入操作数的定义,"r"代表将值放到一个通用寄存器
+//就是把code放到%0的位置 %0就是占位符
 #if defined(__ISA_X86__)
 # define nemu_trap(code) asm volatile ("int3" : :"a"(code))
 #elif defined(__ISA_MIPS32__)

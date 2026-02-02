@@ -17,9 +17,12 @@ void iringbuf_add(char * s)
 }
 void iringbuf_show()
 {
-    int i;
+    int i, start;
+    start = (BufIndex - 1 + BUF_LEN) % BUF_LEN;  // 最近添加的元素位置
     for (i = 0; i < BUF_LEN; i ++) {
-        printf("%s\n", buf[i]);
+        // 按环形顺序打印，从最近的元素开始
+        int index = (start - i + BUF_LEN) % BUF_LEN;
+        printf("%s\n", buf[index]);
     }
 }
 
@@ -31,8 +34,11 @@ void iringbuf_memadd(const char* Prefix, vaddr_t addr, int len, word_t data)
 }
 void iringbuf_memshow()
 {
-    int i;
+    int i, start;
+    start = (BufMemIndex - 1 + BUF_LEN) % BUF_LEN;  // 最近添加的元素位置
     for (i = 0; i < BUF_LEN; i ++) {
-        printf("%s\n", buf_mem[i]);
+        // 按环形顺序打印，从最近的元素开始
+        int index = (start - i + BUF_LEN) % BUF_LEN;
+        printf("%s\n", buf_mem[index]);
     }
 }

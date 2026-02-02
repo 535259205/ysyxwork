@@ -2,7 +2,7 @@
 #include "stdio.h"
 #include "PMEM_ADDR.h"
 
-#define MEM_SIZE (1024*1024*16)
+#define MEM_SIZE (0x4000000)
 #define USE_MEM 2
 
 static uint32_t mem[MEM_SIZE];
@@ -27,7 +27,7 @@ extern "C" void mem_w( int data, int addr, int len)
   iringbuf_memadd("mem_w", addr, len, data);
 
   uint32_t tar_addr = (addr&0x7fffffff)>>2;
-  if (tar_addr >= 1024*1024*16){
+  if (tar_addr >= MEM_SIZE){
     pmem_w(addr, data, len);
     return;
   }
@@ -114,7 +114,7 @@ uint32_t pmem_r(uint32_t addr, int len)
 extern "C"  int mem_r( int addr, int len)
 {
   uint32_t tar_addr = (addr&0x7fffffff)>>2;
-  if (tar_addr >= 1024*1024*16){
+  if (tar_addr >= MEM_SIZE){
     uint32_t temp=pmem_r(addr, len);
     iringbuf_memadd("mio_r", addr, len, temp);
     return temp;
@@ -128,6 +128,7 @@ extern "C"  int mem_r( int addr, int len)
       tar_data = (data_temp>>(8*(addrl)))&0xFF;
       break;
     case 2:
+
       tar_data = (data_temp>>(8*(addrl)))&0xFFFF;
       break;
     case 4:
@@ -149,7 +150,7 @@ uint32_t * mem_scan(uint32_t addr)
 extern "C"  int rom_r(int addr)
 {
   uint32_t tar_addr = (addr&0x7fffffff)>>2;
-  if (tar_addr >= 1024*1024*16)
+  if (tar_addr >= MEM_SIZE)
     return 0;
   return rom[tar_addr];
 }
@@ -157,7 +158,7 @@ extern "C"  int rom_r(int addr)
 uint32_t rom_read(uint32_t  addr)
 {
   uint32_t tar_addr = (addr&0x7fffffff)>>2;
-  if (tar_addr >= 1024*1024*16)
+  if (tar_addr >= MEM_SIZE)
     exit(1);
   return rom[tar_addr];
 }
@@ -177,14 +178,14 @@ void mem_init(void)
       printf("\nERROR->open file failed\n");
       return;
   }
-  fread(rom, sizeof(uint32_t), 16*1024*1024, fp);
+  fread(rom, sizeof(uint32_t), MEM_SIZE, fp);
   fclose(fp);
   #if USE_MEM==1
   rom[0x1220 / 4] = 0x100073;
   #elif USE_MEM==0
     rom[0x228 / 4] = 0x100073;
   #endif
-  for (int i = 0; i < (16*1024*1024);i++)
+  for (int i = 0; i < (MEM_SIZE);i++)
   {
     mem[i] = rom[i];
   }

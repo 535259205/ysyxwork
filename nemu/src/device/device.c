@@ -33,6 +33,7 @@ void init_alarm();
 void send_key(uint8_t, bool);
 void vga_update_screen();
 
+//用于处理设备输入输出
 void device_update() {
   static uint64_t last = 0;
   uint64_t now = get_time();
@@ -45,6 +46,7 @@ void device_update() {
 
 #ifndef CONFIG_TARGET_AM
   SDL_Event event;
+  //SDL 库里面进行事件处理
   while (SDL_PollEvent(&event)) {
     switch (event.type) {
       case SDL_QUIT:

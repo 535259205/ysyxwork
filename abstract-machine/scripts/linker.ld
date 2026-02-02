@@ -1,8 +1,8 @@
-ENTRY(_start)
-PHDRS { text PT_LOAD; data PT_LOAD; }
-
+ENTRY(_start) /* 程序入口_start _start在汇编中定义*/
+PHDRS { text PT_LOAD; data PT_LOAD; } /* 程序头定义 PT_LOAD 类型表示该段是可加载到内存中的段 */
+/* 定义在内存中的布局 */
 SECTIONS {
-  /* _pmem_start and _entry_offset are defined in LDFLAGS */
+  /* _pmem_start and _entry_offset are defined in LDFLAGS  . 表示当前地址计数器*/
   . = _pmem_start + _entry_offset;
   .text : {
     *(entry)
