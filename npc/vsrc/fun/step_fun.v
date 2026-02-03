@@ -5,7 +5,7 @@ module step_fun(
 
 import "DPI-C" function void SimStep1(input int step_data);
 
-always@(posedge step)
+always@(negedge step)
 begin
     SimStep1(1);
 end 

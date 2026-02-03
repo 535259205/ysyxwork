@@ -10,14 +10,14 @@ static uint32_t rom[MEM_SIZE] = {0};
 
 extern void iringbuf_memadd(const char* Prefix, uint32_t addr, int len, uint32_t data);
 
-void pmem_w(uint32_t addr, uint32_t data, int len)
+extern "C" void mmio_w(int addr, int data, int len)
 {
-    if(addr == PUART_BASE_ADDR)
+  if (addr == PUART_BASE_ADDR)
+  {
+    for (int i = 0; i < len; i++)
     {
-        for(int i=0;i<len;i++)
-        {
-            putchar(data>>(8*i)&0xFF);
-        }
+      putchar(data >> (8 * i) & 0xFF);
+    }
     }
 
 }
@@ -25,10 +25,9 @@ void pmem_w(uint32_t addr, uint32_t data, int len)
 extern "C" void mem_w( int data, int addr, int len)
 {
   iringbuf_memadd("mem_w", addr, len, data);
-
   uint32_t tar_addr = (addr&0x7fffffff)>>2;
   if (tar_addr >= MEM_SIZE){
-    pmem_w(addr, data, len);
+    // pmem_w(addr, data, len);
     return;
   }
   uint32_t data_temp=mem[tar_addr];
@@ -76,7 +75,7 @@ extern "C" void mem_w( int data, int addr, int len)
         tar_data  &= ~(0x0000ffff);
         break;
       case 3:
-        // 跨4字节边界的2字节写入，这里简单处理，实际可能需要更复杂的逻辑
+        // 跨4字节边界的2字节写入
         data_temp &= 0x00ffffff;
         tar_data  &= ~(0x00ffffff);
         break;
@@ -101,13 +100,13 @@ extern "C" void mem_w( int data, int addr, int len)
   }
 }
 
-uint32_t pmem_r(uint32_t addr, int len)
+extern "C" int mmio_r(int addr, int len)
 {
-    if(addr == PTIME_BASE_ADDR || addr == PTIME_BASE_ADDR+4)
-    {
-        extern uint32_t timer_handle(uint32_t addr, int len);
-        return timer_handle(addr, len);
-    }
+    // if(addr == CLINT_BASE_ADDR+0XBFF8)
+    // {
+    //     // extern uint32_t timer_handle(uint32_t addr, int len);
+    //     // return timer_handle(addr, len);
+    // }
     return 0;
 }
 
@@ -115,9 +114,10 @@ extern "C"  int mem_r( int addr, int len)
 {
   uint32_t tar_addr = (addr&0x7fffffff)>>2;
   if (tar_addr >= MEM_SIZE){
-    uint32_t temp=pmem_r(addr, len);
-    iringbuf_memadd("mio_r", addr, len, temp);
-    return temp;
+    // uint32_t temp=pmem_r(addr, len);
+    // iringbuf_memadd("mio_r", addr, len, temp);
+    // return temp;
+    return 0;
   }
   uint32_t data_temp=mem[tar_addr];
   uint32_t addrl=addr&0x3;

@@ -46,7 +46,8 @@ gdb:
 encode :
 	riscv64-linux-gnu-objdump -D -b binary -m riscv:rv32 -EL --start-address=0x00000000 ./hex/test.bin > ./hex/disasm_result.txt
 
-
+gtk :
+	gtkwave waveform.vcd wave_sign.gtkw
 # 7. 清理目标
 clean:
 	rm -rf ./obj_dir

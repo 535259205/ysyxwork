@@ -7,22 +7,24 @@ module PC (
   input  wire [31:0]   com_encode_nPC,
   input  wire          com_encode_nPC_vaild,
   output wire [31:0]   com_encode_PC,
-  output wire          axi4lite_ar_valid,
+  output reg           axi4lite_ar_valid,
   input  wire          axi4lite_ar_ready,
   output wire [31:0]   axi4lite_ar_payload_addr,
   output wire [2:0]    axi4lite_ar_payload_prot,
   input  wire          axi4lite_r_valid,
-  output wire          axi4lite_r_ready,
+  output reg           axi4lite_r_ready,
   input  wire [31:0]   axi4lite_r_payload_data,
   input  wire [1:0]    axi4lite_r_payload_resp,
+  input  wire          read_en,
   input  wire          clk,
-  input  wire          rst,
-  input  wire          pc_newClockEnable
+  input  wire          rst
 );
 
   wire       [31:0]   debug_data_0;
   wire       [31:0]   debug_data_1;
   reg        [31:0]   PC_cnt;
+  wire                axi4lite_ar_fire;
+  wire                axi4lite_r_fire;
 
   my_debug debug (
     .data_0 (debug_data_0[31:0]   ), //i
@@ -30,24 +32,41 @@ module PC (
     .data_2 (com_encode_code[31:0]), //i
     .clk    (clk                  )  //i
   );
-  assign com_encode_PC = PC_cnt;
-  assign axi4lite_ar_valid = 1'b1;
-  assign axi4lite_r_ready = 1'b1;
+  assign axi4lite_ar_fire = (axi4lite_ar_valid && axi4lite_ar_ready);
+  assign axi4lite_r_fire = (axi4lite_r_valid && axi4lite_r_ready);
   assign axi4lite_ar_payload_addr = com_encode_PC;
-  assign axi4lite_ar_payload_prot = 3'b000;
+  assign axi4lite_ar_payload_prot = 3'b100;
   assign com_encode_code = axi4lite_r_payload_data;
+  assign com_encode_PC = PC_cnt;
   assign debug_data_0 = PC_cnt;
   assign debug_data_1 = (com_encode_nPC_vaild ? com_encode_nPC : PC_cnt);
   always @(posedge clk or negedge rst) begin
     if(!rst) begin
       PC_cnt <= 32'h80000000;
     end else begin
-      if(pc_newClockEnable) begin
+      if((axi4lite_r_fire && read_en)) begin
+        PC_cnt <= (PC_cnt + 32'h00000004);
+      end else begin
         if(com_encode_nPC_vaild) begin
           PC_cnt <= com_encode_nPC;
-        end else begin
-          PC_cnt <= (PC_cnt + 32'h00000004);
         end
+      end
+    end
+  end
+
+  always @(posedge clk) begin
+    if(axi4lite_ar_fire) begin
+      axi4lite_ar_valid <= 1'b0;
+    end else begin
+      if((read_en && (! axi4lite_r_valid))) begin
+        axi4lite_ar_valid <= 1'b1;
+      end
+    end
+    if(axi4lite_r_fire) begin
+      axi4lite_r_ready <= 1'b0;
+    end else begin
+      if(axi4lite_r_valid) begin
+        axi4lite_r_ready <= 1'b1;
       end
     end
   end

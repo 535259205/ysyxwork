@@ -12,8 +12,7 @@ module CSR (
   output reg  [31:0]   com_encode_r_pc,
   input  wire          com_encode_mret,
   input  wire          clk,
-  input  wire          rst,
-  input  wire          other_newClockEnable
+  input  wire          rst
 );
 
   wire       [31:0]   debug_data_4;
@@ -90,31 +89,29 @@ module CSR (
       mepc <= 32'h0;
       mtvec <= 32'h80000000;
     end else begin
-      if(other_newClockEnable) begin
-        mcycle <= _zz_mcycle;
-        if(com_encode_ecall) begin
-          mcause <= 32'h00000008;
-          mepc <= com_encode_w_pc;
-        end else begin
-          if(!com_encode_mret) begin
-            if(com_encode_vaild) begin
-              case(com_encode_csr_sel)
-                12'h300 : begin
-                  mstatus <= com_encode_w_data;
-                end
-                12'h305 : begin
-                  mtvec <= com_encode_w_data;
-                end
-                12'h342 : begin
-                  mcause <= com_encode_w_data;
-                end
-                12'h341 : begin
-                  mepc <= com_encode_w_data;
-                end
-                default : begin
-                end
-              endcase
-            end
+      mcycle <= _zz_mcycle;
+      if(com_encode_ecall) begin
+        mcause <= 32'h00000008;
+        mepc <= com_encode_w_pc;
+      end else begin
+        if(!com_encode_mret) begin
+          if(com_encode_vaild) begin
+            case(com_encode_csr_sel)
+              12'h300 : begin
+                mstatus <= com_encode_w_data;
+              end
+              12'h305 : begin
+                mtvec <= com_encode_w_data;
+              end
+              12'h342 : begin
+                mcause <= com_encode_w_data;
+              end
+              12'h341 : begin
+                mepc <= com_encode_w_data;
+              end
+              default : begin
+              end
+            endcase
           end
         end
       end

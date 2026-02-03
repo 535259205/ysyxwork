@@ -1,7 +1,7 @@
 
 `timescale 1ns/1ps  // 这一行是关键，记录下这个尺度
 
-module mem_fun(
+module mmio_fun(
   input         clk,
   input         rst,
   input         wen,
@@ -15,19 +15,19 @@ module mem_fun(
   input         [1:0] r_len
 );
 
-import "DPI-C" function void mem_w(input int data,input int addr,input int len);
-import "DPI-C" function int mem_r(input int addr,input int len);
+import "DPI-C" function void mmio_w(input int addr,input int data,input int len);
+import "DPI-C" function int mmio_r(input int addr,input int len);
 
 
 always@(posedge clk)
 begin
     if(ren)
-      r_data<=mem_r(r_addr,r_len+1);
+      r_data<=mmio_r(r_addr,r_len+1);
 end
 always@(posedge clk)
 begin
     if(wen)
-      mem_w(w_data,w_addr,w_len+1);
+      mmio_w(w_addr,w_data,w_len+1);
 end 
 
 endmodule

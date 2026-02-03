@@ -16,9 +16,13 @@ vluint64_t sim_time = 0;
 VerilatedVcdC *m_trace = new VerilatedVcdC();
 
 extern int ebreak_flag;
-
 static struct SdbReg infoa;
 
+static volatile int step_flag = 0;
+extern "C" void SimStep1(int step_data)
+{
+    step_flag++;
+}
 int SimStep(uint32_t n)
 {
     for(uint32_t i = 0; i < n; i++){
@@ -51,13 +55,22 @@ int SimStep(uint32_t n)
             printf("ebreak_flag is set at count %d\n", count);
             return 1;
         }
-        for(int j = 0;j<2;j++){
+        for(;;){
+            for(int j=0;j<2;j++)
+            {
             dut->clk=!dut->clk;
             dut->eval();
+            
             #if USE_WAVE1
             m_trace->dump(sim_time); //将当前时间点的信号值写入波形文件
-            #endif
             sim_time++;
+            #endif
+            }
+            if(step_flag==1)
+            {
+                step_flag--;
+                break;
+            }
         }
     }
     return 0;

@@ -26,6 +26,10 @@ extern "C" {
     extern int mem_r(int addr, int len);
     // DPI import at vsrc/fun/mem_fun.v:18:30
     extern void mem_w(int data, int addr, int len);
+    // DPI import at vsrc/fun/mmio_fun.v:19:29
+    extern int mmio_r(int addr, int len);
+    // DPI import at vsrc/fun/mmio_fun.v:18:30
+    extern void mmio_w(int addr, int data, int len);
 
 #ifdef __cplusplus
 }
