@@ -2,7 +2,7 @@
 # DESCRIPTION: Verilator output: Make include file with class lists
 #
 # This file lists generated Verilated files, for including in higher level makefiles.
-# See Vtop.mk for the caller.
+# See VysyxSoCFull.mk for the caller.
 
 ### Switches...
 # C11 constructs required?  0/1 (always on now)
@@ -25,25 +25,28 @@ VM_TRACE_VCD = 1
 ### Object file lists...
 # Generated module classes, fast-path, compile with highest optimization
 VM_CLASSES_FAST += \
-  Vtop \
-  Vtop___024root__0 \
+  VysyxSoCFull \
+  VysyxSoCFull___024root__0 \
+  VysyxSoCFull___024unit__0 \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \
-  Vtop__ConstPool__0__Slow \
-  Vtop___024root__Slow \
-  Vtop___024root__0__Slow \
+  VysyxSoCFull__ConstPool__0__Slow \
+  VysyxSoCFull___024root__Slow \
+  VysyxSoCFull___024root__0__Slow \
+  VysyxSoCFull___024unit__Slow \
+  VysyxSoCFull___024unit__0__Slow \
 
 # Generated support classes, fast-path, compile with highest optimization
 VM_SUPPORT_FAST += \
-  Vtop__Dpi \
-  Vtop__Trace__0 \
+  VysyxSoCFull__Dpi \
+  VysyxSoCFull__Trace__0 \
 
 # Generated support classes, non-fast-path, compile with low/medium optimization
 VM_SUPPORT_SLOW += \
-  Vtop__Syms__Slow \
-  Vtop__Trace__0__Slow \
-  Vtop__TraceDecls__0__Slow \
+  VysyxSoCFull__Syms__Slow \
+  VysyxSoCFull__Trace__0__Slow \
+  VysyxSoCFull__TraceDecls__0__Slow \
 
 # Global classes, need linked once per executable, fast-path, compile with highest optimization
 VM_GLOBAL_FAST += \

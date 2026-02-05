@@ -2,9 +2,9 @@
 # DESCRIPTION: Verilator output: Makefile for building Verilated archive or executable
 #
 # Execute this makefile from the object directory:
-#    make -f Vtop.mk
+#    make -f VysyxSoCFull.mk
 
-default: Vtop
+default: VysyxSoCFull
 
 ### Constants...
 # Perl executable (from $PERL, defaults to 'perl' if not set)
@@ -32,12 +32,12 @@ VM_SC_TARGET_ARCH = linux
 
 ### Vars...
 # Design prefix (from --prefix)
-VM_PREFIX = Vtop
+VM_PREFIX = VysyxSoCFull
 # Module prefix (from --prefix)
-VM_MODPREFIX = Vtop
+VM_MODPREFIX = VysyxSoCFull
 # User CFLAGS (from -CFLAGS on Verilator command line)
 VM_USER_CFLAGS = \
-  -I/home/ylqt/environment/oss_cad_suite/oss-cad-suite/share/verilator/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/npc/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/npc/../nemu/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/npc/../nemu/src/isa/riscv32/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/npc/../nemu/tools/capstone/repo/include -D__GUEST_ISA__=riscv32  -g -fsanitize=address \
+  -I/home/ylqt/environment/oss_cad_suite/oss-cad-suite/share/verilator/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/npc/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/npc/../nemu/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/npc/../nemu/src/isa/riscv32/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/npc/../nemu/tools/capstone/repo/include  -D__GUEST_ISA__=riscv32  -g -fsanitize=address \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \
@@ -63,7 +63,7 @@ VM_USER_DIR = \
 
 ### Default rules...
 # Include list of all generated classes
-include Vtop_classes.mk
+include VysyxSoCFull_classes.mk
 # Include global rules
 include $(VERILATOR_ROOT)/include/verilated.mk
 
@@ -92,7 +92,7 @@ timer.o: ./csrc/timer.cpp
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<
 
 ### Link rules... (from --exe)
-Vtop: $(VK_USER_OBJS) $(VK_GLOBAL_OBJS) $(VM_PREFIX)__ALL.a
+VysyxSoCFull: $(VK_USER_OBJS) $(VK_GLOBAL_OBJS) $(VM_PREFIX)__ALL.a
 	$(LINK) $(LDFLAGS) $^ $(LOADLIBES) $(LDLIBS) $(LIBS) $(SC_LIBS) -o $@
 
 # Verilated -*- Makefile -*-

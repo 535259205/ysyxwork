@@ -1,12 +1,19 @@
 csrc := ./csrc/*.cpp
 
-vsrc := $(wildcard ./vsrc/fun/*.v ./vsrc/*.v)
-TOP_MODULE := top
+# vsrc := $(wildcard ./vsrc/fun/*.v ./vsrc/*.v ../ysyxSoC/perip/**/*.v ../ysyxSoC/build/*.v)
+vsrc :=	$(shell find ./vsrc/ -name "*.v")
+vsrc += $(shell find ../ysyxSoC/perip/ -name "*.v")
+vsrc += $(shell find ../ysyxSoC/build/*.v -name "*.v")
+
+
+TOP_MODULE := ysyxSoCFull
 
 VERILATOR_INC := $(shell dirname $(shell find ~/environment -name "verilated.h"))
 
 USE_WAVE ?=0
-
+# 定义要添加的include目录
+UART_INC = -I$(CURDIR)/../ysyxSoC/perip/uart16550/rtl
+SPI_INC = -I$(CURDIR)/../ysyxSoC/perip/spi/rtl
 # Capstone库设置
 LIBCAPSTONE = $(CURDIR)/../nemu/tools/capstone/repo/libcapstone.so.5
 INCCAPSTONE := -I$(CURDIR)/../nemu/tools/capstone/repo/include
@@ -21,14 +28,23 @@ $(LIBCAPSTONE):
 $(CURDIR)/csrc/disasm.cpp: $(LIBCAPSTONE)
 
 all:
-	verilator -Wall --trace -cc --top-module $(TOP_MODULE) $(vsrc) --exe $(csrc) \
+	@verilator -Wall --trace -cc --top-module $(TOP_MODULE) $(vsrc) --exe $(csrc) \
 		--error-limit 0 \
 		-Wno-WIDTH \
 		-Wno-UNDRIVEN \
 		-Wno-UNUSED \
-		-CFLAGS "-I$(VERILATOR_INC) -I$(CURDIR)/include $(INCDIFFTEST) $(INCCAPSTONE) -D__GUEST_ISA__=riscv32  -g -fsanitize=address" \
+		-Wno-DECLFILENAME \
+		-Wno-PINCONNECTEMPTY \
+		-Wno-ASSIGNDLY \
+		-Wno-DEFPARAM \
+		-Wno-PROCASSINIT \
+		-Wno-SYNCASYNCNET\
+		--timescale "1ns/1ns"\
+		--no-timing\
+		$(UART_INC) $(SPI_INC)\
+		-CFLAGS "-I$(VERILATOR_INC) -I$(CURDIR)/include $(INCDIFFTEST) $(INCCAPSTONE)  -D__GUEST_ISA__=riscv32  -g -fsanitize=address" \
 		-LDFLAGS "-L$(CURDIR)/../nemu/tools/capstone/repo -lcapstone -lreadline $(LIBDIFFTEST) -fsanitize=address"
-	make -C obj_dir -f V$(TOP_MODULE).mk V$(TOP_MODULE)
+	@make -C obj_dir -f V$(TOP_MODULE).mk V$(TOP_MODULE)
 #-DBATCH_MODE
 # 6. 仿真目标
 sim:

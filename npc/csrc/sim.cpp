@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../obj_dir/Vtop.h"
+#include "../obj_dir/VysyxSoCFull.h"
 #include "verilated_vcd_c.h"
 #include "verilated.h"
 #include "stdio.h"
@@ -9,9 +9,9 @@
 #define SHOW_LIMIT 10
 #define USE_ITRACE 0
 #define USE_FTRACE 0
-#define USE_DIFFTEST 1
+#define USE_DIFFTEST 0
 
-Vtop *dut = new Vtop(); 
+VysyxSoCFull *dut = new VysyxSoCFull(); 
 vluint64_t sim_time = 0;
 VerilatedVcdC *m_trace = new VerilatedVcdC();
 
@@ -58,7 +58,7 @@ int SimStep(uint32_t n)
         for(;;){
             for(int j=0;j<2;j++)
             {
-            dut->clk=!dut->clk;
+            dut->clock=!dut->clock;
             dut->eval();
             
             #if USE_WAVE1
@@ -90,10 +90,10 @@ void SimInit(int argc, char **argv)
 
     //设备复位
     for(int i=0;i<=16;i++){
-        dut->clk=!dut->clk;
-        dut->rst = 0;
+        dut->clock=!dut->clock;
+        dut->reset = 1;
         if (sim_time >= 15)
-            dut->rst = 1;
+            dut->reset = 0;
         dut->eval();
 #if USE_WAVE1
         m_trace->dump(sim_time); //将当前时间点的信号值写入波形文件

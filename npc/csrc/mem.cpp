@@ -1,6 +1,7 @@
 #include <iostream>
 #include "stdio.h"
 #include "PMEM_ADDR.h"
+#include <assert.h>
 
 #define MEM_SIZE (0x4000000)
 #define USE_MEM 2
@@ -9,6 +10,10 @@ static uint32_t mem[MEM_SIZE];
 static uint32_t rom[MEM_SIZE] = {0};
 
 extern void iringbuf_memadd(const char* Prefix, uint32_t addr, int len, uint32_t data);
+
+
+extern "C" void flash_read(int32_t addr, int32_t *data) { assert(0); }
+extern "C" void mrom_read(int32_t addr, int32_t *data) { assert(0); }
 
 extern "C" void mmio_w(int addr, int data, int len)
 {
