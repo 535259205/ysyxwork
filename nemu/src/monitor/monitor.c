@@ -89,9 +89,11 @@ static int parse_args(int argc, char *argv[]) {
       case 'p': sscanf(optarg, "%d", &difftest_port); break;
       case 'l': log_file = optarg; break;
       case 'd': diff_so_file = optarg; break;//差异测试文件
+      case 't':
       #ifdef CONFIG_FTRACE
-      case 't': elf_file = optarg;FtraceInit(elf_file);break; // 设置跟踪模式
+      elf_file = optarg;FtraceInit(elf_file);
       #endif
+      break; // 设置跟踪模式
       case 1: img_file = optarg; return 0;
       default:
         printf("Usage: %s [OPTION...] IMAGE [args]\n\n", argv[0]);

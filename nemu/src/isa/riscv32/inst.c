@@ -151,8 +151,12 @@ static int decode_exec(Decode *s) {
 
   INSTPAT("??????? ????? ????? ??? ????? 11011 11", jal    , J, R(rd) = s->pc + 4; s->dnpc = s->pc + imm);
 
-  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall, CSR, s->dnpc = isa_raise_intr(8, s->pc+4)); // 进入中断地址
+  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall, CSR, {
+    s->dnpc = isa_raise_intr(cpu.mcause, s->pc);
+
+    }); // 进入中断地址
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , CSR, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
+  //同步异常+4 异步异常（外部中断不+4）
   INSTPAT("0011000 00010 00000 000 00000 11100 11", mret , CSR, s->dnpc = (cpu.mepc));//返回被打断处的程序继续运行
   
   // CSRRW CSR读写指令
@@ -187,7 +191,7 @@ static int decode_exec(Decode *s) {
     }
     word_t tmp = *csr;
     // cycle寄存器是只读的，忽略位设置操作
-    if (imm != CSR_CYCLE) {
+    if (imm != CSR_CYCLE ) {
       *csr |= src1;
     }
     if (rd != 0) R(rd) = tmp;

@@ -26,7 +26,7 @@ module CSR (
   reg        [31:0]   mtvec;
 
   assign _zz_mcycle = (mcycle + 64'h0000000000000001);
-  assign _zz_com_encode_r_pc = (mepc + 32'h00000004);
+  assign _zz_com_encode_r_pc = (mepc);
   my_debug_1 debug (
     .data_0 (mtvec[31:0]       ), //i
     .data_1 (mcause[31:0]      ), //i
