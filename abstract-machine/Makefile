@@ -134,7 +134,8 @@ $(ARCHIVE): $(OBJS)
 	@echo + AR "->" $(shell realpath $@ --relative-to .)
 	@$(AR) rcs $@ $^
 else
-# $(1): library name
+#构建am里面的Makefile
+# $(1): library name $(1)传入的第一个参数名字
 define LIB_TEMPLATE =
 $$(AM_HOME)/$(1)/build/$(1)-$$(ARCH).a: force
 	@$$(MAKE) -s -C $$(AM_HOME)/$(1) archive

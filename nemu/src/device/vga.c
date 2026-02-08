@@ -31,7 +31,7 @@ static uint32_t screen_size() {
   return screen_width() * screen_height() * sizeof(uint32_t);
 }
 
-static void *vmem = NULL;
+static void *vmem = NULL;//指向虚拟内存中图像数据的指针
 static uint32_t *vgactl_port_base = NULL;
 
 #ifdef CONFIG_VGA_SHOW_SCREEN
@@ -39,7 +39,7 @@ static uint32_t *vgactl_port_base = NULL;
 #include <SDL2/SDL.h>
 
 static SDL_Renderer *renderer = NULL;
-static SDL_Texture *texture = NULL;
+static SDL_Texture *texture = NULL;//SDL 纹理对象指针，用于存储图像数据
 
 static void init_screen() {
   SDL_Window *window = NULL;
@@ -57,10 +57,10 @@ static void init_screen() {
 }
 
 static inline void update_screen() {
-  SDL_UpdateTexture(texture, NULL, vmem, SCREEN_W * sizeof(uint32_t));
-  SDL_RenderClear(renderer);
-  SDL_RenderCopy(renderer, texture, NULL, NULL);
-  SDL_RenderPresent(renderer);
+  SDL_UpdateTexture(texture, NULL, vmem, SCREEN_W * sizeof(uint32_t));//把vmem中的图像数据更新到texture中
+  SDL_RenderClear(renderer);//清除渲染目标，准备绘制新内容。
+  SDL_RenderCopy(renderer, texture, NULL, NULL);//把纹理内容复制到渲染目标
+  SDL_RenderPresent(renderer);//将内容显示到屏幕上
 }
 #else
 static void init_screen() {}
@@ -72,12 +72,10 @@ static inline void update_screen() {
 #endif
 
 void vga_update_screen() {
-  // TODO: call `update_screen()` when the sync register is non-zero,
   if (CONFIG_VGA_SHOW_SCREEN && vgactl_port_base[1] != 0) {
     update_screen();
     vgactl_port_base[1] = 0;
   }
-  // Then zero out the sync register
 }
 
 void init_vga() {
@@ -89,7 +87,7 @@ void init_vga() {
   add_mmio_map("vgactl", CONFIG_VGA_CTL_MMIO, vgactl_port_base, 8, NULL);
 #endif
 
-  vmem = new_space(screen_size());
+  vmem = new_space(screen_size());//更新vmem指针
   add_mmio_map("vmem", CONFIG_FB_ADDR, vmem, screen_size(), NULL);
   IFDEF(CONFIG_VGA_SHOW_SCREEN, init_screen());
   IFDEF(CONFIG_VGA_SHOW_SCREEN, memset(vmem, 0, screen_size()));

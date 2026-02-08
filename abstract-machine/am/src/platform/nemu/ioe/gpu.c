@@ -1,6 +1,6 @@
 #include <am.h>
 #include <nemu.h>
-
+//为什么？
 #define SYNC_ADDR (VGACTL_ADDR + 4)
 int gpu_w;
 int gpu_h;
@@ -14,7 +14,7 @@ void __am_gpu_init()
   uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR; // 设置地址ADDR
   //初始化显存
   for (i = 0; i < gpu_w * gpu_h; i++)
-    fb[i] = i;
+    fb[i] = 0;
   //刷新地址
   outl(SYNC_ADDR, 1);
 }
@@ -31,9 +31,8 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 }
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
-  // 绘制缓存代码 
   int x, y; void *pixels; int w, h;
-  uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;//设置地址ADDR
+  uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
   x = ctl->x;
   y = ctl->y;
   w = ctl->w;
@@ -46,7 +45,6 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
       fb[(y + i) * gpu_w + (x + j)] = pixel;
     }
   }
-  
   if (ctl->sync) {
     outl(SYNC_ADDR, 1);
   }

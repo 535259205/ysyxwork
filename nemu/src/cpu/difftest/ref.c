@@ -88,12 +88,10 @@ __EXPORT void difftest_exec(uint64_t n) {
 
 __EXPORT void difftest_raise_intr(word_t NO) {
 
-  word_t entry = isa_raise_intr(NO, cpu.pc);
+  // word_t entry = isa_raise_intr(NO, cpu.pc);
   
-  // 更新程序计数器到中断处理程序入口
-  cpu.pc = entry;
-
-  // assert(0);
+  // cpu.pc = entry;
+  assert(0);
 }
 
 __EXPORT void difftest_init(int port) {

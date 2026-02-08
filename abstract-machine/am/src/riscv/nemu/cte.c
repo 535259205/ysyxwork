@@ -9,13 +9,15 @@ Context* __am_irq_handle(Context *c) {
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
-      case 0x8:  // 机器模式下的ecall指令
+      case 0x0B:
+      case 0x08:
         // 检查a7寄存器的值，确定是yield请求
         #ifdef __riscv_e
-        if (c->gpr[15] == -1) {
+        if (c->gpr[15] == -1) 
         #else
-        if (c->gpr[17] == -1) {  // x17是a7寄存器
+        if (c->gpr[17] == -1)   // x17是a7寄存器
         #endif
+        {
           ev.event = EVENT_YIELD;
         } else {
           ev.event = EVENT_SYSCALL;
@@ -23,6 +25,7 @@ Context* __am_irq_handle(Context *c) {
         break;
       default: ev.event = EVENT_ERROR; break;
     }
+    //a0 寄存器 （c 被更改）
     c = user_handler(ev, c);//完成后就已经修改了栈指针
     assert(c != NULL);
   }
@@ -49,16 +52,15 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   for (int i = 0; i < NR_REGS; i++) {
     ctx->gpr[i] = 0;
   }
-  
+
   // 设置参数寄存器 A0
   ctx->gpr[10] = (uintptr_t)arg;  // a0寄存器保存调用函数的第一个参数指针
-  ctx->gpr[2] = (uintptr_t)kstack.end;
-
-  ctx->mcause = 0;
-  ctx->mstatus = (1 << 11);  // MIE = 1
-  //要设置mepc为入口函数的地址
+  // ctx->gpr[2] = (uintptr_t)kstack.end;
+  ctx->gpr[2] =((uintptr_t)kstack.end - sizeof(Context));
+  ctx->mcause = 0x08;
+  ctx->mstatus = 0x00202122;  // MIE = 1
+  // 要设置mepc为入口函数的地址 mret会进行如果mepc+4
   ctx->mepc = (uintptr_t)entry;
-  
   return ctx;
 }
 

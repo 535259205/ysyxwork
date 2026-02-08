@@ -8,6 +8,10 @@ AM_SRCS := riscv/npc/start.S \
            platform/dummy/vme.c \
            platform/dummy/mpe.c
 
+COLOR_RED   = \033[1;31m
+COLOR_GREEN = \033[1;32m
+COLOR_NONE  = \033[0m
+
 CFLAGS    += -fdata-sections -ffunction-sections
 LDSCRIPTS += $(AM_HOME)/scripts/linker.ld
 LDFLAGS   += --defsym=_pmem_start=0x80000000 --defsym=_entry_offset=0x0
@@ -30,14 +34,15 @@ ifeq ($(ARCH),minirv-npc)
 	@cp $(IMAGE).bin $(AM_HOME)/../npc/hex/test.bin
 	@cp $(IMAGE).elf $(AM_HOME)/../npc/hex/test.elf
 
-	@$(MAKE) -C $(AM_HOME)/../npc sim
+	$(MAKE) -C $(AM_HOME)/../npc sim; 
 
 else ifeq ($(ARCH),riscv32e-npc)
 	@echo TEST $(AM_HOME)/../npc/hex/test.bin
 	@cp $(IMAGE).bin $(AM_HOME)/../npc/hex/test.bin
 	@cp $(IMAGE).elf $(AM_HOME)/../npc/hex/test.elf
 
-	@$(MAKE) -C $(AM_HOME)/../npc sim
+	$(MAKE) -C $(AM_HOME)/../npc sim;
+
 
 else
 	@echo "TODO: add command here to run simulation for other architectures"

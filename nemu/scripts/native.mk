@@ -12,7 +12,7 @@
 #
 # See the Mulan PSL v2 for more details.
 #**************************************************************************************/
-
+# 导入nemu/../Makefile 中的配置 忽略报错并继续执行
 -include $(NEMU_HOME)/../Makefile
 include $(NEMU_HOME)/scripts/build.mk
 
@@ -21,16 +21,17 @@ include $(NEMU_HOME)/tools/difftest.mk
 compile_git:
 	$(call git_commit, "compile NEMU")
 $(BINARY):: compile_git
-
+#构建BINARY之前会构建compile_git
 # Some convenient rules
-
+# override y用于覆盖默认值
 override ARGS ?= --log=$(BUILD_DIR)/nemu-log.txt
 override ARGS += $(ARGS_DIFF)
 
 # Command to execute NEMU
 IMG ?=
+#1. 编译后的可执行文件 ， 2.运行参数 3. 镜像文件
 NEMU_EXEC := $(BINARY) $(ARGS) $(IMG)
-
+# 构建记录和DIFF 测试环境
 run-env: $(BINARY) $(DIFF_REF_SO)
 
 run: run-env
