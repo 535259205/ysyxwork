@@ -5,7 +5,7 @@
 #include "stdio.h"
 #include "sdb.h"
 
-#define USE_WAVE1 1
+#define USE_WAVE1 0
 #define SHOW_LIMIT 10
 #define USE_ITRACE 0
 #define USE_FTRACE 0
@@ -79,7 +79,7 @@ int SimStep(uint32_t n)
 
 void SimInit(int argc, char **argv)
 {
-    // Verilated::commandArgs(argc, argv);
+    Verilated::commandArgs(argc, argv);
 #if USE_WAVE1
     Verilated::traceEverOn(true);
     dut->trace(m_trace, 1); //顶层类设置测试波形参数
