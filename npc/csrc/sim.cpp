@@ -94,14 +94,14 @@ void SimInit(int argc, char **argv)
     for(int i=0;i<=16;i++){
         dut->clock=!dut->clock;
         dut->reset = 1;
-        if (sim_time >= 15)
-            dut->reset = 0;
         dut->eval();
 #if USE_WAVE1
         m_trace->dump(sim_time); //将当前时间点的信号值写入波形文件
 #endif
         sim_time++;
     }
+    dut->reset = 0;
+
 }
 
 void SimEnd(void)
