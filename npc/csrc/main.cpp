@@ -18,9 +18,10 @@ extern void info_reg(struct SdbReg *info);
 
 int main(int argc, char **argv)
 {
-  mem_init();
 
   SimInit(argc, argv);
+  
+  mem_init();
   DisamsInit();
 
   FtraceInit("./hex/test.elf");
