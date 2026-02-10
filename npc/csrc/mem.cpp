@@ -4,7 +4,7 @@
 #include <assert.h>
 #include <cstdint>
 
-#define MEM_SIZE (0x4000000)
+#define MEM_SIZE (0x40000)
 #define USE_MEM 2
 
 static uint32_t mem[MEM_SIZE];
