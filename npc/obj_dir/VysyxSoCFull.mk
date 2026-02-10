@@ -37,11 +37,11 @@ VM_PREFIX = VysyxSoCFull
 VM_MODPREFIX = VysyxSoCFull
 # User CFLAGS (from -CFLAGS on Verilator command line)
 VM_USER_CFLAGS = \
-  -I/home/ylqt/environment/oss_cad_suite/oss-cad-suite/share/verilator/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/npc/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/npc/../nemu/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/npc/../nemu/src/isa/riscv32/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/npc/../nemu/tools/capstone/repo/include  -D__GUEST_ISA__=riscv32  -g -fsanitize=address \
+  -I/home/ylqt/environment/oss_cad_suite/oss-cad-suite/share/verilator/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/npc/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/npc/../nemu/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/npc/../nemu/src/isa/riscv32/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/npc/../nemu/tools/capstone/repo/include  -D__GUEST_ISA__=riscv32  -g  \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \
-  -L/home/ylqt/study/YSYX_data/ysyx-workbench/npc/../nemu/tools/capstone/repo -lcapstone -lreadline /home/ylqt/study/YSYX_data/ysyx-workbench/npc/../nemu/build/riscv32-nemu-interpreter-so -fsanitize=address \
+  -L/home/ylqt/study/YSYX_data/ysyx-workbench/npc/../nemu/tools/capstone/repo -lcapstone -lreadline /home/ylqt/study/YSYX_data/ysyx-workbench/npc/../nemu/build/riscv32-nemu-interpreter-so  \
 
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
