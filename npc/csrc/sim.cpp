@@ -38,9 +38,7 @@ int SimStep(uint32_t n)
         extern void FtraceScan(struct SdbReg *info);
         FtraceScan(&infoa);
         #endif
-
         //差分测试运行一步
-        
         #if USE_DIFFTEST
         extern int difftest_exec_reg(struct SdbReg *info);
         if(!difftest_exec_reg(&infoa)){//此时报错
@@ -82,7 +80,7 @@ void SimInit(int argc, char **argv)
     Verilated::commandArgs(argc, argv);
 #if USE_WAVE1
     Verilated::traceEverOn(true);
-    dut->trace(m_trace, 1); //顶层类设置测试波形参数
+    dut->trace(m_trace, 10); //顶层类设置测试波形参数
     m_trace->open("./waveform.vcd"); //设置波形写入的文件
 #endif
     //初始化difftest寄存器
