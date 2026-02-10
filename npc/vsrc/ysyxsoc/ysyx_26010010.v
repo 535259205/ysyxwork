@@ -124,6 +124,35 @@ module ysyx_26010010 (
   wire                turn_axi_s_b_valid;
   wire       [3:0]    turn_axi_s_b_payload_id;
   wire       [1:0]    turn_axi_s_b_payload_resp;
+  wire                test_axi_m_ar_valid;
+  wire       [31:0]   test_axi_m_ar_payload_addr;
+  wire       [3:0]    test_axi_m_ar_payload_id;
+  wire       [7:0]    test_axi_m_ar_payload_len;
+  wire       [2:0]    test_axi_m_ar_payload_size;
+  wire       [1:0]    test_axi_m_ar_payload_burst;
+  wire                test_axi_m_aw_valid;
+  wire       [31:0]   test_axi_m_aw_payload_addr;
+  wire       [3:0]    test_axi_m_aw_payload_id;
+  wire       [7:0]    test_axi_m_aw_payload_len;
+  wire       [2:0]    test_axi_m_aw_payload_size;
+  wire       [1:0]    test_axi_m_aw_payload_burst;
+  wire                test_axi_m_w_valid;
+  wire       [31:0]   test_axi_m_w_payload_data;
+  wire       [3:0]    test_axi_m_w_payload_strb;
+  wire                test_axi_m_w_payload_last;
+  wire                test_axi_m_r_ready;
+  wire                test_axi_m_b_ready;
+  wire                test_axi_s_ar_ready;
+  wire                test_axi_s_aw_ready;
+  wire                test_axi_s_w_ready;
+  wire                test_axi_s_r_valid;
+  wire       [31:0]   test_axi_s_r_payload_data;
+  wire       [3:0]    test_axi_s_r_payload_id;
+  wire       [1:0]    test_axi_s_r_payload_resp;
+  wire                test_axi_s_r_payload_last;
+  wire                test_axi_s_b_valid;
+  wire       [3:0]    test_axi_s_b_payload_id;
+  wire       [1:0]    test_axi_s_b_payload_resp;
 
   AXITrun turn (
     .io_master_awready      (turn_io_master_awready          ), //o
@@ -185,63 +214,125 @@ module ysyx_26010010 (
     .io_slave_rlast         (io_master_rlast                 ), //i
     .io_slave_rid           (io_master_rid[3:0]              ), //i
     .axi_m_aw_valid         (turn_axi_m_aw_valid             ), //o
-    .axi_m_aw_ready         (turn_axi_s_aw_ready             ), //i
+    .axi_m_aw_ready         (test_axi_s_aw_ready             ), //i
     .axi_m_aw_payload_addr  (turn_axi_m_aw_payload_addr[31:0]), //o
     .axi_m_aw_payload_id    (turn_axi_m_aw_payload_id[3:0]   ), //o
     .axi_m_aw_payload_len   (turn_axi_m_aw_payload_len[7:0]  ), //o
     .axi_m_aw_payload_size  (turn_axi_m_aw_payload_size[2:0] ), //o
     .axi_m_aw_payload_burst (turn_axi_m_aw_payload_burst[1:0]), //o
     .axi_m_w_valid          (turn_axi_m_w_valid              ), //o
-    .axi_m_w_ready          (turn_axi_s_w_ready              ), //i
+    .axi_m_w_ready          (test_axi_s_w_ready              ), //i
     .axi_m_w_payload_data   (turn_axi_m_w_payload_data[31:0] ), //o
     .axi_m_w_payload_strb   (turn_axi_m_w_payload_strb[3:0]  ), //o
     .axi_m_w_payload_last   (turn_axi_m_w_payload_last       ), //o
-    .axi_m_b_valid          (turn_axi_s_b_valid              ), //i
+    .axi_m_b_valid          (test_axi_s_b_valid              ), //i
     .axi_m_b_ready          (turn_axi_m_b_ready              ), //o
-    .axi_m_b_payload_id     (turn_axi_s_b_payload_id[3:0]    ), //i
-    .axi_m_b_payload_resp   (turn_axi_s_b_payload_resp[1:0]  ), //i
+    .axi_m_b_payload_id     (test_axi_s_b_payload_id[3:0]    ), //i
+    .axi_m_b_payload_resp   (test_axi_s_b_payload_resp[1:0]  ), //i
     .axi_m_ar_valid         (turn_axi_m_ar_valid             ), //o
-    .axi_m_ar_ready         (turn_axi_s_ar_ready             ), //i
+    .axi_m_ar_ready         (test_axi_s_ar_ready             ), //i
     .axi_m_ar_payload_addr  (turn_axi_m_ar_payload_addr[31:0]), //o
     .axi_m_ar_payload_id    (turn_axi_m_ar_payload_id[3:0]   ), //o
     .axi_m_ar_payload_len   (turn_axi_m_ar_payload_len[7:0]  ), //o
     .axi_m_ar_payload_size  (turn_axi_m_ar_payload_size[2:0] ), //o
     .axi_m_ar_payload_burst (turn_axi_m_ar_payload_burst[1:0]), //o
-    .axi_m_r_valid          (turn_axi_s_r_valid              ), //i
+    .axi_m_r_valid          (test_axi_s_r_valid              ), //i
     .axi_m_r_ready          (turn_axi_m_r_ready              ), //o
+    .axi_m_r_payload_data   (test_axi_s_r_payload_data[31:0] ), //i
+    .axi_m_r_payload_id     (test_axi_s_r_payload_id[3:0]    ), //i
+    .axi_m_r_payload_resp   (test_axi_s_r_payload_resp[1:0]  ), //i
+    .axi_m_r_payload_last   (test_axi_s_r_payload_last       ), //i
+    .axi_s_aw_valid         (test_axi_m_aw_valid             ), //i
+    .axi_s_aw_ready         (turn_axi_s_aw_ready             ), //o
+    .axi_s_aw_payload_addr  (test_axi_m_aw_payload_addr[31:0]), //i
+    .axi_s_aw_payload_id    (test_axi_m_aw_payload_id[3:0]   ), //i
+    .axi_s_aw_payload_len   (test_axi_m_aw_payload_len[7:0]  ), //i
+    .axi_s_aw_payload_size  (test_axi_m_aw_payload_size[2:0] ), //i
+    .axi_s_aw_payload_burst (test_axi_m_aw_payload_burst[1:0]), //i
+    .axi_s_w_valid          (test_axi_m_w_valid              ), //i
+    .axi_s_w_ready          (turn_axi_s_w_ready              ), //o
+    .axi_s_w_payload_data   (test_axi_m_w_payload_data[31:0] ), //i
+    .axi_s_w_payload_strb   (test_axi_m_w_payload_strb[3:0]  ), //i
+    .axi_s_w_payload_last   (test_axi_m_w_payload_last       ), //i
+    .axi_s_b_valid          (turn_axi_s_b_valid              ), //o
+    .axi_s_b_ready          (test_axi_m_b_ready              ), //i
+    .axi_s_b_payload_id     (turn_axi_s_b_payload_id[3:0]    ), //o
+    .axi_s_b_payload_resp   (turn_axi_s_b_payload_resp[1:0]  ), //o
+    .axi_s_ar_valid         (test_axi_m_ar_valid             ), //i
+    .axi_s_ar_ready         (turn_axi_s_ar_ready             ), //o
+    .axi_s_ar_payload_addr  (test_axi_m_ar_payload_addr[31:0]), //i
+    .axi_s_ar_payload_id    (test_axi_m_ar_payload_id[3:0]   ), //i
+    .axi_s_ar_payload_len   (test_axi_m_ar_payload_len[7:0]  ), //i
+    .axi_s_ar_payload_size  (test_axi_m_ar_payload_size[2:0] ), //i
+    .axi_s_ar_payload_burst (test_axi_m_ar_payload_burst[1:0]), //i
+    .axi_s_r_valid          (turn_axi_s_r_valid              ), //o
+    .axi_s_r_ready          (test_axi_m_r_ready              ), //i
+    .axi_s_r_payload_data   (turn_axi_s_r_payload_data[31:0] ), //o
+    .axi_s_r_payload_id     (turn_axi_s_r_payload_id[3:0]    ), //o
+    .axi_s_r_payload_resp   (turn_axi_s_r_payload_resp[1:0]  ), //o
+    .axi_s_r_payload_last   (turn_axi_s_r_payload_last       )  //o
+  );
+  Axi_test test (
+    .axi_m_aw_valid         (test_axi_m_aw_valid             ), //o
+    .axi_m_aw_ready         (turn_axi_s_aw_ready             ), //i
+    .axi_m_aw_payload_addr  (test_axi_m_aw_payload_addr[31:0]), //o
+    .axi_m_aw_payload_id    (test_axi_m_aw_payload_id[3:0]   ), //o
+    .axi_m_aw_payload_len   (test_axi_m_aw_payload_len[7:0]  ), //o
+    .axi_m_aw_payload_size  (test_axi_m_aw_payload_size[2:0] ), //o
+    .axi_m_aw_payload_burst (test_axi_m_aw_payload_burst[1:0]), //o
+    .axi_m_w_valid          (test_axi_m_w_valid              ), //o
+    .axi_m_w_ready          (turn_axi_s_w_ready              ), //i
+    .axi_m_w_payload_data   (test_axi_m_w_payload_data[31:0] ), //o
+    .axi_m_w_payload_strb   (test_axi_m_w_payload_strb[3:0]  ), //o
+    .axi_m_w_payload_last   (test_axi_m_w_payload_last       ), //o
+    .axi_m_b_valid          (turn_axi_s_b_valid              ), //i
+    .axi_m_b_ready          (test_axi_m_b_ready              ), //o
+    .axi_m_b_payload_id     (turn_axi_s_b_payload_id[3:0]    ), //i
+    .axi_m_b_payload_resp   (turn_axi_s_b_payload_resp[1:0]  ), //i
+    .axi_m_ar_valid         (test_axi_m_ar_valid             ), //o
+    .axi_m_ar_ready         (turn_axi_s_ar_ready             ), //i
+    .axi_m_ar_payload_addr  (test_axi_m_ar_payload_addr[31:0]), //o
+    .axi_m_ar_payload_id    (test_axi_m_ar_payload_id[3:0]   ), //o
+    .axi_m_ar_payload_len   (test_axi_m_ar_payload_len[7:0]  ), //o
+    .axi_m_ar_payload_size  (test_axi_m_ar_payload_size[2:0] ), //o
+    .axi_m_ar_payload_burst (test_axi_m_ar_payload_burst[1:0]), //o
+    .axi_m_r_valid          (turn_axi_s_r_valid              ), //i
+    .axi_m_r_ready          (test_axi_m_r_ready              ), //o
     .axi_m_r_payload_data   (turn_axi_s_r_payload_data[31:0] ), //i
     .axi_m_r_payload_id     (turn_axi_s_r_payload_id[3:0]    ), //i
     .axi_m_r_payload_resp   (turn_axi_s_r_payload_resp[1:0]  ), //i
     .axi_m_r_payload_last   (turn_axi_s_r_payload_last       ), //i
     .axi_s_aw_valid         (turn_axi_m_aw_valid             ), //i
-    .axi_s_aw_ready         (turn_axi_s_aw_ready             ), //o
+    .axi_s_aw_ready         (test_axi_s_aw_ready             ), //o
     .axi_s_aw_payload_addr  (turn_axi_m_aw_payload_addr[31:0]), //i
     .axi_s_aw_payload_id    (turn_axi_m_aw_payload_id[3:0]   ), //i
     .axi_s_aw_payload_len   (turn_axi_m_aw_payload_len[7:0]  ), //i
     .axi_s_aw_payload_size  (turn_axi_m_aw_payload_size[2:0] ), //i
     .axi_s_aw_payload_burst (turn_axi_m_aw_payload_burst[1:0]), //i
     .axi_s_w_valid          (turn_axi_m_w_valid              ), //i
-    .axi_s_w_ready          (turn_axi_s_w_ready              ), //o
+    .axi_s_w_ready          (test_axi_s_w_ready              ), //o
     .axi_s_w_payload_data   (turn_axi_m_w_payload_data[31:0] ), //i
     .axi_s_w_payload_strb   (turn_axi_m_w_payload_strb[3:0]  ), //i
     .axi_s_w_payload_last   (turn_axi_m_w_payload_last       ), //i
-    .axi_s_b_valid          (turn_axi_s_b_valid              ), //o
+    .axi_s_b_valid          (test_axi_s_b_valid              ), //o
     .axi_s_b_ready          (turn_axi_m_b_ready              ), //i
-    .axi_s_b_payload_id     (turn_axi_s_b_payload_id[3:0]    ), //o
-    .axi_s_b_payload_resp   (turn_axi_s_b_payload_resp[1:0]  ), //o
+    .axi_s_b_payload_id     (test_axi_s_b_payload_id[3:0]    ), //o
+    .axi_s_b_payload_resp   (test_axi_s_b_payload_resp[1:0]  ), //o
     .axi_s_ar_valid         (turn_axi_m_ar_valid             ), //i
-    .axi_s_ar_ready         (turn_axi_s_ar_ready             ), //o
+    .axi_s_ar_ready         (test_axi_s_ar_ready             ), //o
     .axi_s_ar_payload_addr  (turn_axi_m_ar_payload_addr[31:0]), //i
     .axi_s_ar_payload_id    (turn_axi_m_ar_payload_id[3:0]   ), //i
     .axi_s_ar_payload_len   (turn_axi_m_ar_payload_len[7:0]  ), //i
     .axi_s_ar_payload_size  (turn_axi_m_ar_payload_size[2:0] ), //i
     .axi_s_ar_payload_burst (turn_axi_m_ar_payload_burst[1:0]), //i
-    .axi_s_r_valid          (turn_axi_s_r_valid              ), //o
+    .axi_s_r_valid          (test_axi_s_r_valid              ), //o
     .axi_s_r_ready          (turn_axi_m_r_ready              ), //i
-    .axi_s_r_payload_data   (turn_axi_s_r_payload_data[31:0] ), //o
-    .axi_s_r_payload_id     (turn_axi_s_r_payload_id[3:0]    ), //o
-    .axi_s_r_payload_resp   (turn_axi_s_r_payload_resp[1:0]  ), //o
-    .axi_s_r_payload_last   (turn_axi_s_r_payload_last       )  //o
+    .axi_s_r_payload_data   (test_axi_s_r_payload_data[31:0] ), //o
+    .axi_s_r_payload_id     (test_axi_s_r_payload_id[3:0]    ), //o
+    .axi_s_r_payload_resp   (test_axi_s_r_payload_resp[1:0]  ), //o
+    .axi_s_r_payload_last   (test_axi_s_r_payload_last       ), //o
+    .clock                  (clock                           ), //i
+    .reset                  (reset                           )  //i
   );
   assign io_master_awvalid = turn_io_slave_awvalid;
   assign io_master_awaddr = turn_io_slave_awaddr;
