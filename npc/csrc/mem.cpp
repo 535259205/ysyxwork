@@ -2,6 +2,7 @@
 #include "stdio.h"
 #include "PMEM_ADDR.h"
 #include <assert.h>
+#include <cstdint>
 
 #define MEM_SIZE (0x4000000)
 #define USE_MEM 2

@@ -2,6 +2,7 @@
 #include "stdio.h"
 #include <time.h>
 #include "PMEM_ADDR.h"
+#include <cstdint>
 
 struct timespec TimStart,TimEnd;
 
