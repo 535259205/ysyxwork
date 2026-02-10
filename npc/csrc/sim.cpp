@@ -81,12 +81,14 @@ void SimInit(int argc, char **argv)
     Verilated::commandArgs(argc, argv);
 #if USE_WAVE1
     Verilated::traceEverOn(true);
-    dut->trace(m_trace, 5); //顶层类设置测试波形参数
+    dut->trace(m_trace, 1); //顶层类设置测试波形参数
     m_trace->open("./waveform.vcd"); //设置波形写入的文件
 #endif
     //初始化difftest寄存器
+    #if USE_DIFFTEST
     extern void difftest_reg_init(void);
     difftest_reg_init();
+    #endif
 
     //设备复位
     for(int i=0;i<=16;i++){
