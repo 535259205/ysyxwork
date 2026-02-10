@@ -5,7 +5,7 @@
 #include "stdio.h"
 #include "sdb.h"
 
-#define USE_WAVE1 0
+#define USE_WAVE1 1
 #define SHOW_LIMIT 10
 #define USE_ITRACE 0
 #define USE_FTRACE 0
