@@ -66,7 +66,7 @@ int SimStep(uint32_t n)
             sim_time++;
             #endif
             }
-            step_flag++;
+            
             if(step_flag==1)
             {
                 step_flag--;
@@ -79,7 +79,7 @@ int SimStep(uint32_t n)
 
 void SimInit(int argc, char **argv)
 {
-    Verilated::commandArgs(argc, argv);
+    // Verilated::commandArgs(argc, argv);
 #if USE_WAVE1
     Verilated::traceEverOn(true);
     dut->trace(m_trace, 1); //顶层类设置测试波形参数
