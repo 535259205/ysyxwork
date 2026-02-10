@@ -18,6 +18,7 @@ extern "C" void mrom_read(int32_t addr, int32_t *data) { assert(1);printf("mrom_
 
 extern "C" void mmio_w(int addr, int data, int len)
 {
+  return;
   if (addr == PUART_BASE_ADDR)
   {
     for (int i = 0; i < len; i++)
@@ -30,6 +31,7 @@ extern "C" void mmio_w(int addr, int data, int len)
 
 extern "C" void mem_w( int data, int addr, int len)
 {
+  return;
   iringbuf_memadd("mem_w", addr, len, data);
   uint32_t tar_addr = (addr&0x7fffffff)>>2;
   if (tar_addr >= MEM_SIZE){
@@ -118,7 +120,8 @@ extern "C" int mmio_r(int addr, int len)
 
 extern "C"  int mem_r( int addr, int len)
 {
-  uint32_t tar_addr = (addr&0x7fffffff)>>2;
+  return 0;
+  uint32_t tar_addr = (addr & 0x7fffffff) >> 2;
   if (tar_addr >= MEM_SIZE){
     // uint32_t temp=pmem_r(addr, len);
     // iringbuf_memadd("mio_r", addr, len, temp);
