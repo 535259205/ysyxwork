@@ -91,7 +91,7 @@ void SimInit(int argc, char **argv)
     #endif
 
     //设备复位
-    for(int i=0;i<=20;i++){
+    for(int i=0;i<=30-1;i++){
         dut->clock=!dut->clock;
         dut->reset = 1;
         dut->eval();
