@@ -66,6 +66,7 @@ int SimStep(uint32_t n)
             sim_time++;
             #endif
             }
+            step_flag++;
             if(step_flag==1)
             {
                 step_flag--;
