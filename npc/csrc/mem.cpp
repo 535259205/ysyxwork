@@ -13,8 +13,8 @@ static uint32_t rom[MEM_SIZE] = {0};
 extern void iringbuf_memadd(const char* Prefix, uint32_t addr, int len, uint32_t data);
 
 
-extern "C" void flash_read(int32_t addr, int32_t *data) { assert(0); }
-extern "C" void mrom_read(int32_t addr, int32_t *data) { assert(0); }
+extern "C" void flash_read(int32_t addr, int32_t *data) { assert(1);printf("flash_read %x\n",addr); }
+extern "C" void mrom_read(int32_t addr, int32_t *data) { assert(1);printf("mrom_read %x\n",addr); }
 
 extern "C" void mmio_w(int addr, int data, int len)
 {
