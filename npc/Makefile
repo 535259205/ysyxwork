@@ -49,8 +49,8 @@ all:
 # 6. 仿真目标
 sim:
 	$(call git_commit, "sim RTL")	
-	
-	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):$(CURDIR)/../nemu/tools/capstone/repo ./obj_dir/V$(TOP_MODULE)
+	./obj_dir/V$(TOP_MODULE)
+	#LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):$(CURDIR)/../nemu/tools/capstone/repo 
 ifeq ($(USE_WAVE),1)
 	gtkwave waveform.vcd
 endif
