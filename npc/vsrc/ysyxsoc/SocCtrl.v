@@ -1,23 +1,21 @@
 // Generator : SpinalHDL v1.12.3    git head : 591e64062329e5e2e2b81f4d52422948053edb97
-// Component : AllCtrl
+// Component : SocCtrl
 
 `timescale 1ns/1ps 
-module AllCtrl (
+module SocCtrl (
   output reg           u_vaild_0,
   output reg           u_vaild_1,
   output wire          u_vaild_2,
   output wire          u_vaild_3,
   output reg           u_vaild_4,
-  input  wire          axi0_r_ready,
-  input  wire          axi0_w_vaild,
-  input  wire          axi0_r_fire,
-  input  wire          axi0_w_fire,
   input  wire          axi_r_ready,
-  input  wire          axi_w_vaild,
+  input  wire          axi_r_valid,
   input  wire          axi_r_fire,
+  input  wire          axi_w_ready,
+  input  wire          axi_w_valid,
   input  wire          axi_w_fire,
-  output reg           r_sel,
-  input  wire          clk,
+  output wire          r_sel,
+  input  wire          clock,
   input  wire          rst
 );
   localparam BOOT = 3'd0;
@@ -82,13 +80,12 @@ module AllCtrl (
 
   always @(*) begin
     u_vaild_0 = 1'b0;
-    r_sel = 1'b0;
     s_wantStart = 1'b0;
     s_stateNext = s_stateReg;
     case(s_stateReg)
       IF_1 : begin
         u_vaild_0 = 1'b1;
-        if(axi0_r_fire) begin
+        if(axi_r_fire) begin
           s_stateNext = ID;
         end
       end
@@ -99,7 +96,7 @@ module AllCtrl (
         if(axi_w_fire) begin
           s_stateNext = WB;
         end else begin
-          if((axi_r_ready || axi_w_vaild)) begin
+          if((axi_r_ready || axi_w_valid)) begin
             s_stateNext = MEM;
           end else begin
             s_stateNext = WB;
@@ -109,9 +106,6 @@ module AllCtrl (
       MEM : begin
         if((axi_w_fire || axi_r_fire_regNext)) begin
           s_stateNext = WB;
-        end
-        if(axi_r_ready) begin
-          r_sel = 1'b1;
         end
       end
       WB : begin
@@ -152,6 +146,7 @@ module AllCtrl (
     end
   end
 
+  assign r_sel = 1'b0;
   assign s_wantExit = 1'b0;
   assign s_wantKill = 1'b0;
   assign s_onExit_BOOT = ((s_stateNext != BOOT) && (s_stateReg == BOOT));
@@ -166,15 +161,15 @@ module AllCtrl (
   assign s_onEntry_EX = ((s_stateNext == EX) && (s_stateReg != EX));
   assign s_onEntry_MEM = ((s_stateNext == MEM) && (s_stateReg != MEM));
   assign s_onEntry_WB = ((s_stateNext == WB) && (s_stateReg != WB));
-  always @(posedge clk or negedge rst) begin
-    if(!rst) begin
+  always @(posedge clock) begin
+    if(rst) begin
       s_stateReg <= BOOT;
     end else begin
       s_stateReg <= s_stateNext;
     end
   end
 
-  always @(posedge clk) begin
+  always @(posedge clock) begin
     axi_r_fire_regNext <= axi_r_fire;
   end
 

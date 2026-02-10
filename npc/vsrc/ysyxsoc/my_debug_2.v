@@ -35,167 +35,167 @@ module my_debug_2 (
   input  wire [31:0]   data_29,
   input  wire [31:0]   data_30,
   input  wire [31:0]   data_31,
-  input  wire          clk
+  input  wire          clock
 );
 
 
   debug_fun debug_fun_1 (
-    .clk  (clk         ), //i
+    .clk  (clock       ), //i
     .addr (32'h0       ), //i
     .data (data_0[31:0])  //i
   );
   debug_fun debug_fun_2 (
-    .clk  (clk         ), //i
+    .clk  (clock       ), //i
     .addr (32'h00000001), //i
     .data (data_1[31:0])  //i
   );
   debug_fun debug_fun_3 (
-    .clk  (clk         ), //i
+    .clk  (clock       ), //i
     .addr (32'h00000002), //i
     .data (data_2[31:0])  //i
   );
   debug_fun debug_fun_4 (
-    .clk  (clk         ), //i
+    .clk  (clock       ), //i
     .addr (32'h00000003), //i
     .data (data_3[31:0])  //i
   );
   debug_fun debug_fun_5 (
-    .clk  (clk         ), //i
+    .clk  (clock       ), //i
     .addr (32'h00000004), //i
     .data (data_4[31:0])  //i
   );
   debug_fun debug_fun_6 (
-    .clk  (clk         ), //i
+    .clk  (clock       ), //i
     .addr (32'h00000005), //i
     .data (data_5[31:0])  //i
   );
   debug_fun debug_fun_7 (
-    .clk  (clk         ), //i
+    .clk  (clock       ), //i
     .addr (32'h00000006), //i
     .data (data_6[31:0])  //i
   );
   debug_fun debug_fun_8 (
-    .clk  (clk         ), //i
+    .clk  (clock       ), //i
     .addr (32'h00000007), //i
     .data (data_7[31:0])  //i
   );
   debug_fun debug_fun_9 (
-    .clk  (clk         ), //i
+    .clk  (clock       ), //i
     .addr (32'h00000008), //i
     .data (data_8[31:0])  //i
   );
   debug_fun debug_fun_10 (
-    .clk  (clk         ), //i
+    .clk  (clock       ), //i
     .addr (32'h00000009), //i
     .data (data_9[31:0])  //i
   );
   debug_fun debug_fun_11 (
-    .clk  (clk          ), //i
+    .clk  (clock        ), //i
     .addr (32'h0000000a ), //i
     .data (data_10[31:0])  //i
   );
   debug_fun debug_fun_12 (
-    .clk  (clk          ), //i
+    .clk  (clock        ), //i
     .addr (32'h0000000b ), //i
     .data (data_11[31:0])  //i
   );
   debug_fun debug_fun_13 (
-    .clk  (clk          ), //i
+    .clk  (clock        ), //i
     .addr (32'h0000000c ), //i
     .data (data_12[31:0])  //i
   );
   debug_fun debug_fun_14 (
-    .clk  (clk          ), //i
+    .clk  (clock        ), //i
     .addr (32'h0000000d ), //i
     .data (data_13[31:0])  //i
   );
   debug_fun debug_fun_15 (
-    .clk  (clk          ), //i
+    .clk  (clock        ), //i
     .addr (32'h0000000e ), //i
     .data (data_14[31:0])  //i
   );
   debug_fun debug_fun_16 (
-    .clk  (clk          ), //i
+    .clk  (clock        ), //i
     .addr (32'h0000000f ), //i
     .data (data_15[31:0])  //i
   );
   debug_fun debug_fun_17 (
-    .clk  (clk          ), //i
+    .clk  (clock        ), //i
     .addr (32'h00000010 ), //i
     .data (data_16[31:0])  //i
   );
   debug_fun debug_fun_18 (
-    .clk  (clk          ), //i
+    .clk  (clock        ), //i
     .addr (32'h00000011 ), //i
     .data (data_17[31:0])  //i
   );
   debug_fun debug_fun_19 (
-    .clk  (clk          ), //i
+    .clk  (clock        ), //i
     .addr (32'h00000012 ), //i
     .data (data_18[31:0])  //i
   );
   debug_fun debug_fun_20 (
-    .clk  (clk          ), //i
+    .clk  (clock        ), //i
     .addr (32'h00000013 ), //i
     .data (data_19[31:0])  //i
   );
   debug_fun debug_fun_21 (
-    .clk  (clk          ), //i
+    .clk  (clock        ), //i
     .addr (32'h00000014 ), //i
     .data (data_20[31:0])  //i
   );
   debug_fun debug_fun_22 (
-    .clk  (clk          ), //i
+    .clk  (clock        ), //i
     .addr (32'h00000015 ), //i
     .data (data_21[31:0])  //i
   );
   debug_fun debug_fun_23 (
-    .clk  (clk          ), //i
+    .clk  (clock        ), //i
     .addr (32'h00000016 ), //i
     .data (data_22[31:0])  //i
   );
   debug_fun debug_fun_24 (
-    .clk  (clk          ), //i
+    .clk  (clock        ), //i
     .addr (32'h00000017 ), //i
     .data (data_23[31:0])  //i
   );
   debug_fun debug_fun_25 (
-    .clk  (clk          ), //i
+    .clk  (clock        ), //i
     .addr (32'h00000018 ), //i
     .data (data_24[31:0])  //i
   );
   debug_fun debug_fun_26 (
-    .clk  (clk          ), //i
+    .clk  (clock        ), //i
     .addr (32'h00000019 ), //i
     .data (data_25[31:0])  //i
   );
   debug_fun debug_fun_27 (
-    .clk  (clk          ), //i
+    .clk  (clock        ), //i
     .addr (32'h0000001a ), //i
     .data (data_26[31:0])  //i
   );
   debug_fun debug_fun_28 (
-    .clk  (clk          ), //i
+    .clk  (clock        ), //i
     .addr (32'h0000001b ), //i
     .data (data_27[31:0])  //i
   );
   debug_fun debug_fun_29 (
-    .clk  (clk          ), //i
+    .clk  (clock        ), //i
     .addr (32'h0000001c ), //i
     .data (data_28[31:0])  //i
   );
   debug_fun debug_fun_30 (
-    .clk  (clk          ), //i
+    .clk  (clock        ), //i
     .addr (32'h0000001d ), //i
     .data (data_29[31:0])  //i
   );
   debug_fun debug_fun_31 (
-    .clk  (clk          ), //i
+    .clk  (clock        ), //i
     .addr (32'h0000001e ), //i
     .data (data_30[31:0])  //i
   );
   debug_fun debug_fun_32 (
-    .clk  (clk          ), //i
+    .clk  (clock        ), //i
     .addr (32'h0000001f ), //i
     .data (data_31[31:0])  //i
   );

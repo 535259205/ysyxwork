@@ -42,7 +42,7 @@ module Encode (
   input  wire [31:0]   axi4lite_r_payload_data,
   input  wire [1:0]    axi4lite_r_payload_resp,
   input  wire          vaild,
-  input  wire          clk,
+  input  wire          clock,
   input  wire          rst
 );
 
@@ -410,8 +410,8 @@ module Encode (
   assign _zz_com_grp_rd_1 = (com_grp_rs1 + imm_I);
   assign _zz_com_grp_rd_2 = (com_grp_rs1 + imm_I);
   assign _zz_com_grp_rd_3 = (com_grp_rs1 + imm_I);
-  always @(posedge clk or negedge rst) begin
-    if(!rst) begin
+  always @(posedge clock) begin
+    if(rst) begin
       code <= 32'h00000013;
       mem_flag <= 1'b0;
       pc_pc <= 32'h80000000;
@@ -431,7 +431,7 @@ module Encode (
     end
   end
 
-  always @(posedge clk) begin
+  always @(posedge clock) begin
     com_grp_rd_vaild <= 1'b1;
     com_grp_rd <= 32'h0;
     casez(code)

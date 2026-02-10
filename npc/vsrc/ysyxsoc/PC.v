@@ -7,6 +7,17 @@ module PC (
   input  wire [31:0]   com_encode_nPC,
   input  wire          com_encode_nPC_vaild,
   output wire [31:0]   com_encode_PC,
+  output wire          axi4lite_aw_valid,
+  input  wire          axi4lite_aw_ready,
+  output wire [31:0]   axi4lite_aw_payload_addr,
+  output wire [2:0]    axi4lite_aw_payload_prot,
+  output wire          axi4lite_w_valid,
+  input  wire          axi4lite_w_ready,
+  output wire [31:0]   axi4lite_w_payload_data,
+  output wire [3:0]    axi4lite_w_payload_strb,
+  input  wire          axi4lite_b_valid,
+  output wire          axi4lite_b_ready,
+  input  wire [1:0]    axi4lite_b_payload_resp,
   output reg           axi4lite_ar_valid,
   input  wire          axi4lite_ar_ready,
   output wire [31:0]   axi4lite_ar_payload_addr,
@@ -16,7 +27,7 @@ module PC (
   input  wire [31:0]   axi4lite_r_payload_data,
   input  wire [1:0]    axi4lite_r_payload_resp,
   input  wire          read_en,
-  input  wire          clk,
+  input  wire          clock,
   input  wire          rst
 );
 
@@ -30,8 +41,15 @@ module PC (
     .data_0 (debug_data_0[31:0]   ), //i
     .data_1 (debug_data_1[31:0]   ), //i
     .data_2 (com_encode_code[31:0]), //i
-    .clk    (clk                  )  //i
+    .clock  (clock                )  //i
   );
+  assign axi4lite_w_valid = 1'b0;
+  assign axi4lite_w_payload_data = 32'bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
+  assign axi4lite_w_payload_strb = 4'bxxxx;
+  assign axi4lite_aw_valid = 1'b0;
+  assign axi4lite_aw_payload_addr = 32'bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
+  assign axi4lite_aw_payload_prot = 3'bxxx;
+  assign axi4lite_b_ready = 1'b0;
   assign axi4lite_ar_fire = (axi4lite_ar_valid && axi4lite_ar_ready);
   assign axi4lite_r_fire = (axi4lite_r_valid && axi4lite_r_ready);
   assign axi4lite_ar_payload_addr = com_encode_PC;
@@ -40,8 +58,8 @@ module PC (
   assign com_encode_PC = PC_cnt;
   assign debug_data_0 = PC_cnt;
   assign debug_data_1 = (com_encode_nPC_vaild ? com_encode_nPC : PC_cnt);
-  always @(posedge clk or negedge rst) begin
-    if(!rst) begin
+  always @(posedge clock) begin
+    if(rst) begin
       PC_cnt <= 32'h80000000;
     end else begin
       if((axi4lite_r_fire && read_en)) begin
@@ -54,7 +72,7 @@ module PC (
     end
   end
 
-  always @(posedge clk) begin
+  always @(posedge clock) begin
     if(axi4lite_ar_fire) begin
       axi4lite_ar_valid <= 1'b0;
     end else begin

@@ -11,7 +11,7 @@ module CSR (
   input  wire [31:0]   com_encode_w_pc,
   output reg  [31:0]   com_encode_r_pc,
   input  wire          com_encode_mret,
-  input  wire          clk,
+  input  wire          clock,
   input  wire          rst
 );
 
@@ -26,7 +26,7 @@ module CSR (
   reg        [31:0]   mtvec;
 
   assign _zz_mcycle = (mcycle + 64'h0000000000000001);
-  assign _zz_com_encode_r_pc = (mepc);
+  assign _zz_com_encode_r_pc = (mepc + 32'h00000004);
   my_debug_1 debug (
     .data_0 (mtvec[31:0]       ), //i
     .data_1 (mcause[31:0]      ), //i
@@ -34,7 +34,7 @@ module CSR (
     .data_3 (mepc[31:0]        ), //i
     .data_4 (debug_data_4[31:0]), //i
     .data_5 (debug_data_5[31:0]), //i
-    .clk    (clk               )  //i
+    .clock  (clock             )  //i
   );
   always @(*) begin
     com_encode_r_pc = 32'h0;
@@ -81,8 +81,8 @@ module CSR (
 
   assign debug_data_4 = mcycle[31 : 0];
   assign debug_data_5 = mcycle[63 : 32];
-  always @(posedge clk or negedge rst) begin
-    if(!rst) begin
+  always @(posedge clock) begin
+    if(rst) begin
       mcycle <= 64'h0;
       mstatus <= 32'h00001800;
       mcause <= 32'h0;
