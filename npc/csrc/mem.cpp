@@ -198,10 +198,10 @@ void mem_init(void)
   #elif USE_MEM==0
     rom[0x228 / 4] = 0x100073;
   #endif
-  // for (int i = 0; i < (MEM_SIZE);i++)
-  // {
-  //   mem[i] = rom[i];
-  // }
+  for (int i = 0; i < (MEM_SIZE);i++)
+  {
+    mem[i] = rom[i];
+  }
   
 
   // extern void difftest_cpymem(uint32_t *data, uint32_t len);
