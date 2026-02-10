@@ -204,9 +204,9 @@ void mem_init(void)
   }
   
 
-  extern void difftest_cpymem(uint32_t *data, uint32_t len);
-  extern void difftest_myinit(void);
-  difftest_myinit();
-  difftest_cpymem(rom, MEM_SIZE);
+  // extern void difftest_cpymem(uint32_t *data, uint32_t len);
+  // extern void difftest_myinit(void);
+  // difftest_myinit();
+  // difftest_cpymem(rom, MEM_SIZE);
   //MEM_SIZE
 }
