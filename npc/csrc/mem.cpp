@@ -160,6 +160,7 @@ uint32_t * mem_scan(uint32_t addr)
 
 extern "C"  int rom_r(int addr)
 {
+  return 0;
   uint32_t tar_addr = (addr&0x7fffffff)>>2;
   if (tar_addr >= MEM_SIZE)
     return 0;
