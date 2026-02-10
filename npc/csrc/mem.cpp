@@ -167,6 +167,7 @@ extern "C"  int rom_r(int addr)
   return rom[tar_addr];
 }
 
+
 uint32_t rom_read(uint32_t  addr)
 {
   uint32_t tar_addr = (addr&0x7fffffff)>>2;
