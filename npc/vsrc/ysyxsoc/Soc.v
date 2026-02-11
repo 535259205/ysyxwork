@@ -380,20 +380,20 @@ module Soc (
     .r_sel                    (ctrl_r_sel                        )  //i
   );
   SocCtrl ctrl (
-    .u_vaild_0   (ctrl_u_vaild_0), //o
-    .u_vaild_1   (ctrl_u_vaild_1), //o
-    .u_vaild_2   (ctrl_u_vaild_2), //o
-    .u_vaild_3   (ctrl_u_vaild_3), //o
-    .u_vaild_4   (ctrl_u_vaild_4), //o
-    .axi_r_ready (axi_m_r_ready ), //i
-    .axi_r_valid (axi_m_r_valid ), //i
-    .axi_r_fire  (axi_m_r_fire  ), //i
-    .axi_w_ready (axi_m_w_ready ), //i
-    .axi_w_valid (axi_m_w_valid ), //i
-    .axi_w_fire  (axi_m_w_fire  ), //i
-    .r_sel       (ctrl_r_sel    ), //o
-    .clock       (clock         ), //i
-    .rst         (rst           )  //i
+    .u_vaild_0   (ctrl_u_vaild_0      ), //o
+    .u_vaild_1   (ctrl_u_vaild_1      ), //o
+    .u_vaild_2   (ctrl_u_vaild_2      ), //o
+    .u_vaild_3   (ctrl_u_vaild_3      ), //o
+    .u_vaild_4   (ctrl_u_vaild_4      ), //o
+    .axi_r_ready (encode_2_axi_r_ready), //i
+    .axi_r_valid (xbar_axi_m_1_r_valid), //i
+    .axi_r_fire  (axi_m_r_fire        ), //i
+    .axi_w_ready (xbar_axi_m_1_w_ready), //i
+    .axi_w_valid (encode_2_axi_w_valid), //i
+    .axi_w_fire  (axi_m_w_fire        ), //i
+    .r_sel       (ctrl_r_sel          ), //o
+    .clock       (clock               ), //i
+    .rst         (rst                 )  //i
   );
   assign axi_m_aw_valid = xbar_axi_s_aw_valid;
   assign axi_m_aw_payload_addr = xbar_axi_s_aw_payload_addr;

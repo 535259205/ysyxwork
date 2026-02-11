@@ -52,18 +52,22 @@ $(TARGET_BIN): $(TARGET_ELF)
 	@$(OBJCOPY) -O binary $< $@
 
 # 主目标
-all: $(TARGET_ELF) $(TARGET_DISASM) $(TARGET_BIN)
+mbuild: $(TARGET_ELF) $(TARGET_DISASM) $(TARGET_BIN)
 	@echo "Build completed successfully!"
 	@echo "Generated files:"
 	@echo "  - $(TARGET_ELF)"
 	@echo "  - $(TARGET_DISASM)"
 	@echo "  - $(TARGET_BIN)"
 	@echo "  - Object files in $(BUILD_DIR)/"
+all: clean mbuild move
 
 # 清理规则
 clean:
-	@rm -rf $(BUILD_DIR)
+	@rm -rf ./$(BUILD_DIR)/*
 	@echo "Cleaned all generated files!"
 
+move:
+	@cp $(TARGET_BIN) ../npc/hex/test.bin
+
 # 伪目标
-.PHONY: all clean
+.PHONY: all clean mbuild move

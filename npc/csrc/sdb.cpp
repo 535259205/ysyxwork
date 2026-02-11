@@ -3,7 +3,7 @@
 #include "sdb.h"
 #include "string.h"
 
-// #define BATCH_MODE
+#define BATCH_MODE
 
 static uint32_t match_len;
 extern struct SdbMatch match[];

@@ -9,6 +9,7 @@ module debug_fun(
 
 import "DPI-C" function void debug(input int addr,input int data);
 
+
 always @(negedge clk)
 begin
     debug(addr,data);

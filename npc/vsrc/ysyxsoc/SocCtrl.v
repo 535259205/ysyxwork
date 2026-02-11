@@ -14,7 +14,7 @@ module SocCtrl (
   input  wire          axi_w_ready,
   input  wire          axi_w_valid,
   input  wire          axi_w_fire,
-  output wire          r_sel,
+  output reg           r_sel,
   input  wire          clock,
   input  wire          rst
 );
@@ -80,6 +80,7 @@ module SocCtrl (
 
   always @(*) begin
     u_vaild_0 = 1'b0;
+    r_sel = 1'b0;
     s_wantStart = 1'b0;
     s_stateNext = s_stateReg;
     case(s_stateReg)
@@ -106,6 +107,9 @@ module SocCtrl (
       MEM : begin
         if((axi_w_fire || axi_r_fire_regNext)) begin
           s_stateNext = WB;
+        end
+        if(axi_r_ready) begin
+          r_sel = 1'b1;
         end
       end
       WB : begin
@@ -146,7 +150,6 @@ module SocCtrl (
     end
   end
 
-  assign r_sel = 1'b0;
   assign s_wantExit = 1'b0;
   assign s_wantKill = 1'b0;
   assign s_onExit_BOOT = ((s_stateNext != BOOT) && (s_stateReg == BOOT));
