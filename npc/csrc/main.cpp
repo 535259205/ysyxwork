@@ -21,6 +21,7 @@ int main(int argc, char **argv)
   mem_init();
 
   SimInit(argc, argv);
+  
   DisamsInit();
 
   FtraceInit("./hex/test.elf");

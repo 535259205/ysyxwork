@@ -11,7 +11,7 @@ module GRP (
   output reg  [31:0]   com_encode_rs2,
   input  wire [4:0]    com_encode_rs2_sel,
   input  wire          w_vaild,
-  input  wire          clk,
+  input  wire          clock,
   input  wire          rst
 );
 
@@ -85,7 +85,7 @@ module GRP (
     .data_29 (reg_29[31:0]), //i
     .data_30 (reg_30[31:0]), //i
     .data_31 (reg_31[31:0]), //i
-    .clk     (clk         )  //i
+    .clock   (clock       )  //i
   );
   always @(*) begin
     case(com_encode_rs1_sel)
@@ -179,8 +179,8 @@ module GRP (
     end
   end
 
-  always @(posedge clk or negedge rst) begin
-    if(!rst) begin
+  always @(posedge clock) begin
+    if(rst) begin
       reg_0 <= 32'h0;
       reg_1 <= 32'h0;
       reg_2 <= 32'h0;

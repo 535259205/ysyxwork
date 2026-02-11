@@ -13,7 +13,7 @@ extern "C" void ebreak(int test)
 }
 extern "C" void debug(int addr , int data)
 {
-  DebugBuf[addr] = (uint32_t)data;
+  // DebugBuf[addr] = (uint32_t)data;
 }
 
 void info_reg(struct SdbReg * info){

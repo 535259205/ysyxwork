@@ -1,6 +1,8 @@
 #ifndef SDB_H_
 #define SDB_H_
 
+#include <cstdint>
+
 struct SdbMatch{
     const char * cmd;
     const char *help;
