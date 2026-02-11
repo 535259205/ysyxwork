@@ -3,7 +3,7 @@
 #include "sdb.h"
 
 int ebreak_flag = 0;
-uint32_t DebugBuf[2048];
+volatile uint32_t DebugBuf[2048]={0};
 //0-31 GRP 寄存器
 //32   PC  寄存器
 
@@ -13,7 +13,10 @@ extern "C" void ebreak(int test)
 }
 extern "C" void debug(int addr , int data)
 {
-  // DebugBuf[addr] = (uint32_t)data;
+  if(addr >= 0 && addr < 2048)
+    DebugBuf[addr] = (uint32_t)data;
+  else
+    printf("debug: addr 0x%08X out of range\n", addr);
 }
 
 void info_reg(struct SdbReg * info){

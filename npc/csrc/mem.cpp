@@ -34,7 +34,7 @@ uint32_t * mem_scan(uint32_t addr)
 
 uint32_t rom_read(uint32_t  addr)
 {
-  uint32_t tar_addr = (addr&0x7fffffff)>>2;
+  uint32_t tar_addr = (addr-0x20000000)>>2;
   if (tar_addr >= MEM_SIZE)
     exit(1);
   return rom[tar_addr];
@@ -72,5 +72,4 @@ void mem_init(void)
   extern void difftest_myinit(void);
   difftest_myinit();
   difftest_cpymem(rom, MEM_SIZE);
-  //MEM_SIZE
 }

@@ -4,12 +4,15 @@
 #include "verilated.h"
 #include "stdio.h"
 #include "sdb.h"
+#include "debug.h"
+
 
 #define USE_WAVE1 1
 #define SHOW_LIMIT 10
 #define USE_ITRACE 0
 #define USE_FTRACE 0
-#define USE_DIFFTEST 0
+#define USE_DIFFTEST 1
+
 
 VysyxSoCFull *dut = new VysyxSoCFull(); 
 vluint64_t sim_time = 0;
@@ -17,7 +20,6 @@ VerilatedVcdC *m_trace = new VerilatedVcdC();
 
 extern int ebreak_flag;
 static struct SdbReg infoa;
-
 static volatile int step_flag = 0;
 extern "C" void SimStep1(int step_data)
 {
@@ -71,9 +73,13 @@ int SimStep(uint32_t n)
                 break;
             }
         }
+
     }
     return 0;
 }
+
+
+
 
 void SimInit(int argc, char **argv)
 {
@@ -100,7 +106,7 @@ void SimInit(int argc, char **argv)
         sim_time++;
     }
     dut->reset = 0;
-
+    
 }
 
 void SimEnd(void)

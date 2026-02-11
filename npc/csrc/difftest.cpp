@@ -3,6 +3,7 @@
 #include <difftest-def.h>
 #include <memory/paddr.h>
 #include "sdb.h"
+#include <cstdio>
 
 extern "C" {
 __EXPORT void difftest_exec(uint64_t n);
@@ -18,7 +19,7 @@ static uint32_t cpu_temp[sizeof(CPU_state)] = {};
 
 void difftest_reg_init(void)
 {
-    cpu_ref.pc = 0x80000000;
+    cpu_ref.pc = 0x20000000;
     cpu_ref.mtvec = RESET_VECTOR;   // 设置中断向量表基地址
     cpu_ref.mstatus = 0x00001800;   // MPP=11 (machine mode), MIE=0 (禁用中断)
     cpu_ref.mcause = 0x00000000;    // 无异常/中断
