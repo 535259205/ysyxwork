@@ -53,11 +53,11 @@ void init_mem() {
 static uint8_t sram[0x4000] = {0};
 #define SRAM_BASE 0x0f000000
 void sram_write(paddr_t addr, int len, word_t data) {
-  printf("sram_write: addr = " FMT_PADDR ", len = %d, data = " FMT_WORD "\n", addr, len, data);
+  // printf("sram_write: addr = " FMT_PADDR ", len = %d, data = " FMT_WORD "\n", addr, len, data);
   host_write(&sram[addr - SRAM_BASE], len, data);
 }
 word_t sram_read(paddr_t addr, int len) {
-  printf("sram_read : addr = " FMT_PADDR ", len = %d, data = " FMT_WORD "\n", addr, len, host_read(&sram[addr - SRAM_BASE], len));
+  // printf("sram_read : addr = " FMT_PADDR ", len = %d, data = " FMT_WORD "\n", addr, len, host_read(&sram[addr - SRAM_BASE], len));
   return host_read(&sram[addr - SRAM_BASE], len);
 }
 

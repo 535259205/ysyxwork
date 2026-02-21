@@ -17,11 +17,17 @@ extern void iringbuf_memadd(const char* Prefix, uint32_t addr, int len, uint32_t
 
 
 extern "C" void flash_read(int32_t addr, int32_t *data) {
-  assert(1);
+  //FLASH目前似乎没有访问过
+  assert(0);
   *data = mem[(addr-RAM_BASE)>>2];
 }
 extern "C" void mrom_read(int32_t addr, int32_t *data) { 
   assert(1);
+  if(addr&0x03 !=0)
+  {
+    printf("mrom_read: addr = %d is not aligned\n", addr);
+    assert(0);
+  }
   *data = rom[(addr-ROM_BASE)>>2];
 }
 
