@@ -75,7 +75,7 @@ word_t paddr_read(paddr_t addr, int len) {
     #endif
     return ret;
   }
-  else if (in_sram(addr))
+  else if (likely(in_sram(addr)))
   {
     return sram_read(addr, len);
   }
@@ -95,7 +95,7 @@ void paddr_write(paddr_t addr, int len, word_t data) {
     pmem_write(addr, len, data);
     return;
   }
-  else if (in_sram(addr))
+  else if (likely(in_sram(addr)))
   {
     sram_write(addr, len, data);
     return;
