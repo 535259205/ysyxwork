@@ -47,7 +47,7 @@ all:
 	@@make -C obj_dir -f V$(TOP_MODULE).mk V$(TOP_MODULE)
 #-DBATCH_MODE
 # 6. 仿真目标
-sim:
+sim: encode
 	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):$(CURDIR)/../nemu/tools/capstone/repo ./obj_dir/V$(TOP_MODULE)
 ifeq ($(USE_WAVE),1)
 	gtkwave waveform.vcd
@@ -58,8 +58,7 @@ gdb:
 	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):$(CURDIR)/../nemu/tools/capstone/repo gdb ./obj_dir/V$(TOP_MODULE)
 
 encode :
-	riscv64-linux-gnu-objdump -D -b binary -m riscv:rv32 -EL --start-address=0x00000000 ./hex/test.bin > ./hex/disasm_result.txt
-
+	riscv64-linux-gnu-objdump -D -m riscv:rv32 -EL ./hex/test.elf > ./hex/disasm_result.txt
 gtk :
 	gtkwave waveform.vcd wave_sign.gtkw
 # 7. 清理目标

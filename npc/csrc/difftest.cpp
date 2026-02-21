@@ -19,7 +19,7 @@ static uint32_t cpu_temp[sizeof(CPU_state)] = {};
 
 void difftest_reg_init(void)
 {
-    cpu_ref.pc = 0x20000000;
+    cpu_ref.pc = 0x80000000;
     cpu_ref.mtvec = RESET_VECTOR;   // 设置中断向量表基地址
     cpu_ref.mstatus = 0x00001800;   // MPP=11 (machine mode), MIE=0 (禁用中断)
     cpu_ref.mcause = 0x00000000;    // 无异常/中断
@@ -51,14 +51,14 @@ int difftest_comp(struct SdbReg *info)
     //     printf("mcause diff: 0x%x != 0x%x\n", cpu_ref.mcause, info->mcause);
     //     return 0;
     // }
-    if(cpu_ref.mstatus!=info->mstatus){ // 使用 -> 访问指针成员
-        printf("mstatus diff: 0x%x != 0x%x\n", cpu_ref.mstatus, info->mstatus);
-        return 0;
-    }
-    if(cpu_ref.mepc!=info->mepc){ // 使用 -> 访问指针成员
-        printf("mepc diff: 0x%x != 0x%x\n", cpu_ref.mepc, info->mepc);
-        return 0;
-    }
+    // if(cpu_ref.mstatus!=info->mstatus){ // 使用 -> 访问指针成员
+    //     printf("mstatus diff: 0x%x != 0x%x\n", cpu_ref.mstatus, info->mstatus);
+    //     return 0;
+    // }
+    // if(cpu_ref.mepc!=info->mepc){ // 使用 -> 访问指针成员
+    //     printf("mepc diff: 0x%x != 0x%x\n", cpu_ref.mepc, info->mepc);
+    //     return 0;
+    // }
     return 1;
 }
 

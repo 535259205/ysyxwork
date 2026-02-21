@@ -7,6 +7,9 @@
 #define MEM_SIZE (0x40000)
 #define USE_MEM 2
 
+#define ROM_BASE (0x20000000)
+#define RAM_BASE (0x0f000000)
+
 static uint32_t mem[MEM_SIZE];
 static uint32_t rom[MEM_SIZE] = {0};
 
@@ -15,18 +18,17 @@ extern void iringbuf_memadd(const char* Prefix, uint32_t addr, int len, uint32_t
 
 extern "C" void flash_read(int32_t addr, int32_t *data) {
   assert(1);
-  *data = mem[(addr-0x0f000000)>>2];
+  *data = mem[(addr-RAM_BASE)>>2];
 }
 extern "C" void mrom_read(int32_t addr, int32_t *data) { 
   assert(1);
-  *data = rom[(addr-0x20000000)>>2];
+  *data = rom[(addr-ROM_BASE)>>2];
 }
 
 
 
 uint32_t * mem_scan(uint32_t addr)
 {
-  // uint32_t *tar_addr = &mem[(addr&0x7fffffff)>>2];
   uint32_t *tar_addr = &mem[0];
   return tar_addr;
 }
@@ -34,7 +36,7 @@ uint32_t * mem_scan(uint32_t addr)
 
 uint32_t rom_read(uint32_t  addr)
 {
-  uint32_t tar_addr = (addr-0x20000000)>>2;
+  uint32_t tar_addr = (addr-ROM_BASE)>>2;
   if (tar_addr >= MEM_SIZE)
     exit(1);
   return rom[tar_addr];
