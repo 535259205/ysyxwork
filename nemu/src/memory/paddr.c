@@ -50,15 +50,34 @@ void init_mem() {
   Log("physical memory area [" FMT_PADDR ", " FMT_PADDR "]", PMEM_LEFT, PMEM_RIGHT);
 }
 
+static uint8_t sram[0x1FFF] PG_ALIGN = {};
+#define SRAM_BASE 0x0f000000
+void sram_write(paddr_t addr, int len, word_t data) {
+  host_write(&sram[addr - SRAM_BASE], len, data);
+}
+word_t sram_read(paddr_t addr, int len) {
+  return host_read(&sram[addr - SRAM_BASE], len);
+}
+
+static inline bool in_sram(paddr_t addr) {
+  return addr >= SRAM_BASE && addr < SRAM_BASE + 0x1FFF;
+}
+
+
+
 word_t paddr_read(paddr_t addr, int len) {
-  extern void iringbuf_memadd(const char *Prefix, vaddr_t addr, int len, word_t data);
   if (likely(in_pmem(addr)))
   {
     word_t ret = pmem_read(addr, len);
     #if CONFIG_WATCHPOINT
+    extern void iringbuf_memadd(const char *Prefix, vaddr_t addr, int len, word_t data);
     iringbuf_memadd("Rmem", addr, len, ret);
     #endif
     return ret;
+  }
+  else if (in_sram(addr))
+  {
+    return sram_read(addr, len);
   }
   IFDEF(CONFIG_DEVICE, return mmio_read(addr, len));
   out_of_bound(addr);
@@ -66,14 +85,19 @@ word_t paddr_read(paddr_t addr, int len) {
 }
 
 void paddr_write(paddr_t addr, int len, word_t data) {
-  extern void iringbuf_memadd(const char *Prefix, vaddr_t addr, int len, word_t data);
 
   if (likely(in_pmem(addr)))
   {
     #if CONFIG_WATCHPOINT
+    extern void iringbuf_memadd(const char *Prefix, vaddr_t addr, int len, word_t data);
     iringbuf_memadd("Wmem", addr, len, data);
     #endif
     pmem_write(addr, len, data);
+    return;
+  }
+  else if (in_sram(addr))
+  {
+    sram_write(addr, len, data);
     return;
   }
   IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); return);
