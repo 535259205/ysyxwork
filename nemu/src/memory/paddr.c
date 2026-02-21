@@ -50,7 +50,7 @@ void init_mem() {
   Log("physical memory area [" FMT_PADDR ", " FMT_PADDR "]", PMEM_LEFT, PMEM_RIGHT);
 }
 
-static uint8_t sram[0x1FFF] PG_ALIGN = {};
+static uint8_t sram[0x4000] PG_ALIGN = {};
 #define SRAM_BASE 0x0f000000
 void sram_write(paddr_t addr, int len, word_t data) {
   host_write(&sram[addr - SRAM_BASE], len, data);
@@ -60,7 +60,7 @@ word_t sram_read(paddr_t addr, int len) {
 }
 
 static inline bool in_sram(paddr_t addr) {
-  return addr >= SRAM_BASE && addr < SRAM_BASE + 0x1FFF;
+  return addr >= SRAM_BASE && addr < SRAM_BASE + 0x4000;
 }
 
 
