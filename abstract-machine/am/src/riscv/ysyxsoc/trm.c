@@ -23,23 +23,23 @@ void halt(int code) {
 }
 void mem_init(void)
 {
-  volatile int *_data_load_start;
-  volatile int *_data_start;
-  volatile int *_data_end;
-  asm volatile("la %0, _data_load_start" : "=r"(_data_load_start));
-  asm volatile("la %0, _data_start" : "=r"(_data_start));
-  asm volatile("la %0, _data_end" : "=r"(_data_end));
-  while(_data_start<=_data_end)
+  volatile char *data_load_start;
+  volatile char *data_start;
+  volatile char *data_end;
+  asm volatile("la %0, _data_load_start" : "=r"(data_load_start));
+  asm volatile("la %0, _data_start" : "=r"(data_start));
+  asm volatile("la %0, _data_end" : "=r"(data_end));
+  while(data_start<=data_end)
   {
-    *_data_start = *_data_load_start;
+    *data_start = *data_load_start;
     //测试代码到时候可以删去
-    if(*(_data_start)!=*(_data_load_start))
+    if(*(data_start)!=*(data_load_start))
     {
       halt(0);
     }    
     //
-    _data_start++;
-    _data_load_start++;
+    data_start++;
+    data_load_start++;
   }
 }
 void _trm_init()

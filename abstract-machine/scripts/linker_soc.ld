@@ -21,7 +21,9 @@ SECTIONS {
     .data : {
         _data_start = .;              
         *(.data)
-        *(.data.*) 
+        *(.data*)
+        *(.sdata)
+        *(.sdata*)
         _data_end = .;              
     } > SRAM AT> MROM
     /* > 为运行的时候的位置 AT>MROM 就是代表烧录的时候的位置 */

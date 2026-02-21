@@ -60,10 +60,15 @@ word_t sram_read(paddr_t addr, int len) {
   // printf("sram_read : addr = " FMT_PADDR ", len = %d, data = " FMT_WORD "\n", addr, len, host_read(&sram[addr - SRAM_BASE], len));
   return host_read(&sram[addr - SRAM_BASE], len);
 }
-
+#define UART_BASE 0x10000000
 static inline bool in_sram(paddr_t addr) {
   return addr >= SRAM_BASE && addr < SRAM_BASE + 0x4000;
 }
+static inline bool in_uart(paddr_t addr) {
+  return addr >= UART_BASE && addr < UART_BASE + 0x1fff;
+}
+
+
 
 word_t paddr_read(paddr_t addr, int len) {
   if (likely(in_pmem(addr)))
@@ -98,6 +103,9 @@ void paddr_write(paddr_t addr, int len, word_t data) {
   else if (likely(in_sram(addr)))
   {
     sram_write(addr, len, data);
+    return;
+  }else if(likely(in_uart(addr)))
+  {
     return;
   }
   IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); return);
