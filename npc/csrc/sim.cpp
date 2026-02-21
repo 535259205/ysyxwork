@@ -60,8 +60,9 @@ int SimStep(uint32_t n)
             printf("ebreak_flag is set at count %d\n", count);
             return 1;
         }
-        for(;;){
-            for(int j=0;j<2;j++)
+        for (;;)
+        {
+            for (int j = 0; j < 2; j++)
             {
             dut->clock=!dut->clock;
             dut->eval();
@@ -71,14 +72,12 @@ int SimStep(uint32_t n)
             sim_time++;
             #endif
             }
-            
-            if(step_flag==1)
+            if(step_flag>=1)
             {
                 step_flag--;
                 break;
             }
         }
-
     }
     return 0;
 }
