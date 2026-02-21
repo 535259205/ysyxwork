@@ -57,6 +57,7 @@ void sram_write(paddr_t addr, int len, word_t data) {
   host_write(&sram[addr - SRAM_BASE], len, data);
 }
 word_t sram_read(paddr_t addr, int len) {
+  printf("sram_read: addr = " FMT_PADDR ", len = %d, data = " FMT_WORD "\n", addr, len, host_read(&sram[addr - SRAM_BASE], len));
   return host_read(&sram[addr - SRAM_BASE], len);
 }
 

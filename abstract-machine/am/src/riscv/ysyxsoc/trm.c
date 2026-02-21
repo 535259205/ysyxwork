@@ -29,17 +29,15 @@ void mem_init(void)
   asm volatile("la %0, _data_load_start" : "=r"(_data_load_start));
   asm volatile("la %0, _data_start" : "=r"(_data_start));
   asm volatile("la %0, _data_end" : "=r"(_data_end));
-  while(_data_start<_data_end)
+  while(_data_start<=_data_end)
   {
     *_data_start = *_data_load_start;
     //测试代码到时候可以删去
     if(*(_data_start)!=*(_data_load_start))
     {
-      asm volatile("ebreak");
-      while(1);
-    }
+      halt(0);
+    }    
     //
-    
     _data_start++;
     _data_load_start++;
   }
