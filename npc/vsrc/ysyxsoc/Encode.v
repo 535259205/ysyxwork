@@ -33,7 +33,7 @@ module Encode (
   input  wire          axi4lite_b_valid,
   output wire          axi4lite_b_ready,
   input  wire [1:0]    axi4lite_b_payload_resp,
-  output wire          axi4lite_ar_valid,
+  output reg           axi4lite_ar_valid,
   input  wire          axi4lite_ar_ready,
   output reg  [31:0]   axi4lite_ar_payload_addr,
   output wire [2:0]    axi4lite_ar_payload_prot,
@@ -42,6 +42,7 @@ module Encode (
   input  wire [31:0]   axi4lite_r_payload_data,
   input  wire [1:0]    axi4lite_r_payload_resp,
   input  wire          vaild,
+  output reg  [3:0]    ar_size,
   input  wire          clock,
   input  wire          rst
 );
@@ -50,55 +51,107 @@ module Encode (
   wire       [11:0]   _zz_imm_S;
   wire       [12:0]   _zz_imm_B;
   wire       [20:0]   _zz_imm_J;
-  wire       [31:0]   _zz_com_grp_rd_4;
-  wire       [31:0]   _zz_com_grp_rd_5;
-  wire       [31:0]   _zz_com_grp_rd_6;
-  wire       [31:0]   _zz_com_grp_rd_7;
-  wire       [31:0]   _zz_com_grp_rd_8;
-  wire       [31:0]   _zz_com_grp_rd_9;
-  wire       [62:0]   _zz_com_grp_rd_10;
-  wire       [62:0]   _zz_com_grp_rd_11;
+  wire       [31:0]   _zz_com_grp_rd_10;
+  wire       [31:0]   _zz_com_grp_rd_11;
   wire       [31:0]   _zz_com_grp_rd_12;
   wire       [31:0]   _zz_com_grp_rd_13;
   wire       [31:0]   _zz_com_grp_rd_14;
   wire       [31:0]   _zz_com_grp_rd_15;
-  wire       [31:0]   _zz_com_grp_rd_16;
-  wire       [31:0]   _zz_com_grp_rd_17;
-  wire       [0:0]    _zz_com_grp_rd_18;
+  wire       [62:0]   _zz_com_grp_rd_16;
+  wire       [62:0]   _zz_com_grp_rd_17;
+  wire       [31:0]   _zz_com_grp_rd_18;
   wire       [31:0]   _zz_com_grp_rd_19;
   wire       [31:0]   _zz_com_grp_rd_20;
-  wire       [0:0]    _zz_com_grp_rd_21;
+  wire       [31:0]   _zz_com_grp_rd_21;
   wire       [31:0]   _zz_com_grp_rd_22;
   wire       [31:0]   _zz_com_grp_rd_23;
-  wire       [62:0]   _zz_com_grp_rd_24;
-  wire       [62:0]   _zz_com_grp_rd_25;
+  wire       [0:0]    _zz_com_grp_rd_24;
+  wire       [31:0]   _zz_com_grp_rd_25;
   wire       [31:0]   _zz_com_grp_rd_26;
-  wire       [31:0]   _zz_com_grp_rd_27;
+  wire       [0:0]    _zz_com_grp_rd_27;
   wire       [31:0]   _zz_com_grp_rd_28;
   wire       [31:0]   _zz_com_grp_rd_29;
-  wire       [31:0]   _zz_com_grp_rd_30;
-  wire       [31:0]   _zz_com_grp_rd_31;
-  wire       [0:0]    _zz_com_grp_rd_32;
+  wire       [62:0]   _zz_com_grp_rd_30;
+  wire       [62:0]   _zz_com_grp_rd_31;
+  wire       [31:0]   _zz_com_grp_rd_32;
   wire       [31:0]   _zz_com_grp_rd_33;
-  wire       [0:0]    _zz_com_grp_rd_34;
+  wire       [31:0]   _zz_com_grp_rd_34;
   wire       [31:0]   _zz_com_grp_rd_35;
-  wire       [7:0]    _zz_com_grp_rd_36;
+  wire       [31:0]   _zz_com_grp_rd_36;
   wire       [31:0]   _zz_com_grp_rd_37;
-  wire       [4:0]    _zz_com_grp_rd_38;
+  wire       [0:0]    _zz_com_grp_rd_38;
   wire       [31:0]   _zz_com_grp_rd_39;
-  wire       [15:0]   _zz_com_grp_rd_40;
-  wire       [31:0]   _zz_com_grp_rd_41;
-  wire       [4:0]    _zz_com_grp_rd_42;
-  wire       [31:0]   _zz_com_grp_rd_43;
-  wire       [7:0]    _zz_com_grp_rd_44;
-  wire       [31:0]   _zz_com_grp_rd_45;
-  wire       [4:0]    _zz_com_grp_rd_46;
-  wire       [31:0]   _zz_com_grp_rd_47;
-  wire       [15:0]   _zz_com_grp_rd_48;
-  wire       [31:0]   _zz_com_grp_rd_49;
-  wire       [4:0]    _zz_com_grp_rd_50;
+  wire       [0:0]    _zz_com_grp_rd_40;
+  wire       [3:0]    _zz_1;
+  wire       [31:0]   _zz__zz_com_grp_rd_1;
+  wire       [7:0]    _zz__zz_com_grp_rd_1_1;
+  wire       [31:0]   _zz__zz_com_grp_rd_1_2;
+  wire       [31:0]   _zz__zz_com_grp_rd_1_3;
+  wire       [7:0]    _zz__zz_com_grp_rd_1_4;
+  wire       [31:0]   _zz__zz_com_grp_rd_1_5;
+  wire       [31:0]   _zz__zz_com_grp_rd_1_6;
+  wire       [15:0]   _zz__zz_com_grp_rd_1_7;
+  wire       [31:0]   _zz__zz_com_grp_rd_1_8;
+  wire       [31:0]   _zz__zz_com_grp_rd_1_9;
+  wire       [15:0]   _zz__zz_com_grp_rd_1_10;
+  wire       [31:0]   _zz__zz_com_grp_rd_1_11;
+  wire       [3:0]    _zz_2;
+  wire       [31:0]   _zz__zz_com_grp_rd_3;
+  wire       [7:0]    _zz__zz_com_grp_rd_3_1;
+  wire       [31:0]   _zz__zz_com_grp_rd_3_2;
+  wire       [31:0]   _zz__zz_com_grp_rd_3_3;
+  wire       [7:0]    _zz__zz_com_grp_rd_3_4;
+  wire       [31:0]   _zz__zz_com_grp_rd_3_5;
+  wire       [31:0]   _zz__zz_com_grp_rd_3_6;
+  wire       [15:0]   _zz__zz_com_grp_rd_3_7;
+  wire       [31:0]   _zz__zz_com_grp_rd_3_8;
+  wire       [31:0]   _zz__zz_com_grp_rd_3_9;
+  wire       [15:0]   _zz__zz_com_grp_rd_3_10;
+  wire       [31:0]   _zz__zz_com_grp_rd_3_11;
+  wire       [3:0]    _zz_3;
+  wire       [31:0]   _zz__zz_com_grp_rd_5;
+  wire       [7:0]    _zz__zz_com_grp_rd_5_1;
+  wire       [31:0]   _zz__zz_com_grp_rd_5_2;
+  wire       [31:0]   _zz__zz_com_grp_rd_5_3;
+  wire       [7:0]    _zz__zz_com_grp_rd_5_4;
+  wire       [31:0]   _zz__zz_com_grp_rd_5_5;
+  wire       [31:0]   _zz__zz_com_grp_rd_5_6;
+  wire       [15:0]   _zz__zz_com_grp_rd_5_7;
+  wire       [31:0]   _zz__zz_com_grp_rd_5_8;
+  wire       [31:0]   _zz__zz_com_grp_rd_5_9;
+  wire       [15:0]   _zz__zz_com_grp_rd_5_10;
+  wire       [31:0]   _zz__zz_com_grp_rd_5_11;
+  wire       [3:0]    _zz_4;
+  wire       [31:0]   _zz__zz_com_grp_rd_7;
+  wire       [7:0]    _zz__zz_com_grp_rd_7_1;
+  wire       [31:0]   _zz__zz_com_grp_rd_7_2;
+  wire       [31:0]   _zz__zz_com_grp_rd_7_3;
+  wire       [7:0]    _zz__zz_com_grp_rd_7_4;
+  wire       [31:0]   _zz__zz_com_grp_rd_7_5;
+  wire       [31:0]   _zz__zz_com_grp_rd_7_6;
+  wire       [15:0]   _zz__zz_com_grp_rd_7_7;
+  wire       [31:0]   _zz__zz_com_grp_rd_7_8;
+  wire       [31:0]   _zz__zz_com_grp_rd_7_9;
+  wire       [15:0]   _zz__zz_com_grp_rd_7_10;
+  wire       [31:0]   _zz__zz_com_grp_rd_7_11;
+  wire       [3:0]    _zz_5;
+  wire       [31:0]   _zz__zz_com_grp_rd_9;
+  wire       [7:0]    _zz__zz_com_grp_rd_9_1;
+  wire       [31:0]   _zz__zz_com_grp_rd_9_2;
+  wire       [31:0]   _zz__zz_com_grp_rd_9_3;
+  wire       [7:0]    _zz__zz_com_grp_rd_9_4;
+  wire       [31:0]   _zz__zz_com_grp_rd_9_5;
+  wire       [31:0]   _zz__zz_com_grp_rd_9_6;
+  wire       [15:0]   _zz__zz_com_grp_rd_9_7;
+  wire       [31:0]   _zz__zz_com_grp_rd_9_8;
+  wire       [31:0]   _zz__zz_com_grp_rd_9_9;
+  wire       [15:0]   _zz__zz_com_grp_rd_9_10;
+  wire       [31:0]   _zz__zz_com_grp_rd_9_11;
   wire       [31:0]   _zz_com_pc_nPC;
-  wire       [31:0]   _zz_com_grp_rd_51;
+  wire       [31:0]   _zz_com_grp_rd_41;
+  wire       [94:0]   _zz_axi4lite_w_payload_data;
+  wire       [5:0]    _zz_axi4lite_w_payload_data_1;
+  wire       [31:0]   _zz_6;
   wire       [31:0]   _zz_com_pc_nPC_1;
   wire       [31:0]   _zz_com_pc_nPC_2;
   wire       [31:0]   _zz_when;
@@ -109,9 +162,9 @@ module Encode (
   wire       [31:0]   _zz_com_pc_nPC_4;
   wire       [31:0]   _zz_com_pc_nPC_5;
   wire       [31:0]   _zz_com_pc_nPC_6;
-  wire       [31:0]   _zz_com_grp_rd_52;
+  wire       [31:0]   _zz_com_grp_rd_42;
   wire       [31:0]   _zz_com_pc_nPC_7;
-  wire       [31:0]   _zz_com_grp_rd_53;
+  wire       [31:0]   _zz_com_grp_rd_43;
   reg                 ErrorReg;
   reg                 ebreak;
   reg        [31:0]   code;
@@ -124,69 +177,135 @@ module Encode (
   wire       [31:0]   imm_B;
   wire       [31:0]   imm_J;
   reg                 mem_flag;
+  reg                 mem_ar_flag;
+  wire                axi4lite_ar_fire;
   wire                axi4lite_w_fire;
   wire                axi4lite_r_fire;
   reg        [31:0]   pc_pc;
   wire       [11:0]   csr_csr_code;
   wire       [31:0]   csr_imm;
-  wire       [31:0]   _zz_com_grp_rd;
-  wire       [31:0]   _zz_com_grp_rd_1;
-  wire       [31:0]   _zz_com_grp_rd_2;
-  wire       [31:0]   _zz_com_grp_rd_3;
+  wire       [31:0]   _zz_axi4lite_ar_payload_addr;
+  wire       [4:0]    _zz_com_grp_rd;
+  reg        [31:0]   _zz_com_grp_rd_1;
+  wire       [31:0]   _zz_axi4lite_ar_payload_addr_1;
+  wire       [4:0]    _zz_com_grp_rd_2;
+  reg        [31:0]   _zz_com_grp_rd_3;
+  wire       [31:0]   _zz_axi4lite_ar_payload_addr_2;
+  wire       [4:0]    _zz_com_grp_rd_4;
+  reg        [31:0]   _zz_com_grp_rd_5;
+  wire       [31:0]   _zz_axi4lite_ar_payload_addr_3;
+  wire       [4:0]    _zz_com_grp_rd_6;
+  reg        [31:0]   _zz_com_grp_rd_7;
+  wire       [31:0]   _zz_axi4lite_ar_payload_addr_4;
+  wire       [4:0]    _zz_com_grp_rd_8;
+  reg        [31:0]   _zz_com_grp_rd_9;
+  wire       [31:0]   _zz_axi4lite_aw_payload_addr;
 
+  assign _zz_1 = 4'b0001;
+  assign _zz_2 = 4'b0011;
+  assign _zz_3 = 4'b1111;
+  assign _zz_4 = 4'b0001;
+  assign _zz_5 = 4'b0011;
+  assign _zz_6 = (_zz_axi4lite_aw_payload_addr & 32'h00000003);
   assign _zz_imm_I = code[31 : 20];
   assign _zz_imm_S = {code[31 : 25],code[11 : 7]};
   assign _zz_imm_B = {code[31],{code[7],{code[30 : 25],{code[11 : 8],1'b0}}}};
   assign _zz_imm_J = {code[31],{code[19 : 12],{code[20],{code[30 : 21],1'b0}}}};
-  assign _zz_com_grp_rd_4 = ($signed(_zz_com_grp_rd_5) + $signed(_zz_com_grp_rd_6));
-  assign _zz_com_grp_rd_5 = com_grp_rs1;
-  assign _zz_com_grp_rd_6 = com_grp_rs2;
-  assign _zz_com_grp_rd_7 = ($signed(_zz_com_grp_rd_8) - $signed(_zz_com_grp_rd_9));
-  assign _zz_com_grp_rd_8 = com_grp_rs1;
-  assign _zz_com_grp_rd_9 = com_grp_rs2;
-  assign _zz_com_grp_rd_10 = _zz_com_grp_rd_11;
-  assign _zz_com_grp_rd_11 = ({31'd0,com_grp_rs1} <<< _zz_com_grp_rd_12[4 : 0]);
+  assign _zz_com_grp_rd_10 = ($signed(_zz_com_grp_rd_11) + $signed(_zz_com_grp_rd_12));
+  assign _zz_com_grp_rd_11 = com_grp_rs1;
   assign _zz_com_grp_rd_12 = com_grp_rs2;
-  assign _zz_com_grp_rd_13 = (com_grp_rs1 >>> _zz_com_grp_rd_14[4 : 0]);
-  assign _zz_com_grp_rd_14 = com_grp_rs2;
-  assign _zz_com_grp_rd_15 = ($signed(_zz_com_grp_rd_16) >>> _zz_com_grp_rd_17[4 : 0]);
-  assign _zz_com_grp_rd_16 = com_grp_rs1;
-  assign _zz_com_grp_rd_17 = com_grp_rs2;
-  assign _zz_com_grp_rd_18 = ($signed(_zz_com_grp_rd_19) < $signed(_zz_com_grp_rd_20));
-  assign _zz_com_grp_rd_19 = com_grp_rs1;
+  assign _zz_com_grp_rd_13 = ($signed(_zz_com_grp_rd_14) - $signed(_zz_com_grp_rd_15));
+  assign _zz_com_grp_rd_14 = com_grp_rs1;
+  assign _zz_com_grp_rd_15 = com_grp_rs2;
+  assign _zz_com_grp_rd_16 = _zz_com_grp_rd_17;
+  assign _zz_com_grp_rd_17 = ({31'd0,com_grp_rs1} <<< _zz_com_grp_rd_18[4 : 0]);
+  assign _zz_com_grp_rd_18 = com_grp_rs2;
+  assign _zz_com_grp_rd_19 = (com_grp_rs1 >>> _zz_com_grp_rd_20[4 : 0]);
   assign _zz_com_grp_rd_20 = com_grp_rs2;
-  assign _zz_com_grp_rd_21 = (com_grp_rs1 < com_grp_rs2);
-  assign _zz_com_grp_rd_22 = ($signed(_zz_com_grp_rd_23) + $signed(imm_I));
-  assign _zz_com_grp_rd_23 = com_grp_rs1;
-  assign _zz_com_grp_rd_24 = _zz_com_grp_rd_25;
-  assign _zz_com_grp_rd_25 = ({31'd0,com_grp_rs1} <<< _zz_com_grp_rd_26[4 : 0]);
-  assign _zz_com_grp_rd_26 = imm_I;
-  assign _zz_com_grp_rd_27 = (com_grp_rs1 >>> _zz_com_grp_rd_28[4 : 0]);
-  assign _zz_com_grp_rd_28 = imm_I;
-  assign _zz_com_grp_rd_29 = ($signed(_zz_com_grp_rd_30) >>> _zz_com_grp_rd_31[4 : 0]);
-  assign _zz_com_grp_rd_30 = com_grp_rs1;
-  assign _zz_com_grp_rd_31 = imm_I;
-  assign _zz_com_grp_rd_32 = ($signed(_zz_com_grp_rd_33) < $signed(imm_I));
-  assign _zz_com_grp_rd_33 = com_grp_rs1;
-  assign _zz_com_grp_rd_34 = (com_grp_rs1 < imm_I);
-  assign _zz_com_grp_rd_36 = _zz_com_grp_rd_37[7 : 0];
-  assign _zz_com_grp_rd_35 = {{24{_zz_com_grp_rd_36[7]}}, _zz_com_grp_rd_36};
-  assign _zz_com_grp_rd_37 = (axi4lite_r_payload_data >>> _zz_com_grp_rd_38);
-  assign _zz_com_grp_rd_38 = ({3'd0,_zz_com_grp_rd[1 : 0]} <<< 2'd3);
-  assign _zz_com_grp_rd_40 = _zz_com_grp_rd_41[15 : 0];
-  assign _zz_com_grp_rd_39 = {{16{_zz_com_grp_rd_40[15]}}, _zz_com_grp_rd_40};
-  assign _zz_com_grp_rd_41 = (axi4lite_r_payload_data >>> _zz_com_grp_rd_42);
-  assign _zz_com_grp_rd_42 = ({3'd0,_zz_com_grp_rd_1[1 : 0]} <<< 2'd3);
-  assign _zz_com_grp_rd_44 = _zz_com_grp_rd_45[7 : 0];
-  assign _zz_com_grp_rd_43 = {24'd0, _zz_com_grp_rd_44};
-  assign _zz_com_grp_rd_45 = (axi4lite_r_payload_data >>> _zz_com_grp_rd_46);
-  assign _zz_com_grp_rd_46 = ({3'd0,_zz_com_grp_rd_2[1 : 0]} <<< 2'd3);
-  assign _zz_com_grp_rd_48 = _zz_com_grp_rd_49[15 : 0];
-  assign _zz_com_grp_rd_47 = {16'd0, _zz_com_grp_rd_48};
-  assign _zz_com_grp_rd_49 = (axi4lite_r_payload_data >>> _zz_com_grp_rd_50);
-  assign _zz_com_grp_rd_50 = ({3'd0,_zz_com_grp_rd_3[1 : 0]} <<< 2'd3);
+  assign _zz_com_grp_rd_21 = ($signed(_zz_com_grp_rd_22) >>> _zz_com_grp_rd_23[4 : 0]);
+  assign _zz_com_grp_rd_22 = com_grp_rs1;
+  assign _zz_com_grp_rd_23 = com_grp_rs2;
+  assign _zz_com_grp_rd_24 = ($signed(_zz_com_grp_rd_25) < $signed(_zz_com_grp_rd_26));
+  assign _zz_com_grp_rd_25 = com_grp_rs1;
+  assign _zz_com_grp_rd_26 = com_grp_rs2;
+  assign _zz_com_grp_rd_27 = (com_grp_rs1 < com_grp_rs2);
+  assign _zz_com_grp_rd_28 = ($signed(_zz_com_grp_rd_29) + $signed(imm_I));
+  assign _zz_com_grp_rd_29 = com_grp_rs1;
+  assign _zz_com_grp_rd_30 = _zz_com_grp_rd_31;
+  assign _zz_com_grp_rd_31 = ({31'd0,com_grp_rs1} <<< _zz_com_grp_rd_32[4 : 0]);
+  assign _zz_com_grp_rd_32 = imm_I;
+  assign _zz_com_grp_rd_33 = (com_grp_rs1 >>> _zz_com_grp_rd_34[4 : 0]);
+  assign _zz_com_grp_rd_34 = imm_I;
+  assign _zz_com_grp_rd_35 = ($signed(_zz_com_grp_rd_36) >>> _zz_com_grp_rd_37[4 : 0]);
+  assign _zz_com_grp_rd_36 = com_grp_rs1;
+  assign _zz_com_grp_rd_37 = imm_I;
+  assign _zz_com_grp_rd_38 = ($signed(_zz_com_grp_rd_39) < $signed(imm_I));
+  assign _zz_com_grp_rd_39 = com_grp_rs1;
+  assign _zz_com_grp_rd_40 = (com_grp_rs1 < imm_I);
+  assign _zz__zz_com_grp_rd_1_1 = _zz__zz_com_grp_rd_1_2[7 : 0];
+  assign _zz__zz_com_grp_rd_1 = {{24{_zz__zz_com_grp_rd_1_1[7]}}, _zz__zz_com_grp_rd_1_1};
+  assign _zz__zz_com_grp_rd_1_2 = (axi4lite_r_payload_data >>> _zz_com_grp_rd);
+  assign _zz__zz_com_grp_rd_1_4 = _zz__zz_com_grp_rd_1_5[7 : 0];
+  assign _zz__zz_com_grp_rd_1_3 = {24'd0, _zz__zz_com_grp_rd_1_4};
+  assign _zz__zz_com_grp_rd_1_5 = (axi4lite_r_payload_data >>> _zz_com_grp_rd);
+  assign _zz__zz_com_grp_rd_1_7 = _zz__zz_com_grp_rd_1_8[15 : 0];
+  assign _zz__zz_com_grp_rd_1_6 = {{16{_zz__zz_com_grp_rd_1_7[15]}}, _zz__zz_com_grp_rd_1_7};
+  assign _zz__zz_com_grp_rd_1_8 = (axi4lite_r_payload_data >>> _zz_com_grp_rd);
+  assign _zz__zz_com_grp_rd_1_10 = _zz__zz_com_grp_rd_1_11[15 : 0];
+  assign _zz__zz_com_grp_rd_1_9 = {16'd0, _zz__zz_com_grp_rd_1_10};
+  assign _zz__zz_com_grp_rd_1_11 = (axi4lite_r_payload_data >>> _zz_com_grp_rd);
+  assign _zz__zz_com_grp_rd_3_1 = _zz__zz_com_grp_rd_3_2[7 : 0];
+  assign _zz__zz_com_grp_rd_3 = {{24{_zz__zz_com_grp_rd_3_1[7]}}, _zz__zz_com_grp_rd_3_1};
+  assign _zz__zz_com_grp_rd_3_2 = (axi4lite_r_payload_data >>> _zz_com_grp_rd_2);
+  assign _zz__zz_com_grp_rd_3_4 = _zz__zz_com_grp_rd_3_5[7 : 0];
+  assign _zz__zz_com_grp_rd_3_3 = {24'd0, _zz__zz_com_grp_rd_3_4};
+  assign _zz__zz_com_grp_rd_3_5 = (axi4lite_r_payload_data >>> _zz_com_grp_rd_2);
+  assign _zz__zz_com_grp_rd_3_7 = _zz__zz_com_grp_rd_3_8[15 : 0];
+  assign _zz__zz_com_grp_rd_3_6 = {{16{_zz__zz_com_grp_rd_3_7[15]}}, _zz__zz_com_grp_rd_3_7};
+  assign _zz__zz_com_grp_rd_3_8 = (axi4lite_r_payload_data >>> _zz_com_grp_rd_2);
+  assign _zz__zz_com_grp_rd_3_10 = _zz__zz_com_grp_rd_3_11[15 : 0];
+  assign _zz__zz_com_grp_rd_3_9 = {16'd0, _zz__zz_com_grp_rd_3_10};
+  assign _zz__zz_com_grp_rd_3_11 = (axi4lite_r_payload_data >>> _zz_com_grp_rd_2);
+  assign _zz__zz_com_grp_rd_5_1 = _zz__zz_com_grp_rd_5_2[7 : 0];
+  assign _zz__zz_com_grp_rd_5 = {{24{_zz__zz_com_grp_rd_5_1[7]}}, _zz__zz_com_grp_rd_5_1};
+  assign _zz__zz_com_grp_rd_5_2 = (axi4lite_r_payload_data >>> _zz_com_grp_rd_4);
+  assign _zz__zz_com_grp_rd_5_4 = _zz__zz_com_grp_rd_5_5[7 : 0];
+  assign _zz__zz_com_grp_rd_5_3 = {24'd0, _zz__zz_com_grp_rd_5_4};
+  assign _zz__zz_com_grp_rd_5_5 = (axi4lite_r_payload_data >>> _zz_com_grp_rd_4);
+  assign _zz__zz_com_grp_rd_5_7 = _zz__zz_com_grp_rd_5_8[15 : 0];
+  assign _zz__zz_com_grp_rd_5_6 = {{16{_zz__zz_com_grp_rd_5_7[15]}}, _zz__zz_com_grp_rd_5_7};
+  assign _zz__zz_com_grp_rd_5_8 = (axi4lite_r_payload_data >>> _zz_com_grp_rd_4);
+  assign _zz__zz_com_grp_rd_5_10 = _zz__zz_com_grp_rd_5_11[15 : 0];
+  assign _zz__zz_com_grp_rd_5_9 = {16'd0, _zz__zz_com_grp_rd_5_10};
+  assign _zz__zz_com_grp_rd_5_11 = (axi4lite_r_payload_data >>> _zz_com_grp_rd_4);
+  assign _zz__zz_com_grp_rd_7_1 = _zz__zz_com_grp_rd_7_2[7 : 0];
+  assign _zz__zz_com_grp_rd_7 = {{24{_zz__zz_com_grp_rd_7_1[7]}}, _zz__zz_com_grp_rd_7_1};
+  assign _zz__zz_com_grp_rd_7_2 = (axi4lite_r_payload_data >>> _zz_com_grp_rd_6);
+  assign _zz__zz_com_grp_rd_7_4 = _zz__zz_com_grp_rd_7_5[7 : 0];
+  assign _zz__zz_com_grp_rd_7_3 = {24'd0, _zz__zz_com_grp_rd_7_4};
+  assign _zz__zz_com_grp_rd_7_5 = (axi4lite_r_payload_data >>> _zz_com_grp_rd_6);
+  assign _zz__zz_com_grp_rd_7_7 = _zz__zz_com_grp_rd_7_8[15 : 0];
+  assign _zz__zz_com_grp_rd_7_6 = {{16{_zz__zz_com_grp_rd_7_7[15]}}, _zz__zz_com_grp_rd_7_7};
+  assign _zz__zz_com_grp_rd_7_8 = (axi4lite_r_payload_data >>> _zz_com_grp_rd_6);
+  assign _zz__zz_com_grp_rd_7_10 = _zz__zz_com_grp_rd_7_11[15 : 0];
+  assign _zz__zz_com_grp_rd_7_9 = {16'd0, _zz__zz_com_grp_rd_7_10};
+  assign _zz__zz_com_grp_rd_7_11 = (axi4lite_r_payload_data >>> _zz_com_grp_rd_6);
+  assign _zz__zz_com_grp_rd_9_1 = _zz__zz_com_grp_rd_9_2[7 : 0];
+  assign _zz__zz_com_grp_rd_9 = {{24{_zz__zz_com_grp_rd_9_1[7]}}, _zz__zz_com_grp_rd_9_1};
+  assign _zz__zz_com_grp_rd_9_2 = (axi4lite_r_payload_data >>> _zz_com_grp_rd_8);
+  assign _zz__zz_com_grp_rd_9_4 = _zz__zz_com_grp_rd_9_5[7 : 0];
+  assign _zz__zz_com_grp_rd_9_3 = {24'd0, _zz__zz_com_grp_rd_9_4};
+  assign _zz__zz_com_grp_rd_9_5 = (axi4lite_r_payload_data >>> _zz_com_grp_rd_8);
+  assign _zz__zz_com_grp_rd_9_7 = _zz__zz_com_grp_rd_9_8[15 : 0];
+  assign _zz__zz_com_grp_rd_9_6 = {{16{_zz__zz_com_grp_rd_9_7[15]}}, _zz__zz_com_grp_rd_9_7};
+  assign _zz__zz_com_grp_rd_9_8 = (axi4lite_r_payload_data >>> _zz_com_grp_rd_8);
+  assign _zz__zz_com_grp_rd_9_10 = _zz__zz_com_grp_rd_9_11[15 : 0];
+  assign _zz__zz_com_grp_rd_9_9 = {16'd0, _zz__zz_com_grp_rd_9_10};
+  assign _zz__zz_com_grp_rd_9_11 = (axi4lite_r_payload_data >>> _zz_com_grp_rd_8);
   assign _zz_com_pc_nPC = (com_grp_rs1 + imm_I);
-  assign _zz_com_grp_rd_51 = (pc_pc + 32'h00000004);
+  assign _zz_com_grp_rd_41 = (pc_pc + 32'h00000004);
+  assign _zz_axi4lite_w_payload_data = ({63'd0,com_grp_rs2} <<< _zz_axi4lite_w_payload_data_1);
+  assign _zz_axi4lite_w_payload_data_1 = (_zz_axi4lite_aw_payload_addr[1 : 0] * 4'b1000);
   assign _zz_com_pc_nPC_1 = (pc_pc + imm_B);
   assign _zz_com_pc_nPC_2 = (pc_pc + imm_B);
   assign _zz_when = com_grp_rs1;
@@ -197,9 +316,9 @@ module Encode (
   assign _zz_com_pc_nPC_4 = (pc_pc + imm_B);
   assign _zz_com_pc_nPC_5 = (pc_pc + imm_B);
   assign _zz_com_pc_nPC_6 = (pc_pc + imm_B);
-  assign _zz_com_grp_rd_52 = (pc_pc + imm_U);
+  assign _zz_com_grp_rd_42 = (pc_pc + imm_U);
   assign _zz_com_pc_nPC_7 = (pc_pc + imm_J);
-  assign _zz_com_grp_rd_53 = (pc_pc + 32'h00000004);
+  assign _zz_com_grp_rd_43 = (pc_pc + 32'h00000004);
   ebreak_fun ebreak_module (
     .ebreak_flag (ebreak)  //i
   );
@@ -212,6 +331,8 @@ module Encode (
     axi4lite_w_payload_data = 32'h0;
     axi4lite_r_ready = 1'b0;
     axi4lite_ar_payload_addr = 32'h0;
+    axi4lite_ar_valid = 1'b0;
+    ar_size = 4'b1111;
     com_pc_nPC = 32'h0;
     com_pc_nPC_vaild = 1'b0;
     com_csr_vaild = 1'b0;
@@ -258,24 +379,34 @@ module Encode (
       32'b?????????????????011?????0010011 : begin
       end
       32'b?????????????????000?????0000011 : begin
-        axi4lite_ar_payload_addr = _zz_com_grp_rd;
-        axi4lite_r_ready = mem_flag;
+        axi4lite_ar_payload_addr = _zz_axi4lite_ar_payload_addr;
+        axi4lite_ar_valid = mem_ar_flag;
+        axi4lite_r_ready = (mem_flag && (! mem_ar_flag));
+        ar_size = 4'b0001;
       end
       32'b?????????????????001?????0000011 : begin
-        axi4lite_ar_payload_addr = _zz_com_grp_rd_1;
-        axi4lite_r_ready = mem_flag;
+        axi4lite_ar_payload_addr = _zz_axi4lite_ar_payload_addr_1;
+        axi4lite_ar_valid = mem_ar_flag;
+        axi4lite_r_ready = (mem_flag && (! mem_ar_flag));
+        ar_size = 4'b0011;
       end
       32'b?????????????????010?????0000011 : begin
-        axi4lite_ar_payload_addr = (com_grp_rs1 + imm_I);
-        axi4lite_r_ready = mem_flag;
+        axi4lite_ar_payload_addr = _zz_axi4lite_ar_payload_addr_2;
+        axi4lite_ar_valid = mem_ar_flag;
+        axi4lite_r_ready = (mem_flag && (! mem_ar_flag));
+        ar_size = 4'b1111;
       end
       32'b?????????????????100?????0000011 : begin
-        axi4lite_ar_payload_addr = _zz_com_grp_rd_2;
-        axi4lite_r_ready = mem_flag;
+        axi4lite_ar_payload_addr = _zz_axi4lite_ar_payload_addr_3;
+        axi4lite_ar_valid = mem_ar_flag;
+        axi4lite_r_ready = (mem_flag && (! mem_ar_flag));
+        ar_size = 4'b0001;
       end
       32'b?????????????????101?????0000011 : begin
-        axi4lite_ar_payload_addr = _zz_com_grp_rd_3;
-        axi4lite_r_ready = mem_flag;
+        axi4lite_ar_payload_addr = _zz_axi4lite_ar_payload_addr_4;
+        axi4lite_ar_valid = mem_ar_flag;
+        axi4lite_r_ready = (mem_flag && (! mem_ar_flag));
+        ar_size = 4'b0011;
       end
       32'b?????????????????000?????1100111 : begin
         com_pc_nPC = _zz_com_pc_nPC;
@@ -294,10 +425,25 @@ module Encode (
         axi4lite_w_payload_strb = 4'b0011;
       end
       32'b?????????????????000?????0100011 : begin
-        axi4lite_aw_payload_addr = (com_grp_rs1 + imm_S);
-        axi4lite_w_payload_data = com_grp_rs2;
+        axi4lite_aw_payload_addr = _zz_axi4lite_aw_payload_addr;
+        axi4lite_w_payload_data = _zz_axi4lite_w_payload_data[31:0];
         axi4lite_w_valid = mem_flag;
-        axi4lite_w_payload_strb = 4'b0001;
+        case(_zz_6)
+          32'h0 : begin
+            axi4lite_w_payload_strb = 4'b0001;
+          end
+          32'h00000001 : begin
+            axi4lite_w_payload_strb = 4'b0010;
+          end
+          32'h00000002 : begin
+            axi4lite_w_payload_strb = 4'b0100;
+          end
+          32'h00000003 : begin
+            axi4lite_w_payload_strb = 4'b1000;
+          end
+          default : begin
+          end
+        endcase
       end
       32'b?????????????????000?????1100011 : begin
         if(((com_grp_rs1 == com_grp_rs2) == 1'b1)) begin
@@ -399,21 +545,154 @@ module Encode (
   assign com_grp_rd_sel = num_rd;
   assign axi4lite_b_ready = 1'b1;
   assign axi4lite_aw_valid = axi4lite_w_valid;
-  assign axi4lite_ar_valid = axi4lite_r_ready;
+  assign axi4lite_ar_fire = (axi4lite_ar_valid && axi4lite_ar_ready);
   assign axi4lite_w_fire = (axi4lite_w_valid && axi4lite_w_ready);
   assign axi4lite_r_fire = (axi4lite_r_valid && axi4lite_r_ready);
   assign csr_csr_code = code[31 : 20];
   assign csr_imm = {27'h0,code[19 : 15]};
   assign com_csr_csr_sel = csr_csr_code;
   assign com_csr_w_pc = com_pc_PC;
-  assign _zz_com_grp_rd = (com_grp_rs1 + imm_I);
-  assign _zz_com_grp_rd_1 = (com_grp_rs1 + imm_I);
-  assign _zz_com_grp_rd_2 = (com_grp_rs1 + imm_I);
-  assign _zz_com_grp_rd_3 = (com_grp_rs1 + imm_I);
+  assign _zz_axi4lite_ar_payload_addr = (com_grp_rs1 + imm_I);
+  assign _zz_com_grp_rd = ({3'd0,_zz_axi4lite_ar_payload_addr[1 : 0]} <<< 2'd3);
+  always @(*) begin
+    case(_zz_1)
+      4'b0001 : begin
+        if(1'b1) begin
+          _zz_com_grp_rd_1 = _zz__zz_com_grp_rd_1;
+        end else begin
+          _zz_com_grp_rd_1 = _zz__zz_com_grp_rd_1_3;
+        end
+      end
+      4'b0011 : begin
+        if(1'b1) begin
+          _zz_com_grp_rd_1 = _zz__zz_com_grp_rd_1_6;
+        end else begin
+          _zz_com_grp_rd_1 = _zz__zz_com_grp_rd_1_9;
+        end
+      end
+      4'b1111 : begin
+        _zz_com_grp_rd_1 = axi4lite_r_payload_data;
+      end
+      default : begin
+        _zz_com_grp_rd_1 = 32'h0;
+      end
+    endcase
+  end
+
+  assign _zz_axi4lite_ar_payload_addr_1 = (com_grp_rs1 + imm_I);
+  assign _zz_com_grp_rd_2 = ({3'd0,_zz_axi4lite_ar_payload_addr_1[1 : 0]} <<< 2'd3);
+  always @(*) begin
+    case(_zz_2)
+      4'b0001 : begin
+        if(1'b1) begin
+          _zz_com_grp_rd_3 = _zz__zz_com_grp_rd_3;
+        end else begin
+          _zz_com_grp_rd_3 = _zz__zz_com_grp_rd_3_3;
+        end
+      end
+      4'b0011 : begin
+        if(1'b1) begin
+          _zz_com_grp_rd_3 = _zz__zz_com_grp_rd_3_6;
+        end else begin
+          _zz_com_grp_rd_3 = _zz__zz_com_grp_rd_3_9;
+        end
+      end
+      4'b1111 : begin
+        _zz_com_grp_rd_3 = axi4lite_r_payload_data;
+      end
+      default : begin
+        _zz_com_grp_rd_3 = 32'h0;
+      end
+    endcase
+  end
+
+  assign _zz_axi4lite_ar_payload_addr_2 = (com_grp_rs1 + imm_I);
+  assign _zz_com_grp_rd_4 = ({3'd0,_zz_axi4lite_ar_payload_addr_2[1 : 0]} <<< 2'd3);
+  always @(*) begin
+    case(_zz_3)
+      4'b0001 : begin
+        if(1'b1) begin
+          _zz_com_grp_rd_5 = _zz__zz_com_grp_rd_5;
+        end else begin
+          _zz_com_grp_rd_5 = _zz__zz_com_grp_rd_5_3;
+        end
+      end
+      4'b0011 : begin
+        if(1'b1) begin
+          _zz_com_grp_rd_5 = _zz__zz_com_grp_rd_5_6;
+        end else begin
+          _zz_com_grp_rd_5 = _zz__zz_com_grp_rd_5_9;
+        end
+      end
+      4'b1111 : begin
+        _zz_com_grp_rd_5 = axi4lite_r_payload_data;
+      end
+      default : begin
+        _zz_com_grp_rd_5 = 32'h0;
+      end
+    endcase
+  end
+
+  assign _zz_axi4lite_ar_payload_addr_3 = (com_grp_rs1 + imm_I);
+  assign _zz_com_grp_rd_6 = ({3'd0,_zz_axi4lite_ar_payload_addr_3[1 : 0]} <<< 2'd3);
+  always @(*) begin
+    case(_zz_4)
+      4'b0001 : begin
+        if(1'b0) begin
+          _zz_com_grp_rd_7 = _zz__zz_com_grp_rd_7;
+        end else begin
+          _zz_com_grp_rd_7 = _zz__zz_com_grp_rd_7_3;
+        end
+      end
+      4'b0011 : begin
+        if(1'b0) begin
+          _zz_com_grp_rd_7 = _zz__zz_com_grp_rd_7_6;
+        end else begin
+          _zz_com_grp_rd_7 = _zz__zz_com_grp_rd_7_9;
+        end
+      end
+      4'b1111 : begin
+        _zz_com_grp_rd_7 = axi4lite_r_payload_data;
+      end
+      default : begin
+        _zz_com_grp_rd_7 = 32'h0;
+      end
+    endcase
+  end
+
+  assign _zz_axi4lite_ar_payload_addr_4 = (com_grp_rs1 + imm_I);
+  assign _zz_com_grp_rd_8 = ({3'd0,_zz_axi4lite_ar_payload_addr_4[1 : 0]} <<< 2'd3);
+  always @(*) begin
+    case(_zz_5)
+      4'b0001 : begin
+        if(1'b0) begin
+          _zz_com_grp_rd_9 = _zz__zz_com_grp_rd_9;
+        end else begin
+          _zz_com_grp_rd_9 = _zz__zz_com_grp_rd_9_3;
+        end
+      end
+      4'b0011 : begin
+        if(1'b0) begin
+          _zz_com_grp_rd_9 = _zz__zz_com_grp_rd_9_6;
+        end else begin
+          _zz_com_grp_rd_9 = _zz__zz_com_grp_rd_9_9;
+        end
+      end
+      4'b1111 : begin
+        _zz_com_grp_rd_9 = axi4lite_r_payload_data;
+      end
+      default : begin
+        _zz_com_grp_rd_9 = 32'h0;
+      end
+    endcase
+  end
+
+  assign _zz_axi4lite_aw_payload_addr = (com_grp_rs1 + imm_S);
   always @(posedge clock) begin
     if(rst) begin
       code <= 32'h00000013;
       mem_flag <= 1'b0;
+      mem_ar_flag <= 1'b0;
       pc_pc <= 32'h80000000;
     end else begin
       if(vaild) begin
@@ -421,6 +700,10 @@ module Encode (
       end
       if(vaild) begin
         mem_flag <= 1'b1;
+        mem_ar_flag <= 1'b1;
+      end
+      if(axi4lite_ar_fire) begin
+        mem_ar_flag <= 1'b0;
       end
       if((axi4lite_w_fire || axi4lite_r_fire)) begin
         mem_flag <= 1'b0;
@@ -436,10 +719,10 @@ module Encode (
     com_grp_rd <= 32'h0;
     casez(code)
       32'b0000000??????????000?????0110011 : begin
-        com_grp_rd <= _zz_com_grp_rd_4;
+        com_grp_rd <= _zz_com_grp_rd_10;
       end
       32'b0100000??????????000?????0110011 : begin
-        com_grp_rd <= _zz_com_grp_rd_7;
+        com_grp_rd <= _zz_com_grp_rd_13;
       end
       32'b0000000??????????111?????0110011 : begin
         com_grp_rd <= (com_grp_rs1 & com_grp_rs2);
@@ -451,22 +734,22 @@ module Encode (
         com_grp_rd <= (com_grp_rs1 ^ com_grp_rs2);
       end
       32'b0000000??????????001?????0110011 : begin
-        com_grp_rd <= _zz_com_grp_rd_10[31:0];
+        com_grp_rd <= _zz_com_grp_rd_16[31:0];
       end
       32'b0000000??????????101?????0110011 : begin
-        com_grp_rd <= _zz_com_grp_rd_13;
+        com_grp_rd <= _zz_com_grp_rd_19;
       end
       32'b0100000??????????101?????0110011 : begin
-        com_grp_rd <= _zz_com_grp_rd_15;
+        com_grp_rd <= _zz_com_grp_rd_21;
       end
       32'b0000000??????????010?????0110011 : begin
-        com_grp_rd <= {31'd0, _zz_com_grp_rd_18};
+        com_grp_rd <= {31'd0, _zz_com_grp_rd_24};
       end
       32'b0000000??????????011?????0110011 : begin
-        com_grp_rd <= {31'd0, _zz_com_grp_rd_21};
+        com_grp_rd <= {31'd0, _zz_com_grp_rd_27};
       end
       32'b?????????????????000?????0010011 : begin
-        com_grp_rd <= _zz_com_grp_rd_22;
+        com_grp_rd <= _zz_com_grp_rd_28;
       end
       32'b?????????????????100?????0010011 : begin
         com_grp_rd <= (com_grp_rs1 ^ imm_I);
@@ -478,37 +761,37 @@ module Encode (
         com_grp_rd <= (com_grp_rs1 & imm_I);
       end
       32'b0000000??????????001?????0010011 : begin
-        com_grp_rd <= _zz_com_grp_rd_24[31:0];
+        com_grp_rd <= _zz_com_grp_rd_30[31:0];
       end
       32'b0000000??????????101?????0010011 : begin
-        com_grp_rd <= _zz_com_grp_rd_27;
+        com_grp_rd <= _zz_com_grp_rd_33;
       end
       32'b0100000??????????101?????0010011 : begin
-        com_grp_rd <= _zz_com_grp_rd_29;
-      end
-      32'b?????????????????010?????0010011 : begin
-        com_grp_rd <= {31'd0, _zz_com_grp_rd_32};
-      end
-      32'b?????????????????011?????0010011 : begin
-        com_grp_rd <= {31'd0, _zz_com_grp_rd_34};
-      end
-      32'b?????????????????000?????0000011 : begin
         com_grp_rd <= _zz_com_grp_rd_35;
       end
+      32'b?????????????????010?????0010011 : begin
+        com_grp_rd <= {31'd0, _zz_com_grp_rd_38};
+      end
+      32'b?????????????????011?????0010011 : begin
+        com_grp_rd <= {31'd0, _zz_com_grp_rd_40};
+      end
+      32'b?????????????????000?????0000011 : begin
+        com_grp_rd <= _zz_com_grp_rd_1;
+      end
       32'b?????????????????001?????0000011 : begin
-        com_grp_rd <= _zz_com_grp_rd_39;
+        com_grp_rd <= _zz_com_grp_rd_3;
       end
       32'b?????????????????010?????0000011 : begin
-        com_grp_rd <= axi4lite_r_payload_data;
+        com_grp_rd <= _zz_com_grp_rd_5;
       end
       32'b?????????????????100?????0000011 : begin
-        com_grp_rd <= _zz_com_grp_rd_43;
+        com_grp_rd <= _zz_com_grp_rd_7;
       end
       32'b?????????????????101?????0000011 : begin
-        com_grp_rd <= _zz_com_grp_rd_47;
+        com_grp_rd <= _zz_com_grp_rd_9;
       end
       32'b?????????????????000?????1100111 : begin
-        com_grp_rd <= _zz_com_grp_rd_51;
+        com_grp_rd <= _zz_com_grp_rd_41;
       end
       32'b?????????????????010?????0100011 : begin
         com_grp_rd_vaild <= 1'b0;
@@ -541,10 +824,10 @@ module Encode (
         com_grp_rd <= imm_U;
       end
       32'b?????????????????????????0010111 : begin
-        com_grp_rd <= _zz_com_grp_rd_52;
+        com_grp_rd <= _zz_com_grp_rd_42;
       end
       32'b?????????????????????????1101111 : begin
-        com_grp_rd <= _zz_com_grp_rd_53;
+        com_grp_rd <= _zz_com_grp_rd_43;
       end
       32'b?????????????????001?????1110011 : begin
         com_grp_rd <= com_csr_r_data;

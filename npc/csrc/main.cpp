@@ -18,6 +18,7 @@ extern void info_reg(struct SdbReg *info);
 
 int main(int argc, char **argv)
 {
+  setvbuf(stdout, NULL, _IONBF, 0);
   mem_init();
 
   SimInit(argc, argv);

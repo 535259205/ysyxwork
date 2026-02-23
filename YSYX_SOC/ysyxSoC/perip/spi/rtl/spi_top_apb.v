@@ -1,6 +1,6 @@
 // define this macro to enable fast behavior simulation
 // for flash by skipping SPI transfers
-//`define FAST_FLASH
+// `define FAST_FLASH
 
 module spi_top_apb #(
   parameter flash_addr_start = 32'h30000000,
@@ -47,6 +47,10 @@ assign in_pready  = in_penable && in_psel && !in_pwrite;
 assign in_prdata  = data[31:0];
 
 `else
+
+
+
+//USER 非FAST FLASH
 
 spi_top u0_spi_top (
   .wb_clk_i(clock),

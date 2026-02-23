@@ -27,7 +27,7 @@ module Encode_1 (
   output wire [31:0]   axi_aw_payload_addr,
   output wire [3:0]    axi_aw_payload_id,
   output wire [7:0]    axi_aw_payload_len,
-  output wire [2:0]    axi_aw_payload_size,
+  output reg  [2:0]    axi_aw_payload_size,
   output wire [1:0]    axi_aw_payload_burst,
   output wire          axi_w_valid,
   input  wire          axi_w_ready,
@@ -43,7 +43,7 @@ module Encode_1 (
   output wire [31:0]   axi_ar_payload_addr,
   output wire [3:0]    axi_ar_payload_id,
   output wire [7:0]    axi_ar_payload_len,
-  output wire [2:0]    axi_ar_payload_size,
+  output reg  [2:0]    axi_ar_payload_size,
   output wire [1:0]    axi_ar_payload_burst,
   input  wire          axi_r_valid,
   output wire          axi_r_ready,
@@ -80,6 +80,7 @@ module Encode_1 (
   wire       [31:0]   encode_2_axi4lite_ar_payload_addr;
   wire       [2:0]    encode_2_axi4lite_ar_payload_prot;
   wire                encode_2_axi4lite_r_ready;
+  wire       [3:0]    encode_2_ar_size;
   wire                encode_axi_aw_valid;
   wire                encode_axi_aw_ready;
   wire       [31:0]   encode_axi_aw_payload_addr;
@@ -142,6 +143,7 @@ module Encode_1 (
     .axi4lite_r_payload_data  (encode_axi_r_payload_data[31:0]        ), //i
     .axi4lite_r_payload_resp  (encode_axi_r_payload_resp[1:0]         ), //i
     .vaild                    (vaild                                  ), //i
+    .ar_size                  (encode_2_ar_size[3:0]                  ), //o
     .clock                    (clock                                  ), //i
     .rst                      (rst                                    )  //i
   );
@@ -174,7 +176,32 @@ module Encode_1 (
   assign axi_aw_valid = encode_axi_aw_valid;
   assign axi_aw_payload_id = 4'b0000;
   assign axi_aw_payload_len = 8'h0;
-  assign axi_aw_payload_size = 3'b010;
+  always @(*) begin
+    case(encode_2_axi4lite_w_payload_strb)
+      4'b0001 : begin
+        axi_aw_payload_size = 3'b000;
+      end
+      4'b0010 : begin
+        axi_aw_payload_size = 3'b000;
+      end
+      4'b0100 : begin
+        axi_aw_payload_size = 3'b000;
+      end
+      4'b1000 : begin
+        axi_aw_payload_size = 3'b000;
+      end
+      4'b0011 : begin
+        axi_aw_payload_size = 3'b001;
+      end
+      4'b1111 : begin
+        axi_aw_payload_size = 3'b010;
+      end
+      default : begin
+        axi_aw_payload_size = 3'b010;
+      end
+    endcase
+  end
+
   assign axi_aw_payload_burst = 2'b00;
   assign encode_axi_b_payload_resp = axi_b_payload_resp;
   assign axi_b_ready = encode_axi_b_ready;
@@ -193,7 +220,23 @@ module Encode_1 (
   assign axi_ar_payload_addr = encode_axi_ar_payload_addr;
   assign axi_ar_payload_id = 4'b0000;
   assign axi_ar_payload_len = 8'h0;
-  assign axi_ar_payload_size = 3'b010;
+  always @(*) begin
+    case(encode_2_ar_size)
+      4'b0001 : begin
+        axi_ar_payload_size = 3'b000;
+      end
+      4'b0011 : begin
+        axi_ar_payload_size = 3'b001;
+      end
+      4'b1111 : begin
+        axi_ar_payload_size = 3'b010;
+      end
+      default : begin
+        axi_ar_payload_size = 3'b010;
+      end
+    endcase
+  end
+
   assign axi_ar_payload_burst = 2'b00;
 
 endmodule

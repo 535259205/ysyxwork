@@ -8,13 +8,19 @@ module SocCtrl (
   output wire          u_vaild_2,
   output wire          u_vaild_3,
   output reg           u_vaild_4,
-  input  wire          axi_r_ready,
-  input  wire          axi_r_valid,
-  input  wire          axi_r_fire,
-  input  wire          axi_w_ready,
-  input  wire          axi_w_valid,
-  input  wire          axi_w_fire,
-  output reg           r_sel,
+  input  wire          encode_r_ready,
+  input  wire          encode_r_valid,
+  input  wire          encode_r_fire,
+  input  wire          encode_w_ready,
+  input  wire          encode_w_valid,
+  input  wire          encode_w_fire,
+  input  wire          pc_r_ready,
+  input  wire          pc_r_valid,
+  input  wire          pc_r_fire,
+  input  wire          pc_w_ready,
+  input  wire          pc_w_valid,
+  input  wire          pc_w_fire,
+  output wire          r_sel,
   input  wire          clock,
   input  wire          rst
 );
@@ -31,7 +37,6 @@ module SocCtrl (
   wire                s_wantKill;
   reg        [2:0]    s_stateReg;
   reg        [2:0]    s_stateNext;
-  reg                 axi_r_fire_regNext;
   wire                s_onExit_BOOT;
   wire                s_onExit_IF_1;
   wire                s_onExit_ID;
@@ -80,13 +85,13 @@ module SocCtrl (
 
   always @(*) begin
     u_vaild_0 = 1'b0;
-    r_sel = 1'b0;
+    u_vaild_4 = 1'b0;
     s_wantStart = 1'b0;
     s_stateNext = s_stateReg;
     case(s_stateReg)
       IF_1 : begin
         u_vaild_0 = 1'b1;
-        if(axi_r_fire) begin
+        if(pc_r_fire) begin
           s_stateNext = ID;
         end
       end
@@ -94,10 +99,10 @@ module SocCtrl (
         s_stateNext = EX;
       end
       EX : begin
-        if(axi_w_fire) begin
+        if((encode_w_fire || encode_r_fire)) begin
           s_stateNext = WB;
         end else begin
-          if((axi_r_ready || axi_w_valid)) begin
+          if((encode_r_ready || encode_w_valid)) begin
             s_stateNext = MEM;
           end else begin
             s_stateNext = WB;
@@ -105,14 +110,12 @@ module SocCtrl (
         end
       end
       MEM : begin
-        if((axi_w_fire || axi_r_fire_regNext)) begin
+        if((encode_w_fire || encode_r_fire)) begin
           s_stateNext = WB;
-        end
-        if(axi_r_ready) begin
-          r_sel = 1'b1;
         end
       end
       WB : begin
+        u_vaild_4 = 1'b1;
         s_stateNext = IF_1;
       end
       default : begin
@@ -137,19 +140,13 @@ module SocCtrl (
   assign u_vaild_2 = 1'b0;
   assign u_vaild_3 = 1'b0;
   always @(*) begin
-    u_vaild_4 = 1'b0;
-    if(s_onEntry_WB) begin
-      u_vaild_4 = 1'b1;
-    end
-  end
-
-  always @(*) begin
     step = 1'b0;
     if(s_onExit_WB) begin
       step = 1'b1;
     end
   end
 
+  assign r_sel = 1'b0;
   assign s_wantExit = 1'b0;
   assign s_wantKill = 1'b0;
   assign s_onExit_BOOT = ((s_stateNext != BOOT) && (s_stateReg == BOOT));
@@ -170,10 +167,6 @@ module SocCtrl (
     end else begin
       s_stateReg <= s_stateNext;
     end
-  end
-
-  always @(posedge clock) begin
-    axi_r_fire_regNext <= axi_r_fire;
   end
 
 

@@ -44,11 +44,11 @@ module PC (
     .clock  (clock                )  //i
   );
   assign axi4lite_w_valid = 1'b0;
-  assign axi4lite_w_payload_data = 32'h0;
-  assign axi4lite_w_payload_strb = 4'h0;
+  assign axi4lite_w_payload_data = 32'bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
+  assign axi4lite_w_payload_strb = 4'bxxxx;
   assign axi4lite_aw_valid = 1'b0;
-  assign axi4lite_aw_payload_addr = 32'h0;
-  assign axi4lite_aw_payload_prot = 3'h0;
+  assign axi4lite_aw_payload_addr = 32'bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
+  assign axi4lite_aw_payload_prot = 3'bxxx;
   assign axi4lite_b_ready = 1'b0;
   assign axi4lite_ar_fire = (axi4lite_ar_valid && axi4lite_ar_ready);
   assign axi4lite_r_fire = (axi4lite_r_valid && axi4lite_r_ready);

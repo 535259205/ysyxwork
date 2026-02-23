@@ -544,3 +544,8 @@ extern const VlUnpacked<CData/*5:0*/, 1024> VysyxSoCFull__ConstPool__TABLE_heaea
     0x3fU, 0x3fU, 0x3fU, 0x3fU, 0x3fU, 0x3fU, 0x3fU, 0x3fU,
     0x3fU, 0x3fU, 0x3fU, 0x3fU, 0x3fU, 0x3fU, 0x3fU, 0x3fU
 }};
+
+extern const VlUnpacked<CData/*2:0*/, 16> VysyxSoCFull__ConstPool__TABLE_hfa3a2e46_0 = {{
+    2U, 0U, 0U, 1U, 0U, 2U, 2U, 2U,
+    0U, 2U, 2U, 2U, 2U, 2U, 2U, 2U
+}};
