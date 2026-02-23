@@ -39,7 +39,6 @@ all:
 		-Wno-DEFPARAM \
 		-Wno-PROCASSINIT \
 		-Wno-SYNCASYNCNET\
-		--timescale "1ns/1ns"\
 		--no-timing\
 		$(UART_INC) $(SPI_INC)\
 		-CFLAGS "-I$(VERILATOR_INC) -I$(CURDIR)/include $(INCDIFFTEST) $(INCCAPSTONE)  -D__GUEST_ISA__=riscv32  -g -fsanitize=address" \

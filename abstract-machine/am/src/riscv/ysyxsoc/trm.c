@@ -11,10 +11,10 @@ extern char _pmem_start;
 Area heap = RANGE(&_heap_start, PMEM_END);
 static const char mainargs[MAINARGS_MAX_LEN] = TOSTRING(MAINARGS_PLACEHOLDER); // defined in CFLAGS
 
-
-void putch(char ch) {
-  volatile unsigned int * tx = (unsigned int *)(0x10000000);
-  *tx = ch;
+extern void uart_putch(char ch);
+void putch(char ch)
+{
+  uart_putch(ch);
 }
 
 void halt(int code) {
@@ -23,9 +23,9 @@ void halt(int code) {
 }
 void mem_init(void)
 {
-  volatile char *data_load_start;
-  volatile char *data_start;
-  volatile char *data_end;
+  volatile int *data_load_start;
+  volatile int *data_start;
+  volatile int *data_end;
   asm volatile("la %0, _data_load_start" : "=r"(data_load_start));
   asm volatile("la %0, _data_start" : "=r"(data_start));
   asm volatile("la %0, _data_end" : "=r"(data_end));
@@ -42,9 +42,12 @@ void mem_init(void)
     data_load_start++;
   }
 }
+
+extern void uart_init(void);
 void _trm_init()
 {
   mem_init();
+  // uart_init();
   int ret = main(mainargs);
   halt(ret);
 }

@@ -93,6 +93,7 @@ module AXIXbar (
   input  wire          r_sel
 );
 
+  reg                 sel;
 
   assign axi_m_0_w_ready = 1'b0;
   assign axi_m_0_aw_ready = 1'b0;
@@ -112,7 +113,7 @@ module AXIXbar (
     axi_m_1_r_payload_resp = 2'bxx;
     axi_m_1_r_payload_last = 1'bx;
     axi_m_1_ar_ready = 1'b0;
-    if(r_sel) begin
+    if((axi_m_1_r_ready || axi_m_1_ar_valid)) begin
       axi_m_1_r_valid = axi_s_r_valid;
       axi_s_r_ready = axi_m_1_r_ready;
       axi_m_1_r_payload_data = axi_s_r_payload_data;
@@ -126,6 +127,7 @@ module AXIXbar (
       axi_s_ar_payload_len = axi_m_1_ar_payload_len;
       axi_s_ar_payload_size = axi_m_1_ar_payload_size;
       axi_s_ar_payload_burst = axi_m_1_ar_payload_burst;
+      sel = 1'b1;
     end else begin
       axi_m_0_r_valid = axi_s_r_valid;
       axi_s_r_ready = axi_m_0_r_ready;
@@ -140,6 +142,7 @@ module AXIXbar (
       axi_s_ar_payload_len = axi_m_0_ar_payload_len;
       axi_s_ar_payload_size = axi_m_0_ar_payload_size;
       axi_s_ar_payload_burst = axi_m_0_ar_payload_burst;
+      sel = 1'b0;
     end
   end
 

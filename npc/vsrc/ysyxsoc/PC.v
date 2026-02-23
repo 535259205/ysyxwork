@@ -60,7 +60,7 @@ module PC (
   assign debug_data_1 = (com_encode_nPC_vaild ? com_encode_nPC : PC_cnt);
   always @(posedge clock) begin
     if(rst) begin
-      PC_cnt <= 32'h20000000;
+      PC_cnt <= 32'h30000000;
     end else begin
       if((axi4lite_r_fire && read_en)) begin
         PC_cnt <= (PC_cnt + 32'h00000004);

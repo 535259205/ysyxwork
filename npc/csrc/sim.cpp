@@ -57,7 +57,7 @@ int SimStep(uint32_t n)
         }
         if (ebreak_flag)
         {
-            printf("ebreak_flag is set at count %d\n", count);
+            printf("\nebreak_flag is set at count %d\n", count);
             return 1;
         }
         for (;;)

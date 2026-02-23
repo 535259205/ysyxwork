@@ -5,8 +5,9 @@ AM_SRCS := riscv/ysyxsoc/start.S \
            riscv/ysyxsoc/input.c \
            riscv/ysyxsoc/cte.c \
            riscv/ysyxsoc/trap.S \
+           riscv/ysyxsoc/uart.c \
            platform/dummy/vme.c \
-           platform/dummy/mpe.c
+           platform/dummy/mpe.c 
 
 COLOR_RED   = \033[1;31m
 COLOR_GREEN = \033[1;32m

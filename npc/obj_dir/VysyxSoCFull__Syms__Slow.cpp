@@ -11,7 +11,7 @@ VysyxSoCFull__Syms::VysyxSoCFull__Syms(VerilatedContext* contextp, const char* n
     , TOP{this, namep}
 {
     // Check resources
-    Verilated::stackCheck(2188);
+    Verilated::stackCheck(2194);
     // Setup sub module instances
     TOP____024unit.ctor(this, "$unit");
     // Configure time unit / time precision
