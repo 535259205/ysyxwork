@@ -12,10 +12,12 @@
 
 #define ROM_BASE (0x30000000)
 #define RAM_BASE (0x0f000000)
+#define PSRAM_SIZE (0x20000000>>2)
 
-static uint32_t mem[MEM_SIZE];
+// static uint32_t mem[MEM_SIZE];
 static uint32_t rom[FLASH_SIZE] = {0};
 static uint32_t flash[FLASH_SIZE] = {0};
+static uint32_t psram[PSRAM_SIZE];
 
 extern void iringbuf_memadd(const char* Prefix, uint32_t addr, int len, uint32_t data);
 
@@ -28,9 +30,6 @@ extern "C" void flash_read(int32_t addr, int32_t *data) {
             ((val >> 8) & 0xFF00) |      // 次高字节移到次低位
             ((val << 8) & 0xFF0000) |    // 次低字节移到次高位
             ((val << 24) & 0xFF000000);  // 最低字节移到最高位
-
-
-
   // printf("flash_read: addr=0x%08X, data=0x%08X\n", addr, val);
   // *data = flash[addr>>2];
 }
@@ -48,12 +47,30 @@ extern "C" void mrom_read(int32_t addr, int32_t *data) {
 
 }
 
+extern "C" int32_t psram_ctr(int32_t addr, int32_t data, int32_t write) {
+  if (write){
+    // data=((data >> 24) & 0xFF) |       // 最高字节移到最低位
+    //      ((data >> 8) & 0xFF00) |      // 次高字节移到次低位
+    //      ((data << 8) & 0xFF0000) |    // 次低字节移到次高位
+    //      ((data << 24) & 0xFF000000);  // 最低字节移到最高位
 
+    psram[addr>>2] = data;
+    // printf("psram_ctr: addr=0x%08X, data=0x%08X, write=%d\n", addr, data, write);
+  }
+  else{
+    uint32_t r_data;
+    r_data = psram[addr >> 2];
+    // printf("psram_ctr: addr=0x%08X, read=0x%08X\n", addr, r_data);
+    return r_data;
+  }
+
+  return 0;
+}
 
 uint32_t * mem_scan(uint32_t addr)
 {
-  uint32_t *tar_addr = &mem[0];
-  return tar_addr;
+  // uint32_t *tar_addr = &mem[0];
+  return 0;
 }
 
 
@@ -87,10 +104,6 @@ void mem_init(void)
   #elif USE_MEM==0
     rom[0x228 / 4] = 0x100073;
   #endif
-  // for (int i = 0; i < (MEM_SIZE);i++)
-  // {
-  //   mem[i] = rom[i];
-  // }
 
   extern void difftest_cpymem(uint32_t *data, uint32_t len);
   extern void difftest_myinit(void);
