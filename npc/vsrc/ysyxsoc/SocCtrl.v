@@ -85,12 +85,84 @@ module SocCtrl (
 
   always @(*) begin
     u_vaild_0 = 1'b0;
-    u_vaild_4 = 1'b0;
-    s_wantStart = 1'b0;
-    s_stateNext = s_stateReg;
     case(s_stateReg)
       IF_1 : begin
         u_vaild_0 = 1'b1;
+      end
+      ID : begin
+      end
+      EX : begin
+      end
+      MEM : begin
+      end
+      WB : begin
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  always @(*) begin
+    u_vaild_1 = 1'b0;
+    if(s_onEntry_ID) begin
+      u_vaild_1 = 1'b1;
+    end
+  end
+
+  assign u_vaild_2 = 1'b0;
+  assign u_vaild_3 = 1'b0;
+  always @(*) begin
+    u_vaild_4 = 1'b0;
+    case(s_stateReg)
+      IF_1 : begin
+      end
+      ID : begin
+      end
+      EX : begin
+      end
+      MEM : begin
+      end
+      WB : begin
+        u_vaild_4 = 1'b1;
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  always @(*) begin
+    step = 1'b0;
+    if(s_onExit_WB) begin
+      step = 1'b1;
+    end
+  end
+
+  assign r_sel = 1'b0;
+  assign s_wantExit = 1'b0;
+  always @(*) begin
+    s_wantStart = 1'b0;
+    case(s_stateReg)
+      IF_1 : begin
+      end
+      ID : begin
+      end
+      EX : begin
+      end
+      MEM : begin
+      end
+      WB : begin
+      end
+      default : begin
+        s_wantStart = 1'b1;
+      end
+    endcase
+  end
+
+  assign s_wantKill = 1'b0;
+  always @(*) begin
+    s_stateNext = s_stateReg;
+    case(s_stateReg)
+      IF_1 : begin
         if(pc_r_fire) begin
           s_stateNext = ID;
         end
@@ -115,11 +187,9 @@ module SocCtrl (
         end
       end
       WB : begin
-        u_vaild_4 = 1'b1;
         s_stateNext = IF_1;
       end
       default : begin
-        s_wantStart = 1'b1;
       end
     endcase
     if(s_wantStart) begin
@@ -130,25 +200,6 @@ module SocCtrl (
     end
   end
 
-  always @(*) begin
-    u_vaild_1 = 1'b0;
-    if(s_onEntry_ID) begin
-      u_vaild_1 = 1'b1;
-    end
-  end
-
-  assign u_vaild_2 = 1'b0;
-  assign u_vaild_3 = 1'b0;
-  always @(*) begin
-    step = 1'b0;
-    if(s_onExit_WB) begin
-      step = 1'b1;
-    end
-  end
-
-  assign r_sel = 1'b0;
-  assign s_wantExit = 1'b0;
-  assign s_wantKill = 1'b0;
   assign s_onExit_BOOT = ((s_stateNext != BOOT) && (s_stateReg == BOOT));
   assign s_onExit_IF_1 = ((s_stateNext != IF_1) && (s_stateReg == IF_1));
   assign s_onExit_ID = ((s_stateNext != ID) && (s_stateReg == ID));

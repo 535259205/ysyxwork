@@ -33,10 +33,13 @@ module PC (
 
   wire       [31:0]   debug_data_0;
   wire       [31:0]   debug_data_1;
+  wire                _zz_when;
   reg        [31:0]   PC_cnt;
+  reg                 flag;
   wire                axi4lite_ar_fire;
   wire                axi4lite_r_fire;
 
+  assign _zz_when = ((read_en && (! axi4lite_r_valid)) && (! flag));
   my_debug debug (
     .data_0 (debug_data_0[31:0]   ), //i
     .data_1 (debug_data_1[31:0]   ), //i
@@ -60,8 +63,17 @@ module PC (
   assign debug_data_1 = (com_encode_nPC_vaild ? com_encode_nPC : PC_cnt);
   always @(posedge clock) begin
     if(rst) begin
-      PC_cnt <= 32'h20000000;
+      PC_cnt <= 32'h30000000;
+      flag <= 1'b0;
     end else begin
+      if(!axi4lite_ar_fire) begin
+        if(_zz_when) begin
+          flag <= 1'b1;
+        end
+      end
+      if((! read_en)) begin
+        flag <= 1'b0;
+      end
       if((axi4lite_r_fire && read_en)) begin
         PC_cnt <= (PC_cnt + 32'h00000004);
       end else begin
@@ -76,7 +88,7 @@ module PC (
     if(axi4lite_ar_fire) begin
       axi4lite_ar_valid <= 1'b0;
     end else begin
-      if((read_en && (! axi4lite_r_valid))) begin
+      if(_zz_when) begin
         axi4lite_ar_valid <= 1'b1;
       end
     end
