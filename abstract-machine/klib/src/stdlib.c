@@ -39,7 +39,6 @@ void *malloc(size_t size)
   // #if !(defined(__ISA_NATIVE__) && defined(__NATIVE_USE_KLIB__))
   //   panic("Not implemented");
   // #endif
-
   if (hbrk == NULL) {
     hbrk = (char *)ROUNDUP(heap.start, 8); // 8字节对齐 64位为8字节对齐
   }

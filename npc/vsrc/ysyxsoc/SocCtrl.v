@@ -31,10 +31,12 @@ module SocCtrl (
   localparam MEM = 3'd4;
   localparam WB = 3'd5;
 
+  wire                _zz_when;
   reg                 step;
   wire                s_wantExit;
   reg                 s_wantStart;
   wire                s_wantKill;
+  reg                 s_grp_flag;
   reg        [2:0]    s_stateReg;
   reg        [2:0]    s_stateNext;
   wire                s_onExit_BOOT;
@@ -55,6 +57,7 @@ module SocCtrl (
   `endif
 
 
+  assign _zz_when = (encode_w_fire || encode_r_fire);
   step_fun step_fun_1 (
     .step (step)  //i
   );
@@ -182,7 +185,7 @@ module SocCtrl (
         end
       end
       MEM : begin
-        if((encode_w_fire || encode_r_fire)) begin
+        if(_zz_when) begin
           s_stateNext = WB;
         end
       end
@@ -214,9 +217,27 @@ module SocCtrl (
   assign s_onEntry_WB = ((s_stateNext == WB) && (s_stateReg != WB));
   always @(posedge clock) begin
     if(rst) begin
+      s_grp_flag <= 1'b0;
       s_stateReg <= BOOT;
     end else begin
       s_stateReg <= s_stateNext;
+      case(s_stateReg)
+        IF_1 : begin
+        end
+        ID : begin
+        end
+        EX : begin
+        end
+        MEM : begin
+          if(_zz_when) begin
+            s_grp_flag <= 1'b1;
+          end
+        end
+        WB : begin
+        end
+        default : begin
+        end
+      endcase
     end
   end
 

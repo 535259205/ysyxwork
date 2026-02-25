@@ -37,7 +37,13 @@ int main(int argc, char **argv)
   
   //0成功 1失败
   if(ebreak_flag && (info.reg[10]==0))
+  {
+    printf("ebreak success\n");
     return 0;
-  else
+  }
+  else{
+    printf("ebreak fail\n");
     return 1;
+  }
+    
 }
