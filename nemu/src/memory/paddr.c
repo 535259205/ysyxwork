@@ -60,6 +60,7 @@ word_t sram_read(paddr_t addr, int len) {
   // printf("sram_read : addr = " FMT_PADDR ", len = %d, data = " FMT_WORD "\n", addr, len, host_read(&sram[addr - SRAM_BASE], len));
   return host_read(&sram[addr - SRAM_BASE], len);
 }
+
 #define UART_BASE 0x10000000
 static inline bool in_sram(paddr_t addr) {
   return addr >= SRAM_BASE && addr < SRAM_BASE + 0x4000;
@@ -67,7 +68,19 @@ static inline bool in_sram(paddr_t addr) {
 static inline bool in_uart(paddr_t addr) {
   return addr >= UART_BASE && addr < UART_BASE + 0x1fff;
 }
+#define PSRAM_BASE 0x80000000
+#define PSRAM_SIZE 0x01000000
+static uint8_t psram[PSRAM_SIZE] = {0};
 
+static inline bool in_psram(paddr_t addr) {
+  return addr >= PSRAM_BASE && addr < PSRAM_BASE + PSRAM_SIZE;
+}
+word_t psram_read(paddr_t addr, int len) {
+  return host_read(&psram[addr - PSRAM_BASE], len);
+}
+static void psram_write(paddr_t addr, int len, word_t data) {
+  host_write(&psram[addr - PSRAM_BASE], len, data);
+}
 
 
 word_t paddr_read(paddr_t addr, int len) {
@@ -83,6 +96,10 @@ word_t paddr_read(paddr_t addr, int len) {
   else if (likely(in_sram(addr)))
   {
     return sram_read(addr, len);
+  }
+  else if (likely(in_psram(addr)))
+  {
+    return psram_read(addr, len);
   }
   IFDEF(CONFIG_DEVICE, return mmio_read(addr, len));
   out_of_bound(addr);
@@ -104,7 +121,12 @@ void paddr_write(paddr_t addr, int len, word_t data) {
   {
     sram_write(addr, len, data);
     return;
-  }else if(likely(in_uart(addr)))
+  }else if (likely(in_psram(addr)))
+  {
+    psram_write(addr, len, data);
+    return;
+  }
+  else if(likely(in_uart(addr)))
   {
     return;
   }

@@ -525,11 +525,11 @@ module spi_xip (
             end
             4'b0101 : begin
               s_addr <= 32'h10001000;
-              s_data <= {8'h03,apb_in_paddr[23 : 0]};
+              s_data <= {8'h03,{2'b00,apb_in_paddr[23 : 2]}};
             end
             4'b0110 : begin
               s_addr <= 32'h10001004;
-              s_data <= {8'h03,apb_in_paddr[23 : 0]};
+              s_data <= {8'h03,{2'b00,apb_in_paddr[23 : 2]}};
             end
             4'b0111 : begin
               s_addr <= 32'h10001010;

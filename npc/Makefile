@@ -26,7 +26,7 @@ $(LIBCAPSTONE):
 	$(MAKE) -C $(CURDIR)/../nemu/tools/capstone
 # 编译前确保capstone库已准备好
 $(CURDIR)/csrc/disasm.cpp: $(LIBCAPSTONE)
-
+#-g -fsanitize=address
 all:
 	@@verilator -Wall --trace -cc --top-module $(TOP_MODULE) $(vsrc) --exe $(csrc) \
 		--error-limit 0 \
@@ -39,9 +39,12 @@ all:
 		-Wno-DEFPARAM \
 		-Wno-PROCASSINIT \
 		-Wno-SYNCASYNCNET\
+		-Wno-IGNOREDRETURN\
+		--Wno-LATCH\
+		--Wno-fatal\
 		--no-timing\
 		$(UART_INC) $(SPI_INC)\
-		-CFLAGS "-I$(VERILATOR_INC) -I$(CURDIR)/include $(INCDIFFTEST) $(INCCAPSTONE)  -D__GUEST_ISA__=riscv32  -g -fsanitize=address" \
+		-CFLAGS "-I$(VERILATOR_INC) -I$(CURDIR)/include $(INCDIFFTEST) $(INCCAPSTONE)  -D__GUEST_ISA__=riscv32 " \
 		-LDFLAGS "-L$(CURDIR)/../nemu/tools/capstone/repo -lcapstone -lreadline $(LIBDIFFTEST) -fsanitize=address"
 	@@make -C obj_dir -f V$(TOP_MODULE).mk V$(TOP_MODULE)
 #-DBATCH_MODE
