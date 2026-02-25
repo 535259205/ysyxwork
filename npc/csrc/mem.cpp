@@ -7,6 +7,7 @@
 
 #define MEM_SIZE (0x40000)
 #define FLASH_SIZE (0x01000000>>2)
+#define SDRAM_SIZE (0x10000)
 
 #define USE_MEM 2
 
@@ -18,6 +19,7 @@
 static uint32_t rom[FLASH_SIZE] = {0};
 static uint32_t flash[FLASH_SIZE] = {0};
 static uint32_t psram[PSRAM_SIZE];
+static uint32_t sdram[SDRAM_SIZE];
 
 extern void iringbuf_memadd(const char* Prefix, uint32_t addr, int len, uint32_t data);
 
@@ -120,6 +122,29 @@ extern "C" int32_t psram_ctr(int32_t addr, int32_t data, int32_t write) {
   }
 
   return 0;
+}
+
+extern "C" int32_t sdram_ctr(int32_t addr, int32_t data, int32_t write){
+  uint32_t r_data=0;
+  if(write==256){
+    r_data=sdram[addr];
+    printf("sdram_ctr: addr=0x%08X, read=0x%08X,write=%d\n", addr, r_data,write);
+  }else
+  {
+    switch(write&0xFF){
+      case 0x02:
+      sdram[addr] = (sdram[addr]&0xFF00) | (data & 0xFF);
+      break;
+      case 0x01:
+      sdram[addr] = (sdram[addr]&0x00FF) | (data << 8);
+      break;
+      case 0x00:
+      sdram[addr] =data;
+      break;
+    }
+    printf("sdram_ctr: addr=0x%08X, data=0x%08X, write=%d\n", addr, data, write);
+  }
+  return r_data;
 }
 
 uint32_t * mem_scan(uint32_t addr)

@@ -28,6 +28,8 @@ extern "C" {
     extern void mrom_read(int raddr, int* rdata);
     // DPI import at ../YSYX_SOC/ysyxSoC/perip/psram/psram.v:7:29
     extern int psram_ctr(int addr, int data, int write);
+    // DPI import at ../YSYX_SOC/ysyxSoC/perip/sdram/sdram.v:15:29
+    extern int sdram_ctr(int addr, int data, int write);
 
 #ifdef __cplusplus
 }

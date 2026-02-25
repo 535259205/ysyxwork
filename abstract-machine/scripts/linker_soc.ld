@@ -8,15 +8,23 @@ MEMORY{
 
 SECTIONS {
     . = ORIGIN(FLASH);
-    .text : {  # 代码段
+    .text : {
+        _text_start = .;
         *(entry)
         *(.text*)                    /* 所有 .text 相关段 */
         . = ALIGN(4);                 /* 4字节对齐 */
+        _text_end = .;
     } > FLASH
+
+    _main_address = main;
+
+
     .rodata : { 
+        _rodata_start = .;
         *(.rodata)
         *(.rodata.*)
         . = ALIGN(4);
+        _rodata_end = .;
     } > FLASH
 
     . = ORIGIN(PSRAM);
