@@ -250,9 +250,9 @@ VL_ATTR_COLD void VysyxSoCFull___024root___stl_sequent__TOP__0(VysyxSoCFull___02
               & (0U != (IData)(vlSelfRef.ysyxSoCFull__DOT__asic__DOT__luart__DOT__muart__DOT__Uregs__DOT__rf_count))));
     vlSelfRef.ysyxSoCFull__DOT__sdram__DOT__full_addr 
         = (((IData)(vlSelfRef.ysyxSoCFull__DOT__sdram__DOT__active_row) 
-            << 0x0000000bU) | (((IData)(vlSelfRef.ysyxSoCFull__DOT__sdram__DOT__active_bank) 
-                                << 9U) | (0x000001ffU 
-                                          & (IData)(vlSelfRef.ysyxSoCFull__DOT__asic__DOT__lsdram_apb__DOT__msdram__DOT__u_sdram_ctrl__DOT__addr_q))));
+            << 0x0000000cU) | (((IData)(vlSelfRef.ysyxSoCFull__DOT__sdram__DOT__active_bank) 
+                                << 0x0000000aU) | (0x000003ffU 
+                                                   & (IData)(vlSelfRef.ysyxSoCFull__DOT__asic__DOT__lsdram_apb__DOT__msdram__DOT__u_sdram_ctrl__DOT__addr_q))));
     vlSelfRef.__Vtableidx2 = vlSelfRef.ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__soc_1__DOT__ctrl__DOT__s_stateReg;
     vlSelfRef.ysyxSoCFull__DOT__asic__DOT__cpu__DOT__cpu__DOT__soc_1__DOT__ctrl__DOT__s_stateReg_string 
         = VysyxSoCFull__ConstPool__TABLE_h30ab60d4_0

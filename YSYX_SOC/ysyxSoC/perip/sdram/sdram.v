@@ -63,7 +63,7 @@ always @(posedge clk) begin
   end
 end
 
-wire [31:0] full_addr = {active_row,active_bank,a[8:0]} ;
+wire [31:0] full_addr = {active_row,active_bank,a[9:0]} ;
 
 always@(posedge CMD_WRITE or posedge CMD_READ)
 begin
