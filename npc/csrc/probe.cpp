@@ -6,6 +6,16 @@ int ebreak_flag = 0;
 volatile uint32_t DebugBuf[2048]={0};
 //0-31 GRP 寄存器
 //32   PC  寄存器
+volatile int step_flag = 0;
+
+extern "C" void SimStep1(int step_data)
+{
+    step_flag++;
+}
+void change_step_flag(int step_data)
+{
+    step_flag = step_data;
+}
 
 extern "C" void ebreak(int test)
 {

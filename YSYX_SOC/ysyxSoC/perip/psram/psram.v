@@ -76,7 +76,7 @@ end
 always@(posedge ce_n)
 begin
   if(!out_en)
-    psram_ctr(addr_z,w_data,1);
+    psram_ctr(addr_z,w_data,cnt);
 end
 
 always@(posedge sck)
