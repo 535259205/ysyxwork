@@ -54,7 +54,8 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
 
   // 设置参数寄存器 A0
   ctx->gpr[10] = (uintptr_t)arg;  // a0寄存器保存调用函数的第一个参数指针
-  ctx->gpr[2] = (uintptr_t)kstack.end;
+  //栈指针
+  ctx->gpr[2] = (uintptr_t)ctx;
   // ctx->gpr[2] =((uintptr_t)kstack.end - sizeof(Context));
   ctx->mcause = 0x08;
   ctx->mstatus = 0x00202122;  // MIE = 1
