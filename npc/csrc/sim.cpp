@@ -12,7 +12,7 @@
 #define SHOW_LIMIT 10
 #define USE_ITRACE 0
 #define USE_FTRACE 0
-#define USE_DIFFTEST 0
+#define USE_DIFFTEST 1
 
 
 VysyxSoCFull *dut = new VysyxSoCFull(); 
@@ -51,7 +51,7 @@ int SimStep(uint32_t n)
         count++;
         if(count%1000==0)
         {
-            printf("count is %d\n", count);
+            // printf("count is %d\n", count);
         }
         if (ebreak_flag)
         {
