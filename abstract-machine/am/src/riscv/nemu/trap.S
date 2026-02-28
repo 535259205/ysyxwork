@@ -53,8 +53,8 @@ __am_asm_trap:
   STORE t2, OFFSET_EPC(sp)
 
 #   set mstatus.MPRV to pass difftest 访问特权级修改位设置1
-  li a0, (1 << 17)
-  or t1, t1, a0
+  li t0, (1 << 17)
+  or t1, t1, t0
   csrw mstatus, t1
   #栈指针放到a0 a0是函数的第一个传递参数 然后有指针就可以访问栈中的上下文
   mv a0, sp
