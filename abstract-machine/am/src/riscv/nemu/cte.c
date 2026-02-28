@@ -60,7 +60,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   // ctx->gpr[2] = (uintptr_t)kstack.end;
   ctx->gpr[2] =((uintptr_t)kstack.end - sizeof(Context));
   ctx->mcause = 0x08;
-  ctx->mstatus = 0x00202122;  // MIE = 1
+  ctx->mstatus = 0;  // MIE = 1
   // 要设置mepc为入口函数的地址 mret会进行如果mepc+4
   ctx->mepc = (uintptr_t)entry;
   return ctx;
