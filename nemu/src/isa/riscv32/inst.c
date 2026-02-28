@@ -157,7 +157,7 @@ static int decode_exec(Decode *s) {
     }); // 进入中断地址
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , CSR, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
   //同步异常+4 异步异常（外部中断不+4）
-  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret , CSR, s->dnpc = (cpu.mepc));//返回被打断处的程序继续运行
+  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret , CSR, s->dnpc = (cpu.mepc+4));//返回被打断处的程序继续运行
   
   // CSRRW CSR读写指令
   INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , CSR, { 
