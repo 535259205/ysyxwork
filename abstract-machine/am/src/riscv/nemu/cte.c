@@ -49,7 +49,7 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
 
   //底部创建kcontext结构
-  Context *ctx = (Context *)((uintptr_t)kstack.end - sizeof(Context)-4);
+  Context *ctx = (Context *)((uintptr_t)kstack.end - sizeof(Context));
   // 初始化所有通用寄存器为0
   for (int i = 0; i < NR_REGS; i++) {
     ctx->gpr[i] = 0;
@@ -57,8 +57,8 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
 
   // 设置参数寄存器 A0
   ctx->gpr[10] = (uintptr_t)arg;  // a0寄存器保存调用函数的第一个参数指针
-  // ctx->gpr[2] = (uintptr_t)kstack.end;
-  ctx->gpr[2] =((uintptr_t)kstack.end - sizeof(Context));
+  ctx->gpr[2] = (uintptr_t)kstack.end;
+  // ctx->gpr[2] =((uintptr_t)kstack.end - sizeof(Context));
   ctx->mcause = 0x08;
   ctx->mstatus = 0x00202122;  // MIE = 1
   // 要设置mepc为入口函数的地址 mret会进行如果mepc+4
