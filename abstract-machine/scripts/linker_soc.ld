@@ -25,7 +25,7 @@ SECTIONS {
         *(.srodata*)
         . = ALIGN(4);                 /* 4字节对齐 */
         _text_end = .;
-    } >SDRAM_CODE AT> FLASH 
+    } >FLASH AT> FLASH 
 
 
     _text_load_start = LOADADDR(.text);

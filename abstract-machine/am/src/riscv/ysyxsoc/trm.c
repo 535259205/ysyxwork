@@ -73,7 +73,7 @@ extern void uart_init(void);
 __attribute__((section(".boot"))) 
 void _trm_init()
 {
-  flash_to_sram();
+  // flash_to_sram();
   mem_init();
   uart_init();
   putch('>');
