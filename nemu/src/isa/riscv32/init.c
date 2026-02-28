@@ -34,9 +34,8 @@ static void restart() {
   cpu.gpr[0] = 0;
 
   /* Initialize CSR registers */
-  // cpu.mtvec = RESET_VECTOR;   // 设置中断向量表基地址
-  cpu.mtvec = 0x000058e6;
-  cpu.mstatus = 0x1800; // MPP=11 (machine mode), MIE=0 (禁用中断)
+  cpu.mtvec = RESET_VECTOR;   // 设置中断向量表基地址
+  cpu.mstatus = 0x1800;   // MPP=11 (machine mode), MIE=0 (禁用中断)
   cpu.mcause = 0x0B;    // 无异常/中断
   cpu.mepc = 0x00000000;      // 异常返回地址
   cpu.cycle = 0;              // 时钟周期计数器
