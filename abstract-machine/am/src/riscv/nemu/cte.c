@@ -28,7 +28,6 @@ Context* __am_irq_handle(Context *c) {
           printf("ERROR: mcause is %d\n", c->mcause);
       break;
     }
-    printf("mcause is %d event is %d\n", c->mcause, ev.event);
     c = user_handler(ev, c);
     assert(c != NULL);
   }
@@ -58,8 +57,8 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
 
   // 设置参数寄存器 A0
   ctx->gpr[10] = (uintptr_t)arg;  // a0寄存器保存调用函数的第一个参数指针
-  // ctx->gpr[2] = (uintptr_t)kstack.end;
-  ctx->gpr[2] =((uintptr_t)kstack.end - sizeof(Context));
+  ctx->gpr[2] = (uintptr_t)kstack.end;
+  // ctx->gpr[2] =((uintptr_t)kstack.end - sizeof(Context));
   ctx->mcause = 0x08;
   ctx->mstatus = 0x00202122;  // MIE = 1
   // 要设置mepc为入口函数的地址 mret会进行如果mepc+4
