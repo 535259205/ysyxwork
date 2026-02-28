@@ -14,7 +14,7 @@ LDSCRIPTS += $(AM_HOME)/scripts/linker.ld
 LDFLAGS   += --defsym=_pmem_start=0x80000000 --defsym=_entry_offset=0x0
 LDFLAGS   += --gc-sections -e _start
 #批处理模式标志位 传入日志参数
-NEMUFLAGS += -l $(shell dirname $(IMAGE).elf)/nemu-log.txt --t=$(IMAGE).elf
+NEMUFLAGS += -l $(shell dirname $(IMAGE).elf)/nemu-log.txt -b --t=$(IMAGE).elf
 #-b --t=$(IMAGE).elf
 
 #image-dep
