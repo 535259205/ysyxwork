@@ -59,7 +59,7 @@ __am_asm_trap:
   #栈指针放到a0 a0是函数的第一个传递参数 然后有指针就可以访问栈中的上下文
   mv a0, sp
   call __am_irq_handle
-  
+  #函数返回值放到a0 然后从栈中弹出
   mv sp, a0 
 
 # 从栈中弹出异常、状态、pc
@@ -73,5 +73,5 @@ __am_asm_trap:
 #出栈
   MAP(REGS, POP)
 #还原栈指针
-  addi sp, sp, CONTEXT_SIZE
+  # addi sp, sp, CONTEXT_SIZE
   mret

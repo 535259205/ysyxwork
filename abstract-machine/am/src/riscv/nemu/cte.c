@@ -6,6 +6,8 @@ static Context* (*user_handler)(Event, Context*) = NULL;
 
 //C实际就是栈指针 然后从yield触发ecall后开始传递
 Context* __am_irq_handle(Context *c) {
+  // if (user_handler) {
+    if(1){
     Event ev = {0};
     switch (c->mcause) {
       case 0x0B:
@@ -25,6 +27,7 @@ Context* __am_irq_handle(Context *c) {
     }
     c = user_handler(ev, c);
     assert(c != NULL);
+  }
   return c;
 }
 
