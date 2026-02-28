@@ -12,11 +12,7 @@ Context* __am_irq_handle(Context *c) {
       case 0x0B:
       case 0x08:
         // 检查a7寄存器的值，确定是yield请求
-        #ifdef __riscv_e
-        if (c->gpr[15] == -1) 
-        #else
-        if (c->gpr[17] == -1)   // x17是a7寄存器
-        #endif
+        if (c->GPR1 == -1)   // x17是a7寄存器
         {
           ev.event = EVENT_YIELD;
         } else {
