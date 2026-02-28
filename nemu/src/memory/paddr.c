@@ -18,7 +18,7 @@
 #include <device/mmio.h>
 #include <isa.h>
 
-#define USE_EXMEM 0
+#define USE_EXMEM 1
 
 #if   defined(CONFIG_PMEM_MALLOC)
 static uint8_t *pmem = NULL;
