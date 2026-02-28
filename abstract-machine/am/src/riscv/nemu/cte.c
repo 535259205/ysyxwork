@@ -54,6 +54,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   for (int i = 0; i < NR_REGS; i++) {
     ctx->gpr[i] = 0;
   }
+  printf("kstack.end = %d\n",NR_REGS);
 
   // 设置参数寄存器 A0
   ctx->gpr[10] = (uintptr_t)arg;  // a0寄存器保存调用函数的第一个参数指针
