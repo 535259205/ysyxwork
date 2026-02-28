@@ -13,7 +13,7 @@
 #endif
 
 #define REGS_LO16(f) \
-  f(0) f( 1) f(2) f( 3) f( 4) f( 5) f( 6) f( 7) f( 8) f( 9) \
+   f( 1)  f( 3) f( 4) f( 5) f( 6) f( 7) f( 8) f( 9) \
 f(10) f(11) f(12) f(13) f(14) f(15)
 #ifndef __riscv_e
 #define REGS_HI16(f) \
@@ -52,7 +52,7 @@ __am_asm_trap:
   STORE t1, OFFSET_STATUS(sp)
   STORE t2, OFFSET_EPC(sp)
 
-  #set mstatus.MPRV to pass difftest 访问特权级修改位设置1
+#   set mstatus.MPRV to pass difftest 访问特权级修改位设置1
   li a0, (1 << 17)
   or t1, t1, a0
   csrw mstatus, t1
@@ -73,5 +73,5 @@ __am_asm_trap:
 #出栈
   MAP(REGS, POP)
 #还原栈指针
-  addi sp, sp, CONTEXT_SIZE
+  # addi sp, sp, CONTEXT_SIZE
   mret

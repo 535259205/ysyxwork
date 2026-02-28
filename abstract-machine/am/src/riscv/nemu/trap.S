@@ -73,5 +73,5 @@ __am_asm_trap:
 #出栈
   MAP(REGS, POP)
 #还原栈指针
-  addi sp, sp, CONTEXT_SIZE
+  # addi sp, sp, CONTEXT_SIZE
   mret
