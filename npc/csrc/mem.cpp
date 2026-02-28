@@ -152,7 +152,7 @@ extern "C" int32_t sdram_ctr(int32_t addr, int32_t data, int32_t write){
     }
 
     sdram[addr>>2] = new_data;
-    // printf("sdram_ctr: addr=0x%08X, data=0x%08X,write_data=0x%08X, write=%d\n", addr, data, new_data, write);
+    printf("sdram_ctr: addr=0x%08X, data=0x%08X,write_data=0x%08X, write=%d\n", addr, data, new_data, write);
     // printf("now:0x%08X\n",sdram[addr]);
   }
   return r_data;

@@ -12,7 +12,7 @@ SECTIONS {
     . = ORIGIN(FLASH);
     .boot :
     {
-        KEEP(*(entry))  /* 保留启动代码，不被优化 */
+        KEEP(*(entry))
     } > FLASH
     . = ORIGIN(FLASH);
     .text : {
@@ -41,7 +41,6 @@ SECTIONS {
         _data_end = .;
     } > SDRAM AT> FLASH
 
-    /* > 为运行的时候的位置 AT>MROM 就是代表烧录的时候的位置 */
     /* 数据段在MROM中的起始地址（LMA） */
     _data_load_start = LOADADDR(.data);
 
@@ -60,7 +59,7 @@ SECTIONS {
 
     /* 堆的分配*/
     _heap_end = _stack_bottom;
-    . = _heap_end - 0x800000;
+    . = _heap_end - 0x80000;
     . = ALIGN(0x1000);
     _heap_start = .;
     end = .;
