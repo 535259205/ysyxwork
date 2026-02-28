@@ -63,9 +63,9 @@ __am_asm_trap:
   mv sp, a0 
 
 # 从栈中弹出异常、状态、pc
-  LOAD t0, OFFSET_CAUSE(sp)
-  LOAD t1, OFFSET_STATUS(sp)
-  LOAD t2, OFFSET_EPC(sp)
+  # LOAD t0, OFFSET_CAUSE(sp)
+  # LOAD t1, OFFSET_STATUS(sp)
+  # LOAD t2, OFFSET_EPC(sp)
   # addi t2, t2, 4
   # csrw mcause, t0
   # csrw mstatus, t1
@@ -74,4 +74,5 @@ __am_asm_trap:
   MAP(REGS, POP)
 #还原栈指针
   addi sp, sp, CONTEXT_SIZE
+  addi ra, ra, 4
   mret
