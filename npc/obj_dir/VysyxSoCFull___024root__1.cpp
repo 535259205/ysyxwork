@@ -1320,20 +1320,20 @@ void VysyxSoCFull___024root___eval_nba(VysyxSoCFull___024root* vlSelf) {
          [0U])) {
         VysyxSoCFull___024root___nba_sequent__TOP__2(vlSelf);
     }
-    if ((2ULL & vlSelfRef.__VnbaTriggered[0U])) {
+    if ((1ULL & vlSelfRef.__VnbaTriggered[0U])) {
         VysyxSoCFull___024root___nba_sequent__TOP__3(vlSelf);
+        vlSelfRef.__Vm_traceActivity[2U] = 1U;
+    }
+    if ((2ULL & vlSelfRef.__VnbaTriggered[0U])) {
+        VysyxSoCFull___024root___nba_sequent__TOP__4(vlSelf);
     }
     if ((0x0000000000000100ULL & vlSelfRef.__VnbaTriggered
          [0U])) {
-        VysyxSoCFull___024root___nba_sequent__TOP__4(vlSelf);
+        VysyxSoCFull___024root___nba_sequent__TOP__5(vlSelf);
     }
     if ((0x0000000000000080ULL & vlSelfRef.__VnbaTriggered
          [0U])) {
-        VysyxSoCFull___024root___nba_sequent__TOP__5(vlSelf);
-    }
-    if ((1ULL & vlSelfRef.__VnbaTriggered[0U])) {
         VysyxSoCFull___024root___nba_sequent__TOP__6(vlSelf);
-        vlSelfRef.__Vm_traceActivity[2U] = 1U;
     }
     if ((9ULL & vlSelfRef.__VnbaTriggered[0U])) {
         VysyxSoCFull___024root___nba_sequent__TOP__7(vlSelf);

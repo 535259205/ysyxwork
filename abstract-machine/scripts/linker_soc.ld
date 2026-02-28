@@ -25,7 +25,7 @@ SECTIONS {
         *(.srodata*)
         . = ALIGN(4);                 /* 4字节对齐 */
         _text_end = .;
-    } >FLASH
+    } >SDRAM_CODE AT> FLASH 
 
 
     _text_load_start = LOADADDR(.text);
@@ -60,7 +60,7 @@ SECTIONS {
 
     /* 堆的分配*/
     _heap_end = _stack_bottom;
-    . = _heap_end - 0x8000;
+    . = _heap_end - 0x80000;
     . = ALIGN(0x1000);
     _heap_start = .;
     end = .;

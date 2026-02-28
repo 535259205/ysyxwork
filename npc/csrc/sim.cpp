@@ -8,6 +8,7 @@
 
 
 #define USE_WAVE1 1
+#define WAVE_START 0
 #define SHOW_LIMIT 10
 #define USE_ITRACE 0
 #define USE_FTRACE 0
@@ -50,7 +51,7 @@ int SimStep(uint32_t n)
         count++;
         if(count%1000==0)
         {
-            printf("count is %d\n", count);
+            // printf("count is %d\n", count);
         }
         if (ebreak_flag)
         {
@@ -65,7 +66,7 @@ int SimStep(uint32_t n)
             dut->eval();
             
             #if USE_WAVE1
-            if(count>=60000)
+            if(count>=WAVE_START)
             {
             m_trace->dump(sim_time); //将当前时间点的信号值写入波形文件
             sim_time++;

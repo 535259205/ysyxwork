@@ -78,9 +78,9 @@ static inline bool in_psram(paddr_t addr) {
 word_t psram_read(paddr_t addr, int len) {
   return host_read(&psram[addr - PSRAM_BASE], len);
 }
-// static void psram_write(paddr_t addr, int len, word_t data) {
-//   host_write(&psram[addr - PSRAM_BASE], len, data);
-// }
+static void psram_write(paddr_t addr, int len, word_t data) {
+  host_write(&psram[addr - PSRAM_BASE], len, data);
+}
 
 
 word_t paddr_read(paddr_t addr, int len) {
@@ -93,14 +93,14 @@ word_t paddr_read(paddr_t addr, int len) {
     #endif
     return ret;
   }
-  // else if (likely(in_sram(addr)))
-  // {
-  //   return sram_read(addr, len);
-  // }
-  // else if (likely(in_psram(addr)))
-  // {
-  //   return psram_read(addr, len);
-  // }
+  else if (likely(in_sram(addr)))
+  {
+    return sram_read(addr, len);
+  }
+  else if (likely(in_psram(addr)))
+  {
+    return psram_read(addr, len);
+  }
   // else if(likely(in_uart(addr)))
   // {
   //   return 0;
@@ -121,19 +121,19 @@ void paddr_write(paddr_t addr, int len, word_t data) {
     pmem_write(addr, len, data);
     return;
   }
-  // else if (likely(in_sram(addr)))
-  // {
-  //   sram_write(addr, len, data);
-  //   return;
-  // }else if (likely(in_psram(addr)))
-  // {
-  //   psram_write(addr, len, data);
-  //   return;
-  // }
-  // else if(likely(in_uart(addr)))
-  // {
-  //   return;
-  // }
+  else if (likely(in_sram(addr)))
+  {
+    sram_write(addr, len, data);
+    return;
+  }else if (likely(in_psram(addr)))
+  {
+    psram_write(addr, len, data);
+    return;
+  }
+  else if(likely(in_uart(addr)))
+  {
+    return;
+  }
   IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); return);
   out_of_bound(addr);
 }
