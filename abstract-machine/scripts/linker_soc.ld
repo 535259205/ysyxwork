@@ -51,11 +51,11 @@ SECTIONS {
     } > SDRAM
     
     . = ORIGIN(SDRAM) + LENGTH(SDRAM);  /* 指向SRAM末尾（栈顶） */
-    _stack_top = .;                   /* 栈顶（高地址） */
+    _stack_top = .;                     /* 栈顶（高地址） */
     . = . - 0x10000;                    /* 向下分配2KB栈空间 */
     . = ALIGN(0x1000);
-    _stack_bottom = .;                /* 栈底（低地址） */
-    _stack_pointer = _stack_top;      /* 栈指针初始指向栈顶 */
+    _stack_bottom = .;                  /* 栈底（低地址） */
+    _stack_pointer = _stack_top;        /* 栈指针初始指向栈顶 */
 
     /* 堆的分配*/
     _heap_end = _stack_bottom;
