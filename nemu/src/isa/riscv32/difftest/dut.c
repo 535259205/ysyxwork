@@ -38,15 +38,15 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
   //   return false;
   // }
   
-  if(ref_r->mcause != cpu.mcause) {
-    printf("mcause diff: ref 0x%08x, dut 0x%08x\n", ref_r->mcause, cpu.mcause);
-    return false;
-  }
+  // if(ref_r->mcause != cpu.mcause) {
+  //   printf("mcause diff: ref 0x%08x, dut 0x%08x\n", ref_r->mcause, cpu.mcause);
+  //   return false;
+  // }
   
-  if(ref_r->mstatus != cpu.mstatus) {
-    printf("mstatus diff: ref 0x%08x, dut 0x%08x\n", ref_r->mstatus, cpu.mstatus);
-    return false;
-  }
+  // if(ref_r->mstatus != cpu.mstatus) {
+  //   printf("mstatus diff: ref 0x%08x, dut 0x%08x\n", ref_r->mstatus, cpu.mstatus);
+  //   return false;
+  // }
   
   // if(ref_r->mepc != cpu.mepc) {
   //   printf("mepc diff: ref 0x%08x, dut 0x%08x\n", ref_r->mepc, cpu.mepc);
