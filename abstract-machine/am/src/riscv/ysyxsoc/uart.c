@@ -34,11 +34,10 @@ void uart_init(void)
 }
 void uart_putch(char ch)
 {
-  // volatile char *uart = (volatile char *)UART_BASE;
   volatile char *tx_reg =  (volatile char *)(UART_BASE + UART_TX);
 
-  volatile char *lsr_reg = (volatile char *)(UART_BASE + UART_LSR);
-  while((((*lsr_reg)>>6)&0x01)==0);
+  // volatile char *lsr_reg = (volatile char *)(UART_BASE + UART_LSR);
+  // while((((*lsr_reg)>>6)&0x01)==0);
 
   *tx_reg = ch; // 发送字符
 }

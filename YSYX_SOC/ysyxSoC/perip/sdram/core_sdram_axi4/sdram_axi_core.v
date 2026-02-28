@@ -232,8 +232,8 @@ begin
         // Access request
         else if (ram_req_w)
         begin
-            // Open row hit
-            if (row_open_q[addr_bank_w] && addr_row_w == active_row_q[addr_bank_w])
+            // Open row hit 触发的是这个
+            if (row_open_q[addr_bank_w] && addr_row_w == active_row_q[addr_bank_w] && 0)
             begin
                 if (!ram_rd_w)
                     next_state_r = STATE_WRITE0;
@@ -250,7 +250,7 @@ begin
                 else
                     target_state_r = STATE_READ;
             end
-            // No open row, open row
+            // No open row, open row 应该是这个的？？？
             else
             begin
                 next_state_r   = STATE_ACTIVATE;

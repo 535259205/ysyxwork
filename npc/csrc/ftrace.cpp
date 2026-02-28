@@ -76,26 +76,26 @@ int FtraceInit(char * elf_file) {
         }
     }
 
-    // 解析符号表，查找函数符号
-    if (symtab != NULL && strtab != NULL) {
-        printf("\n===== Function Symbols =====\n");
-        printf("%-20s | Address | Size\n", "Function Name");
-        printf("----------------------------------------\n");
+    // // 解析符号表，查找函数符号
+    // if (symtab != NULL && strtab != NULL) {
+    //     printf("\n===== Function Symbols =====\n");
+    //     printf("%-20s | Address | Size\n", "Function Name");
+    //     printf("----------------------------------------\n");
         
-        for (int i = 0; i < symtab_num; i++) {
-            const char *sym_name = strtab + symtab[i].st_name;
+    //     for (int i = 0; i < symtab_num; i++) {
+    //         const char *sym_name = strtab + symtab[i].st_name;
             
-            // 检查符号是否是函数
-            unsigned char sym_type = ELF32_ST_TYPE(symtab[i].st_info);
+    //         // 检查符号是否是函数
+    //         unsigned char sym_type = ELF32_ST_TYPE(symtab[i].st_info);
             
-            if (sym_type == STT_FUNC && sym_name[0] != '\0') {
-                printf("%-20s | 0x%08lx |0x%08lx\n", 
-                       sym_name, 
-                       (unsigned long)symtab[i].st_value,
-                       (unsigned long)symtab[i].st_size);
-            }
-        }
-    }
+    //         if (sym_type == STT_FUNC && sym_name[0] != '\0') {
+    //             printf("%-20s | 0x%08lx |0x%08lx\n", 
+    //                    sym_name, 
+    //                    (unsigned long)symtab[i].st_value,
+    //                    (unsigned long)symtab[i].st_size);
+    //         }
+    //     }
+    // }
 
     // munmap(elf_base, file_stat.st_size); // 解除内存映射
     // close(fd);

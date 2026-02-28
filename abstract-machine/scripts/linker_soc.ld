@@ -1,52 +1,54 @@
 ENTRY(_start)
 MEMORY{
-    MROM : ORIGIN = 0x20000000, LENGTH = 4K
-    SRAM : ORIGIN = 0x0f000000, LENGTH = 8K
-    FLASH : ORIGIN = 0x30000000, LENGTH = 0x01000000
-    PSRAM : ORIGIN = 0x80000000, LENGTH = 0x01000000
-    SDRAM : ORIGIN = 0xA0000000, LENGTH = 0x04000000
+    MROM  : ORIGIN = 0x20000000, LENGTH = 4K
+    SRAM  : ORIGIN = 0x0f000000, LENGTH = 8K
+    FLASH : ORIGIN = 0x30000000, LENGTH = 0x0100000
+    PSRAM : ORIGIN = 0x80000000, LENGTH = 0x0100000
+    SDRAM : ORIGIN = 0xA0000000, LENGTH = 0x200000
+    SDRAM_CODE : ORIGIN = 0xA0000000+LENGTH(SDRAM), LENGTH = 0x200000
 }
 
 SECTIONS {
     . = ORIGIN(FLASH);
-    .text : {
-        _text_start = .;
-        *(entry)
-        *(.text*)                    /* 所有 .text 相关段 */
-        . = ALIGN(4);                 /* 4字节对齐 */
-        _text_end = .;
+    .boot :
+    {
+        KEEP(*(entry))  /* 保留启动代码，不被优化 */
     } > FLASH
-
-    _main_address = main;
-
-
-    .rodata : { 
-        _rodata_start = .;
+    . = ORIGIN(FLASH);
+    .text : {
+        . = ALIGN(4);  
+        _text_start = .;
+        *(.text)
+        *(.text*)                    /* 所有 .text 相关段 */
         *(.rodata)
         *(.rodata.*)
-        . = ALIGN(4);
-        _rodata_end = .;
-    } > FLASH
+        *(.srodata*)
+        . = ALIGN(4);                 /* 4字节对齐 */
+        _text_end = .;
+    } >FLASH
+
+
+    _text_load_start = LOADADDR(.text);
 
     . = ORIGIN(SDRAM);
     .data : {
-        _data_start = .;              
+        . = ALIGN(4);
+        _data_start = .;
         *(.data)
         *(.data*)
         *(.sdata)
         *(.sdata*)
-        _data_end = .;              
+        _data_end = .;
     } > SDRAM AT> FLASH
+    
     /* > 为运行的时候的位置 AT>MROM 就是代表烧录的时候的位置 */
     /* 数据段在MROM中的起始地址（LMA） */
     _data_load_start = LOADADDR(.data);
 
     .bss : {
-        _bss_start = .; 
         *(.bss)
         *(.bss.*)
         *(COMMON)               /* 未初始化的公共变量 */
-        _bss_end = .;
     } > SDRAM
     
     . = ORIGIN(SDRAM) + LENGTH(SDRAM);  /* 指向SRAM末尾（栈顶） */
@@ -57,14 +59,14 @@ SECTIONS {
     _stack_pointer = _stack_top;      /* 栈指针初始指向栈顶 */
 
     /* 堆的分配*/
-    _heap_end = _stack_bottom;        
-    . = _heap_end - 0x800000;        
-    . = ALIGN(0x1000);                
-    _heap_start = .;                 
+    _heap_end = _stack_bottom;
+    . = _heap_end - 0x8000;
+    . = ALIGN(0x1000);
+    _heap_start = .;
     end = .;
-    _end = .; 
+    _end = .;
 
     /* 内存区域标记 */
     _pmem_start = ORIGIN(SDRAM);
-    _pmem_end = _heap_end; 
+    _pmem_end = _heap_end;
 }

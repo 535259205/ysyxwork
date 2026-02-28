@@ -57,10 +57,22 @@ always @(posedge clk) begin
     BURST_length<=a[2:0];
   end
   
+end
+
+always @(posedge CMD_ACTIVE) begin
+
   if(CMD_ACTIVE) begin
     active_row <= a;
     active_bank <= ba;
   end
+  // else if(!CMD_READ)begin
+  //   active_row <= 0;
+  //   active_bank <= 0;
+  // end
+  // else if(!CMD_WRITE)begin
+  //   active_row <= 0;
+  //   active_bank <= 0;
+  // end
 end
 
 wire [31:0] full_addr = {active_row,active_bank,a[9:0]} ;

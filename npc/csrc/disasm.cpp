@@ -3,7 +3,7 @@
 #include <inttypes.h>
 #include "stdio.h"
 #include "assert.h"
-
+#include "sdb.h"
 static uint32_t code[256];
 csh handle;
 cs_insn *insn;
@@ -13,16 +13,17 @@ void DisamsInit(void)
 
 }
 
-void DisasmEncode(uint32_t address,uint32_t len)
+void DisasmEncode(struct SdbReg * info,uint32_t len)
 {
     size_t count;
 	char temp[256];
 	for (int i = 0; i < len; i++)
 	{
-		extern uint32_t rom_read(uint32_t  addr);
-        code[i] = rom_read(address+i*4);
+		// extern uint32_t rom_read(uint32_t  addr);
+        // code[i] = rom_read(address+i*4);
+		code[0] = info->inst;
 	}
-	count = cs_disasm(handle, (const uint8_t *)code, len * 4, address, 0, &insn);
+	count = cs_disasm(handle, (const uint8_t *)code, len * 4, info->pc, 0, &insn);
     if (count > 0) {
 		size_t j;
 		for (j = 0; j < count; j++) {

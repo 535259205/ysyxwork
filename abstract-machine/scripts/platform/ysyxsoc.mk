@@ -22,6 +22,8 @@ MAINARGS_MAX_LEN = 64
 MAINARGS_PLACEHOLDER = the_insert-arg_rule_in_Makefile_will_insert_mainargs_here
 CFLAGS += -DMAINARGS_MAX_LEN=$(MAINARGS_MAX_LEN) -DMAINARGS_PLACEHOLDER=$(MAINARGS_PLACEHOLDER)
 
+NV ?= F
+
 insert-arg: image
 	@python $(AM_HOME)/tools/insert-arg.py $(IMAGE).bin $(MAINARGS_MAX_LEN) $(MAINARGS_PLACEHOLDER) "$(mainargs)"
 
@@ -44,14 +46,17 @@ else ifeq ($(ARCH),riscv32e-npc)
 
 	$(MAKE) -C $(AM_HOME)/../npc sim;
 else ifeq ($(ARCH),riscv32e-ysyxsoc)
+ifeq ($(NV),F)
 	@echo TEST $(AM_HOME)/../npc/hex/test.bin
 	@cp $(IMAGE).bin $(AM_HOME)/../npc/hex/test.bin
 	@cp $(IMAGE).elf $(AM_HOME)/../npc/hex/test.elf
-
 	$(MAKE) -C $(AM_HOME)/../npc sim;
-
-else
-	@echo "TODO:TODO: add command here to run simulation for other architectures"
+else ifeq ($(NV),T)
+	@echo TEST $(AM_HOME)/../nvboard/MY_Test/ysyx/gpio/hex/test.bin
+	@cp $(IMAGE).bin $(AM_HOME)/../nvboard/MY_Test/ysyx/gpio/hex/test.bin
+	@cp $(IMAGE).elf $(AM_HOME)/../nvboard/MY_Test/ysyx/gpio/hex/test.elf
+	$(MAKE) -C $(AM_HOME)/../nvboard/MY_Test/ysyx/gpio sim;
+endif
 endif
 
 

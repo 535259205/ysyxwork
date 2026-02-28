@@ -19,7 +19,7 @@ extern void info_reg(struct SdbReg *info);
 int main(int argc, char **argv)
 {
   setvbuf(stdout, NULL, _IONBF, 0);
-  mem_init("/home/ylqt/study/YSYX_data/ysyx-workbench/npc/hex/test.bin");
+  mem_init("./hex/test.bin");
 
   SimInit(argc, argv);
   

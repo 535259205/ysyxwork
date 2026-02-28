@@ -6,8 +6,8 @@
 #include "stdint.h"
 
 #define MEM_SIZE (0x40000)
-#define FLASH_SIZE (0x01000000>>2)
-#define SDRAM_SIZE (0x10000000)
+#define FLASH_SIZE (0x01000000)
+#define SDRAM_SIZE (0x4000000>>2)
 
 #define USE_MEM 2
 
@@ -25,7 +25,7 @@ extern void iringbuf_memadd(const char* Prefix, uint32_t addr, int len, uint32_t
 
 
 extern "C" void flash_read(int32_t addr, int32_t *data) {
-
+// printf("flash_read: addr = %x\n", addr);
     int32_t val = rom[addr];
     // 字节序反转：将小端转换为大端
     *data = ((val >> 24) & 0xFF) |       // 最高字节移到最低位
@@ -130,7 +130,7 @@ extern "C" int32_t sdram_ctr(int32_t addr, int32_t data, int32_t write){
   if (write & 0x80000000)
   {
     r_data=sdram[addr>>2];
-    // printf("sdram_ctr: addr=0x%08X, read=0x%08X,read=0x%08X\n", addr, r_data,write);
+    // printf("sdram_ctr: addr=0x%08X, read=0x%08X,read_flag=0x%08X\n", addr, r_data,write);
   }
   else
   {
@@ -196,8 +196,11 @@ void mem_init(const char * file)
     rom[0x228 / 4] = 0x100073;
   #endif
 
+  #ifndef USE_NVBOARD
+  printf("diff_MEMCOPY\n");
   extern void difftest_cpymem(uint32_t *data, uint32_t len);
   extern void difftest_myinit(void);
   difftest_myinit();
   difftest_cpymem(rom, FLASH_SIZE);
+  #endif
 }
