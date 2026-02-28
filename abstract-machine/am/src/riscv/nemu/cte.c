@@ -6,6 +6,7 @@ static Context* (*user_handler)(Event, Context*) = NULL;
 
 //C实际就是栈指针 然后从yield触发ecall后开始传递
 Context* __am_irq_handle(Context *c) {
+  printf("mcause is %d\n", c->mcause);
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
