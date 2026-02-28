@@ -19,13 +19,13 @@ SECTIONS {
         . = ALIGN(4);  
         _text_start = .;
         *(.text)
-        *(.text*)                    /* 所有 .text 相关段 */
+        *(.text*)
         *(.rodata)
         *(.rodata.*)
         *(.srodata*)
-        . = ALIGN(4);                 /* 4字节对齐 */
+        . = ALIGN(4);
         _text_end = .;
-    } >FLASH AT> FLASH 
+    } >FLASH AT> FLASH
 
 
     _text_load_start = LOADADDR(.text);
