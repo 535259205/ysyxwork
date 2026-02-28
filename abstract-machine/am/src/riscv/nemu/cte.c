@@ -49,12 +49,11 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
 
   //底部创建kcontext结构
-  Context *ctx = (Context *)((uintptr_t)kstack.end - sizeof(Context));
+  Context *ctx = (Context *)((uintptr_t)kstack.end - sizeof(Context)-4);
   // 初始化所有通用寄存器为0
   for (int i = 0; i < NR_REGS; i++) {
     ctx->gpr[i] = 0;
   }
-  printf("kstack.end = %d\n",NR_REGS);
 
   // 设置参数寄存器 A0
   ctx->gpr[10] = (uintptr_t)arg;  // a0寄存器保存调用函数的第一个参数指针
