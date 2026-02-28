@@ -7,7 +7,7 @@
 
 
 extern int ebreak_flag;
-extern void mem_init(void);
+extern void mem_init(const char * file);
 extern void SimInit(int argc, char **argv);
 extern void SimEnd();
 extern void SdbRun(void);
@@ -19,7 +19,7 @@ extern void info_reg(struct SdbReg *info);
 int main(int argc, char **argv)
 {
   setvbuf(stdout, NULL, _IONBF, 0);
-  mem_init();
+  mem_init("./hex/test.bin");
 
   SimInit(argc, argv);
   

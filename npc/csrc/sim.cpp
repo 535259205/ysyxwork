@@ -7,11 +7,12 @@
 #include "debug.h"
 
 
-#define USE_WAVE1 1
+#define USE_WAVE1 0
+#define WAVE_START (121000*0)
 #define SHOW_LIMIT 10
 #define USE_ITRACE 0
 #define USE_FTRACE 0
-#define USE_DIFFTEST 0
+#define USE_DIFFTEST 1
 
 
 VysyxSoCFull *dut = new VysyxSoCFull(); 
@@ -20,18 +21,16 @@ VerilatedVcdC *m_trace = new VerilatedVcdC();
 
 extern int ebreak_flag;
 static struct SdbReg infoa;
-static volatile int step_flag = 0;
-extern "C" void SimStep1(int step_data)
-{
-    step_flag++;
-}
+extern int step_flag;
+extern void change_step_flag(int step_data);
+
 int SimStep(uint32_t n)
 {
     for(uint32_t i = 0; i < n; i++){
         extern void info_reg(struct SdbReg * info);
-        extern void DisasmEncode(uint32_t address,uint32_t len);
+        extern void DisasmEncode(struct SdbReg * info,uint32_t len);
         info_reg(&infoa);
-        DisasmEncode(infoa.pc,1);
+        DisasmEncode(&infoa,1);
         if(n<=SHOW_LIMIT){
             extern void iringbuf_shownow(void);
             iringbuf_shownow();
@@ -50,10 +49,9 @@ int SimStep(uint32_t n)
 
         static int count=0;
         count++;
-        if(count>=1000000)
+        if(count%1000==0)
         {
             printf("count is %d\n", count);
-            return 0;
         }
         if (ebreak_flag)
         {
@@ -68,13 +66,16 @@ int SimStep(uint32_t n)
             dut->eval();
             
             #if USE_WAVE1
+            if(count>=WAVE_START)
+            {
             m_trace->dump(sim_time); //将当前时间点的信号值写入波形文件
             sim_time++;
+            }
             #endif
             }
             if(step_flag>=1)
             {
-                step_flag--;
+                change_step_flag(step_flag-1);
                 break;
             }
         }

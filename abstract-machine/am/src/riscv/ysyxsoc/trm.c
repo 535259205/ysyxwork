@@ -17,12 +17,18 @@ void putch(char ch)
 {
   uart_putch(ch);
 }
+extern char uart_getch(void);
+char getch(void)
+{
+  return uart_getch();
+}
 
 void halt(int code) {
   asm volatile("ebreak");
   while (1);
 }
 
+__attribute__((section(".boot"))) 
 void boot_cpy(uint32_t src_addr, uint32_t dst_addr, uint32_t data_end) {
   uint32_t *src = (uint32_t *)src_addr;
   uint32_t *dst = (uint32_t *)dst_addr;
@@ -32,16 +38,8 @@ void boot_cpy(uint32_t src_addr, uint32_t dst_addr, uint32_t data_end) {
   }
 }
 
-void boot_cpy2(uint32_t src_addr, uint32_t dst_addr, uint32_t data_end) {
-  uint32_t *src = (uint32_t *)src_addr;
-  uint32_t *dst = (uint32_t *)dst_addr;
-  while(src<=((uint32_t *)data_end))
-  {
-    *dst++ = *src++;
-  }
-}
-
 // 初始化数据段（全局变量到RAM里面）
+__attribute__((section(".boot"))) 
 void mem_init(void)
 {
   volatile int data_load_start;
@@ -53,42 +51,33 @@ void mem_init(void)
   boot_cpy((uint32_t)data_load_start, (uint32_t)data_start, (uint32_t)data_end);
 }
 
-
+__attribute__((section(".boot"))) 
 void flash_to_sram(void)
 {
-  volatile uint32_t text_start;
-  volatile uint32_t text_end;
-  volatile uint32_t rodata_start;
-  volatile uint32_t rodata_end;
-  volatile uint32_t main_address;
-  
+  volatile int text_start;
+  volatile int text_end;
+  volatile int text_load_start;
+
   // 加载正确的符号地址
   asm volatile("la %0, _text_start" : "=r"(text_start));
   asm volatile("la %0, _text_end" : "=r"(text_end));
-  asm volatile("la %0, _rodata_start" : "=r"(rodata_start));
-  asm volatile("la %0, _rodata_end" : "=r"(rodata_end));
-  asm volatile("la %0, _main_address" : "=r"(main_address));
+  asm volatile("la %0, _text_load_start" : "=r"(text_load_start));
   
-  // 计算 SRAM 中的目标地址
-  uint32_t sram_text_start = 0x0f000000;
-  uint32_t sram_rodata_start = sram_text_start + (rodata_start - text_start);
-  uint32_t sram_main_address = sram_text_start + (main_address - text_start);
   
   // 搬运代码段和只读数据段到 SRAM
-  boot_cpy2(text_start, sram_text_start, text_end);
-  boot_cpy2(rodata_start, sram_rodata_start, rodata_end);
-  
-  // 跳转到 SRAM 中的 main 函数，不返回
-asm volatile("jr %0\n" : : "r"(sram_main_address));
-
+  boot_cpy((uint32_t)text_load_start, (uint32_t)text_start, (uint32_t)text_end);
 }
 
 extern void uart_init(void);
+
+__attribute__((section(".boot"))) 
 void _trm_init()
 {
+  // flash_to_sram();
   mem_init();
   uart_init();
-  // flash_to_sram();
+  putch('>');
+  putch('\n');
   int ret = main(mainargs);
   halt(ret);
 }

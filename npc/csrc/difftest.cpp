@@ -22,7 +22,7 @@ void difftest_reg_init(void)
     cpu_ref.pc = 0x30000000;
     cpu_ref.mtvec = RESET_VECTOR;   // 设置中断向量表基地址
     cpu_ref.mstatus = 0x00001800;   // MPP=11 (machine mode), MIE=0 (禁用中断)
-    cpu_ref.mcause = 0x00000000;    // 无异常/中断
+    cpu_ref.mcause = 0x0B;    // 无异常/中断
     cpu_ref.mepc = 0x00000000;      // 异常返回地址
     cpu_ref.cycle = 0;              // 时钟周期计数器
     difftest_regcpy(&cpu_ref.gpr[0], DIFFTEST_TO_REF);
@@ -43,22 +43,22 @@ int difftest_comp(struct SdbReg *info)
         printf("pc diff: 0x%x != 0x%x\n", cpu_ref.pc, info->pc);
         return 0;
     }
-    // if(cpu_ref.mtvec!=info->mtvec){ // 使用 -> 访问指针成员
-    //     printf("mtvec diff: 0x%x != 0x%x\n", cpu_ref.mtvec, info->mtvec);
-    //     return 0;
-    // }
-    // if(cpu_ref.mcause!=info->mcause){ // 使用 -> 访问指针成员
-    //     printf("mcause diff: 0x%x != 0x%x\n", cpu_ref.mcause, info->mcause);
-    //     return 0;
-    // }
-    // if(cpu_ref.mstatus!=info->mstatus){ // 使用 -> 访问指针成员
-    //     printf("mstatus diff: 0x%x != 0x%x\n", cpu_ref.mstatus, info->mstatus);
-    //     return 0;
-    // }
-    // if(cpu_ref.mepc!=info->mepc){ // 使用 -> 访问指针成员
-    //     printf("mepc diff: 0x%x != 0x%x\n", cpu_ref.mepc, info->mepc);
-    //     return 0;
-    // }
+    if(cpu_ref.mtvec!=info->mtvec){ // 使用 -> 访问指针成员
+        printf("mtvec diff: 0x%x != 0x%x\n", cpu_ref.mtvec, info->mtvec);
+        return 0;
+    }
+    if(cpu_ref.mcause!=info->mcause){ // 使用 -> 访问指针成员
+        printf("mcause diff: 0x%x != 0x%x\n", cpu_ref.mcause, info->mcause);
+        return 0;
+    }
+    if(cpu_ref.mstatus!=info->mstatus){ // 使用 -> 访问指针成员
+        printf("mstatus diff: 0x%x != 0x%x\n", cpu_ref.mstatus, info->mstatus);
+        return 0;
+    }
+    if(cpu_ref.mepc!=info->mepc){ // 使用 -> 访问指针成员
+        printf("mepc diff: 0x%x != 0x%x\n", cpu_ref.mepc, info->mepc);
+        return 0;
+    }
     return 1;
 }
 

@@ -18,6 +18,8 @@
 #include <device/mmio.h>
 #include <isa.h>
 
+#define USE_EXMEM 1
+
 #if   defined(CONFIG_PMEM_MALLOC)
 static uint8_t *pmem = NULL;
 #else // CONFIG_PMEM_GARRAY
@@ -68,8 +70,8 @@ static inline bool in_sram(paddr_t addr) {
 static inline bool in_uart(paddr_t addr) {
   return addr >= UART_BASE && addr < UART_BASE + 0x1fff;
 }
-#define PSRAM_BASE 0x80000000
-#define PSRAM_SIZE 0x01000000
+#define PSRAM_BASE 0xA0000000
+#define PSRAM_SIZE 0x04000000
 static uint8_t psram[PSRAM_SIZE] = {0};
 
 static inline bool in_psram(paddr_t addr) {
@@ -78,9 +80,12 @@ static inline bool in_psram(paddr_t addr) {
 word_t psram_read(paddr_t addr, int len) {
   return host_read(&psram[addr - PSRAM_BASE], len);
 }
+
+#if USE_EXMEM
 static void psram_write(paddr_t addr, int len, word_t data) {
   host_write(&psram[addr - PSRAM_BASE], len, data);
 }
+#endif
 
 
 word_t paddr_read(paddr_t addr, int len) {
@@ -93,6 +98,7 @@ word_t paddr_read(paddr_t addr, int len) {
     #endif
     return ret;
   }
+  #if USE_EXMEM
   else if (likely(in_sram(addr)))
   {
     return sram_read(addr, len);
@@ -101,6 +107,11 @@ word_t paddr_read(paddr_t addr, int len) {
   {
     return psram_read(addr, len);
   }
+  #endif
+  // else if(likely(in_uart(addr)))
+  // {
+  //   return 0;
+  // }
   IFDEF(CONFIG_DEVICE, return mmio_read(addr, len));
   out_of_bound(addr);
   return 0;
@@ -117,6 +128,7 @@ void paddr_write(paddr_t addr, int len, word_t data) {
     pmem_write(addr, len, data);
     return;
   }
+  #if USE_EXMEM
   else if (likely(in_sram(addr)))
   {
     sram_write(addr, len, data);
@@ -130,6 +142,7 @@ void paddr_write(paddr_t addr, int len, word_t data) {
   {
     return;
   }
+  #endif
   IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); return);
   out_of_bound(addr);
 }

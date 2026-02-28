@@ -6,7 +6,7 @@ module SocCtrl (
   output reg           u_vaild_0,
   output reg           u_vaild_1,
   output wire          u_vaild_2,
-  output wire          u_vaild_3,
+  output reg           u_vaild_3,
   output reg           u_vaild_4,
   input  wire          encode_r_ready,
   input  wire          encode_r_valid,
@@ -113,7 +113,13 @@ module SocCtrl (
   end
 
   assign u_vaild_2 = 1'b0;
-  assign u_vaild_3 = 1'b0;
+  always @(*) begin
+    u_vaild_3 = 1'b0;
+    if(s_onEntry_EX) begin
+      u_vaild_3 = 1'b1;
+    end
+  end
+
   always @(*) begin
     u_vaild_4 = 1'b0;
     case(s_stateReg)

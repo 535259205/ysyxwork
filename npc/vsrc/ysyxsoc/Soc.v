@@ -120,6 +120,17 @@ module Soc (
   wire       [31:0]   csr_1_com_encode_r_pc;
   wire       [31:0]   grp_1_com_encode_rs1;
   wire       [31:0]   grp_1_com_encode_rs2;
+  wire                clint_axi_ar_ready;
+  wire                clint_axi_aw_ready;
+  wire                clint_axi_w_ready;
+  wire                clint_axi_r_valid;
+  wire       [31:0]   clint_axi_r_payload_data;
+  wire       [3:0]    clint_axi_r_payload_id;
+  wire       [1:0]    clint_axi_r_payload_resp;
+  wire                clint_axi_r_payload_last;
+  wire                clint_axi_b_valid;
+  wire       [3:0]    clint_axi_b_payload_id;
+  wire       [1:0]    clint_axi_b_payload_resp;
   wire                xbar_axi_m_0_ar_ready;
   wire                xbar_axi_m_0_aw_ready;
   wire                xbar_axi_m_0_w_ready;
@@ -276,6 +287,7 @@ module Soc (
     .com_encode_w_pc    (encode_2_com_csr_w_pc[31:0]   ), //i
     .com_encode_r_pc    (csr_1_com_encode_r_pc[31:0]   ), //o
     .com_encode_mret    (encode_2_com_csr_mret         ), //i
+    .vaild              (u_vaild_3                     ), //i
     .clock              (clock                         ), //i
     .rst                (rst                           )  //i
   );
@@ -290,6 +302,39 @@ module Soc (
     .w_vaild             (u_vaild_4                    ), //i
     .clock               (clock                        ), //i
     .rst                 (rst                          )  //i
+  );
+  AXIClint clint (
+    .axi_aw_valid         (                              ), //i
+    .axi_aw_ready         (clint_axi_aw_ready            ), //o
+    .axi_aw_payload_addr  (                              ), //i
+    .axi_aw_payload_id    (                              ), //i
+    .axi_aw_payload_len   (                              ), //i
+    .axi_aw_payload_size  (                              ), //i
+    .axi_aw_payload_burst (                              ), //i
+    .axi_w_valid          (                              ), //i
+    .axi_w_ready          (clint_axi_w_ready             ), //o
+    .axi_w_payload_data   (                              ), //i
+    .axi_w_payload_strb   (                              ), //i
+    .axi_w_payload_last   (                              ), //i
+    .axi_b_valid          (clint_axi_b_valid             ), //o
+    .axi_b_ready          (                              ), //i
+    .axi_b_payload_id     (clint_axi_b_payload_id[3:0]   ), //o
+    .axi_b_payload_resp   (clint_axi_b_payload_resp[1:0] ), //o
+    .axi_ar_valid         (                              ), //i
+    .axi_ar_ready         (clint_axi_ar_ready            ), //o
+    .axi_ar_payload_addr  (                              ), //i
+    .axi_ar_payload_id    (                              ), //i
+    .axi_ar_payload_len   (                              ), //i
+    .axi_ar_payload_size  (                              ), //i
+    .axi_ar_payload_burst (                              ), //i
+    .axi_r_valid          (clint_axi_r_valid             ), //o
+    .axi_r_ready          (                              ), //i
+    .axi_r_payload_data   (clint_axi_r_payload_data[31:0]), //o
+    .axi_r_payload_id     (clint_axi_r_payload_id[3:0]   ), //o
+    .axi_r_payload_resp   (clint_axi_r_payload_resp[1:0] ), //o
+    .axi_r_payload_last   (clint_axi_r_payload_last      ), //o
+    .clock                (clock                         ), //i
+    .rst                  (rst                           )  //i
   );
   AXIXbar xbar (
     .axi_m_0_aw_valid         (pc_2_axi_aw_valid                 ), //i

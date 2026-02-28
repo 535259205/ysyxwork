@@ -149,9 +149,11 @@ module Encode (
   wire       [31:0]   _zz__zz_com_grp_rd_9_11;
   wire       [31:0]   _zz_com_pc_nPC;
   wire       [31:0]   _zz_com_grp_rd_41;
-  wire       [94:0]   _zz_axi4lite_w_payload_data;
-  wire       [5:0]    _zz_axi4lite_w_payload_data_1;
-  wire       [31:0]   _zz_6;
+  wire       [1:0]    _zz_6;
+  wire       [47:0]   _zz_axi4lite_w_payload_data;
+  wire       [94:0]   _zz_axi4lite_w_payload_data_1;
+  wire       [5:0]    _zz_axi4lite_w_payload_data_2;
+  wire       [31:0]   _zz_7;
   wire                _zz_when;
   wire       [31:0]   _zz_com_pc_nPC_1;
   wire                _zz_when_1;
@@ -206,7 +208,9 @@ module Encode (
   wire       [4:0]    _zz_com_grp_rd_8;
   reg        [31:0]   _zz_com_grp_rd_9;
   wire       [31:0]   _zz_axi4lite_aw_payload_addr;
+  wire       [31:0]   _zz_axi4lite_aw_payload_addr_1;
 
+  assign _zz_6 = _zz_axi4lite_aw_payload_addr[1 : 0];
   assign _zz_when = ((com_grp_rs1 == com_grp_rs2) == 1'b1);
   assign _zz_when_1 = ((com_grp_rs1 != com_grp_rs2) == 1'b1);
   assign _zz_when_2 = (($signed(_zz_when_3) < $signed(_zz_when_4)) == 1'b1);
@@ -218,7 +222,7 @@ module Encode (
   assign _zz_3 = 4'b1111;
   assign _zz_4 = 4'b0001;
   assign _zz_5 = 4'b0011;
-  assign _zz_6 = (_zz_axi4lite_aw_payload_addr & 32'h00000003);
+  assign _zz_7 = (_zz_axi4lite_aw_payload_addr_1 & 32'h00000003);
   assign _zz_imm_I = code[31 : 20];
   assign _zz_imm_S = {code[31 : 25],code[11 : 7]};
   assign _zz_imm_B = {code[31],{code[7],{code[30 : 25],{code[11 : 8],1'b0}}}};
@@ -316,8 +320,9 @@ module Encode (
   assign _zz__zz_com_grp_rd_9_11 = (axi4lite_r_payload_data >>> _zz_com_grp_rd_8);
   assign _zz_com_pc_nPC = (com_grp_rs1 + imm_I);
   assign _zz_com_grp_rd_41 = (pc_pc + 32'h00000004);
-  assign _zz_axi4lite_w_payload_data = ({63'd0,com_grp_rs2} <<< _zz_axi4lite_w_payload_data_1);
-  assign _zz_axi4lite_w_payload_data_1 = (_zz_axi4lite_aw_payload_addr[1 : 0] * 4'b1000);
+  assign _zz_axi4lite_w_payload_data = ({16'd0,com_grp_rs2} <<< 5'd16);
+  assign _zz_axi4lite_w_payload_data_1 = ({63'd0,com_grp_rs2} <<< _zz_axi4lite_w_payload_data_2);
+  assign _zz_axi4lite_w_payload_data_2 = (_zz_axi4lite_aw_payload_addr_1[1 : 0] * 4'b1000);
   assign _zz_com_pc_nPC_1 = (pc_pc + imm_B);
   assign _zz_com_pc_nPC_2 = (pc_pc + imm_B);
   assign _zz_when_3 = com_grp_rs1;
@@ -708,10 +713,10 @@ module Encode (
         axi4lite_aw_payload_addr = (com_grp_rs1 + imm_S);
       end
       32'b?????????????????001?????0100011 : begin
-        axi4lite_aw_payload_addr = (com_grp_rs1 + imm_S);
+        axi4lite_aw_payload_addr = _zz_axi4lite_aw_payload_addr;
       end
       32'b?????????????????000?????0100011 : begin
-        axi4lite_aw_payload_addr = _zz_axi4lite_aw_payload_addr;
+        axi4lite_aw_payload_addr = _zz_axi4lite_aw_payload_addr_1;
       end
       32'b?????????????????000?????1100011 : begin
       end
@@ -811,10 +816,20 @@ module Encode (
         axi4lite_w_payload_strb = 4'b1111;
       end
       32'b?????????????????001?????0100011 : begin
-        axi4lite_w_payload_strb = 4'b0011;
+        case(_zz_6)
+          2'b00 : begin
+            axi4lite_w_payload_strb = 4'b0011;
+          end
+          2'b10 : begin
+            axi4lite_w_payload_strb = 4'b1100;
+          end
+          default : begin
+            axi4lite_w_payload_strb = 4'b0011;
+          end
+        endcase
       end
       32'b?????????????????000?????0100011 : begin
-        case(_zz_6)
+        case(_zz_7)
           32'h0 : begin
             axi4lite_w_payload_strb = 4'b0001;
           end
@@ -929,10 +944,20 @@ module Encode (
         axi4lite_w_payload_data = com_grp_rs2;
       end
       32'b?????????????????001?????0100011 : begin
-        axi4lite_w_payload_data = com_grp_rs2;
+        case(_zz_6)
+          2'b00 : begin
+            axi4lite_w_payload_data = com_grp_rs2;
+          end
+          2'b10 : begin
+            axi4lite_w_payload_data = _zz_axi4lite_w_payload_data[31:0];
+          end
+          default : begin
+            axi4lite_w_payload_data = com_grp_rs2;
+          end
+        endcase
       end
       32'b?????????????????000?????0100011 : begin
-        axi4lite_w_payload_data = _zz_axi4lite_w_payload_data[31:0];
+        axi4lite_w_payload_data = _zz_axi4lite_w_payload_data_1[31:0];
       end
       32'b?????????????????000?????1100011 : begin
       end
@@ -2197,6 +2222,7 @@ module Encode (
   end
 
   assign _zz_axi4lite_aw_payload_addr = (com_grp_rs1 + imm_S);
+  assign _zz_axi4lite_aw_payload_addr_1 = (com_grp_rs1 + imm_S);
   always @(posedge clock) begin
     if(rst) begin
       code <= 32'h00000013;

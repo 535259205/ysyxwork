@@ -3,8 +3,8 @@ module bitrev (
   input  ss,
   input  mosi,
   // output reg miso,
-  output miso,
-  input reset
+  output miso
+  // input reset
 );
 assign miso=1;
 //   reg [7:0] cnt;

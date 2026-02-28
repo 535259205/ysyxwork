@@ -6,8 +6,8 @@
 #include "stdint.h"
 
 #define MEM_SIZE (0x40000)
-#define FLASH_SIZE (0x01000000>>2)
-#define SDRAM_SIZE (0x10000)
+#define FLASH_SIZE (0x01000000)
+#define SDRAM_SIZE (0x4000000>>2)
 
 #define USE_MEM 2
 
@@ -25,7 +25,7 @@ extern void iringbuf_memadd(const char* Prefix, uint32_t addr, int len, uint32_t
 
 
 extern "C" void flash_read(int32_t addr, int32_t *data) {
-
+// printf("flash_read: addr = %x\n", addr);
     int32_t val = rom[addr];
     // 字节序反转：将小端转换为大端
     *data = ((val >> 24) & 0xFF) |       // 最高字节移到最低位
@@ -126,23 +126,34 @@ extern "C" int32_t psram_ctr(int32_t addr, int32_t data, int32_t write) {
 
 extern "C" int32_t sdram_ctr(int32_t addr, int32_t data, int32_t write){
   uint32_t r_data=0;
-  if(write==256){
-    r_data=sdram[addr];
-    printf("sdram_ctr: addr=0x%08X, read=0x%08X,write=%d\n", addr, r_data,write);
-  }else
+  // printf("sdram_ctr: addr=0x%08X\n", addr);
+  if (write & 0x80000000)
   {
-    switch(write&0xFF){
-      case 0x02:
-      sdram[addr] = (sdram[addr]&0xFF00) | (data & 0xFF);
-      break;
-      case 0x01:
-      sdram[addr] = (sdram[addr]&0x00FF) | (data << 8);
-      break;
-      case 0x00:
-      sdram[addr] =data;
-      break;
+    r_data=sdram[addr>>2];
+    // printf("sdram_ctr: addr=0x%08X, read=0x%08X,read_flag=0x%08X\n", addr, r_data,write);
+  }
+  else
+  {
+    uint8_t mask = write & 0x0F;  // 只取低4位作为掩码
+    uint32_t new_data = sdram[addr>>2];
+
+    // 根据掩码逐字节处理
+    if (!(mask & 0x01)) {  // 第0个字节 (LSB)
+      new_data = (new_data & 0xFFFFFF00) | (data & 0x000000FF);
     }
-    printf("sdram_ctr: addr=0x%08X, data=0x%08X, write=%d\n", addr, data, write);
+    if (!(mask & 0x02)) {  // 第1个字节
+      new_data = (new_data & 0xFFFF00FF) | ((data & 0x0000FF00) << 0);
+    }
+    if (!(mask & 0x04)) {  // 第2个字节
+      new_data = (new_data & 0xFF00FFFF) | ((data & 0x00FF0000) << 0);
+    }
+    if (!(mask & 0x08)) {  // 第3个字节 (MSB)
+      new_data = (new_data & 0x00FFFFFF) | ((data & 0xFF000000) << 0);
+    }
+
+    sdram[addr>>2] = new_data;
+    // printf("sdram_ctr: addr=0x%08X, data=0x%08X,write_data=0x%08X, write=%d\n", addr, data, new_data, write);
+    // printf("now:0x%08X\n",sdram[addr]);
   }
   return r_data;
 }
@@ -162,15 +173,15 @@ uint32_t rom_read(uint32_t  addr)
   return rom[tar_addr];
 }
 
-void mem_init(void)
+void mem_init(const char * file)
 {
   FILE *fp = NULL;
   #if USE_MEM==1
   fp = fopen("/home/ylqt/study/sEMU/normal/hex/mem.bin", "r");
   #elif USE_MEM==0
-  fp = fopen("/home/ylqt/study/sEMU/normal/hex/sum.bin", "r");
-  #else
   fp = fopen("/home/ylqt/study/YSYX_data/ysyx-workbench/npc/hex/test.bin", "r");
+  #else
+  fp = fopen(file, "r");
   #endif
   if (fp == NULL)
   {
@@ -185,8 +196,11 @@ void mem_init(void)
     rom[0x228 / 4] = 0x100073;
   #endif
 
+  #ifndef USE_NVBOARD
+  printf("diff_MEMCOPY\n");
   extern void difftest_cpymem(uint32_t *data, uint32_t len);
   extern void difftest_myinit(void);
   difftest_myinit();
   difftest_cpymem(rom, FLASH_SIZE);
+  #endif
 }

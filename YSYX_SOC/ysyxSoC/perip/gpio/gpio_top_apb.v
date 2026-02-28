@@ -24,4 +24,31 @@ module gpio_top_apb(
   output [7:0]  gpio_seg_7
 );
 
+  // Instantiate my_gpio module
+  my_gpio u_my_gpio(
+    .apb_in_paddr    (in_paddr),
+    .apb_in_psel     (in_psel),
+    .apb_in_penable  (in_penable),
+    .apb_in_pprot    (in_pprot),
+    .apb_in_pwrite   (in_pwrite),
+    .apb_in_pwdata   (in_pwdata),
+    .apb_in_pstrb    (in_pstrb),
+    .apb_in_pready   (in_pready),
+    .apb_in_prdata   (in_prdata),
+    .apb_in_pslverr  (in_pslverr),
+    .gpio_out        (gpio_out),
+    .gpio_in         (gpio_in),
+    .gpio_seg_0      (gpio_seg_0[7:0]),  // Connect lower 4 bits
+    .gpio_seg_1      (gpio_seg_1[7:0]),
+    .gpio_seg_2      (gpio_seg_2[7:0]),
+    .gpio_seg_3      (gpio_seg_3[7:0]),
+    .gpio_seg_4      (gpio_seg_4[7:0]),
+    .gpio_seg_5      (gpio_seg_5[7:0]),
+    .gpio_seg_6      (gpio_seg_6[7:0]),
+    .gpio_seg_7      (gpio_seg_7[7:0]),
+    .clk             (clock),
+    .reset           (reset)
+  );
+ 
+
 endmodule

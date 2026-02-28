@@ -24,21 +24,32 @@ void uart_init(void)
     // *(uart+2) = '2';
     // *(uart+3) = '3';
     // *(uart+4) = '4';
-    uart[UART_LCR] = 0x83;
-    uart[UART_DLM] = 0x00;
+    uart[UART_LCR] = 0x83;//开启配置除数寄存器
+    uart[UART_DLM] = 0x00;//配置除数寄存器
     uart[UART_DLL] = 0x01;
-    uart[UART_LCR] = 0x03;
+    uart[UART_LCR] = 0x03;//关闭配置除数寄存器
     uart[UART_FCR] = 0xFF;  // 清空发送和接收FIFO
     uart[UART_FCR] = 0x01;  // 清空发送和接收FIFO
 
 }
 void uart_putch(char ch)
 {
-  // volatile char *uart = (volatile char *)UART_BASE;
   volatile char *tx_reg =  (volatile char *)(UART_BASE + UART_TX);
 
-  volatile char *lsr_reg = (volatile char *)(UART_BASE + UART_LSR);
-  while((((*lsr_reg)>>6)&0x01)==0);
+  // volatile char *lsr_reg = (volatile char *)(UART_BASE + UART_LSR);
+  // while((((*lsr_reg)>>6)&0x01)==0);
 
   *tx_reg = ch; // 发送字符
+}
+char uart_getch(void)
+{
+  volatile char *rx_reg = (volatile char *)(UART_BASE + UART_TX);
+  volatile char *lsr_reg = (volatile char *)(UART_BASE + UART_LSR);
+  if(((*lsr_reg) & 0x01) ==0){
+    return 0xFF;
+  }else{
+    return *rx_reg;
+  }
+  // while(((*lsr_reg)>>0)&0x01)==0);
+  // return *rx_reg;
 }

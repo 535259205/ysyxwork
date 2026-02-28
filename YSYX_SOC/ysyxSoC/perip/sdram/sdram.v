@@ -7,19 +7,21 @@ module sdram(
   input        we,
   input [12:0] a,
   input [ 1:0] ba,
-  input [ 1:0] dqm,
-  inout [15:0] dq
+  input [ 3:0] dqm,
+  inout [31:0] dq
 );
 
 
 import "DPI-C" function int sdram_ctr(input int addr, input int data, input int write);
 
 
-reg [15:0]dq_out;
+reg [31:0]dq_out;
 reg dq_oen;
 reg read_flag;
 reg write_flag;
 
+reg [12:0] active_row;  // 当前激活的行地址
+reg [1:0] active_bank;  // 当前激活的 bank
 
 reg [2:0]CAS_latch;
 reg [2:0]BURST_length;
@@ -44,7 +46,7 @@ assign CMD_PRECHARGE=(cmd==4'b0010);
 assign CMD_AUTO_REFRESH=(cmd==4'b0001);
 assign CMD_LOAD_MODE_REGISTER=(cmd==4'b0000);
 
-assign dq = dq_oen?dq_out:16'bz;
+assign dq = dq_oen?dq_out:32'bz;
 // assign dq =16'bz;
 
 // Mode: Burst Length = 4 bytes, CAS=2
@@ -54,32 +56,52 @@ always @(posedge clk) begin
     CAS_latch<=a[6:4];
     BURST_length<=a[2:0];
   end
+  
 end
+
+always @(posedge CMD_ACTIVE) begin
+
+  if(CMD_ACTIVE) begin
+    active_row <= a;
+    active_bank <= ba;
+  end
+  // else if(!CMD_READ)begin
+  //   active_row <= 0;
+  //   active_bank <= 0;
+  // end
+  // else if(!CMD_WRITE)begin
+  //   active_row <= 0;
+  //   active_bank <= 0;
+  // end
+end
+
+wire [31:0] full_addr = {active_row,active_bank,a[9:0]} ;
 
 always@(posedge CMD_WRITE or posedge CMD_READ)
 begin
   if(CMD_WRITE)
   begin
     dq_oen=0;
-    sdram_ctr(a,dq,dqm);
+    
   end
   else if(CMD_READ)
   begin
     dq_oen=1;
-    dq_out=sdram_ctr(a,0,256);
+    // 构建完整地址: bank[31:30] + row[29:17] + column[16:2] (忽略低2位，因为32位数据)
+    dq_out=sdram_ctr(full_addr,0,32'h80000000+dqm);
+    // $display("SDRAM READ: bank=%d, row=0x%04X, col=0x%04X, full_addr=0x%08X, dqm=0x%02X", 
+            //  active_bank, active_row, a, full_addr, dqm);
   end
 end
-
-// always@(posedge clk or posedge cs) begin
-//   if(cs)
-//     read_flag<=0;
-//   else if(CMD_READ)
-//     read_flag<=1;
-// end
-
-// always@(posedge clk )begin
-// if(CMD_WRITE)
-//     write_flag<=1;
-// end
+always@(negedge clk)
+begin
+  if(CMD_WRITE)
+  begin
+    // 构建完整地址: bank[31:30] + row[29:17] + column[16:2] (忽略低2位，因为32位数据)
+    sdram_ctr(full_addr,dq,dqm);
+    // $display("SDRAM WRITE: bank=%d, row=0x%04X, col=0x%04X, full_addr=0x%08X, data=0x%08X, dqm=0x%02X", 
+            //  active_bank, active_row, a, full_addr, dq, dqm);
+  end
+end
 
 endmodule

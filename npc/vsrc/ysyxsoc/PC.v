@@ -36,15 +36,17 @@ module PC (
   wire                _zz_when;
   reg        [31:0]   PC_cnt;
   reg                 flag;
+  reg                 npc_flag;
   wire                axi4lite_ar_fire;
   wire                axi4lite_r_fire;
+  reg        [31:0]   code_reg;
 
   assign _zz_when = ((read_en && (! axi4lite_r_valid)) && (! flag));
   my_debug debug (
-    .data_0 (debug_data_0[31:0]   ), //i
-    .data_1 (debug_data_1[31:0]   ), //i
-    .data_2 (com_encode_code[31:0]), //i
-    .clock  (clock                )  //i
+    .data_0 (debug_data_0[31:0]), //i
+    .data_1 (debug_data_1[31:0]), //i
+    .data_2 (code_reg[31:0]    ), //i
+    .clock  (clock             )  //i
   );
   assign axi4lite_w_valid = 1'b0;
   assign axi4lite_w_payload_data = 32'bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
@@ -65,6 +67,8 @@ module PC (
     if(rst) begin
       PC_cnt <= 32'h30000000;
       flag <= 1'b0;
+      npc_flag <= 1'b0;
+      code_reg <= 32'h0;
     end else begin
       if(!axi4lite_ar_fire) begin
         if(_zz_when) begin
@@ -73,13 +77,18 @@ module PC (
       end
       if((! read_en)) begin
         flag <= 1'b0;
+        npc_flag <= 1'b0;
       end
       if((axi4lite_r_fire && read_en)) begin
         PC_cnt <= (PC_cnt + 32'h00000004);
       end else begin
-        if(com_encode_nPC_vaild) begin
+        if((com_encode_nPC_vaild && (! npc_flag))) begin
           PC_cnt <= com_encode_nPC;
+          npc_flag <= 1'b1;
         end
+      end
+      if(axi4lite_r_fire) begin
+        code_reg <= com_encode_code;
       end
     end
   end

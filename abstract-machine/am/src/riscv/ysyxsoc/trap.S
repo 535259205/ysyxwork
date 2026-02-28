@@ -13,7 +13,7 @@
 #endif
 
 #define REGS_LO16(f) \
-      f( 1)       f( 3) f( 4) f( 5) f( 6) f( 7) f( 8) f( 9) \
+   f( 1)  f( 3) f( 4) f( 5) f( 6) f( 7) f( 8) f( 9) \
 f(10) f(11) f(12) f(13) f(14) f(15)
 #ifndef __riscv_e
 #define REGS_HI16(f) \
@@ -31,7 +31,7 @@ f(30) f(31)
 #define PUSH(n) STORE concat(x, n), (n * XLEN)(sp);
 #define POP(n)  LOAD  concat(x, n), (n * XLEN)(sp);
 
-#define CONTEXT_SIZE  ((NR_REGS + 3 + 1) * XLEN)
+#define CONTEXT_SIZE  ((NR_REGS + 3) * XLEN)
 #define OFFSET_SP     ( 2 * XLEN)
 #define OFFSET_CAUSE  ((NR_REGS + 0) * XLEN)
 #define OFFSET_STATUS ((NR_REGS + 1) * XLEN)
@@ -41,29 +41,37 @@ f(30) f(31)
 .globl __am_asm_trap
 __am_asm_trap:
   addi sp, sp, -CONTEXT_SIZE
-
+#寄存器压栈
   MAP(REGS, PUSH)
-
+#读取相关寄存器异常、状态、pc
   csrr t0, mcause
   csrr t1, mstatus
   csrr t2, mepc
-
+# 存储异常、状态、pc 同样压栈
   STORE t0, OFFSET_CAUSE(sp)
   STORE t1, OFFSET_STATUS(sp)
   STORE t2, OFFSET_EPC(sp)
 
+#   set mstatus.MPRV to pass difftest 访问特权级修改位设置1
+  li a0, (1 << 17)
+  or t1, t1, a0
+  csrw mstatus, t1
+  #栈指针放到a0 a0是函数的第一个传递参数 然后有指针就可以访问栈中的上下文
   mv a0, sp
   call __am_irq_handle
-
+  #函数返回值放到a0 然后从栈中弹出 返回另一个进程的指针
   mv sp, a0 
 
-
+# 从栈中弹出异常、状态、pc
+  LOAD t0, OFFSET_CAUSE(sp)
   LOAD t1, OFFSET_STATUS(sp)
   LOAD t2, OFFSET_EPC(sp)
+  addi t2, t2, 4
+  csrw mcause, t0
   csrw mstatus, t1
   csrw mepc, t2
-
+#出栈
   MAP(REGS, POP)
-
-  addi sp, sp, CONTEXT_SIZE
+#还原栈指针
+  # addi sp, sp, CONTEXT_SIZE
   mret

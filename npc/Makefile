@@ -30,6 +30,7 @@ $(CURDIR)/csrc/disasm.cpp: $(LIBCAPSTONE)
 all:
 	@@verilator -Wall --trace -cc --top-module $(TOP_MODULE) $(vsrc) --exe $(csrc) \
 		--error-limit 0 \
+		-O3 --x-assign fast --x-initial fast \
 		-Wno-WIDTH \
 		-Wno-UNDRIVEN \
 		-Wno-UNUSED \
