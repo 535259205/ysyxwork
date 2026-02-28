@@ -25,9 +25,9 @@ Context* __am_irq_handle(Context *c) {
         break;
       default: ev.event = EVENT_ERROR; break;
     }
-    //a0 寄存器 （c 被更改）
-    c = user_handler(ev, c);//完成后就已经修改了栈指针
+    c = user_handler(ev, c);
     assert(c != NULL);
+    printf("mcause is %d event is %d\n", c->mcause, ev.event);
   }
   return c;
 }
