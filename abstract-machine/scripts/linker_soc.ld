@@ -25,7 +25,7 @@ SECTIONS {
         *(.srodata*)
         . = ALIGN(4);
         _text_end = .;
-    } >FLASH AT> FLASH
+    } >SDRAM_CODE AT> FLASH
 
 
     _text_load_start = LOADADDR(.text);

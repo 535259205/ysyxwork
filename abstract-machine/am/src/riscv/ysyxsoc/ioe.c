@@ -8,11 +8,37 @@ void __am_timer_uptime(AM_TIMER_UPTIME_T *);
 void __am_input_keybrd(AM_INPUT_KEYBRD_T *);
 
 static void __am_timer_config(AM_TIMER_CONFIG_T *cfg) { cfg->present = true; cfg->has_rtc = true; }
-static void __am_input_config(AM_INPUT_CONFIG_T *cfg) { cfg->present = false;  }
+static void __am_input_config(AM_INPUT_CONFIG_T *cfg) { cfg->present = true;  }
 static void __am_uart_config(AM_INPUT_CONFIG_T *cfg) { cfg->present = true;  }
 
 extern char getch();
 static void __am_uart_rx(AM_UART_RX_T *cfg) { cfg->data = getch(); }
+
+void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
+  int width = 640;
+  int height = 480;
+  *cfg = (AM_GPU_CONFIG_T){
+      .present = true, .has_accel = false, .width = width, .height = height,
+      .vmemsz = width * height * 4 // 每个像素4字节
+  };
+}
+
+void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
+  int x, y; void *pixels; int w, h;
+  uint32_t *fb = (uint32_t *)(uintptr_t)(0x21000000);
+  x = ctl->x;
+  y = ctl->y;
+  w = ctl->w;
+  h = ctl->h;
+  pixels = ctl->pixels;
+  int i, j;
+  for (i = 0; i < h; i++) {
+    for (j = 0; j < w; j++) {
+      uint32_t pixel = ((uint32_t *)pixels)[i * w + j];
+      fb[(y + i) * 640 + (x + j)] = pixel;
+    }
+  }
+}
 
 
 typedef void (*handler_t)(void *buf);
@@ -23,7 +49,11 @@ static void *lut[128] = {
   [AM_INPUT_CONFIG] = __am_input_config,
   [AM_INPUT_KEYBRD] = __am_input_keybrd,
   [AM_UART_CONFIG]  = __am_uart_config,
-  [AM_UART_RX]  = __am_uart_rx,
+  [AM_UART_RX]      = __am_uart_rx,
+
+  [AM_GPU_FBDRAW  ] = __am_gpu_fbdraw,
+  [AM_GPU_CONFIG  ] = __am_gpu_config,
+
 };
 
 static void fail(void *buf) { panic("access nonexist register"); }

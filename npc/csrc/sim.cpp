@@ -8,11 +8,11 @@
 
 
 #define USE_WAVE1 0
-#define WAVE_START (121000*0)
+#define WAVE_START (2000*1)
 #define SHOW_LIMIT 10
 #define USE_ITRACE 0
 #define USE_FTRACE 0
-#define USE_DIFFTEST 1
+#define USE_DIFFTEST 0
 
 
 VysyxSoCFull *dut = new VysyxSoCFull(); 
@@ -23,6 +23,7 @@ extern int ebreak_flag;
 static struct SdbReg infoa;
 extern int step_flag;
 extern void change_step_flag(int step_data);
+extern void info_exu(struct cpuex_info * info);
 
 int SimStep(uint32_t n)
 {
@@ -51,11 +52,19 @@ int SimStep(uint32_t n)
         count++;
         if(count%1000==0)
         {
-            printf("count is %d\n", count);
+            // printf("count is %d\n", count);
         }
         if (ebreak_flag)
         {
+            struct cpuex_info infoex;
+            info_exu(&infoex);
+            uint64_t cycle = ((uint64_t)(infoa.cycle_h)<<32)|infoa.cycle_l;
             printf("\nebreak_flag is set at count %d\n", count);
+            printf("Cycle is %ld\n", cycle);
+            printf("IFU_cnt is %d\n", infoex.IFU_cnt);
+            printf("IDU_cnt is %d\n", infoex.IDU_cnt);
+            printf("EXU_cnt is %d\n", infoex.EXU_cnt);
+            printf("IPC is %f\n", (float)count/cycle);
             return 1;
         }
         for (;;)

@@ -23,5 +23,12 @@ struct SdbReg{
     uint32_t cycle_h;   //时钟周期计数器高32位
 };
 
+struct cpuex_info
+{
+    uint32_t IFU_cnt;
+    uint32_t IDU_cnt;
+    uint32_t EXU_cnt;
+};
+
 #endif
 

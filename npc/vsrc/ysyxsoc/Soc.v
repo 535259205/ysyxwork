@@ -153,24 +153,42 @@ module Soc (
   wire                xbar_axi_m_1_b_valid;
   wire       [3:0]    xbar_axi_m_1_b_payload_id;
   wire       [1:0]    xbar_axi_m_1_b_payload_resp;
-  wire                xbar_axi_s_ar_valid;
-  wire       [31:0]   xbar_axi_s_ar_payload_addr;
-  wire       [3:0]    xbar_axi_s_ar_payload_id;
-  wire       [7:0]    xbar_axi_s_ar_payload_len;
-  wire       [2:0]    xbar_axi_s_ar_payload_size;
-  wire       [1:0]    xbar_axi_s_ar_payload_burst;
-  wire                xbar_axi_s_aw_valid;
-  wire       [31:0]   xbar_axi_s_aw_payload_addr;
-  wire       [3:0]    xbar_axi_s_aw_payload_id;
-  wire       [7:0]    xbar_axi_s_aw_payload_len;
-  wire       [2:0]    xbar_axi_s_aw_payload_size;
-  wire       [1:0]    xbar_axi_s_aw_payload_burst;
-  wire                xbar_axi_s_w_valid;
-  wire       [31:0]   xbar_axi_s_w_payload_data;
-  wire       [3:0]    xbar_axi_s_w_payload_strb;
-  wire                xbar_axi_s_w_payload_last;
-  wire                xbar_axi_s_r_ready;
-  wire                xbar_axi_s_b_ready;
+  wire                xbar_axi_s_0_ar_valid;
+  wire       [31:0]   xbar_axi_s_0_ar_payload_addr;
+  wire       [3:0]    xbar_axi_s_0_ar_payload_id;
+  wire       [7:0]    xbar_axi_s_0_ar_payload_len;
+  wire       [2:0]    xbar_axi_s_0_ar_payload_size;
+  wire       [1:0]    xbar_axi_s_0_ar_payload_burst;
+  wire                xbar_axi_s_0_aw_valid;
+  wire       [31:0]   xbar_axi_s_0_aw_payload_addr;
+  wire       [3:0]    xbar_axi_s_0_aw_payload_id;
+  wire       [7:0]    xbar_axi_s_0_aw_payload_len;
+  wire       [2:0]    xbar_axi_s_0_aw_payload_size;
+  wire       [1:0]    xbar_axi_s_0_aw_payload_burst;
+  wire                xbar_axi_s_0_w_valid;
+  wire       [31:0]   xbar_axi_s_0_w_payload_data;
+  wire       [3:0]    xbar_axi_s_0_w_payload_strb;
+  wire                xbar_axi_s_0_w_payload_last;
+  wire                xbar_axi_s_0_r_ready;
+  wire                xbar_axi_s_0_b_ready;
+  wire                xbar_axi_s_1_ar_valid;
+  wire       [31:0]   xbar_axi_s_1_ar_payload_addr;
+  wire       [3:0]    xbar_axi_s_1_ar_payload_id;
+  wire       [7:0]    xbar_axi_s_1_ar_payload_len;
+  wire       [2:0]    xbar_axi_s_1_ar_payload_size;
+  wire       [1:0]    xbar_axi_s_1_ar_payload_burst;
+  wire                xbar_axi_s_1_aw_valid;
+  wire       [31:0]   xbar_axi_s_1_aw_payload_addr;
+  wire       [3:0]    xbar_axi_s_1_aw_payload_id;
+  wire       [7:0]    xbar_axi_s_1_aw_payload_len;
+  wire       [2:0]    xbar_axi_s_1_aw_payload_size;
+  wire       [1:0]    xbar_axi_s_1_aw_payload_burst;
+  wire                xbar_axi_s_1_w_valid;
+  wire       [31:0]   xbar_axi_s_1_w_payload_data;
+  wire       [3:0]    xbar_axi_s_1_w_payload_strb;
+  wire                xbar_axi_s_1_w_payload_last;
+  wire                xbar_axi_s_1_r_ready;
+  wire                xbar_axi_s_1_b_ready;
   wire                ctrl_u_vaild_0;
   wire                ctrl_u_vaild_1;
   wire                ctrl_u_vaild_2;
@@ -304,37 +322,37 @@ module Soc (
     .rst                 (rst                          )  //i
   );
   AXIClint clint (
-    .axi_aw_valid         (                              ), //i
-    .axi_aw_ready         (clint_axi_aw_ready            ), //o
-    .axi_aw_payload_addr  (                              ), //i
-    .axi_aw_payload_id    (                              ), //i
-    .axi_aw_payload_len   (                              ), //i
-    .axi_aw_payload_size  (                              ), //i
-    .axi_aw_payload_burst (                              ), //i
-    .axi_w_valid          (                              ), //i
-    .axi_w_ready          (clint_axi_w_ready             ), //o
-    .axi_w_payload_data   (                              ), //i
-    .axi_w_payload_strb   (                              ), //i
-    .axi_w_payload_last   (                              ), //i
-    .axi_b_valid          (clint_axi_b_valid             ), //o
-    .axi_b_ready          (                              ), //i
-    .axi_b_payload_id     (clint_axi_b_payload_id[3:0]   ), //o
-    .axi_b_payload_resp   (clint_axi_b_payload_resp[1:0] ), //o
-    .axi_ar_valid         (                              ), //i
-    .axi_ar_ready         (clint_axi_ar_ready            ), //o
-    .axi_ar_payload_addr  (                              ), //i
-    .axi_ar_payload_id    (                              ), //i
-    .axi_ar_payload_len   (                              ), //i
-    .axi_ar_payload_size  (                              ), //i
-    .axi_ar_payload_burst (                              ), //i
-    .axi_r_valid          (clint_axi_r_valid             ), //o
-    .axi_r_ready          (                              ), //i
-    .axi_r_payload_data   (clint_axi_r_payload_data[31:0]), //o
-    .axi_r_payload_id     (clint_axi_r_payload_id[3:0]   ), //o
-    .axi_r_payload_resp   (clint_axi_r_payload_resp[1:0] ), //o
-    .axi_r_payload_last   (clint_axi_r_payload_last      ), //o
-    .clock                (clock                         ), //i
-    .rst                  (rst                           )  //i
+    .axi_aw_valid         (xbar_axi_s_1_aw_valid             ), //i
+    .axi_aw_ready         (clint_axi_aw_ready                ), //o
+    .axi_aw_payload_addr  (xbar_axi_s_1_aw_payload_addr[31:0]), //i
+    .axi_aw_payload_id    (xbar_axi_s_1_aw_payload_id[3:0]   ), //i
+    .axi_aw_payload_len   (xbar_axi_s_1_aw_payload_len[7:0]  ), //i
+    .axi_aw_payload_size  (xbar_axi_s_1_aw_payload_size[2:0] ), //i
+    .axi_aw_payload_burst (xbar_axi_s_1_aw_payload_burst[1:0]), //i
+    .axi_w_valid          (xbar_axi_s_1_w_valid              ), //i
+    .axi_w_ready          (clint_axi_w_ready                 ), //o
+    .axi_w_payload_data   (xbar_axi_s_1_w_payload_data[31:0] ), //i
+    .axi_w_payload_strb   (xbar_axi_s_1_w_payload_strb[3:0]  ), //i
+    .axi_w_payload_last   (xbar_axi_s_1_w_payload_last       ), //i
+    .axi_b_valid          (clint_axi_b_valid                 ), //o
+    .axi_b_ready          (xbar_axi_s_1_b_ready              ), //i
+    .axi_b_payload_id     (clint_axi_b_payload_id[3:0]       ), //o
+    .axi_b_payload_resp   (clint_axi_b_payload_resp[1:0]     ), //o
+    .axi_ar_valid         (xbar_axi_s_1_ar_valid             ), //i
+    .axi_ar_ready         (clint_axi_ar_ready                ), //o
+    .axi_ar_payload_addr  (xbar_axi_s_1_ar_payload_addr[31:0]), //i
+    .axi_ar_payload_id    (xbar_axi_s_1_ar_payload_id[3:0]   ), //i
+    .axi_ar_payload_len   (xbar_axi_s_1_ar_payload_len[7:0]  ), //i
+    .axi_ar_payload_size  (xbar_axi_s_1_ar_payload_size[2:0] ), //i
+    .axi_ar_payload_burst (xbar_axi_s_1_ar_payload_burst[1:0]), //i
+    .axi_r_valid          (clint_axi_r_valid                 ), //o
+    .axi_r_ready          (xbar_axi_s_1_r_ready              ), //i
+    .axi_r_payload_data   (clint_axi_r_payload_data[31:0]    ), //o
+    .axi_r_payload_id     (clint_axi_r_payload_id[3:0]       ), //o
+    .axi_r_payload_resp   (clint_axi_r_payload_resp[1:0]     ), //o
+    .axi_r_payload_last   (clint_axi_r_payload_last          ), //o
+    .clock                (clock                             ), //i
+    .rst                  (rst                               )  //i
   );
   AXIXbar xbar (
     .axi_m_0_aw_valid         (pc_2_axi_aw_valid                 ), //i
@@ -395,35 +413,64 @@ module Soc (
     .axi_m_1_r_payload_id     (xbar_axi_m_1_r_payload_id[3:0]    ), //o
     .axi_m_1_r_payload_resp   (xbar_axi_m_1_r_payload_resp[1:0]  ), //o
     .axi_m_1_r_payload_last   (xbar_axi_m_1_r_payload_last       ), //o
-    .axi_s_aw_valid           (xbar_axi_s_aw_valid               ), //o
-    .axi_s_aw_ready           (axi_m_aw_ready                    ), //i
-    .axi_s_aw_payload_addr    (xbar_axi_s_aw_payload_addr[31:0]  ), //o
-    .axi_s_aw_payload_id      (xbar_axi_s_aw_payload_id[3:0]     ), //o
-    .axi_s_aw_payload_len     (xbar_axi_s_aw_payload_len[7:0]    ), //o
-    .axi_s_aw_payload_size    (xbar_axi_s_aw_payload_size[2:0]   ), //o
-    .axi_s_aw_payload_burst   (xbar_axi_s_aw_payload_burst[1:0]  ), //o
-    .axi_s_w_valid            (xbar_axi_s_w_valid                ), //o
-    .axi_s_w_ready            (axi_m_w_ready                     ), //i
-    .axi_s_w_payload_data     (xbar_axi_s_w_payload_data[31:0]   ), //o
-    .axi_s_w_payload_strb     (xbar_axi_s_w_payload_strb[3:0]    ), //o
-    .axi_s_w_payload_last     (xbar_axi_s_w_payload_last         ), //o
-    .axi_s_b_valid            (axi_m_b_valid                     ), //i
-    .axi_s_b_ready            (xbar_axi_s_b_ready                ), //o
-    .axi_s_b_payload_id       (axi_m_b_payload_id[3:0]           ), //i
-    .axi_s_b_payload_resp     (axi_m_b_payload_resp[1:0]         ), //i
-    .axi_s_ar_valid           (xbar_axi_s_ar_valid               ), //o
-    .axi_s_ar_ready           (axi_m_ar_ready                    ), //i
-    .axi_s_ar_payload_addr    (xbar_axi_s_ar_payload_addr[31:0]  ), //o
-    .axi_s_ar_payload_id      (xbar_axi_s_ar_payload_id[3:0]     ), //o
-    .axi_s_ar_payload_len     (xbar_axi_s_ar_payload_len[7:0]    ), //o
-    .axi_s_ar_payload_size    (xbar_axi_s_ar_payload_size[2:0]   ), //o
-    .axi_s_ar_payload_burst   (xbar_axi_s_ar_payload_burst[1:0]  ), //o
-    .axi_s_r_valid            (axi_m_r_valid                     ), //i
-    .axi_s_r_ready            (xbar_axi_s_r_ready                ), //o
-    .axi_s_r_payload_data     (axi_m_r_payload_data[31:0]        ), //i
-    .axi_s_r_payload_id       (axi_m_r_payload_id[3:0]           ), //i
-    .axi_s_r_payload_resp     (axi_m_r_payload_resp[1:0]         ), //i
-    .axi_s_r_payload_last     (axi_m_r_payload_last              ), //i
+    .axi_s_0_aw_valid         (xbar_axi_s_0_aw_valid             ), //o
+    .axi_s_0_aw_ready         (axi_m_aw_ready                    ), //i
+    .axi_s_0_aw_payload_addr  (xbar_axi_s_0_aw_payload_addr[31:0]), //o
+    .axi_s_0_aw_payload_id    (xbar_axi_s_0_aw_payload_id[3:0]   ), //o
+    .axi_s_0_aw_payload_len   (xbar_axi_s_0_aw_payload_len[7:0]  ), //o
+    .axi_s_0_aw_payload_size  (xbar_axi_s_0_aw_payload_size[2:0] ), //o
+    .axi_s_0_aw_payload_burst (xbar_axi_s_0_aw_payload_burst[1:0]), //o
+    .axi_s_0_w_valid          (xbar_axi_s_0_w_valid              ), //o
+    .axi_s_0_w_ready          (axi_m_w_ready                     ), //i
+    .axi_s_0_w_payload_data   (xbar_axi_s_0_w_payload_data[31:0] ), //o
+    .axi_s_0_w_payload_strb   (xbar_axi_s_0_w_payload_strb[3:0]  ), //o
+    .axi_s_0_w_payload_last   (xbar_axi_s_0_w_payload_last       ), //o
+    .axi_s_0_b_valid          (axi_m_b_valid                     ), //i
+    .axi_s_0_b_ready          (xbar_axi_s_0_b_ready              ), //o
+    .axi_s_0_b_payload_id     (axi_m_b_payload_id[3:0]           ), //i
+    .axi_s_0_b_payload_resp   (axi_m_b_payload_resp[1:0]         ), //i
+    .axi_s_0_ar_valid         (xbar_axi_s_0_ar_valid             ), //o
+    .axi_s_0_ar_ready         (axi_m_ar_ready                    ), //i
+    .axi_s_0_ar_payload_addr  (xbar_axi_s_0_ar_payload_addr[31:0]), //o
+    .axi_s_0_ar_payload_id    (xbar_axi_s_0_ar_payload_id[3:0]   ), //o
+    .axi_s_0_ar_payload_len   (xbar_axi_s_0_ar_payload_len[7:0]  ), //o
+    .axi_s_0_ar_payload_size  (xbar_axi_s_0_ar_payload_size[2:0] ), //o
+    .axi_s_0_ar_payload_burst (xbar_axi_s_0_ar_payload_burst[1:0]), //o
+    .axi_s_0_r_valid          (axi_m_r_valid                     ), //i
+    .axi_s_0_r_ready          (xbar_axi_s_0_r_ready              ), //o
+    .axi_s_0_r_payload_data   (axi_m_r_payload_data[31:0]        ), //i
+    .axi_s_0_r_payload_id     (axi_m_r_payload_id[3:0]           ), //i
+    .axi_s_0_r_payload_resp   (axi_m_r_payload_resp[1:0]         ), //i
+    .axi_s_0_r_payload_last   (axi_m_r_payload_last              ), //i
+    .axi_s_1_aw_valid         (xbar_axi_s_1_aw_valid             ), //o
+    .axi_s_1_aw_ready         (clint_axi_aw_ready                ), //i
+    .axi_s_1_aw_payload_addr  (xbar_axi_s_1_aw_payload_addr[31:0]), //o
+    .axi_s_1_aw_payload_id    (xbar_axi_s_1_aw_payload_id[3:0]   ), //o
+    .axi_s_1_aw_payload_len   (xbar_axi_s_1_aw_payload_len[7:0]  ), //o
+    .axi_s_1_aw_payload_size  (xbar_axi_s_1_aw_payload_size[2:0] ), //o
+    .axi_s_1_aw_payload_burst (xbar_axi_s_1_aw_payload_burst[1:0]), //o
+    .axi_s_1_w_valid          (xbar_axi_s_1_w_valid              ), //o
+    .axi_s_1_w_ready          (clint_axi_w_ready                 ), //i
+    .axi_s_1_w_payload_data   (xbar_axi_s_1_w_payload_data[31:0] ), //o
+    .axi_s_1_w_payload_strb   (xbar_axi_s_1_w_payload_strb[3:0]  ), //o
+    .axi_s_1_w_payload_last   (xbar_axi_s_1_w_payload_last       ), //o
+    .axi_s_1_b_valid          (clint_axi_b_valid                 ), //i
+    .axi_s_1_b_ready          (xbar_axi_s_1_b_ready              ), //o
+    .axi_s_1_b_payload_id     (clint_axi_b_payload_id[3:0]       ), //i
+    .axi_s_1_b_payload_resp   (clint_axi_b_payload_resp[1:0]     ), //i
+    .axi_s_1_ar_valid         (xbar_axi_s_1_ar_valid             ), //o
+    .axi_s_1_ar_ready         (clint_axi_ar_ready                ), //i
+    .axi_s_1_ar_payload_addr  (xbar_axi_s_1_ar_payload_addr[31:0]), //o
+    .axi_s_1_ar_payload_id    (xbar_axi_s_1_ar_payload_id[3:0]   ), //o
+    .axi_s_1_ar_payload_len   (xbar_axi_s_1_ar_payload_len[7:0]  ), //o
+    .axi_s_1_ar_payload_size  (xbar_axi_s_1_ar_payload_size[2:0] ), //o
+    .axi_s_1_ar_payload_burst (xbar_axi_s_1_ar_payload_burst[1:0]), //o
+    .axi_s_1_r_valid          (clint_axi_r_valid                 ), //i
+    .axi_s_1_r_ready          (xbar_axi_s_1_r_ready              ), //o
+    .axi_s_1_r_payload_data   (clint_axi_r_payload_data[31:0]    ), //i
+    .axi_s_1_r_payload_id     (clint_axi_r_payload_id[3:0]       ), //i
+    .axi_s_1_r_payload_resp   (clint_axi_r_payload_resp[1:0]     ), //i
+    .axi_s_1_r_payload_last   (clint_axi_r_payload_last          ), //i
     .r_sel                    (ctrl_r_sel                        )  //i
   );
   SocCtrl ctrl (
@@ -448,24 +495,24 @@ module Soc (
     .clock          (clock               ), //i
     .rst            (rst                 )  //i
   );
-  assign axi_m_aw_valid = xbar_axi_s_aw_valid;
-  assign axi_m_aw_payload_addr = xbar_axi_s_aw_payload_addr;
-  assign axi_m_aw_payload_id = xbar_axi_s_aw_payload_id;
-  assign axi_m_aw_payload_len = xbar_axi_s_aw_payload_len;
-  assign axi_m_aw_payload_size = xbar_axi_s_aw_payload_size;
-  assign axi_m_aw_payload_burst = xbar_axi_s_aw_payload_burst;
-  assign axi_m_w_valid = xbar_axi_s_w_valid;
-  assign axi_m_w_payload_data = xbar_axi_s_w_payload_data;
-  assign axi_m_w_payload_strb = xbar_axi_s_w_payload_strb;
-  assign axi_m_w_payload_last = xbar_axi_s_w_payload_last;
-  assign axi_m_b_ready = xbar_axi_s_b_ready;
-  assign axi_m_ar_valid = xbar_axi_s_ar_valid;
-  assign axi_m_ar_payload_addr = xbar_axi_s_ar_payload_addr;
-  assign axi_m_ar_payload_id = xbar_axi_s_ar_payload_id;
-  assign axi_m_ar_payload_len = xbar_axi_s_ar_payload_len;
-  assign axi_m_ar_payload_size = xbar_axi_s_ar_payload_size;
-  assign axi_m_ar_payload_burst = xbar_axi_s_ar_payload_burst;
-  assign axi_m_r_ready = xbar_axi_s_r_ready;
+  assign axi_m_aw_valid = xbar_axi_s_0_aw_valid;
+  assign axi_m_aw_payload_addr = xbar_axi_s_0_aw_payload_addr;
+  assign axi_m_aw_payload_id = xbar_axi_s_0_aw_payload_id;
+  assign axi_m_aw_payload_len = xbar_axi_s_0_aw_payload_len;
+  assign axi_m_aw_payload_size = xbar_axi_s_0_aw_payload_size;
+  assign axi_m_aw_payload_burst = xbar_axi_s_0_aw_payload_burst;
+  assign axi_m_w_valid = xbar_axi_s_0_w_valid;
+  assign axi_m_w_payload_data = xbar_axi_s_0_w_payload_data;
+  assign axi_m_w_payload_strb = xbar_axi_s_0_w_payload_strb;
+  assign axi_m_w_payload_last = xbar_axi_s_0_w_payload_last;
+  assign axi_m_b_ready = xbar_axi_s_0_b_ready;
+  assign axi_m_ar_valid = xbar_axi_s_0_ar_valid;
+  assign axi_m_ar_payload_addr = xbar_axi_s_0_ar_payload_addr;
+  assign axi_m_ar_payload_id = xbar_axi_s_0_ar_payload_id;
+  assign axi_m_ar_payload_len = xbar_axi_s_0_ar_payload_len;
+  assign axi_m_ar_payload_size = xbar_axi_s_0_ar_payload_size;
+  assign axi_m_ar_payload_burst = xbar_axi_s_0_ar_payload_burst;
+  assign axi_m_r_ready = xbar_axi_s_0_r_ready;
   assign axi_s_w_ready = 1'b0;
   assign axi_s_aw_ready = 1'b0;
   assign axi_s_b_valid = 1'b0;
