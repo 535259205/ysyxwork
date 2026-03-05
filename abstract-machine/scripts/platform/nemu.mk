@@ -39,11 +39,12 @@ run: insert-arg
 ifeq ($(YSYX),N)
 	$(MAKE) -C $(NEMU_HOME) ISA=$(ISA) run ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin;
 else 
-	$(MAKE) ARCH=riscv32e-ysyxsoc run;
+	$(MAKE) ARCH=riscv32e-ysyxsoc image;
+	$(MAKE) -C $(NEMU_HOME) ISA=$(ISA) run ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin;
 endif
 
 
 gdb: insert-arg
 	$(MAKE) -C $(NEMU_HOME) ISA=$(ISA) gdb ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin
 
-.PHONY: insert-arg
+.PHONY: insert-arg 
