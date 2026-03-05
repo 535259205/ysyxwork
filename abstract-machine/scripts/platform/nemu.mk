@@ -37,10 +37,10 @@ run: insert-arg
 	@echo IMAGE=$(IMAGE)
 	@echo NEMU_HOME=$(NEMU_HOME)
 ifeq ($(YSYX),N)
-	# $(MAKE) -C $(NEMU_HOME) ISA=$(ISA) run ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin;
+	$(MAKE) -C $(NEMU_HOME) ISA=$(ISA) run ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin;
 else 
 	$(MAKE) ARCH=riscv32e-ysyxsoc image;
-	@echo IMAGE=$(IMAGE)
+	@echo IMAGE=$(IMAGE) AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 	$(MAKE) -C $(NEMU_HOME) ISA=$(ISA) run ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin;
 endif
 
