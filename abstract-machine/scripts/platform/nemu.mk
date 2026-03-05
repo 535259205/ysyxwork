@@ -16,7 +16,7 @@ LDFLAGS   += --gc-sections -e _start
 #批处理模式标志位 传入日志参数
 NEMUFLAGS += -l $(shell dirname $(IMAGE).elf)/nemu-log.txt  
 #-b --t=$(IMAGE).elf
-
+YSYX ?=N
 #image-dep
 #mainargs 用于插入到可执行文件中而不是nemu中 最终传入的.c 的不变变的是二进制文件
 MAINARGS_MAX_LEN = 64
@@ -36,7 +36,12 @@ image: image-dep
 run: insert-arg
 	@echo IMAGE=$(IMAGE)
 	@echo NEMU_HOME=$(NEMU_HOME)
-	$(MAKE) -C $(NEMU_HOME) ISA=$(ISA) run ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin
+ifeq ($(YSYX),N)
+	$(MAKE) -C $(NEMU_HOME) ISA=$(ISA) run ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin;
+else 
+	@echo IMAGE=$(IMAGE) 
+endif
+
 
 gdb: insert-arg
 	$(MAKE) -C $(NEMU_HOME) ISA=$(ISA) gdb ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin
