@@ -32,6 +32,9 @@ image: image-dep
 	@echo + OBJCOPY "->" $(IMAGE_REL).bin
 	@$(OBJCOPY) -S --set-section-flags .bss=alloc,contents -O binary $(IMAGE).elf $(IMAGE).bin
 
+
+TEST = $(IMAGE:%nemu.bin=%ysyxsoc.bin)
+
 #NEMUFLAGS 用于增加附属标志位
 run: insert-arg
 	@echo IMAGE=$(IMAGE)
@@ -40,7 +43,7 @@ ifeq ($(YSYX),N)
 	$(MAKE) -C $(NEMU_HOME) ISA=$(ISA) run ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin;
 else 
 	$(MAKE) ARCH=riscv32e-ysyxsoc image;
-	@echo IMAGE=$(IMAGE) AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+	@echo IMAGE=$(TEST) AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 	$(MAKE) -C $(NEMU_HOME) ISA=$(ISA) run ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin;
 endif
 
