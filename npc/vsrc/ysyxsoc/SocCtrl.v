@@ -14,12 +14,7 @@ module SocCtrl (
   input  wire          encode_w_ready,
   input  wire          encode_w_valid,
   input  wire          encode_w_fire,
-  input  wire          pc_r_ready,
-  input  wire          pc_r_valid,
-  input  wire          pc_r_fire,
-  input  wire          pc_w_ready,
-  input  wire          pc_w_valid,
-  input  wire          pc_w_fire,
+  input  wire          pc_finish,
   output wire          r_sel,
   input  wire          clock,
   input  wire          rst
@@ -31,8 +26,14 @@ module SocCtrl (
   localparam MEM = 3'd4;
   localparam WB = 3'd5;
 
+  wire       [31:0]   debug_data_0;
+  wire       [31:0]   debug_data_1;
+  wire       [31:0]   debug_data_2;
   wire                _zz_when;
   reg                 step;
+  reg        [31:0]   IFU_cnt;
+  reg        [31:0]   LSU_cnt;
+  reg        [31:0]   EXU_cnt;
   wire                s_wantExit;
   reg                 s_wantStart;
   wire                s_wantKill;
@@ -60,6 +61,12 @@ module SocCtrl (
   assign _zz_when = (encode_w_fire || encode_r_fire);
   step_fun step_fun_1 (
     .step (step)  //i
+  );
+  my_debug_3 debug (
+    .data_0 (debug_data_0[31:0]), //i
+    .data_1 (debug_data_1[31:0]), //i
+    .data_2 (debug_data_2[31:0]), //i
+    .clock  (clock             )  //i
   );
   `ifndef SYNTHESIS
   always @(*) begin
@@ -147,6 +154,9 @@ module SocCtrl (
   end
 
   assign r_sel = 1'b0;
+  assign debug_data_0 = IFU_cnt;
+  assign debug_data_1 = LSU_cnt;
+  assign debug_data_2 = EXU_cnt;
   assign s_wantExit = 1'b0;
   always @(*) begin
     s_wantStart = 1'b0;
@@ -172,7 +182,7 @@ module SocCtrl (
     s_stateNext = s_stateReg;
     case(s_stateReg)
       IF_1 : begin
-        if(pc_r_fire) begin
+        if(pc_finish) begin
           s_stateNext = ID;
         end
       end
@@ -223,18 +233,24 @@ module SocCtrl (
   assign s_onEntry_WB = ((s_stateNext == WB) && (s_stateReg != WB));
   always @(posedge clock) begin
     if(rst) begin
+      IFU_cnt <= 32'h0;
+      LSU_cnt <= 32'h0;
+      EXU_cnt <= 32'h0;
       s_grp_flag <= 1'b0;
       s_stateReg <= BOOT;
     end else begin
       s_stateReg <= s_stateNext;
       case(s_stateReg)
         IF_1 : begin
+          IFU_cnt <= (IFU_cnt + 32'h00000001);
         end
         ID : begin
         end
         EX : begin
+          EXU_cnt <= (EXU_cnt + 32'h00000001);
         end
         MEM : begin
+          LSU_cnt <= (LSU_cnt + 32'h00000001);
           if(_zz_when) begin
             s_grp_flag <= 1'b1;
           end

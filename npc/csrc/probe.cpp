@@ -44,6 +44,12 @@ void info_reg(struct SdbReg * info){
   info->cycle_l = DebugBuf[39];
   info->cycle_h = DebugBuf[40];
 }
+void info_exu(struct cpuex_info * info){
+  info->IFU_cnt = DebugBuf[41];
+  info->IDU_cnt = DebugBuf[42];
+  info->EXU_cnt = DebugBuf[43];
+}
+
 void ShowReg(void)
 {
   struct SdbReg info;
