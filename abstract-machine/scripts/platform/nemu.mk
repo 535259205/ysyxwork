@@ -33,8 +33,6 @@ image: image-dep
 	@$(OBJCOPY) -S --set-section-flags .bss=alloc,contents -O binary $(IMAGE).elf $(IMAGE).bin
 
 
-TEST = $(IMAGE:%nemu.bin=%ysyxsoc.bin)
-
 #NEMUFLAGS 用于增加附属标志位
 run: insert-arg
 	@echo IMAGE=$(IMAGE)
