@@ -8,6 +8,8 @@ module SocCtrl (
   output wire          u_vaild_2,
   output reg           u_vaild_3,
   output reg           u_vaild_4,
+  input  wire          encode_ar_ready,
+  input  wire          encode_ar_valid,
   input  wire          encode_r_ready,
   input  wire          encode_r_valid,
   input  wire          encode_r_fire,
@@ -193,7 +195,7 @@ module SocCtrl (
         if((encode_w_fire || encode_r_fire)) begin
           s_stateNext = WB;
         end else begin
-          if((encode_r_ready || encode_w_valid)) begin
+          if(((encode_r_ready || encode_w_valid) || encode_ar_valid)) begin
             s_stateNext = MEM;
           end else begin
             s_stateNext = WB;
