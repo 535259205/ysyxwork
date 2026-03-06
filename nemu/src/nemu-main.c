@@ -35,6 +35,9 @@ int main(int argc, char *argv[]) {
   /* Start engine. */
   engine_start();
 
+  extern void show_cache();
+  show_cache();
+
   return is_exit_status_bad();
 }
 #else
