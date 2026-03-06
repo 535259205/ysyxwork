@@ -41,8 +41,8 @@ ifeq ($(YSYX),N)
 	$(MAKE) -C $(NEMU_HOME) ISA=$(ISA) run ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin;
 else 
 	$(MAKE) ARCH=riscv32e-ysyxsoc image;
-	@echo IMAGE=$(TEST) AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-	$(MAKE) -C $(NEMU_HOME) ISA=$(ISA) run ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin;
+
+	$(MAKE) -C $(NEMU_HOME) ISA=$(ISA) run ARGS="$(NEMUFLAGS)" IMG=$(subst -nemu,-ysyxsoc,$(IMAGE)).bin;
 endif
 
 
