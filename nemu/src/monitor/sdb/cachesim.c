@@ -25,14 +25,19 @@
 #error "错误:CACHE_Y_LEN 必须是2的幂! 比如2/4/8/16"
 #endif
 
-uint32_t cache_valid[CACHE_Y_LEN];
 
 uint32_t no_cnt=0;
-uint32_t tag;
+
+void cache_add_M2(uint32_t pc)
+{
+
+}
 
 void cache_add(uint32_t pc)
 {
     int i;
+    static uint32_t tag;
+    static uint32_t cache_valid[CACHE_Y_LEN];
     uint32_t logx = __builtin_ctz(CACHE_X_LEN);
     uint32_t logy=__builtin_ctz(CACHE_Y_LEN);
     uint32_t now_tag,now_offset,now_index;
@@ -46,8 +51,6 @@ void cache_add(uint32_t pc)
     {
         for (i = 0; i < CACHE_Y_LEN; i++)
             cache_valid[i] = 0;
-        // no_cnt++;
-        // cache_valid[now_index] = 1;
         tag=now_tag;
     }
     if(!cache_valid[now_index]){
