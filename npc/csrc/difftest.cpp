@@ -31,35 +31,42 @@ void difftest_reg_init(void)
 //1代表相同 0 代表不同
 int difftest_comp(struct SdbReg *info)
 {
-    for (int i = 0; i < 32;i++)
+    int flag = 1;
+    for (int i = 0; i < 32; i++)
     {
         if(cpu_ref.gpr[i]!=info->reg[i]){ // 使用 -> 访问指针成员
             printf("reg %d diff: 0x%x != 0x%x\n", i, cpu_ref.gpr[i], info->reg[i]);
             printf("pc diff: 0x%x != 0x%x\n", cpu_ref.pc, info->pc);
-            return 0;
+            flag = 0;
+            // return 0;
         }
     }
     if(cpu_ref.pc!=info->pc){ // 使用 -> 访问指针成员
         printf("pc diff: 0x%x != 0x%x\n", cpu_ref.pc, info->pc);
-        return 0;
+        flag = 0;
+        // return 0;
     }
     if(cpu_ref.mtvec!=info->mtvec){ // 使用 -> 访问指针成员
         printf("mtvec diff: 0x%x != 0x%x\n", cpu_ref.mtvec, info->mtvec);
-        return 0;
+        flag = 0;
+        // return 0;
     }
     if(cpu_ref.mcause!=info->mcause){ // 使用 -> 访问指针成员
         printf("mcause diff: 0x%x != 0x%x\n", cpu_ref.mcause, info->mcause);
-        return 0;
+        flag = 0;
+        // return 0;
     }
     if(cpu_ref.mstatus!=info->mstatus){ // 使用 -> 访问指针成员
         printf("mstatus diff: 0x%x != 0x%x\n", cpu_ref.mstatus, info->mstatus);
-        return 0;
+        flag = 0;
+        // return 0;
     }
     if(cpu_ref.mepc!=info->mepc){ // 使用 -> 访问指针成员
         printf("mepc diff: 0x%x != 0x%x\n", cpu_ref.mepc, info->mepc);
-        return 0;
+        flag = 0;
+        // return 0;
     }
-    return 1;
+    return flag;
 }
 
 //1代表相同 0 代表不同
