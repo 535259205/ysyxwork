@@ -54,9 +54,11 @@ module Icache (
   wire       [4:0]    _zz_cache_mem_port_4;
   wire       [31:0]   _zz_cache_mem_port_5;
   reg                 _zz__zz_4;
-  wire       [3:0]    _zz_com_code;
   wire                _zz_when;
+  wire       [3:0]    _zz_com_code;
+  wire                _zz_when_1;
   reg                 _zz_1;
+  reg        [31:0]   error_cnt;
   reg                 cache_valid_0;
   reg                 cache_valid_1;
   reg                 cache_valid_2;
@@ -91,7 +93,8 @@ module Icache (
 
   (* ram_style = "distributed" *) reg [31:0] cache_mem [0:15];
 
-  assign _zz_when = (s_axi_r_cnt == 3'b011);
+  assign _zz_when = ((! _zz_4) && com_ready);
+  assign _zz_when_1 = (s_axi_r_cnt == 3'b011);
   assign _zz_pc_r_addr = (pc_index * 3'b100);
   assign _zz_pc_r_addr_1 = {3'd0, pc_offset};
   assign _zz_com_code = pc_r_addr[3:0];
@@ -246,13 +249,13 @@ module Icache (
     s_stateNext = s_stateReg;
     case(s_stateReg)
       start : begin
-        if(((! _zz_4) && com_ready)) begin
+        if(_zz_when) begin
           s_stateNext = axi_r;
         end
       end
       axi_r : begin
         if(axi_r_fire) begin
-          if(_zz_when) begin
+          if(_zz_when_1) begin
             s_stateNext = start;
           end
         end
@@ -281,6 +284,7 @@ module Icache (
   always @(posedge clock) begin
     if(rst) begin
       axi_r_ready <= 1'b0;
+      error_cnt <= 32'h0;
       cache_valid_0 <= 1'b0;
       cache_valid_1 <= 1'b0;
       cache_valid_2 <= 1'b0;
@@ -304,6 +308,9 @@ module Icache (
               cache_valid_3 <= 1'b0;
             end
           end
+          if(_zz_when) begin
+            error_cnt <= (error_cnt + 32'h00000001);
+          end
           if(_zz_4) begin
             if(com_ready) begin
               s_start_flag <= 1'b0;
@@ -316,7 +323,7 @@ module Icache (
           end
           if(axi_r_fire) begin
             s_axi_r_cnt <= (s_axi_r_cnt + 3'b001);
-            if(_zz_when) begin
+            if(_zz_when_1) begin
               axi_r_ready <= 1'b0;
               if(_zz_5[0]) begin
                 cache_valid_0 <= 1'b1;
