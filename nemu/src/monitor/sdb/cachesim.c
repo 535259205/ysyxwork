@@ -4,7 +4,7 @@
 #include "stdint.h"
 
 #define IS_POWER_OF_TWO(x) (((x) > 0) && !((x) & ((x) - 1)))
-#define CACHE_MODE 1
+#define CACHE_MODE 2
 #if CACHE_MODE==1
 //使用直接映射缓存
 #elif CACHE_MODE==2
@@ -30,14 +30,40 @@ uint32_t no_cnt=0;
 
 void cache_add_M2(uint32_t pc)
 {
+    static uint32_t tag[CACHE_Y_LEN];
+    static uint32_t tag_index = 0;
+    int i;
 
+    uint32_t logx = __builtin_ctz(CACHE_X_LEN);
+    uint32_t real_pc=pc>>2;
+    uint32_t now_tag;
+    now_tag = real_pc>>(logx);
+
+    for(i=0;i<CACHE_Y_LEN;i++)
+    {
+        if(tag[i]==now_tag)
+        {
+            break;
+        }
+    }
+    if(i==(CACHE_Y_LEN-1))
+    {
+        tag[tag_index]=now_tag;
+        tag_index=(tag_index+1)%CACHE_Y_LEN;
+        no_cnt++;
+    }
 }
 
 void cache_add(uint32_t pc)
 {
+    #if CACHE_MODE==2
+    cache_add_M2(pc);
+    return;
+    #endif
+
     int i;
     static uint32_t tag;
-    static uint32_t cache_valid[CACHE_Y_LEN];
+    static uint8_t cache_valid[CACHE_Y_LEN];
     uint32_t logx = __builtin_ctz(CACHE_X_LEN);
     uint32_t logy=__builtin_ctz(CACHE_Y_LEN);
     uint32_t now_tag,now_offset,now_index;
