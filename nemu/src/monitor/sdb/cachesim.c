@@ -46,7 +46,8 @@ void cache_add(uint32_t pc)
     {
         for (i = 0; i < CACHE_Y_LEN; i++)
             cache_valid[i] = 0;
-        no_cnt++;
+        // no_cnt++;
+        // cache_valid[now_index] = 1;
         tag=now_tag;
     }
     if(!cache_valid[now_index]){
