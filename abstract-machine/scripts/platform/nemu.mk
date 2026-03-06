@@ -14,9 +14,9 @@ LDSCRIPTS += $(AM_HOME)/scripts/linker.ld
 LDFLAGS   += --defsym=_pmem_start=0x80000000 --defsym=_entry_offset=0x0
 LDFLAGS   += --gc-sections -e _start
 #批处理模式标志位 传入日志参数
-NEMUFLAGS += -l $(shell dirname $(IMAGE).elf)/nemu-log.txt  --t=$(IMAGE).elf
+NEMUFLAGS += -l $(shell dirname $(IMAGE).elf)/nemu-log.txt  
 #-b --t=$(IMAGE).elf
-
+YSYX ?=N
 #image-dep
 #mainargs 用于插入到可执行文件中而不是nemu中 最终传入的.c 的不变变的是二进制文件
 MAINARGS_MAX_LEN = 64
@@ -32,13 +32,21 @@ image: image-dep
 	@echo + OBJCOPY "->" $(IMAGE_REL).bin
 	@$(OBJCOPY) -S --set-section-flags .bss=alloc,contents -O binary $(IMAGE).elf $(IMAGE).bin
 
+
 #NEMUFLAGS 用于增加附属标志位
 run: insert-arg
 	@echo IMAGE=$(IMAGE)
 	@echo NEMU_HOME=$(NEMU_HOME)
-	$(MAKE) -C $(NEMU_HOME) ISA=$(ISA) run ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin
+ifeq ($(YSYX),N)
+	$(MAKE) -C $(NEMU_HOME) ISA=$(ISA) run ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin;
+else 
+	$(MAKE) ARCH=riscv32e-ysyxsoc insert-arg;
+
+	$(MAKE) -C $(NEMU_HOME) ISA=$(ISA) run ARGS="$(NEMUFLAGS)" IMG=$(subst -nemu,-ysyxsoc,$(IMAGE)).bin;
+endif
+
 
 gdb: insert-arg
 	$(MAKE) -C $(NEMU_HOME) ISA=$(ISA) gdb ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin
 
-.PHONY: insert-arg
+.PHONY: insert-arg 

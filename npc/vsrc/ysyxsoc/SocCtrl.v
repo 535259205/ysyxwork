@@ -14,12 +14,7 @@ module SocCtrl (
   input  wire          encode_w_ready,
   input  wire          encode_w_valid,
   input  wire          encode_w_fire,
-  input  wire          pc_r_ready,
-  input  wire          pc_r_valid,
-  input  wire          pc_r_fire,
-  input  wire          pc_w_ready,
-  input  wire          pc_w_valid,
-  input  wire          pc_w_fire,
+  input  wire          pc_finish,
   output wire          r_sel,
   input  wire          clock,
   input  wire          rst
@@ -187,7 +182,7 @@ module SocCtrl (
     s_stateNext = s_stateReg;
     case(s_stateReg)
       IF_1 : begin
-        if(pc_r_fire) begin
+        if(pc_finish) begin
           s_stateNext = ID;
         end
       end

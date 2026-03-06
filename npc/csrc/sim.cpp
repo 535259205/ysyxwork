@@ -7,12 +7,12 @@
 #include "debug.h"
 
 
-#define USE_WAVE1 0
-#define WAVE_START (2000*1)
+#define USE_WAVE1 1
+#define WAVE_START (2000*00)
 #define SHOW_LIMIT 10
 #define USE_ITRACE 0
 #define USE_FTRACE 0
-#define USE_DIFFTEST 0
+#define USE_DIFFTEST 1
 
 
 VysyxSoCFull *dut = new VysyxSoCFull(); 

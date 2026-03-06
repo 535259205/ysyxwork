@@ -65,26 +65,27 @@ module Soc (
   input  wire          clock
 );
 
-  wire                pc_2_axi_ar_valid;
-  wire       [31:0]   pc_2_axi_ar_payload_addr;
-  wire       [3:0]    pc_2_axi_ar_payload_id;
-  wire       [7:0]    pc_2_axi_ar_payload_len;
-  wire       [2:0]    pc_2_axi_ar_payload_size;
-  wire       [1:0]    pc_2_axi_ar_payload_burst;
-  wire                pc_2_axi_aw_valid;
-  wire       [31:0]   pc_2_axi_aw_payload_addr;
-  wire       [3:0]    pc_2_axi_aw_payload_id;
-  wire       [7:0]    pc_2_axi_aw_payload_len;
-  wire       [2:0]    pc_2_axi_aw_payload_size;
-  wire       [1:0]    pc_2_axi_aw_payload_burst;
-  wire                pc_2_axi_w_valid;
-  wire       [31:0]   pc_2_axi_w_payload_data;
-  wire       [3:0]    pc_2_axi_w_payload_strb;
-  wire                pc_2_axi_w_payload_last;
-  wire                pc_2_axi_r_ready;
-  wire                pc_2_axi_b_ready;
-  wire       [31:0]   pc_2_com_encode_code;
-  wire       [31:0]   pc_2_com_encode_PC;
+  wire                pc_1_io_axi_ar_valid;
+  wire       [31:0]   pc_1_io_axi_ar_payload_addr;
+  wire       [3:0]    pc_1_io_axi_ar_payload_id;
+  wire       [7:0]    pc_1_io_axi_ar_payload_len;
+  wire       [2:0]    pc_1_io_axi_ar_payload_size;
+  wire       [1:0]    pc_1_io_axi_ar_payload_burst;
+  wire                pc_1_io_axi_aw_valid;
+  wire       [31:0]   pc_1_io_axi_aw_payload_addr;
+  wire       [3:0]    pc_1_io_axi_aw_payload_id;
+  wire       [7:0]    pc_1_io_axi_aw_payload_len;
+  wire       [2:0]    pc_1_io_axi_aw_payload_size;
+  wire       [1:0]    pc_1_io_axi_aw_payload_burst;
+  wire                pc_1_io_axi_w_valid;
+  wire       [31:0]   pc_1_io_axi_w_payload_data;
+  wire       [3:0]    pc_1_io_axi_w_payload_strb;
+  wire                pc_1_io_axi_w_payload_last;
+  wire                pc_1_io_axi_r_ready;
+  wire                pc_1_io_axi_b_ready;
+  wire       [31:0]   pc_1_io_com_encode_code;
+  wire       [31:0]   pc_1_io_com_encode_PC;
+  wire                pc_1_io_finish;
   wire       [31:0]   encode_2_com_grp_rd;
   wire       [4:0]    encode_2_com_grp_rd_sel;
   wire                encode_2_com_grp_rd_vaild;
@@ -202,46 +203,45 @@ module Soc (
   wire                u_vaild_4;
   wire                encode_2_axi_r_fire;
   wire                encode_2_axi_w_fire;
-  wire                pc_2_axi_r_fire;
-  wire                pc_2_axi_w_fire;
 
-  PC_1 pc_2 (
-    .axi_aw_valid         (pc_2_axi_aw_valid                ), //o
-    .axi_aw_ready         (xbar_axi_m_0_aw_ready            ), //i
-    .axi_aw_payload_addr  (pc_2_axi_aw_payload_addr[31:0]   ), //o
-    .axi_aw_payload_id    (pc_2_axi_aw_payload_id[3:0]      ), //o
-    .axi_aw_payload_len   (pc_2_axi_aw_payload_len[7:0]     ), //o
-    .axi_aw_payload_size  (pc_2_axi_aw_payload_size[2:0]    ), //o
-    .axi_aw_payload_burst (pc_2_axi_aw_payload_burst[1:0]   ), //o
-    .axi_w_valid          (pc_2_axi_w_valid                 ), //o
-    .axi_w_ready          (xbar_axi_m_0_w_ready             ), //i
-    .axi_w_payload_data   (pc_2_axi_w_payload_data[31:0]    ), //o
-    .axi_w_payload_strb   (pc_2_axi_w_payload_strb[3:0]     ), //o
-    .axi_w_payload_last   (pc_2_axi_w_payload_last          ), //o
-    .axi_b_valid          (xbar_axi_m_0_b_valid             ), //i
-    .axi_b_ready          (pc_2_axi_b_ready                 ), //o
-    .axi_b_payload_id     (xbar_axi_m_0_b_payload_id[3:0]   ), //i
-    .axi_b_payload_resp   (xbar_axi_m_0_b_payload_resp[1:0] ), //i
-    .axi_ar_valid         (pc_2_axi_ar_valid                ), //o
-    .axi_ar_ready         (xbar_axi_m_0_ar_ready            ), //i
-    .axi_ar_payload_addr  (pc_2_axi_ar_payload_addr[31:0]   ), //o
-    .axi_ar_payload_id    (pc_2_axi_ar_payload_id[3:0]      ), //o
-    .axi_ar_payload_len   (pc_2_axi_ar_payload_len[7:0]     ), //o
-    .axi_ar_payload_size  (pc_2_axi_ar_payload_size[2:0]    ), //o
-    .axi_ar_payload_burst (pc_2_axi_ar_payload_burst[1:0]   ), //o
-    .axi_r_valid          (xbar_axi_m_0_r_valid             ), //i
-    .axi_r_ready          (pc_2_axi_r_ready                 ), //o
-    .axi_r_payload_data   (xbar_axi_m_0_r_payload_data[31:0]), //i
-    .axi_r_payload_id     (xbar_axi_m_0_r_payload_id[3:0]   ), //i
-    .axi_r_payload_resp   (xbar_axi_m_0_r_payload_resp[1:0] ), //i
-    .axi_r_payload_last   (xbar_axi_m_0_r_payload_last      ), //i
-    .com_encode_code      (pc_2_com_encode_code[31:0]       ), //o
-    .com_encode_nPC       (encode_2_com_pc_nPC[31:0]        ), //i
-    .com_encode_nPC_vaild (encode_2_com_pc_nPC_vaild        ), //i
-    .com_encode_PC        (pc_2_com_encode_PC[31:0]         ), //o
-    .read_en              (u_vaild_0                        ), //i
-    .clock                (clock                            ), //i
-    .rst                  (rst                              )  //i
+  PC_cache pc_1 (
+    .io_axi_aw_valid         (pc_1_io_axi_aw_valid             ), //o
+    .io_axi_aw_ready         (xbar_axi_m_0_aw_ready            ), //i
+    .io_axi_aw_payload_addr  (pc_1_io_axi_aw_payload_addr[31:0]), //o
+    .io_axi_aw_payload_id    (pc_1_io_axi_aw_payload_id[3:0]   ), //o
+    .io_axi_aw_payload_len   (pc_1_io_axi_aw_payload_len[7:0]  ), //o
+    .io_axi_aw_payload_size  (pc_1_io_axi_aw_payload_size[2:0] ), //o
+    .io_axi_aw_payload_burst (pc_1_io_axi_aw_payload_burst[1:0]), //o
+    .io_axi_w_valid          (pc_1_io_axi_w_valid              ), //o
+    .io_axi_w_ready          (xbar_axi_m_0_w_ready             ), //i
+    .io_axi_w_payload_data   (pc_1_io_axi_w_payload_data[31:0] ), //o
+    .io_axi_w_payload_strb   (pc_1_io_axi_w_payload_strb[3:0]  ), //o
+    .io_axi_w_payload_last   (pc_1_io_axi_w_payload_last       ), //o
+    .io_axi_b_valid          (xbar_axi_m_0_b_valid             ), //i
+    .io_axi_b_ready          (pc_1_io_axi_b_ready              ), //o
+    .io_axi_b_payload_id     (xbar_axi_m_0_b_payload_id[3:0]   ), //i
+    .io_axi_b_payload_resp   (xbar_axi_m_0_b_payload_resp[1:0] ), //i
+    .io_axi_ar_valid         (pc_1_io_axi_ar_valid             ), //o
+    .io_axi_ar_ready         (xbar_axi_m_0_ar_ready            ), //i
+    .io_axi_ar_payload_addr  (pc_1_io_axi_ar_payload_addr[31:0]), //o
+    .io_axi_ar_payload_id    (pc_1_io_axi_ar_payload_id[3:0]   ), //o
+    .io_axi_ar_payload_len   (pc_1_io_axi_ar_payload_len[7:0]  ), //o
+    .io_axi_ar_payload_size  (pc_1_io_axi_ar_payload_size[2:0] ), //o
+    .io_axi_ar_payload_burst (pc_1_io_axi_ar_payload_burst[1:0]), //o
+    .io_axi_r_valid          (xbar_axi_m_0_r_valid             ), //i
+    .io_axi_r_ready          (pc_1_io_axi_r_ready              ), //o
+    .io_axi_r_payload_data   (xbar_axi_m_0_r_payload_data[31:0]), //i
+    .io_axi_r_payload_id     (xbar_axi_m_0_r_payload_id[3:0]   ), //i
+    .io_axi_r_payload_resp   (xbar_axi_m_0_r_payload_resp[1:0] ), //i
+    .io_axi_r_payload_last   (xbar_axi_m_0_r_payload_last      ), //i
+    .io_com_encode_code      (pc_1_io_com_encode_code[31:0]    ), //o
+    .io_com_encode_nPC       (encode_2_com_pc_nPC[31:0]        ), //i
+    .io_com_encode_nPC_vaild (encode_2_com_pc_nPC_vaild        ), //i
+    .io_com_encode_PC        (pc_1_io_com_encode_PC[31:0]      ), //o
+    .io_read_en              (u_vaild_0                        ), //i
+    .io_finish               (pc_1_io_finish                   ), //o
+    .clock                   (clock                            ), //i
+    .rst                     (rst                              )  //i
   );
   Encode_1 encode_2 (
     .com_grp_rd           (encode_2_com_grp_rd[31:0]         ), //o
@@ -251,10 +251,10 @@ module Soc (
     .com_grp_rs1_sel      (encode_2_com_grp_rs1_sel[4:0]     ), //o
     .com_grp_rs2          (grp_1_com_encode_rs2[31:0]        ), //i
     .com_grp_rs2_sel      (encode_2_com_grp_rs2_sel[4:0]     ), //o
-    .com_pc_code          (pc_2_com_encode_code[31:0]        ), //i
+    .com_pc_code          (pc_1_io_com_encode_code[31:0]     ), //i
     .com_pc_nPC           (encode_2_com_pc_nPC[31:0]         ), //o
     .com_pc_nPC_vaild     (encode_2_com_pc_nPC_vaild         ), //o
-    .com_pc_PC            (pc_2_com_encode_PC[31:0]          ), //i
+    .com_pc_PC            (pc_1_io_com_encode_PC[31:0]       ), //i
     .com_csr_w_data       (encode_2_com_csr_w_data[31:0]     ), //o
     .com_csr_r_data       (csr_1_com_encode_r_data[31:0]     ), //i
     .com_csr_vaild        (encode_2_com_csr_vaild            ), //o
@@ -355,31 +355,31 @@ module Soc (
     .rst                  (rst                               )  //i
   );
   AXIXbar xbar (
-    .axi_m_0_aw_valid         (pc_2_axi_aw_valid                 ), //i
+    .axi_m_0_aw_valid         (pc_1_io_axi_aw_valid              ), //i
     .axi_m_0_aw_ready         (xbar_axi_m_0_aw_ready             ), //o
-    .axi_m_0_aw_payload_addr  (pc_2_axi_aw_payload_addr[31:0]    ), //i
-    .axi_m_0_aw_payload_id    (pc_2_axi_aw_payload_id[3:0]       ), //i
-    .axi_m_0_aw_payload_len   (pc_2_axi_aw_payload_len[7:0]      ), //i
-    .axi_m_0_aw_payload_size  (pc_2_axi_aw_payload_size[2:0]     ), //i
-    .axi_m_0_aw_payload_burst (pc_2_axi_aw_payload_burst[1:0]    ), //i
-    .axi_m_0_w_valid          (pc_2_axi_w_valid                  ), //i
+    .axi_m_0_aw_payload_addr  (pc_1_io_axi_aw_payload_addr[31:0] ), //i
+    .axi_m_0_aw_payload_id    (pc_1_io_axi_aw_payload_id[3:0]    ), //i
+    .axi_m_0_aw_payload_len   (pc_1_io_axi_aw_payload_len[7:0]   ), //i
+    .axi_m_0_aw_payload_size  (pc_1_io_axi_aw_payload_size[2:0]  ), //i
+    .axi_m_0_aw_payload_burst (pc_1_io_axi_aw_payload_burst[1:0] ), //i
+    .axi_m_0_w_valid          (pc_1_io_axi_w_valid               ), //i
     .axi_m_0_w_ready          (xbar_axi_m_0_w_ready              ), //o
-    .axi_m_0_w_payload_data   (pc_2_axi_w_payload_data[31:0]     ), //i
-    .axi_m_0_w_payload_strb   (pc_2_axi_w_payload_strb[3:0]      ), //i
-    .axi_m_0_w_payload_last   (pc_2_axi_w_payload_last           ), //i
+    .axi_m_0_w_payload_data   (pc_1_io_axi_w_payload_data[31:0]  ), //i
+    .axi_m_0_w_payload_strb   (pc_1_io_axi_w_payload_strb[3:0]   ), //i
+    .axi_m_0_w_payload_last   (pc_1_io_axi_w_payload_last        ), //i
     .axi_m_0_b_valid          (xbar_axi_m_0_b_valid              ), //o
-    .axi_m_0_b_ready          (pc_2_axi_b_ready                  ), //i
+    .axi_m_0_b_ready          (pc_1_io_axi_b_ready               ), //i
     .axi_m_0_b_payload_id     (xbar_axi_m_0_b_payload_id[3:0]    ), //o
     .axi_m_0_b_payload_resp   (xbar_axi_m_0_b_payload_resp[1:0]  ), //o
-    .axi_m_0_ar_valid         (pc_2_axi_ar_valid                 ), //i
+    .axi_m_0_ar_valid         (pc_1_io_axi_ar_valid              ), //i
     .axi_m_0_ar_ready         (xbar_axi_m_0_ar_ready             ), //o
-    .axi_m_0_ar_payload_addr  (pc_2_axi_ar_payload_addr[31:0]    ), //i
-    .axi_m_0_ar_payload_id    (pc_2_axi_ar_payload_id[3:0]       ), //i
-    .axi_m_0_ar_payload_len   (pc_2_axi_ar_payload_len[7:0]      ), //i
-    .axi_m_0_ar_payload_size  (pc_2_axi_ar_payload_size[2:0]     ), //i
-    .axi_m_0_ar_payload_burst (pc_2_axi_ar_payload_burst[1:0]    ), //i
+    .axi_m_0_ar_payload_addr  (pc_1_io_axi_ar_payload_addr[31:0] ), //i
+    .axi_m_0_ar_payload_id    (pc_1_io_axi_ar_payload_id[3:0]    ), //i
+    .axi_m_0_ar_payload_len   (pc_1_io_axi_ar_payload_len[7:0]   ), //i
+    .axi_m_0_ar_payload_size  (pc_1_io_axi_ar_payload_size[2:0]  ), //i
+    .axi_m_0_ar_payload_burst (pc_1_io_axi_ar_payload_burst[1:0] ), //i
     .axi_m_0_r_valid          (xbar_axi_m_0_r_valid              ), //o
-    .axi_m_0_r_ready          (pc_2_axi_r_ready                  ), //i
+    .axi_m_0_r_ready          (pc_1_io_axi_r_ready               ), //i
     .axi_m_0_r_payload_data   (xbar_axi_m_0_r_payload_data[31:0] ), //o
     .axi_m_0_r_payload_id     (xbar_axi_m_0_r_payload_id[3:0]    ), //o
     .axi_m_0_r_payload_resp   (xbar_axi_m_0_r_payload_resp[1:0]  ), //o
@@ -485,12 +485,7 @@ module Soc (
     .encode_w_ready (xbar_axi_m_1_w_ready), //i
     .encode_w_valid (encode_2_axi_w_valid), //i
     .encode_w_fire  (encode_2_axi_w_fire ), //i
-    .pc_r_ready     (pc_2_axi_r_ready    ), //i
-    .pc_r_valid     (xbar_axi_m_0_r_valid), //i
-    .pc_r_fire      (pc_2_axi_r_fire     ), //i
-    .pc_w_ready     (xbar_axi_m_0_w_ready), //i
-    .pc_w_valid     (pc_2_axi_w_valid    ), //i
-    .pc_w_fire      (pc_2_axi_w_fire     ), //i
+    .pc_finish      (pc_1_io_finish      ), //i
     .r_sel          (ctrl_r_sel          ), //o
     .clock          (clock               ), //i
     .rst            (rst                 )  //i
@@ -531,7 +526,5 @@ module Soc (
   assign u_vaild_4 = ctrl_u_vaild_4;
   assign encode_2_axi_r_fire = (xbar_axi_m_1_r_valid && encode_2_axi_r_ready);
   assign encode_2_axi_w_fire = (encode_2_axi_w_valid && xbar_axi_m_1_w_ready);
-  assign pc_2_axi_r_fire = (xbar_axi_m_0_r_valid && pc_2_axi_r_ready);
-  assign pc_2_axi_w_fire = (pc_2_axi_w_valid && xbar_axi_m_0_w_ready);
 
 endmodule
