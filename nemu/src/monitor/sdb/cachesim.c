@@ -46,6 +46,7 @@ void cache_add_M2(uint32_t pc)
             break;
         }
     }
+    printf("i=%d\n",i);
     if(i==(CACHE_Y_LEN-1))
     {
         tag[tag_index]=now_tag;
