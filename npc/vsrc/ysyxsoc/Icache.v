@@ -37,12 +37,13 @@ module Icache (
   output reg  [31:0]   com_code,
   output reg           com_valid,
   input  wire          com_ready,
+  input  wire          fence_i,
   input  wire          clock,
   input  wire          rst
 );
-  localparam BOOT = 2'd0;
-  localparam start = 2'd1;
-  localparam axi_r = 2'd2;
+  localparam s_BOOT = 2'd0;
+  localparam s_start = 2'd1;
+  localparam s_axi_r = 2'd2;
 
   wire       [31:0]   cache_mem_spinal_port0;
   wire       [4:0]    _zz_pc_r_addr;
@@ -54,9 +55,7 @@ module Icache (
   wire       [4:0]    _zz_cache_mem_port_4;
   wire       [31:0]   _zz_cache_mem_port_5;
   reg                 _zz__zz_4;
-  wire                _zz_when;
   wire       [3:0]    _zz_com_code;
-  wire                _zz_when_1;
   reg                 _zz_1;
   reg        [31:0]   error_cnt;
   reg                 cache_valid_0;
@@ -93,8 +92,6 @@ module Icache (
 
   (* ram_style = "distributed" *) reg [31:0] cache_mem [0:15];
 
-  assign _zz_when = ((! _zz_4) && com_ready);
-  assign _zz_when_1 = (s_axi_r_cnt == 3'b011);
   assign _zz_pc_r_addr = (pc_index * 3'b100);
   assign _zz_pc_r_addr_1 = {3'd0, pc_offset};
   assign _zz_com_code = pc_r_addr[3:0];
@@ -122,17 +119,17 @@ module Icache (
   `ifndef SYNTHESIS
   always @(*) begin
     case(s_stateReg)
-      BOOT : s_stateReg_string = "BOOT ";
-      start : s_stateReg_string = "start";
-      axi_r : s_stateReg_string = "axi_r";
+      s_BOOT : s_stateReg_string = "BOOT ";
+      s_start : s_stateReg_string = "start";
+      s_axi_r : s_stateReg_string = "axi_r";
       default : s_stateReg_string = "?????";
     endcase
   end
   always @(*) begin
     case(s_stateNext)
-      BOOT : s_stateNext_string = "BOOT ";
-      start : s_stateNext_string = "start";
-      axi_r : s_stateNext_string = "axi_r";
+      s_BOOT : s_stateNext_string = "BOOT ";
+      s_start : s_stateNext_string = "start";
+      s_axi_r : s_stateNext_string = "axi_r";
       default : s_stateNext_string = "?????";
     endcase
   end
@@ -141,9 +138,9 @@ module Icache (
   always @(*) begin
     _zz_1 = 1'b0;
     case(s_stateReg)
-      start : begin
+      s_start : begin
       end
-      axi_r : begin
+      s_axi_r : begin
         if(axi_r_fire) begin
           _zz_1 = 1'b1;
         end
@@ -154,23 +151,23 @@ module Icache (
   end
 
   assign axi_w_valid = 1'b0;
-  assign axi_w_payload_data = 32'bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-  assign axi_w_payload_strb = 4'bxxxx;
-  assign axi_w_payload_last = 1'bx;
+  assign axi_w_payload_data = 32'b00000000000000000000000000000000;
+  assign axi_w_payload_strb = 4'b0000;
+  assign axi_w_payload_last = 1'b0;
   assign axi_aw_valid = 1'b0;
-  assign axi_aw_payload_addr = 32'bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-  assign axi_aw_payload_id = 4'bxxxx;
-  assign axi_aw_payload_len = 8'bxxxxxxxx;
-  assign axi_aw_payload_size = 3'bxxx;
-  assign axi_aw_payload_burst = 2'bxx;
+  assign axi_aw_payload_addr = 32'b00000000000000000000000000000000;
+  assign axi_aw_payload_id = 4'b0000;
+  assign axi_aw_payload_len = 8'b00000000;
+  assign axi_aw_payload_size = 3'b000;
+  assign axi_aw_payload_burst = 2'b00;
   assign axi_b_ready = 1'b0;
   assign axi_ar_payload_id = 4'b0000;
   always @(*) begin
     axi_ar_valid = 1'b0;
     case(s_stateReg)
-      start : begin
+      s_start : begin
       end
-      axi_r : begin
+      s_axi_r : begin
         axi_ar_valid = (! s_axi_r_ar_flag);
       end
       default : begin
@@ -181,9 +178,9 @@ module Icache (
   always @(*) begin
     axi_ar_payload_addr = 32'h0;
     case(s_stateReg)
-      start : begin
+      s_start : begin
       end
-      axi_r : begin
+      s_axi_r : begin
         axi_ar_payload_addr = {pc_tag,{pc_index,4'b0000}};
       end
       default : begin
@@ -197,12 +194,12 @@ module Icache (
   always @(*) begin
     com_code = 32'h0;
     case(s_stateReg)
-      start : begin
+      s_start : begin
         if(_zz_4) begin
           com_code = cache_mem_spinal_port0;
         end
       end
-      axi_r : begin
+      s_axi_r : begin
       end
       default : begin
       end
@@ -212,14 +209,14 @@ module Icache (
   always @(*) begin
     com_valid = 1'b0;
     case(s_stateReg)
-      start : begin
+      s_start : begin
         if(_zz_4) begin
           if(com_ready) begin
             com_valid = s_start_flag;
           end
         end
       end
-      axi_r : begin
+      s_axi_r : begin
       end
       default : begin
       end
@@ -234,9 +231,9 @@ module Icache (
   always @(*) begin
     s_wantStart = 1'b0;
     case(s_stateReg)
-      start : begin
+      s_start : begin
       end
-      axi_r : begin
+      s_axi_r : begin
       end
       default : begin
         s_wantStart = 1'b1;
@@ -248,15 +245,15 @@ module Icache (
   always @(*) begin
     s_stateNext = s_stateReg;
     case(s_stateReg)
-      start : begin
-        if(_zz_when) begin
-          s_stateNext = axi_r;
+      s_start : begin
+        if(((! _zz_4) && com_ready)) begin
+          s_stateNext = s_axi_r;
         end
       end
-      axi_r : begin
+      s_axi_r : begin
         if(axi_r_fire) begin
-          if(_zz_when_1) begin
-            s_stateNext = start;
+          if((s_axi_r_cnt == 3'b011)) begin
+            s_stateNext = s_start;
           end
         end
       end
@@ -264,10 +261,10 @@ module Icache (
       end
     endcase
     if(s_wantStart) begin
-      s_stateNext = start;
+      s_stateNext = s_start;
     end
     if(s_wantKill) begin
-      s_stateNext = BOOT;
+      s_stateNext = s_BOOT;
     end
   end
 
@@ -275,12 +272,12 @@ module Icache (
   assign _zz_5 = ({3'd0,1'b1} <<< pc_index);
   assign axi_ar_fire = (axi_ar_valid && axi_ar_ready);
   assign axi_r_fire = (axi_r_valid && axi_r_ready);
-  assign s_onExit_BOOT = ((s_stateNext != BOOT) && (s_stateReg == BOOT));
-  assign s_onExit_start = ((s_stateNext != start) && (s_stateReg == start));
-  assign s_onExit_axi_r = ((s_stateNext != axi_r) && (s_stateReg == axi_r));
-  assign s_onEntry_BOOT = ((s_stateNext == BOOT) && (s_stateReg != BOOT));
-  assign s_onEntry_start = ((s_stateNext == start) && (s_stateReg != start));
-  assign s_onEntry_axi_r = ((s_stateNext == axi_r) && (s_stateReg != axi_r));
+  assign s_onExit_BOOT = ((s_stateNext != s_BOOT) && (s_stateReg == s_BOOT));
+  assign s_onExit_start = ((s_stateNext != s_start) && (s_stateReg == s_start));
+  assign s_onExit_axi_r = ((s_stateNext != s_axi_r) && (s_stateReg == s_axi_r));
+  assign s_onEntry_BOOT = ((s_stateNext == s_BOOT) && (s_stateReg != s_BOOT));
+  assign s_onEntry_start = ((s_stateNext == s_start) && (s_stateReg != s_start));
+  assign s_onEntry_axi_r = ((s_stateNext == s_axi_r) && (s_stateReg != s_axi_r));
   always @(posedge clock) begin
     if(rst) begin
       axi_r_ready <= 1'b0;
@@ -293,11 +290,17 @@ module Icache (
       s_start_flag <= 1'b0;
       s_axi_r_cnt <= 3'b000;
       s_axi_r_ar_flag <= 1'b0;
-      s_stateReg <= BOOT;
+      s_stateReg <= s_BOOT;
     end else begin
+      if(fence_i) begin
+        cache_valid_0 <= 1'b0;
+        cache_valid_1 <= 1'b0;
+        cache_valid_2 <= 1'b0;
+        cache_valid_3 <= 1'b0;
+      end
       s_stateReg <= s_stateNext;
       case(s_stateReg)
-        start : begin
+        s_start : begin
           if(com_addr_fire) begin
             s_start_flag <= 1'b1;
             cache_tag <= pc_tag;
@@ -308,7 +311,7 @@ module Icache (
               cache_valid_3 <= 1'b0;
             end
           end
-          if(_zz_when) begin
+          if(((! _zz_4) && com_ready)) begin
             error_cnt <= (error_cnt + 32'h00000001);
           end
           if(_zz_4) begin
@@ -317,13 +320,13 @@ module Icache (
             end
           end
         end
-        axi_r : begin
+        s_axi_r : begin
           if(axi_ar_fire) begin
             s_axi_r_ar_flag <= 1'b1;
           end
           if(axi_r_fire) begin
             s_axi_r_cnt <= (s_axi_r_cnt + 3'b001);
-            if(_zz_when_1) begin
+            if((s_axi_r_cnt == 3'b011)) begin
               axi_r_ready <= 1'b0;
               if(_zz_5[0]) begin
                 cache_valid_0 <= 1'b1;

@@ -140,7 +140,9 @@ void paddr_write(paddr_t addr, int len, word_t data) {
   }
   else if(likely(in_uart(addr)))
   {
+    #if USE_EXMEM==0
     putchar(data);
+    #endif
     return;
   }
   #endif

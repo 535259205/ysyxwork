@@ -64,6 +64,7 @@ module sdram_axi_pmem
     ,output          axi_bvalid_o
     ,output [  1:0]  axi_bresp_o
     ,output [  3:0]  axi_bid_o
+    //输出rready信号
     ,output          axi_arready_o
     ,output          axi_rvalid_o
     ,output [ 31:0]  axi_rdata_o

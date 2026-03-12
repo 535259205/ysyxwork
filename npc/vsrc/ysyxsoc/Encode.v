@@ -43,6 +43,7 @@ module Encode (
   input  wire [1:0]    axi4lite_r_payload_resp,
   input  wire          vaild,
   output reg  [3:0]    ar_size,
+  output reg           fence_i,
   input  wire          clock,
   input  wire          rst
 );
@@ -82,7 +83,6 @@ module Encode (
   wire       [0:0]    _zz_com_grp_rd_38;
   wire       [31:0]   _zz_com_grp_rd_39;
   wire       [0:0]    _zz_com_grp_rd_40;
-  wire       [3:0]    _zz_1;
   wire       [31:0]   _zz__zz_com_grp_rd_1;
   wire       [7:0]    _zz__zz_com_grp_rd_1_1;
   wire       [31:0]   _zz__zz_com_grp_rd_1_2;
@@ -95,7 +95,6 @@ module Encode (
   wire       [31:0]   _zz__zz_com_grp_rd_1_9;
   wire       [15:0]   _zz__zz_com_grp_rd_1_10;
   wire       [31:0]   _zz__zz_com_grp_rd_1_11;
-  wire       [3:0]    _zz_2;
   wire       [31:0]   _zz__zz_com_grp_rd_3;
   wire       [7:0]    _zz__zz_com_grp_rd_3_1;
   wire       [31:0]   _zz__zz_com_grp_rd_3_2;
@@ -108,7 +107,6 @@ module Encode (
   wire       [31:0]   _zz__zz_com_grp_rd_3_9;
   wire       [15:0]   _zz__zz_com_grp_rd_3_10;
   wire       [31:0]   _zz__zz_com_grp_rd_3_11;
-  wire       [3:0]    _zz_3;
   wire       [31:0]   _zz__zz_com_grp_rd_5;
   wire       [7:0]    _zz__zz_com_grp_rd_5_1;
   wire       [31:0]   _zz__zz_com_grp_rd_5_2;
@@ -121,7 +119,6 @@ module Encode (
   wire       [31:0]   _zz__zz_com_grp_rd_5_9;
   wire       [15:0]   _zz__zz_com_grp_rd_5_10;
   wire       [31:0]   _zz__zz_com_grp_rd_5_11;
-  wire       [3:0]    _zz_4;
   wire       [31:0]   _zz__zz_com_grp_rd_7;
   wire       [7:0]    _zz__zz_com_grp_rd_7_1;
   wire       [31:0]   _zz__zz_com_grp_rd_7_2;
@@ -134,7 +131,6 @@ module Encode (
   wire       [31:0]   _zz__zz_com_grp_rd_7_9;
   wire       [15:0]   _zz__zz_com_grp_rd_7_10;
   wire       [31:0]   _zz__zz_com_grp_rd_7_11;
-  wire       [3:0]    _zz_5;
   wire       [31:0]   _zz__zz_com_grp_rd_9;
   wire       [7:0]    _zz__zz_com_grp_rd_9_1;
   wire       [31:0]   _zz__zz_com_grp_rd_9_2;
@@ -149,26 +145,18 @@ module Encode (
   wire       [31:0]   _zz__zz_com_grp_rd_9_11;
   wire       [31:0]   _zz_com_pc_nPC;
   wire       [31:0]   _zz_com_grp_rd_41;
-  wire       [1:0]    _zz_6;
   wire       [47:0]   _zz_axi4lite_w_payload_data;
   wire       [94:0]   _zz_axi4lite_w_payload_data_1;
   wire       [5:0]    _zz_axi4lite_w_payload_data_2;
-  wire       [31:0]   _zz_7;
-  wire                _zz_when;
   wire       [31:0]   _zz_com_pc_nPC_1;
-  wire                _zz_when_1;
   wire       [31:0]   _zz_com_pc_nPC_2;
-  wire                _zz_when_2;
-  wire       [31:0]   _zz_when_3;
-  wire       [31:0]   _zz_when_4;
+  wire       [31:0]   _zz_when;
+  wire       [31:0]   _zz_when_1;
   wire       [31:0]   _zz_com_pc_nPC_3;
-  wire                _zz_when_5;
-  wire       [31:0]   _zz_when_6;
-  wire       [31:0]   _zz_when_7;
+  wire       [31:0]   _zz_when_2;
+  wire       [31:0]   _zz_when_3;
   wire       [31:0]   _zz_com_pc_nPC_4;
-  wire                _zz_when_8;
   wire       [31:0]   _zz_com_pc_nPC_5;
-  wire                _zz_when_9;
   wire       [31:0]   _zz_com_pc_nPC_6;
   wire       [31:0]   _zz_com_grp_rd_42;
   wire       [31:0]   _zz_com_pc_nPC_7;
@@ -210,19 +198,6 @@ module Encode (
   wire       [31:0]   _zz_axi4lite_aw_payload_addr;
   wire       [31:0]   _zz_axi4lite_aw_payload_addr_1;
 
-  assign _zz_6 = _zz_axi4lite_aw_payload_addr[1 : 0];
-  assign _zz_when = ((com_grp_rs1 == com_grp_rs2) == 1'b1);
-  assign _zz_when_1 = ((com_grp_rs1 != com_grp_rs2) == 1'b1);
-  assign _zz_when_2 = (($signed(_zz_when_3) < $signed(_zz_when_4)) == 1'b1);
-  assign _zz_when_5 = (($signed(_zz_when_6) <= $signed(_zz_when_7)) == 1'b1);
-  assign _zz_when_8 = ((com_grp_rs1 < com_grp_rs2) == 1'b1);
-  assign _zz_when_9 = ((com_grp_rs2 <= com_grp_rs1) == 1'b1);
-  assign _zz_1 = 4'b0001;
-  assign _zz_2 = 4'b0011;
-  assign _zz_3 = 4'b1111;
-  assign _zz_4 = 4'b0001;
-  assign _zz_5 = 4'b0011;
-  assign _zz_7 = (_zz_axi4lite_aw_payload_addr_1 & 32'h00000003);
   assign _zz_imm_I = code[31 : 20];
   assign _zz_imm_S = {code[31 : 25],code[11 : 7]};
   assign _zz_imm_B = {code[31],{code[7],{code[30 : 25],{code[11 : 8],1'b0}}}};
@@ -325,11 +300,11 @@ module Encode (
   assign _zz_axi4lite_w_payload_data_2 = (_zz_axi4lite_aw_payload_addr_1[1 : 0] * 4'b1000);
   assign _zz_com_pc_nPC_1 = (pc_pc + imm_B);
   assign _zz_com_pc_nPC_2 = (pc_pc + imm_B);
-  assign _zz_when_3 = com_grp_rs1;
-  assign _zz_when_4 = com_grp_rs2;
+  assign _zz_when = com_grp_rs1;
+  assign _zz_when_1 = com_grp_rs2;
   assign _zz_com_pc_nPC_3 = (pc_pc + imm_B);
-  assign _zz_when_6 = com_grp_rs2;
-  assign _zz_when_7 = com_grp_rs1;
+  assign _zz_when_2 = com_grp_rs2;
+  assign _zz_when_3 = com_grp_rs1;
   assign _zz_com_pc_nPC_4 = (pc_pc + imm_B);
   assign _zz_com_pc_nPC_5 = (pc_pc + imm_B);
   assign _zz_com_pc_nPC_6 = (pc_pc + imm_B);
@@ -433,6 +408,8 @@ module Encode (
       32'h00000073 : begin
       end
       32'h30200073 : begin
+      end
+      32'h0000100f : begin
       end
       default : begin
         ErrorReg = 1'b1;
@@ -547,6 +524,111 @@ module Encode (
       end
       32'h30200073 : begin
       end
+      32'h0000100f : begin
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  always @(*) begin
+    fence_i = 1'b0;
+    casez(code)
+      32'b0000000??????????000?????0110011 : begin
+      end
+      32'b0100000??????????000?????0110011 : begin
+      end
+      32'b0000000??????????111?????0110011 : begin
+      end
+      32'b0000000??????????110?????0110011 : begin
+      end
+      32'b0000000??????????100?????0110011 : begin
+      end
+      32'b0000000??????????001?????0110011 : begin
+      end
+      32'b0000000??????????101?????0110011 : begin
+      end
+      32'b0100000??????????101?????0110011 : begin
+      end
+      32'b0000000??????????010?????0110011 : begin
+      end
+      32'b0000000??????????011?????0110011 : begin
+      end
+      32'b?????????????????000?????0010011 : begin
+      end
+      32'b?????????????????100?????0010011 : begin
+      end
+      32'b?????????????????110?????0010011 : begin
+      end
+      32'b?????????????????111?????0010011 : begin
+      end
+      32'b0000000??????????001?????0010011 : begin
+      end
+      32'b0000000??????????101?????0010011 : begin
+      end
+      32'b0100000??????????101?????0010011 : begin
+      end
+      32'b?????????????????010?????0010011 : begin
+      end
+      32'b?????????????????011?????0010011 : begin
+      end
+      32'b?????????????????000?????0000011 : begin
+      end
+      32'b?????????????????001?????0000011 : begin
+      end
+      32'b?????????????????010?????0000011 : begin
+      end
+      32'b?????????????????100?????0000011 : begin
+      end
+      32'b?????????????????101?????0000011 : begin
+      end
+      32'b?????????????????000?????1100111 : begin
+      end
+      32'b?????????????????010?????0100011 : begin
+      end
+      32'b?????????????????001?????0100011 : begin
+      end
+      32'b?????????????????000?????0100011 : begin
+      end
+      32'b?????????????????000?????1100011 : begin
+      end
+      32'b?????????????????001?????1100011 : begin
+      end
+      32'b?????????????????100?????1100011 : begin
+      end
+      32'b?????????????????101?????1100011 : begin
+      end
+      32'b?????????????????110?????1100011 : begin
+      end
+      32'b?????????????????111?????1100011 : begin
+      end
+      32'b?????????????????????????0110111 : begin
+      end
+      32'b?????????????????????????0010111 : begin
+      end
+      32'b?????????????????????????1101111 : begin
+      end
+      32'b?????????????????001?????1110011 : begin
+      end
+      32'b?????????????????010?????1110011 : begin
+      end
+      32'b?????????????????011?????1110011 : begin
+      end
+      32'b?????????????????101?????1110011 : begin
+      end
+      32'b?????????????????110?????1110011 : begin
+      end
+      32'b?????????????????111?????1110011 : begin
+      end
+      32'h00100073 : begin
+      end
+      32'h00000073 : begin
+      end
+      32'h30200073 : begin
+      end
+      32'h0000100f : begin
+        fence_i = 1'b1;
+      end
       default : begin
       end
     endcase
@@ -651,6 +733,8 @@ module Encode (
       end
       32'h30200073 : begin
       end
+      32'h0000100f : begin
+      end
       default : begin
       end
     endcase
@@ -754,6 +838,8 @@ module Encode (
       end
       32'h30200073 : begin
       end
+      32'h0000100f : begin
+      end
       default : begin
       end
     endcase
@@ -816,7 +902,7 @@ module Encode (
         axi4lite_w_payload_strb = 4'b1111;
       end
       32'b?????????????????001?????0100011 : begin
-        case(_zz_6)
+        case(_zz_axi4lite_aw_payload_addr[1 : 0])
           2'b00 : begin
             axi4lite_w_payload_strb = 4'b0011;
           end
@@ -829,7 +915,7 @@ module Encode (
         endcase
       end
       32'b?????????????????000?????0100011 : begin
-        case(_zz_7)
+        case((_zz_axi4lite_aw_payload_addr_1 & 32'h00000003))
           32'h0 : begin
             axi4lite_w_payload_strb = 4'b0001;
           end
@@ -881,6 +967,8 @@ module Encode (
       32'h00000073 : begin
       end
       32'h30200073 : begin
+      end
+      32'h0000100f : begin
       end
       default : begin
       end
@@ -944,7 +1032,7 @@ module Encode (
         axi4lite_w_payload_data = com_grp_rs2;
       end
       32'b?????????????????001?????0100011 : begin
-        case(_zz_6)
+        case(_zz_axi4lite_aw_payload_addr[1 : 0])
           2'b00 : begin
             axi4lite_w_payload_data = com_grp_rs2;
           end
@@ -994,6 +1082,8 @@ module Encode (
       32'h00000073 : begin
       end
       32'h30200073 : begin
+      end
+      32'h0000100f : begin
       end
       default : begin
       end
@@ -1101,6 +1191,8 @@ module Encode (
       end
       32'h30200073 : begin
       end
+      32'h0000100f : begin
+      end
       default : begin
       end
     endcase
@@ -1206,6 +1298,8 @@ module Encode (
       end
       32'h30200073 : begin
       end
+      32'h0000100f : begin
+      end
       default : begin
       end
     endcase
@@ -1310,6 +1404,8 @@ module Encode (
       32'h00000073 : begin
       end
       32'h30200073 : begin
+      end
+      32'h0000100f : begin
       end
       default : begin
       end
@@ -1419,6 +1515,8 @@ module Encode (
       end
       32'h30200073 : begin
       end
+      32'h0000100f : begin
+      end
       default : begin
       end
     endcase
@@ -1485,32 +1583,32 @@ module Encode (
       32'b?????????????????000?????0100011 : begin
       end
       32'b?????????????????000?????1100011 : begin
-        if(_zz_when) begin
+        if(((com_grp_rs1 == com_grp_rs2) == 1'b1)) begin
           com_pc_nPC = _zz_com_pc_nPC_1;
         end
       end
       32'b?????????????????001?????1100011 : begin
-        if(_zz_when_1) begin
+        if(((com_grp_rs1 != com_grp_rs2) == 1'b1)) begin
           com_pc_nPC = _zz_com_pc_nPC_2;
         end
       end
       32'b?????????????????100?????1100011 : begin
-        if(_zz_when_2) begin
+        if((($signed(_zz_when) < $signed(_zz_when_1)) == 1'b1)) begin
           com_pc_nPC = _zz_com_pc_nPC_3;
         end
       end
       32'b?????????????????101?????1100011 : begin
-        if(_zz_when_5) begin
+        if((($signed(_zz_when_2) <= $signed(_zz_when_3)) == 1'b1)) begin
           com_pc_nPC = _zz_com_pc_nPC_4;
         end
       end
       32'b?????????????????110?????1100011 : begin
-        if(_zz_when_8) begin
+        if(((com_grp_rs1 < com_grp_rs2) == 1'b1)) begin
           com_pc_nPC = _zz_com_pc_nPC_5;
         end
       end
       32'b?????????????????111?????1100011 : begin
-        if(_zz_when_9) begin
+        if(((com_grp_rs2 <= com_grp_rs1) == 1'b1)) begin
           com_pc_nPC = _zz_com_pc_nPC_6;
         end
       end
@@ -1540,6 +1638,8 @@ module Encode (
       end
       32'h30200073 : begin
         com_pc_nPC = com_csr_r_pc;
+      end
+      32'h0000100f : begin
       end
       default : begin
       end
@@ -1607,32 +1707,32 @@ module Encode (
       32'b?????????????????000?????0100011 : begin
       end
       32'b?????????????????000?????1100011 : begin
-        if(_zz_when) begin
+        if(((com_grp_rs1 == com_grp_rs2) == 1'b1)) begin
           com_pc_nPC_vaild = 1'b1;
         end
       end
       32'b?????????????????001?????1100011 : begin
-        if(_zz_when_1) begin
+        if(((com_grp_rs1 != com_grp_rs2) == 1'b1)) begin
           com_pc_nPC_vaild = 1'b1;
         end
       end
       32'b?????????????????100?????1100011 : begin
-        if(_zz_when_2) begin
+        if((($signed(_zz_when) < $signed(_zz_when_1)) == 1'b1)) begin
           com_pc_nPC_vaild = 1'b1;
         end
       end
       32'b?????????????????101?????1100011 : begin
-        if(_zz_when_5) begin
+        if((($signed(_zz_when_2) <= $signed(_zz_when_3)) == 1'b1)) begin
           com_pc_nPC_vaild = 1'b1;
         end
       end
       32'b?????????????????110?????1100011 : begin
-        if(_zz_when_8) begin
+        if(((com_grp_rs1 < com_grp_rs2) == 1'b1)) begin
           com_pc_nPC_vaild = 1'b1;
         end
       end
       32'b?????????????????111?????1100011 : begin
-        if(_zz_when_9) begin
+        if(((com_grp_rs2 <= com_grp_rs1) == 1'b1)) begin
           com_pc_nPC_vaild = 1'b1;
         end
       end
@@ -1662,6 +1762,8 @@ module Encode (
       end
       32'h30200073 : begin
         com_pc_nPC_vaild = 1'b1;
+      end
+      32'h0000100f : begin
       end
       default : begin
       end
@@ -1772,6 +1874,8 @@ module Encode (
       end
       32'h30200073 : begin
       end
+      32'h0000100f : begin
+      end
       default : begin
       end
     endcase
@@ -1878,6 +1982,8 @@ module Encode (
       end
       32'h30200073 : begin
       end
+      32'h0000100f : begin
+      end
       default : begin
       end
     endcase
@@ -1978,6 +2084,8 @@ module Encode (
         com_csr_ecall = 1'b1;
       end
       32'h30200073 : begin
+      end
+      32'h0000100f : begin
       end
       default : begin
       end
@@ -2080,6 +2188,8 @@ module Encode (
       32'h30200073 : begin
         com_csr_mret = 1'b1;
       end
+      32'h0000100f : begin
+      end
       default : begin
       end
     endcase
@@ -2089,7 +2199,7 @@ module Encode (
   assign _zz_axi4lite_ar_payload_addr = (com_grp_rs1 + imm_I);
   assign _zz_com_grp_rd = ({3'd0,_zz_axi4lite_ar_payload_addr[1 : 0]} <<< 2'd3);
   always @(*) begin
-    case(_zz_1)
+    case(4'b0001)
       4'b0001 : begin
         if(1'b1) begin
           _zz_com_grp_rd_1 = _zz__zz_com_grp_rd_1;
@@ -2116,7 +2226,7 @@ module Encode (
   assign _zz_axi4lite_ar_payload_addr_1 = (com_grp_rs1 + imm_I);
   assign _zz_com_grp_rd_2 = ({3'd0,_zz_axi4lite_ar_payload_addr_1[1 : 0]} <<< 2'd3);
   always @(*) begin
-    case(_zz_2)
+    case(4'b0011)
       4'b0001 : begin
         if(1'b1) begin
           _zz_com_grp_rd_3 = _zz__zz_com_grp_rd_3;
@@ -2143,7 +2253,7 @@ module Encode (
   assign _zz_axi4lite_ar_payload_addr_2 = (com_grp_rs1 + imm_I);
   assign _zz_com_grp_rd_4 = ({3'd0,_zz_axi4lite_ar_payload_addr_2[1 : 0]} <<< 2'd3);
   always @(*) begin
-    case(_zz_3)
+    case(4'b1111)
       4'b0001 : begin
         if(1'b1) begin
           _zz_com_grp_rd_5 = _zz__zz_com_grp_rd_5;
@@ -2170,7 +2280,7 @@ module Encode (
   assign _zz_axi4lite_ar_payload_addr_3 = (com_grp_rs1 + imm_I);
   assign _zz_com_grp_rd_6 = ({3'd0,_zz_axi4lite_ar_payload_addr_3[1 : 0]} <<< 2'd3);
   always @(*) begin
-    case(_zz_4)
+    case(4'b0001)
       4'b0001 : begin
         if(1'b0) begin
           _zz_com_grp_rd_7 = _zz__zz_com_grp_rd_7;
@@ -2197,7 +2307,7 @@ module Encode (
   assign _zz_axi4lite_ar_payload_addr_4 = (com_grp_rs1 + imm_I);
   assign _zz_com_grp_rd_8 = ({3'd0,_zz_axi4lite_ar_payload_addr_4[1 : 0]} <<< 2'd3);
   always @(*) begin
-    case(_zz_5)
+    case(4'b0011)
       4'b0001 : begin
         if(1'b0) begin
           _zz_com_grp_rd_9 = _zz__zz_com_grp_rd_9;
@@ -2389,6 +2499,8 @@ module Encode (
       end
       32'h30200073 : begin
         com_grp_rd_vaild <= 1'b0;
+      end
+      32'h0000100f : begin
       end
       default : begin
       end

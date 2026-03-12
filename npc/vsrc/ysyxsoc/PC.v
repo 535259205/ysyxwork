@@ -34,7 +34,6 @@ module PC (
 
   wire       [31:0]   debug_data_0;
   wire       [31:0]   debug_data_1;
-  wire                _zz_when;
   reg        [31:0]   PC_cnt;
   reg                 flag;
   reg                 npc_flag;
@@ -42,7 +41,6 @@ module PC (
   wire                axi4lite_r_fire;
   reg        [31:0]   code_reg;
 
-  assign _zz_when = (read_en && (! flag));
   my_debug debug (
     .data_0 (debug_data_0[31:0]), //i
     .data_1 (debug_data_1[31:0]), //i
@@ -50,11 +48,11 @@ module PC (
     .clock  (clock             )  //i
   );
   assign axi4lite_w_valid = 1'b0;
-  assign axi4lite_w_payload_data = 32'bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-  assign axi4lite_w_payload_strb = 4'bxxxx;
+  assign axi4lite_w_payload_data = 32'b00000000000000000000000000000000;
+  assign axi4lite_w_payload_strb = 4'b0000;
   assign axi4lite_aw_valid = 1'b0;
-  assign axi4lite_aw_payload_addr = 32'bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
-  assign axi4lite_aw_payload_prot = 3'bxxx;
+  assign axi4lite_aw_payload_addr = 32'b00000000000000000000000000000000;
+  assign axi4lite_aw_payload_prot = 3'b000;
   assign axi4lite_b_ready = 1'b0;
   always @(*) begin
     finish = 1'b0;
@@ -79,7 +77,7 @@ module PC (
       code_reg <= 32'h0;
     end else begin
       if(!axi4lite_ar_fire) begin
-        if(_zz_when) begin
+        if((read_en && (! flag))) begin
           flag <= 1'b1;
         end
       end
@@ -106,7 +104,7 @@ module PC (
       axi4lite_ar_valid <= 1'b0;
       axi4lite_r_ready <= 1'b1;
     end else begin
-      if(_zz_when) begin
+      if((read_en && (! flag))) begin
         axi4lite_ar_valid <= 1'b1;
       end
     end

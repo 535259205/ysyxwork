@@ -47,8 +47,8 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc)
   IFDEF(CONFIG_FTRACE, FtraceScan(_this));
 
   //cachesim
-  extern void cache_add(uint32_t pc);
-  cache_add(_this->pc);
+  // extern void cache_add(uint32_t pc);
+  // cache_add(_this->pc);
 
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
   //SCAN_ALL_POINT
