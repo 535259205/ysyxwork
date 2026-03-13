@@ -207,8 +207,10 @@ module Encode_1 (
   end
 
   assign axi_aw_payload_burst = 2'b00;
+  assign encode_axi_aw_ready = axi_aw_ready;
   assign encode_axi_b_payload_resp = axi_b_payload_resp;
   assign axi_b_ready = encode_axi_b_ready;
+  assign encode_axi_b_valid = axi_b_valid;
   assign encode_axi_r_valid = axi_r_valid;
   assign axi_r_ready = encode_axi_r_ready;
   assign encode_axi_r_payload_data = axi_r_payload_data;

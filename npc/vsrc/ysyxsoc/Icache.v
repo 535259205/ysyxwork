@@ -137,17 +137,44 @@ module Icache (
 
   always @(*) begin
     _zz_1 = 1'b0;
+    axi_ar_valid = 1'b0;
+    axi_ar_payload_addr = 32'h0;
+    com_code = 32'h0;
+    com_valid = 1'b0;
+    s_wantStart = 1'b0;
+    s_stateNext = s_stateReg;
     case(s_stateReg)
       s_start : begin
+        if(((! _zz_4) && com_ready)) begin
+          s_stateNext = s_axi_r;
+        end
+        if(_zz_4) begin
+          com_code = cache_mem_spinal_port0;
+          if(com_ready) begin
+            com_valid = s_start_flag;
+          end
+        end
       end
       s_axi_r : begin
+        axi_ar_valid = (! s_axi_r_ar_flag);
+        axi_ar_payload_addr = {pc_tag,{pc_index,4'b0000}};
         if(axi_r_fire) begin
           _zz_1 = 1'b1;
+          if((s_axi_r_cnt == 3'b011)) begin
+            s_stateNext = s_start;
+          end
         end
       end
       default : begin
+        s_wantStart = 1'b1;
       end
     endcase
+    if(s_wantStart) begin
+      s_stateNext = s_start;
+    end
+    if(s_wantKill) begin
+      s_stateNext = s_BOOT;
+    end
   end
 
   assign axi_w_valid = 1'b0;
@@ -162,112 +189,15 @@ module Icache (
   assign axi_aw_payload_burst = 2'b00;
   assign axi_b_ready = 1'b0;
   assign axi_ar_payload_id = 4'b0000;
-  always @(*) begin
-    axi_ar_valid = 1'b0;
-    case(s_stateReg)
-      s_start : begin
-      end
-      s_axi_r : begin
-        axi_ar_valid = (! s_axi_r_ar_flag);
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    axi_ar_payload_addr = 32'h0;
-    case(s_stateReg)
-      s_start : begin
-      end
-      s_axi_r : begin
-        axi_ar_payload_addr = {pc_tag,{pc_index,4'b0000}};
-      end
-      default : begin
-      end
-    endcase
-  end
-
   assign axi_ar_payload_len = 8'h03;
   assign axi_ar_payload_size = 3'b010;
   assign axi_ar_payload_burst = 2'b01;
-  always @(*) begin
-    com_code = 32'h0;
-    case(s_stateReg)
-      s_start : begin
-        if(_zz_4) begin
-          com_code = cache_mem_spinal_port0;
-        end
-      end
-      s_axi_r : begin
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    com_valid = 1'b0;
-    case(s_stateReg)
-      s_start : begin
-        if(_zz_4) begin
-          if(com_ready) begin
-            com_valid = s_start_flag;
-          end
-        end
-      end
-      s_axi_r : begin
-      end
-      default : begin
-      end
-    endcase
-  end
-
   assign pc_offset = com_addr[3 : 2];
   assign pc_index = com_addr[5 : 4];
   assign pc_tag = com_addr[31 : 6];
   assign pc_r_addr = (_zz_pc_r_addr + _zz_pc_r_addr_1);
   assign s_wantExit = 1'b0;
-  always @(*) begin
-    s_wantStart = 1'b0;
-    case(s_stateReg)
-      s_start : begin
-      end
-      s_axi_r : begin
-      end
-      default : begin
-        s_wantStart = 1'b1;
-      end
-    endcase
-  end
-
   assign s_wantKill = 1'b0;
-  always @(*) begin
-    s_stateNext = s_stateReg;
-    case(s_stateReg)
-      s_start : begin
-        if(((! _zz_4) && com_ready)) begin
-          s_stateNext = s_axi_r;
-        end
-      end
-      s_axi_r : begin
-        if(axi_r_fire) begin
-          if((s_axi_r_cnt == 3'b011)) begin
-            s_stateNext = s_start;
-          end
-        end
-      end
-      default : begin
-      end
-    endcase
-    if(s_wantStart) begin
-      s_stateNext = s_start;
-    end
-    if(s_wantKill) begin
-      s_stateNext = s_BOOT;
-    end
-  end
-
   assign _zz_4 = _zz__zz_4;
   assign _zz_5 = ({3'd0,1'b1} <<< pc_index);
   assign axi_ar_fire = (axi_ar_valid && axi_ar_ready);

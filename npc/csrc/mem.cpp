@@ -25,13 +25,14 @@ extern void iringbuf_memadd(const char* Prefix, uint32_t addr, int len, uint32_t
 
 
 extern "C" void flash_read(int32_t addr, int32_t *data) {
-// printf("flash_read: addr = %x\n", addr);
-    int32_t val = rom[addr];
+    int32_t val = rom[addr>>2];
     // 字节序反转：将小端转换为大端
     *data = ((val >> 24) & 0xFF) |       // 最高字节移到最低位
             ((val >> 8) & 0xFF00) |      // 次高字节移到次低位
             ((val << 8) & 0xFF0000) |    // 次低字节移到次高位
             ((val << 24) & 0xFF000000);  // 最低字节移到最高位
+    *data = val;
+    // printf("flash_read: addr = %x, data = %x\n", addr, *data);
 }
 extern "C" void mrom_read(int32_t addr, int32_t *data) {
   assert(0);
@@ -124,13 +125,13 @@ extern "C" int32_t psram_ctr(int32_t addr, int32_t data, int32_t write) {
   return 0;
 }
 
-extern "C" int32_t sdram_ctr(int32_t addr, int32_t data, int32_t write){
+extern "C" int32_t sdram_ctr(int32_t addr, uint32_t data, int32_t write){
   uint32_t r_data=0;
   // printf("sdram_ctr: addr=0x%08X\n", addr);
   if (write & 0x80000000)
   {
     r_data=sdram[addr>>2];
-    // printf("sdram_ctr: addr=0x%08X, read=0x%08X,read_flag=0x%08X\n", addr, r_data,write);
+    printf("sdram_ctr: addr=0x%08X, read=0x%08X,read_flag=0x%08X\n", addr, r_data, write);
   }
   else
   {
@@ -152,7 +153,7 @@ extern "C" int32_t sdram_ctr(int32_t addr, int32_t data, int32_t write){
     }
 
     sdram[addr>>2] = new_data;
-    // printf("sdram_ctr: addr=0x%08X, data=0x%08X,write_data=0x%08X, write=%d\n", addr, data, new_data, write);
+    printf("sdram_ctr: addr=0x%08X, data=0x%08X,write_data=0x%08X, write=%d\n", addr, data, new_data, write);
     // printf("now:0x%08X\n",sdram[addr>>2]);
   }
   return r_data;

@@ -204,6 +204,7 @@ module Soc (
   wire                u_vaild_4;
   wire                encode_2_axi_r_fire;
   wire                encode_2_axi_w_fire;
+  wire                encode_2_axi_b_fire;
 
   PC_cache pc_1 (
     .io_axi_aw_valid         (pc_1_io_axi_aw_valid             ), //o
@@ -490,6 +491,9 @@ module Soc (
     .encode_w_ready  (xbar_axi_m_1_w_ready ), //i
     .encode_w_valid  (encode_2_axi_w_valid ), //i
     .encode_w_fire   (encode_2_axi_w_fire  ), //i
+    .encode_b_ready  (encode_2_axi_b_ready ), //i
+    .encode_b_valid  (xbar_axi_m_1_b_valid ), //i
+    .encode_b_fire   (encode_2_axi_b_fire  ), //i
     .pc_finish       (pc_1_io_finish       ), //i
     .r_sel           (ctrl_r_sel           ), //o
     .clock           (clock                ), //i
@@ -531,5 +535,6 @@ module Soc (
   assign u_vaild_4 = ctrl_u_vaild_4;
   assign encode_2_axi_r_fire = (xbar_axi_m_1_r_valid && encode_2_axi_r_ready);
   assign encode_2_axi_w_fire = (encode_2_axi_w_valid && xbar_axi_m_1_w_ready);
+  assign encode_2_axi_b_fire = (xbar_axi_m_1_b_valid && encode_2_axi_b_ready);
 
 endmodule

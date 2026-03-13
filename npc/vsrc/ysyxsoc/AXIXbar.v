@@ -132,272 +132,78 @@ module AXIXbar (
   assign axi_m_0_b_payload_resp = 2'b00;
   always @(*) begin
     axi_m_0_r_valid = 1'b0;
-    if(!(axi_m_1_r_ready || axi_m_1_ar_valid)) begin
-      axi_m_0_r_valid = axi_s_0_r_valid;
-    end
-  end
-
-  always @(*) begin
     axi_m_0_r_payload_data = 32'b00000000000000000000000000000000;
-    if(!(axi_m_1_r_ready || axi_m_1_ar_valid)) begin
-      axi_m_0_r_payload_data = axi_s_0_r_payload_data;
-    end
-  end
-
-  always @(*) begin
     axi_m_0_r_payload_id = 4'b0000;
-    if(!(axi_m_1_r_ready || axi_m_1_ar_valid)) begin
-      axi_m_0_r_payload_id = axi_s_0_r_payload_id;
-    end
-  end
-
-  always @(*) begin
     axi_m_0_r_payload_resp = 2'b00;
-    if(!(axi_m_1_r_ready || axi_m_1_ar_valid)) begin
-      axi_m_0_r_payload_resp = axi_s_0_r_payload_resp;
-    end
-  end
-
-  always @(*) begin
     axi_m_0_r_payload_last = 1'b0;
-    if(!(axi_m_1_r_ready || axi_m_1_ar_valid)) begin
-      axi_m_0_r_payload_last = axi_s_0_r_payload_last;
-    end
-  end
-
-  always @(*) begin
     axi_m_0_ar_ready = 1'b0;
-    if(!(axi_m_1_r_ready || axi_m_1_ar_valid)) begin
-      axi_m_0_ar_ready = axi_s_0_ar_ready;
-    end
-  end
-
-  always @(*) begin
     axi_m_1_r_valid = 1'b0;
-    if((axi_m_1_r_ready || axi_m_1_ar_valid)) begin
-      if(((32'h02000000 <= axi_m_1_ar_payload_addr) && (axi_m_1_ar_payload_addr <= 32'h0200ffff))) begin
-        axi_m_1_r_valid = axi_s_1_r_valid;
-      end else begin
-        axi_m_1_r_valid = axi_s_0_r_valid;
-      end
-    end
-  end
-
-  always @(*) begin
     axi_m_1_r_payload_data = 32'b00000000000000000000000000000000;
-    if((axi_m_1_r_ready || axi_m_1_ar_valid)) begin
-      if(((32'h02000000 <= axi_m_1_ar_payload_addr) && (axi_m_1_ar_payload_addr <= 32'h0200ffff))) begin
-        axi_m_1_r_payload_data = axi_s_1_r_payload_data;
-      end else begin
-        axi_m_1_r_payload_data = axi_s_0_r_payload_data;
-      end
-    end
-  end
-
-  always @(*) begin
     axi_m_1_r_payload_id = 4'b0000;
-    if((axi_m_1_r_ready || axi_m_1_ar_valid)) begin
-      if(((32'h02000000 <= axi_m_1_ar_payload_addr) && (axi_m_1_ar_payload_addr <= 32'h0200ffff))) begin
-        axi_m_1_r_payload_id = axi_s_1_r_payload_id;
-      end else begin
-        axi_m_1_r_payload_id = axi_s_0_r_payload_id;
-      end
-    end
-  end
-
-  always @(*) begin
     axi_m_1_r_payload_resp = 2'b00;
-    if((axi_m_1_r_ready || axi_m_1_ar_valid)) begin
-      if(((32'h02000000 <= axi_m_1_ar_payload_addr) && (axi_m_1_ar_payload_addr <= 32'h0200ffff))) begin
-        axi_m_1_r_payload_resp = axi_s_1_r_payload_resp;
-      end else begin
-        axi_m_1_r_payload_resp = axi_s_0_r_payload_resp;
-      end
-    end
-  end
-
-  always @(*) begin
     axi_m_1_r_payload_last = 1'b0;
-    if((axi_m_1_r_ready || axi_m_1_ar_valid)) begin
-      if(((32'h02000000 <= axi_m_1_ar_payload_addr) && (axi_m_1_ar_payload_addr <= 32'h0200ffff))) begin
-        axi_m_1_r_payload_last = axi_s_1_r_payload_last;
-      end else begin
-        axi_m_1_r_payload_last = axi_s_0_r_payload_last;
-      end
-    end
-  end
-
-  always @(*) begin
     axi_m_1_ar_ready = 1'b0;
-    if((axi_m_1_r_ready || axi_m_1_ar_valid)) begin
-      if(((32'h02000000 <= axi_m_1_ar_payload_addr) && (axi_m_1_ar_payload_addr <= 32'h0200ffff))) begin
-        axi_m_1_ar_ready = axi_s_1_ar_ready;
-      end else begin
-        axi_m_1_ar_ready = axi_s_0_ar_ready;
-      end
-    end
-  end
-
-  always @(*) begin
     clint_en = 1'b0;
-    if((axi_m_1_r_ready || axi_m_1_ar_valid)) begin
-      if(((32'h02000000 <= axi_m_1_ar_payload_addr) && (axi_m_1_ar_payload_addr <= 32'h0200ffff))) begin
-        clint_en = 1'b1;
-      end
-    end
-  end
-
-  always @(*) begin
     axi_s_1_r_ready = 1'b0;
-    if((axi_m_1_r_ready || axi_m_1_ar_valid)) begin
-      if(((32'h02000000 <= axi_m_1_ar_payload_addr) && (axi_m_1_ar_payload_addr <= 32'h0200ffff))) begin
-        axi_s_1_r_ready = axi_m_1_r_ready;
-      end
-    end
-  end
-
-  always @(*) begin
     axi_s_1_ar_valid = 1'b0;
-    if((axi_m_1_r_ready || axi_m_1_ar_valid)) begin
-      if(((32'h02000000 <= axi_m_1_ar_payload_addr) && (axi_m_1_ar_payload_addr <= 32'h0200ffff))) begin
-        axi_s_1_ar_valid = axi_m_1_ar_valid;
-      end
-    end
-  end
-
-  always @(*) begin
     axi_s_1_ar_payload_addr = 32'b00000000000000000000000000000000;
-    if((axi_m_1_r_ready || axi_m_1_ar_valid)) begin
-      if(((32'h02000000 <= axi_m_1_ar_payload_addr) && (axi_m_1_ar_payload_addr <= 32'h0200ffff))) begin
-        axi_s_1_ar_payload_addr = axi_m_1_ar_payload_addr;
-      end
-    end
-  end
-
-  always @(*) begin
     axi_s_1_ar_payload_id = 4'b0000;
-    if((axi_m_1_r_ready || axi_m_1_ar_valid)) begin
-      if(((32'h02000000 <= axi_m_1_ar_payload_addr) && (axi_m_1_ar_payload_addr <= 32'h0200ffff))) begin
-        axi_s_1_ar_payload_id = axi_m_1_ar_payload_id;
-      end
-    end
-  end
-
-  always @(*) begin
     axi_s_1_ar_payload_len = 8'b00000000;
-    if((axi_m_1_r_ready || axi_m_1_ar_valid)) begin
-      if(((32'h02000000 <= axi_m_1_ar_payload_addr) && (axi_m_1_ar_payload_addr <= 32'h0200ffff))) begin
-        axi_s_1_ar_payload_len = axi_m_1_ar_payload_len;
-      end
-    end
-  end
-
-  always @(*) begin
     axi_s_1_ar_payload_size = 3'b000;
-    if((axi_m_1_r_ready || axi_m_1_ar_valid)) begin
-      if(((32'h02000000 <= axi_m_1_ar_payload_addr) && (axi_m_1_ar_payload_addr <= 32'h0200ffff))) begin
-        axi_s_1_ar_payload_size = axi_m_1_ar_payload_size;
-      end
-    end
-  end
-
-  always @(*) begin
     axi_s_1_ar_payload_burst = 2'b00;
     if((axi_m_1_r_ready || axi_m_1_ar_valid)) begin
       if(((32'h02000000 <= axi_m_1_ar_payload_addr) && (axi_m_1_ar_payload_addr <= 32'h0200ffff))) begin
+        axi_m_1_r_valid = axi_s_1_r_valid;
+        axi_s_1_r_ready = axi_m_1_r_ready;
+        axi_m_1_r_payload_data = axi_s_1_r_payload_data;
+        axi_m_1_r_payload_id = axi_s_1_r_payload_id;
+        axi_m_1_r_payload_resp = axi_s_1_r_payload_resp;
+        axi_m_1_r_payload_last = axi_s_1_r_payload_last;
+        axi_s_1_ar_valid = axi_m_1_ar_valid;
+        axi_m_1_ar_ready = axi_s_1_ar_ready;
+        axi_s_1_ar_payload_addr = axi_m_1_ar_payload_addr;
+        axi_s_1_ar_payload_id = axi_m_1_ar_payload_id;
+        axi_s_1_ar_payload_len = axi_m_1_ar_payload_len;
+        axi_s_1_ar_payload_size = axi_m_1_ar_payload_size;
         axi_s_1_ar_payload_burst = axi_m_1_ar_payload_burst;
-      end
-    end
-  end
-
-  always @(*) begin
-    if((axi_m_1_r_ready || axi_m_1_ar_valid)) begin
-      if(((32'h02000000 <= axi_m_1_ar_payload_addr) && (axi_m_1_ar_payload_addr <= 32'h0200ffff))) begin
         axi_s_0_r_ready = 1'b0;
-      end else begin
-        axi_s_0_r_ready = axi_m_1_r_ready;
-      end
-    end else begin
-      axi_s_0_r_ready = axi_m_0_r_ready;
-    end
-  end
-
-  always @(*) begin
-    if((axi_m_1_r_ready || axi_m_1_ar_valid)) begin
-      if(((32'h02000000 <= axi_m_1_ar_payload_addr) && (axi_m_1_ar_payload_addr <= 32'h0200ffff))) begin
         axi_s_0_ar_valid = 1'b0;
-      end else begin
-        axi_s_0_ar_valid = axi_m_1_ar_valid;
-      end
-    end else begin
-      axi_s_0_ar_valid = axi_m_0_ar_valid;
-    end
-  end
-
-  always @(*) begin
-    if((axi_m_1_r_ready || axi_m_1_ar_valid)) begin
-      if(((32'h02000000 <= axi_m_1_ar_payload_addr) && (axi_m_1_ar_payload_addr <= 32'h0200ffff))) begin
         axi_s_0_ar_payload_addr = 32'b00000000000000000000000000000000;
-      end else begin
-        axi_s_0_ar_payload_addr = axi_m_1_ar_payload_addr;
-      end
-    end else begin
-      axi_s_0_ar_payload_addr = axi_m_0_ar_payload_addr;
-    end
-  end
-
-  always @(*) begin
-    if((axi_m_1_r_ready || axi_m_1_ar_valid)) begin
-      if(((32'h02000000 <= axi_m_1_ar_payload_addr) && (axi_m_1_ar_payload_addr <= 32'h0200ffff))) begin
         axi_s_0_ar_payload_id = 4'b0000;
-      end else begin
-        axi_s_0_ar_payload_id = axi_m_1_ar_payload_id;
-      end
-    end else begin
-      axi_s_0_ar_payload_id = axi_m_0_ar_payload_id;
-    end
-  end
-
-  always @(*) begin
-    if((axi_m_1_r_ready || axi_m_1_ar_valid)) begin
-      if(((32'h02000000 <= axi_m_1_ar_payload_addr) && (axi_m_1_ar_payload_addr <= 32'h0200ffff))) begin
         axi_s_0_ar_payload_len = 8'b00000000;
-      end else begin
-        axi_s_0_ar_payload_len = axi_m_1_ar_payload_len;
-      end
-    end else begin
-      axi_s_0_ar_payload_len = axi_m_0_ar_payload_len;
-    end
-  end
-
-  always @(*) begin
-    if((axi_m_1_r_ready || axi_m_1_ar_valid)) begin
-      if(((32'h02000000 <= axi_m_1_ar_payload_addr) && (axi_m_1_ar_payload_addr <= 32'h0200ffff))) begin
         axi_s_0_ar_payload_size = 3'b000;
-      end else begin
-        axi_s_0_ar_payload_size = axi_m_1_ar_payload_size;
-      end
-    end else begin
-      axi_s_0_ar_payload_size = axi_m_0_ar_payload_size;
-    end
-  end
-
-  always @(*) begin
-    if((axi_m_1_r_ready || axi_m_1_ar_valid)) begin
-      if(((32'h02000000 <= axi_m_1_ar_payload_addr) && (axi_m_1_ar_payload_addr <= 32'h0200ffff))) begin
         axi_s_0_ar_payload_burst = 2'b00;
+        clint_en = 1'b1;
       end else begin
+        axi_m_1_r_valid = axi_s_0_r_valid;
+        axi_s_0_r_ready = axi_m_1_r_ready;
+        axi_m_1_r_payload_data = axi_s_0_r_payload_data;
+        axi_m_1_r_payload_id = axi_s_0_r_payload_id;
+        axi_m_1_r_payload_resp = axi_s_0_r_payload_resp;
+        axi_m_1_r_payload_last = axi_s_0_r_payload_last;
+        axi_s_0_ar_valid = axi_m_1_ar_valid;
+        axi_m_1_ar_ready = axi_s_0_ar_ready;
+        axi_s_0_ar_payload_addr = axi_m_1_ar_payload_addr;
+        axi_s_0_ar_payload_id = axi_m_1_ar_payload_id;
+        axi_s_0_ar_payload_len = axi_m_1_ar_payload_len;
+        axi_s_0_ar_payload_size = axi_m_1_ar_payload_size;
         axi_s_0_ar_payload_burst = axi_m_1_ar_payload_burst;
       end
-    end else begin
-      axi_s_0_ar_payload_burst = axi_m_0_ar_payload_burst;
-    end
-  end
-
-  always @(*) begin
-    if((axi_m_1_r_ready || axi_m_1_ar_valid)) begin
       sel = 1'b1;
     end else begin
+      axi_m_0_r_valid = axi_s_0_r_valid;
+      axi_s_0_r_ready = axi_m_0_r_ready;
+      axi_m_0_r_payload_data = axi_s_0_r_payload_data;
+      axi_m_0_r_payload_id = axi_s_0_r_payload_id;
+      axi_m_0_r_payload_resp = axi_s_0_r_payload_resp;
+      axi_m_0_r_payload_last = axi_s_0_r_payload_last;
+      axi_s_0_ar_valid = axi_m_0_ar_valid;
+      axi_m_0_ar_ready = axi_s_0_ar_ready;
+      axi_s_0_ar_payload_addr = axi_m_0_ar_payload_addr;
+      axi_s_0_ar_payload_id = axi_m_0_ar_payload_id;
+      axi_s_0_ar_payload_len = axi_m_0_ar_payload_len;
+      axi_s_0_ar_payload_size = axi_m_0_ar_payload_size;
+      axi_s_0_ar_payload_burst = axi_m_0_ar_payload_burst;
       sel = 1'b0;
     end
   end

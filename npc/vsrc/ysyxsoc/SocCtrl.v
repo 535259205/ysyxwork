@@ -16,6 +16,9 @@ module SocCtrl (
   input  wire          encode_w_ready,
   input  wire          encode_w_valid,
   input  wire          encode_w_fire,
+  input  wire          encode_b_ready,
+  input  wire          encode_b_valid,
+  input  wire          encode_b_fire,
   input  wire          pc_finish,
   output wire          r_sel,
   input  wire          clock,
@@ -95,21 +98,49 @@ module SocCtrl (
 
   always @(*) begin
     u_vaild_0 = 1'b0;
+    u_vaild_4 = 1'b0;
+    s_wantStart = 1'b0;
+    s_stateNext = s_stateReg;
     case(s_stateReg)
       s_1_IF_1 : begin
         u_vaild_0 = 1'b1;
+        if(pc_finish) begin
+          s_stateNext = s_1_ID;
+        end
       end
       s_1_ID : begin
+        s_stateNext = s_1_EX;
       end
       s_1_EX : begin
+        if((encode_b_fire || encode_r_fire)) begin
+          s_stateNext = s_1_WB;
+        end else begin
+          if(((encode_r_ready || encode_b_ready) || encode_ar_valid)) begin
+            s_stateNext = s_1_MEM;
+          end else begin
+            s_stateNext = s_1_WB;
+          end
+        end
       end
       s_1_MEM : begin
+        if((encode_b_fire || encode_r_fire)) begin
+          s_stateNext = s_1_WB;
+        end
       end
       s_1_WB : begin
+        u_vaild_4 = 1'b1;
+        s_stateNext = s_1_IF_1;
       end
       default : begin
+        s_wantStart = 1'b1;
       end
     endcase
+    if(s_wantStart) begin
+      s_stateNext = s_1_IF_1;
+    end
+    if(s_wantKill) begin
+      s_stateNext = s_1_BOOT;
+    end
   end
 
   always @(*) begin
@@ -128,25 +159,6 @@ module SocCtrl (
   end
 
   always @(*) begin
-    u_vaild_4 = 1'b0;
-    case(s_stateReg)
-      s_1_IF_1 : begin
-      end
-      s_1_ID : begin
-      end
-      s_1_EX : begin
-      end
-      s_1_MEM : begin
-      end
-      s_1_WB : begin
-        u_vaild_4 = 1'b1;
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
     step = 1'b0;
     if(s_onExit_WB) begin
       step = 1'b1;
@@ -158,67 +170,7 @@ module SocCtrl (
   assign debug_data_1 = LSU_cnt;
   assign debug_data_2 = EXU_cnt;
   assign s_wantExit = 1'b0;
-  always @(*) begin
-    s_wantStart = 1'b0;
-    case(s_stateReg)
-      s_1_IF_1 : begin
-      end
-      s_1_ID : begin
-      end
-      s_1_EX : begin
-      end
-      s_1_MEM : begin
-      end
-      s_1_WB : begin
-      end
-      default : begin
-        s_wantStart = 1'b1;
-      end
-    endcase
-  end
-
   assign s_wantKill = 1'b0;
-  always @(*) begin
-    s_stateNext = s_stateReg;
-    case(s_stateReg)
-      s_1_IF_1 : begin
-        if(pc_finish) begin
-          s_stateNext = s_1_ID;
-        end
-      end
-      s_1_ID : begin
-        s_stateNext = s_1_EX;
-      end
-      s_1_EX : begin
-        if((encode_w_fire || encode_r_fire)) begin
-          s_stateNext = s_1_WB;
-        end else begin
-          if(((encode_r_ready || encode_w_valid) || encode_ar_valid)) begin
-            s_stateNext = s_1_MEM;
-          end else begin
-            s_stateNext = s_1_WB;
-          end
-        end
-      end
-      s_1_MEM : begin
-        if((encode_w_fire || encode_r_fire)) begin
-          s_stateNext = s_1_WB;
-        end
-      end
-      s_1_WB : begin
-        s_stateNext = s_1_IF_1;
-      end
-      default : begin
-      end
-    endcase
-    if(s_wantStart) begin
-      s_stateNext = s_1_IF_1;
-    end
-    if(s_wantKill) begin
-      s_stateNext = s_1_BOOT;
-    end
-  end
-
   assign s_onExit_BOOT = ((s_stateNext != s_1_BOOT) && (s_stateReg == s_1_BOOT));
   assign s_onExit_IF_1 = ((s_stateNext != s_1_IF_1) && (s_stateReg == s_1_IF_1));
   assign s_onExit_ID = ((s_stateNext != s_1_ID) && (s_stateReg == s_1_ID));
@@ -251,7 +203,7 @@ module SocCtrl (
         end
         s_1_MEM : begin
           LSU_cnt <= (LSU_cnt + 32'h00000001);
-          if((encode_w_fire || encode_r_fire)) begin
+          if((encode_b_fire || encode_r_fire)) begin
             s_grp_flag <= 1'b1;
           end
         end
