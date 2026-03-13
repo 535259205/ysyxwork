@@ -82,7 +82,6 @@ begin
   if(CMD_WRITE)
   begin
     dq_oen=0;
-    
   end
   else if(CMD_READ)
   begin

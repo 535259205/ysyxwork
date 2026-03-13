@@ -706,9 +706,9 @@ begin
     else
         ack_q <= 1'b0;
 end
-
-assign ram_ack_w = ack_q;
-
+//修改ack响应机制
+// assign ram_ack_w = ack_q;
+assign ram_ack_w = (state_q == STATE_WRITE1)||(rd_q[SDRAM_READ_LATENCY+1]);
 // Accept command in READ or WRITE0 states
 assign ram_accept_w = (state_q == STATE_READ || state_q == STATE_WRITE0);
 

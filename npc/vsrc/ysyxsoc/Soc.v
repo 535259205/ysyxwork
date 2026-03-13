@@ -117,6 +117,7 @@ module Soc (
   wire                encode_2_axi_w_payload_last;
   wire                encode_2_axi_r_ready;
   wire                encode_2_axi_b_ready;
+  wire                encode_2_fence_i;
   wire       [31:0]   csr_1_com_encode_r_data;
   wire       [31:0]   csr_1_com_encode_r_pc;
   wire       [31:0]   grp_1_com_encode_rs1;
@@ -239,6 +240,7 @@ module Soc (
     .io_com_encode_nPC_vaild (encode_2_com_pc_nPC_vaild        ), //i
     .io_com_encode_PC        (pc_1_io_com_encode_PC[31:0]      ), //o
     .io_read_en              (u_vaild_0                        ), //i
+    .io_fence_i              (encode_2_fence_i                 ), //i
     .io_finish               (pc_1_io_finish                   ), //o
     .clock                   (clock                            ), //i
     .rst                     (rst                              )  //i
@@ -293,6 +295,7 @@ module Soc (
     .axi_r_payload_resp   (xbar_axi_m_1_r_payload_resp[1:0]  ), //i
     .axi_r_payload_last   (xbar_axi_m_1_r_payload_last       ), //i
     .vaild                (u_vaild_1                         ), //i
+    .fence_i              (encode_2_fence_i                  ), //o
     .clock                (clock                             ), //i
     .rst                  (rst                               )  //i
   );

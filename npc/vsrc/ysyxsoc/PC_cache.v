@@ -37,6 +37,7 @@ module PC_cache (
   input  wire          io_com_encode_nPC_vaild,
   output wire [31:0]   io_com_encode_PC,
   input  wire          io_read_en,
+  input  wire          io_fence_i,
   output wire          io_finish,
   input  wire          clock,
   input  wire          rst
@@ -115,6 +116,7 @@ module PC_cache (
     .com_code             (cache_com_code[31:0]               ), //o
     .com_valid            (cache_com_valid                    ), //o
     .com_ready            (pc_1_axi4lite_r_ready              ), //i
+    .fence_i              (io_fence_i                         ), //i
     .clock                (clock                              ), //i
     .rst                  (rst                                )  //i
   );

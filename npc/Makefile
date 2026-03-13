@@ -1,9 +1,12 @@
 csrc := ./csrc/*.cpp
 
+DIR ?=WORK
+# DIR ?=YSYX_SOC
+
 # vsrc := $(wildcard ./vsrc/fun/*.v ./vsrc/*.v ../ysyxSoC/perip/**/*.v ../ysyxSoC/build/*.v)
 vsrc ?=	$(shell find ./vsrc/ -name "*.v")
-vsrc += $(shell find ../YSYX_SOC/ysyxSoC/perip/ -name "*.v")
-vsrc += $(shell find ../YSYX_SOC/ysyxSoC/build/ -name "*.v")
+vsrc += $(shell find ../$(DIR)/ysyxSoC/perip/ -name "*.v")
+vsrc += $(shell find ../$(DIR)/ysyxSoC/build/ -name "*.v")
 
 
 TOP_MODULE := ysyxSoCFull
@@ -12,8 +15,8 @@ VERILATOR_INC := $(shell dirname $(shell find ~/environment -name "verilated.h")
 
 USE_WAVE ?=0
 # 定义要添加的include目录
-UART_INC = -I$(CURDIR)/../YSYX_SOC/ysyxSoC/perip/uart16550/rtl
-SPI_INC = -I$(CURDIR)/../YSYX_SOC/ysyxSoC/perip/spi/rtl
+UART_INC = -I$(CURDIR)/../$(DIR)/ysyxSoC/perip/uart16550/rtl
+SPI_INC = -I$(CURDIR)/../$(DIR)/ysyxSoC/perip/spi/rtl
 # Capstone库设置
 LIBCAPSTONE = $(CURDIR)/../nemu/tools/capstone/repo/libcapstone.so.5
 INCCAPSTONE := -I$(CURDIR)/../nemu/tools/capstone/repo/include
@@ -28,7 +31,7 @@ $(LIBCAPSTONE):
 $(CURDIR)/csrc/disasm.cpp: $(LIBCAPSTONE)
 #-g -fsanitize=address
 all:
-	@@verilator -Wall --trace -cc --top-module $(TOP_MODULE) $(vsrc) --exe $(csrc) \
+	@@verilator  --trace -cc --top-module $(TOP_MODULE) $(vsrc) --exe $(csrc) \
 		--error-limit 0 \
 		-O3 --x-assign fast --x-initial fast \
 		-Wno-WIDTH \

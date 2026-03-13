@@ -52,6 +52,7 @@ module Encode_1 (
   input  wire [1:0]    axi_r_payload_resp,
   input  wire          axi_r_payload_last,
   input  wire          vaild,
+  output wire          fence_i,
   input  wire          clock,
   input  wire          rst
 );
@@ -81,6 +82,7 @@ module Encode_1 (
   wire       [2:0]    encode_2_axi4lite_ar_payload_prot;
   wire                encode_2_axi4lite_r_ready;
   wire       [3:0]    encode_2_ar_size;
+  wire                encode_2_fence_i;
   wire                encode_axi_aw_valid;
   wire                encode_axi_aw_ready;
   wire       [31:0]   encode_axi_aw_payload_addr;
@@ -144,9 +146,11 @@ module Encode_1 (
     .axi4lite_r_payload_resp  (encode_axi_r_payload_resp[1:0]         ), //i
     .vaild                    (vaild                                  ), //i
     .ar_size                  (encode_2_ar_size[3:0]                  ), //o
+    .fence_i                  (encode_2_fence_i                       ), //o
     .clock                    (clock                                  ), //i
     .rst                      (rst                                    )  //i
   );
+  assign fence_i = encode_2_fence_i;
   assign com_grp_rd = encode_2_com_grp_rd;
   assign com_grp_rd_sel = encode_2_com_grp_rd_sel;
   assign com_grp_rd_vaild = encode_2_com_grp_rd_vaild;

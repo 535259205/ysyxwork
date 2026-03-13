@@ -13,9 +13,12 @@ COLOR_RED   = \033[1;31m
 COLOR_GREEN = \033[1;32m
 COLOR_NONE  = \033[0m
 
+
 CFLAGS    += -fdata-sections -ffunction-sections
 LDSCRIPTS += $(AM_HOME)/scripts/linker_soc.ld
-LDFLAGS   += --defsym=_pmem_start=0x20000000 --defsym=_entry_offset=0x0
+
+
+# LDFLAGS   += --defsym=_pmem_start=0x20000000 --defsym=_entry_offset=0x0
 LDFLAGS   += --gc-sections -e _start
 
 MAINARGS_MAX_LEN = 64

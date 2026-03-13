@@ -25,13 +25,14 @@ extern void iringbuf_memadd(const char* Prefix, uint32_t addr, int len, uint32_t
 
 
 extern "C" void flash_read(int32_t addr, int32_t *data) {
-// printf("flash_read: addr = %x\n", addr);
-    int32_t val = rom[addr];
+    int32_t val = rom[addr>>2];
     // 字节序反转：将小端转换为大端
     *data = ((val >> 24) & 0xFF) |       // 最高字节移到最低位
             ((val >> 8) & 0xFF00) |      // 次高字节移到次低位
             ((val << 8) & 0xFF0000) |    // 次低字节移到次高位
             ((val << 24) & 0xFF000000);  // 最低字节移到最高位
+    *data = val;
+    // printf("flash_read: addr = %x, data = %x\n", addr, *data);
 }
 extern "C" void mrom_read(int32_t addr, int32_t *data) {
   assert(0);

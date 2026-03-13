@@ -21,12 +21,12 @@ module SocCtrl (
   input  wire          clock,
   input  wire          rst
 );
-  localparam BOOT = 3'd0;
-  localparam IF_1 = 3'd1;
-  localparam ID = 3'd2;
-  localparam EX = 3'd3;
-  localparam MEM = 3'd4;
-  localparam WB = 3'd5;
+  localparam s_1_BOOT = 3'd0;
+  localparam s_1_IF_1 = 3'd1;
+  localparam s_1_ID = 3'd2;
+  localparam s_1_EX = 3'd3;
+  localparam s_1_MEM = 3'd4;
+  localparam s_1_WB = 3'd5;
 
   wire       [31:0]   debug_data_0;
   wire       [31:0]   debug_data_1;
@@ -73,23 +73,23 @@ module SocCtrl (
   `ifndef SYNTHESIS
   always @(*) begin
     case(s_stateReg)
-      BOOT : s_stateReg_string = "BOOT";
-      IF_1 : s_stateReg_string = "IF_1";
-      ID : s_stateReg_string = "ID  ";
-      EX : s_stateReg_string = "EX  ";
-      MEM : s_stateReg_string = "MEM ";
-      WB : s_stateReg_string = "WB  ";
+      s_1_BOOT : s_stateReg_string = "BOOT";
+      s_1_IF_1 : s_stateReg_string = "IF_1";
+      s_1_ID : s_stateReg_string = "ID  ";
+      s_1_EX : s_stateReg_string = "EX  ";
+      s_1_MEM : s_stateReg_string = "MEM ";
+      s_1_WB : s_stateReg_string = "WB  ";
       default : s_stateReg_string = "????";
     endcase
   end
   always @(*) begin
     case(s_stateNext)
-      BOOT : s_stateNext_string = "BOOT";
-      IF_1 : s_stateNext_string = "IF_1";
-      ID : s_stateNext_string = "ID  ";
-      EX : s_stateNext_string = "EX  ";
-      MEM : s_stateNext_string = "MEM ";
-      WB : s_stateNext_string = "WB  ";
+      s_1_BOOT : s_stateNext_string = "BOOT";
+      s_1_IF_1 : s_stateNext_string = "IF_1";
+      s_1_ID : s_stateNext_string = "ID  ";
+      s_1_EX : s_stateNext_string = "EX  ";
+      s_1_MEM : s_stateNext_string = "MEM ";
+      s_1_WB : s_stateNext_string = "WB  ";
       default : s_stateNext_string = "????";
     endcase
   end
@@ -98,16 +98,16 @@ module SocCtrl (
   always @(*) begin
     u_vaild_0 = 1'b0;
     case(s_stateReg)
-      IF_1 : begin
+      s_1_IF_1 : begin
         u_vaild_0 = 1'b1;
       end
-      ID : begin
+      s_1_ID : begin
       end
-      EX : begin
+      s_1_EX : begin
       end
-      MEM : begin
+      s_1_MEM : begin
       end
-      WB : begin
+      s_1_WB : begin
       end
       default : begin
       end
@@ -132,15 +132,15 @@ module SocCtrl (
   always @(*) begin
     u_vaild_4 = 1'b0;
     case(s_stateReg)
-      IF_1 : begin
+      s_1_IF_1 : begin
       end
-      ID : begin
+      s_1_ID : begin
       end
-      EX : begin
+      s_1_EX : begin
       end
-      MEM : begin
+      s_1_MEM : begin
       end
-      WB : begin
+      s_1_WB : begin
         u_vaild_4 = 1'b1;
       end
       default : begin
@@ -163,15 +163,15 @@ module SocCtrl (
   always @(*) begin
     s_wantStart = 1'b0;
     case(s_stateReg)
-      IF_1 : begin
+      s_1_IF_1 : begin
       end
-      ID : begin
+      s_1_ID : begin
       end
-      EX : begin
+      s_1_EX : begin
       end
-      MEM : begin
+      s_1_MEM : begin
       end
-      WB : begin
+      s_1_WB : begin
       end
       default : begin
         s_wantStart = 1'b1;
@@ -183,81 +183,81 @@ module SocCtrl (
   always @(*) begin
     s_stateNext = s_stateReg;
     case(s_stateReg)
-      IF_1 : begin
+      s_1_IF_1 : begin
         if(pc_finish) begin
-          s_stateNext = ID;
+          s_stateNext = s_1_ID;
         end
       end
-      ID : begin
-        s_stateNext = EX;
+      s_1_ID : begin
+        s_stateNext = s_1_EX;
       end
-      EX : begin
+      s_1_EX : begin
         if((encode_w_fire || encode_r_fire)) begin
-          s_stateNext = WB;
+          s_stateNext = s_1_WB;
         end else begin
           if(((encode_r_ready || encode_w_valid) || encode_ar_valid)) begin
-            s_stateNext = MEM;
+            s_stateNext = s_1_MEM;
           end else begin
-            s_stateNext = WB;
+            s_stateNext = s_1_WB;
           end
         end
       end
-      MEM : begin
+      s_1_MEM : begin
         if(_zz_when) begin
-          s_stateNext = WB;
+          s_stateNext = s_1_WB;
         end
       end
-      WB : begin
-        s_stateNext = IF_1;
+      s_1_WB : begin
+        s_stateNext = s_1_IF_1;
       end
       default : begin
       end
     endcase
     if(s_wantStart) begin
-      s_stateNext = IF_1;
+      s_stateNext = s_1_IF_1;
     end
     if(s_wantKill) begin
-      s_stateNext = BOOT;
+      s_stateNext = s_1_BOOT;
     end
   end
 
-  assign s_onExit_BOOT = ((s_stateNext != BOOT) && (s_stateReg == BOOT));
-  assign s_onExit_IF_1 = ((s_stateNext != IF_1) && (s_stateReg == IF_1));
-  assign s_onExit_ID = ((s_stateNext != ID) && (s_stateReg == ID));
-  assign s_onExit_EX = ((s_stateNext != EX) && (s_stateReg == EX));
-  assign s_onExit_MEM = ((s_stateNext != MEM) && (s_stateReg == MEM));
-  assign s_onExit_WB = ((s_stateNext != WB) && (s_stateReg == WB));
-  assign s_onEntry_BOOT = ((s_stateNext == BOOT) && (s_stateReg != BOOT));
-  assign s_onEntry_IF_1 = ((s_stateNext == IF_1) && (s_stateReg != IF_1));
-  assign s_onEntry_ID = ((s_stateNext == ID) && (s_stateReg != ID));
-  assign s_onEntry_EX = ((s_stateNext == EX) && (s_stateReg != EX));
-  assign s_onEntry_MEM = ((s_stateNext == MEM) && (s_stateReg != MEM));
-  assign s_onEntry_WB = ((s_stateNext == WB) && (s_stateReg != WB));
+  assign s_onExit_BOOT = ((s_stateNext != s_1_BOOT) && (s_stateReg == s_1_BOOT));
+  assign s_onExit_IF_1 = ((s_stateNext != s_1_IF_1) && (s_stateReg == s_1_IF_1));
+  assign s_onExit_ID = ((s_stateNext != s_1_ID) && (s_stateReg == s_1_ID));
+  assign s_onExit_EX = ((s_stateNext != s_1_EX) && (s_stateReg == s_1_EX));
+  assign s_onExit_MEM = ((s_stateNext != s_1_MEM) && (s_stateReg == s_1_MEM));
+  assign s_onExit_WB = ((s_stateNext != s_1_WB) && (s_stateReg == s_1_WB));
+  assign s_onEntry_BOOT = ((s_stateNext == s_1_BOOT) && (s_stateReg != s_1_BOOT));
+  assign s_onEntry_IF_1 = ((s_stateNext == s_1_IF_1) && (s_stateReg != s_1_IF_1));
+  assign s_onEntry_ID = ((s_stateNext == s_1_ID) && (s_stateReg != s_1_ID));
+  assign s_onEntry_EX = ((s_stateNext == s_1_EX) && (s_stateReg != s_1_EX));
+  assign s_onEntry_MEM = ((s_stateNext == s_1_MEM) && (s_stateReg != s_1_MEM));
+  assign s_onEntry_WB = ((s_stateNext == s_1_WB) && (s_stateReg != s_1_WB));
   always @(posedge clock) begin
     if(rst) begin
       IFU_cnt <= 32'h0;
       LSU_cnt <= 32'h0;
       EXU_cnt <= 32'h0;
       s_grp_flag <= 1'b0;
-      s_stateReg <= BOOT;
+      s_stateReg <= s_1_BOOT;
     end else begin
       s_stateReg <= s_stateNext;
       case(s_stateReg)
-        IF_1 : begin
+        s_1_IF_1 : begin
           IFU_cnt <= (IFU_cnt + 32'h00000001);
         end
-        ID : begin
+        s_1_ID : begin
         end
-        EX : begin
+        s_1_EX : begin
           EXU_cnt <= (EXU_cnt + 32'h00000001);
         end
-        MEM : begin
+        s_1_MEM : begin
           LSU_cnt <= (LSU_cnt + 32'h00000001);
           if(_zz_when) begin
             s_grp_flag <= 1'b1;
           end
         end
-        WB : begin
+        s_1_WB : begin
         end
         default : begin
         end

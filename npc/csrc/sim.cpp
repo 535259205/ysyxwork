@@ -8,7 +8,7 @@
 
 
 #define USE_WAVE1 1
-#define WAVE_START (2000*00)
+#define WAVE_START (1200*0)
 #define SHOW_LIMIT 10
 #define USE_ITRACE 0
 #define USE_FTRACE 0
@@ -52,7 +52,7 @@ int SimStep(uint32_t n)
         count++;
         if(count%1000==0)
         {
-            // printf("count is %d\n", count);
+            printf("count is %d\n", count);
         }
         if (ebreak_flag)
         {
