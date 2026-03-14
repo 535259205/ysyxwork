@@ -13,7 +13,7 @@ end
 
 always@(negedge step)
 begin
-    sys_ctr(32'd801,1);
+    $sys_ctr(32'd801,1);
 end 
 
 `endif 
