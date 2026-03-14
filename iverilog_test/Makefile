@@ -1,20 +1,29 @@
 
-
-
-
-# Makefile for iverilog environment
-
 # Variables
 IVERILOG = iverilog
 VVP = vvp
-TOP_MODULE = count_tb
+TOP_MODULE = ysyxsoc_tb
+
+NPC_HOME = ../npc
+
 # Source files
 VSRCS = $(shell find ./vsrc/ -name "*.v")
-CSRCS = $(shell find ./csrc/ -name "*.c")
+VSRCS += $(shell find $(NPC_HOME)/vsrc/ -name "*.v")
+VSRCS += $(shell find ../WORK/ysyxSoC/perip/ -name "*.v")
+VSRCS += $(shell find ../WORK/ysyxSoC/build/ -name "*.v")
+VSRCS += $(shell find ../WORK/ysyxSoC/perip/ -name "*.sv")
+VSRCS += $(shell find ../WORK/ysyxSoC/build/ -name "*.sv")
+
+CSRCS = $(shell find ./csrc/ -name "*.cpp")
+CSRCS += $(NPC_HOME)/csrc/ex_api.cpp
+
 BUILD_DIR = ./build
 # Targets
 TARGETS = simv
-INCLUDE = /home/ylqt/environment/oss_cad_suite/oss-cad-suite/include/iverilog
+INCLUDE = -I/home/ylqt/environment/oss_cad_suite/oss-cad-suite/include/iverilog
+INCLUDE += -I/home/ylqt/study/YSYX_data/ysyx-workbench/npc/csrc
+INCLUDE += -I$(CURDIR)/../WORK/ysyxSoC/perip/uart16550/rtl
+INCLUDE += -I$(CURDIR)/../WORK/ysyxSoC/perip/spi/rtl
 
 # Default target
 all: $(TARGETS)
@@ -25,8 +34,10 @@ simv: $(VSRCS)
 
 
 build: $(VSRCS) $(CSRCS)
-	@gcc -shared -fPIC -o $(BUILD_DIR)/main.so $(CSRCS) -I$(INCLUDE)
-	@iverilog -o $(BUILD_DIR)/$(TOP_MODULE) -g2012 ./vsrc/count.v ./vsrc/count_tb.v -m $(BUILD_DIR)/main.so
+	@g++ -shared -fPIC -o $(BUILD_DIR)/main.so $(CSRCS) $(INCLUDE)
+	@iverilog -o $(BUILD_DIR)/$(TOP_MODULE) -g2012  $(VSRCS) -m $(BUILD_DIR)/main.so \
+	-s $(TOP_MODULE)\
+	$(INCLUDE)
 	@echo "Build $(TOP_MODULE) done."
 
 # 运行仿真并加载 VPI 模块

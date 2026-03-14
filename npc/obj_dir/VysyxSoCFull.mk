@@ -47,6 +47,7 @@ VM_USER_LDLIBS = \
 VM_USER_CLASSES = \
   difftest \
   disasm \
+  ex_api \
   ftrace \
   iringbuf \
   main \
@@ -73,6 +74,8 @@ VPATH += $(VM_USER_DIR)
 difftest.o: ./csrc/difftest.cpp 
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<
 disasm.o: ./csrc/disasm.cpp 
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<
+ex_api.o: ./csrc/ex_api.cpp 
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<
 ftrace.o: ./csrc/ftrace.cpp 
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<

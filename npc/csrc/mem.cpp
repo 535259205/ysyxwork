@@ -36,15 +36,15 @@ extern "C" void flash_read(int32_t addr, int32_t *data) {
 }
 extern "C" void mrom_read(int32_t addr, int32_t *data) {
   assert(0);
-  switch (addr & 0x03)
-  {
-    case 0:
-      *data = rom[(addr-ROM_BASE)>>2];
-      break;
-    default:
-      *data  = rom[(addr-ROM_BASE)>>2];
-    break;  
-  }
+  // switch (addr & 0x03)
+  // {
+  //   case 0:
+  //     *data = rom[(addr-ROM_BASE)>>2];
+  //     break;
+  //   default:
+  //     *data  = rom[(addr-ROM_BASE)>>2];
+  //   break;  
+  // }
 
 }
 
@@ -125,38 +125,10 @@ extern "C" int32_t psram_ctr(int32_t addr, int32_t data, int32_t write) {
   return 0;
 }
 
+
+extern int32_t sdram_api(int32_t addr, int32_t data, int32_t write,uint32_t *sdram);
 extern "C" int32_t sdram_ctr(int32_t addr, uint32_t data, int32_t write){
-  uint32_t r_data=0;
-  // printf("sdram_ctr: addr=0x%08X\n", addr);
-  if (write & 0x80000000)
-  {
-    r_data=sdram[addr>>2];
-    printf("sdram_ctr: addr=0x%08X, read=0x%08X,read_flag=0x%08X\n", addr, r_data, write);
-  }
-  else
-  {
-    uint8_t mask = write & 0x0F;  // 只取低4位作为掩码
-    uint32_t new_data = sdram[addr>>2];
-
-    // 根据掩码逐字节处理
-    if (!(mask & 0x01)) {  // 第0个字节 (LSB)
-      new_data = (new_data & 0xFFFFFF00) | (data & 0x000000FF);
-    }
-    if (!(mask & 0x02)) {  // 第1个字节
-      new_data = (new_data & 0xFFFF00FF) | ((data & 0x0000FF00) << 0);
-    }
-    if (!(mask & 0x04)) {  // 第2个字节
-      new_data = (new_data & 0xFF00FFFF) | ((data & 0x00FF0000) << 0);
-    }
-    if (!(mask & 0x08)) {  // 第3个字节 (MSB)
-      new_data = (new_data & 0x00FFFFFF) | ((data & 0xFF000000) << 0);
-    }
-
-    sdram[addr>>2] = new_data;
-    printf("sdram_ctr: addr=0x%08X, data=0x%08X,write_data=0x%08X, write=%d\n", addr, data, new_data, write);
-    // printf("now:0x%08X\n",sdram[addr>>2]);
-  }
-  return r_data;
+  return sdram_api(addr, data, write,sdram);
 }
 
 uint32_t * mem_scan(uint32_t addr)
