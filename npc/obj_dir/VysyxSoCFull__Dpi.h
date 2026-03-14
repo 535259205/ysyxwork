@@ -22,9 +22,9 @@ extern "C" {
     extern void debug(int addr, int data);
     // DPI import at vsrc/fun/ebreak_fun.v:8:30
     extern void ebreak(int test);
-    // DPI import at ../WORK/ysyxSoC/perip/flash/flash.v:84:30
+    // DPI import at ../WORK/ysyxSoC/perip/flash/flash.v:99:30
     extern void flash_read(int addr, int* data);
-    // DPI import at ../WORK/ysyxSoC/perip/sdram/sdram.v:15:29
+    // DPI import at ../WORK/ysyxSoC/perip/sdram/sdram.v:16:29
     extern int sdram_ctr(int addr, int data, int write);
 
 #ifdef __cplusplus

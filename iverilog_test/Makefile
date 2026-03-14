@@ -34,7 +34,9 @@ simv: $(VSRCS)
 
 build: $(VSRCS) $(CSRCS)
 	@g++ -shared -fPIC -o $(BUILD_DIR)/main.so $(CSRCS) $(INCLUDE)
-	@iverilog -o $(BUILD_DIR)/$(TOP_MODULE) -g2012  $(VSRCS) -m $(BUILD_DIR)/main.so \
+	@iverilog -Wall \
+	-Wno-timescale \
+	-o $(BUILD_DIR)/$(TOP_MODULE) -g2012  $(VSRCS) -m $(BUILD_DIR)/main.so \
 	-s $(TOP_MODULE) \
 	$(INCLUDE)
 	@echo "Build $(TOP_MODULE) done."

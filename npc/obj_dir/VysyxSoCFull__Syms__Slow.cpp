@@ -11,7 +11,7 @@ VysyxSoCFull__Syms::VysyxSoCFull__Syms(VerilatedContext* contextp, const char* n
     , TOP{this, namep}
 {
     // Check resources
-    Verilated::stackCheck(2700);
+    Verilated::stackCheck(2736);
     // Setup sub module instances
     TOP____024unit.ctor(this, "$unit");
     // Configure time unit / time precision
@@ -28,7 +28,6 @@ VysyxSoCFull__Syms::VysyxSoCFull__Syms(VerilatedContext* contextp, const char* n
     __Vscopep_ysyxSoCFull__asic__axi4xbar = new VerilatedScope{this, "ysyxSoCFull.asic.axi4xbar", "axi4xbar", "<null>", -9, VerilatedScope::SCOPE_OTHER};
     __Vscopep_ysyxSoCFull__asic__axi4xbar_1 = new VerilatedScope{this, "ysyxSoCFull.asic.axi4xbar_1", "axi4xbar_1", "<null>", -9, VerilatedScope::SCOPE_OTHER};
     __Vscopep_ysyxSoCFull__asic__axi4yank = new VerilatedScope{this, "ysyxSoCFull.asic.axi4yank", "axi4yank", "<null>", -9, VerilatedScope::SCOPE_OTHER};
-    __Vscopep_ysyxSoCFull__asic__axi4yank__unnamedblk1 = new VerilatedScope{this, "ysyxSoCFull.asic.axi4yank.unnamedblk1", "unnamedblk1", "<null>", -9, VerilatedScope::SCOPE_OTHER};
     __Vscopep_ysyxSoCFull__u_flash = new VerilatedScope{this, "ysyxSoCFull.u_flash", "u_flash", "<null>", -9, VerilatedScope::SCOPE_OTHER};
     __Vscopep_ysyxSoCFull__u_flash__flash_cmd_i = new VerilatedScope{this, "ysyxSoCFull.u_flash.flash_cmd_i", "flash_cmd_i", "<null>", -9, VerilatedScope::SCOPE_OTHER};
     // Setup export functions - final: 0
@@ -42,7 +41,6 @@ VysyxSoCFull__Syms::~VysyxSoCFull__Syms() {
     VL_DO_CLEAR(delete __Vscopep_ysyxSoCFull__asic__axi4xbar, __Vscopep_ysyxSoCFull__asic__axi4xbar = nullptr);
     VL_DO_CLEAR(delete __Vscopep_ysyxSoCFull__asic__axi4xbar_1, __Vscopep_ysyxSoCFull__asic__axi4xbar_1 = nullptr);
     VL_DO_CLEAR(delete __Vscopep_ysyxSoCFull__asic__axi4yank, __Vscopep_ysyxSoCFull__asic__axi4yank = nullptr);
-    VL_DO_CLEAR(delete __Vscopep_ysyxSoCFull__asic__axi4yank__unnamedblk1, __Vscopep_ysyxSoCFull__asic__axi4yank__unnamedblk1 = nullptr);
     VL_DO_CLEAR(delete __Vscopep_ysyxSoCFull__u_flash, __Vscopep_ysyxSoCFull__u_flash = nullptr);
     VL_DO_CLEAR(delete __Vscopep_ysyxSoCFull__u_flash__flash_cmd_i, __Vscopep_ysyxSoCFull__u_flash__flash_cmd_i = nullptr);
     // Tear down sub module instances

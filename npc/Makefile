@@ -3,7 +3,6 @@ csrc := ./csrc/*.cpp
 DIR ?=WORK
 # DIR ?=YSYX_SOC
 
-# vsrc := $(wildcard ./vsrc/fun/*.v ./vsrc/*.v ../ysyxSoC/perip/**/*.v ../ysyxSoC/build/*.v)
 vsrc ?=	$(shell find ./vsrc/ -name "*.v")
 vsrc += $(shell find ../$(DIR)/ysyxSoC/perip/ -name "*.v")
 vsrc += $(shell find ../$(DIR)/ysyxSoC/build/ -name "*.v")
@@ -31,7 +30,7 @@ $(LIBCAPSTONE):
 $(CURDIR)/csrc/disasm.cpp: $(LIBCAPSTONE)
 #-g -fsanitize=address
 all:
-	@@verilator  --trace  -cc --top-module $(TOP_MODULE) $(vsrc) --exe $(csrc) \
+	@@verilator --trace  -cc --top-module $(TOP_MODULE) $(vsrc) --exe $(csrc) \
 		--error-limit 0 \
 		-O3 --x-assign fast --x-initial fast \
 		-Wno-WIDTH \
