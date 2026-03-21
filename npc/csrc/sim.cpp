@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../obj_dir/VysyxSoCFull.h"
+#include "../obj_dir/VTOPmod.h"
 #include "verilated_vcd_c.h"
 #include "verilated.h"
 #include "stdio.h"
@@ -7,15 +7,16 @@
 #include "debug.h"
 
 
-#define USE_WAVE1 0
-#define WAVE_START (12000*0)
+#define USE_WAVE1 1
+#define WAVE_START (15000*0)
 #define SHOW_LIMIT 10
 #define USE_ITRACE 0
 #define USE_FTRACE 0
 #define USE_DIFFTEST 0
+#define OVER_CNT   UINT32_MAX
 
 
-VysyxSoCFull *dut = new VysyxSoCFull(); 
+VTOPmod *dut = new VTOPmod(); 
 vluint64_t sim_time = 0;
 VerilatedVcdC *m_trace = new VerilatedVcdC();
 
@@ -52,7 +53,7 @@ int SimStep(uint32_t n)
         count++;
         if(count%1000==0)
         {
-            printf("count is %d\n", count);
+            // printf("count is %d\n", count);
         }
         if (ebreak_flag)
         {
@@ -73,12 +74,18 @@ int SimStep(uint32_t n)
             {
             dut->clock=!dut->clock;
             dut->eval();
-            
             #if USE_WAVE1
-            if(count>=WAVE_START)
+            if(sim_time>=WAVE_START)
             {
-            m_trace->dump(sim_time); //将当前时间点的信号值写入波形文件
             sim_time++;
+            m_trace->dump(sim_time); //将当前时间点的信号值写入波形文件
+            }
+
+            if(sim_time>=OVER_CNT)
+            {
+                printf("sim_time is %ld\n", sim_time);
+                printf("over %d cycles\n", OVER_CNT);
+                return 1;
             }
             #endif
             }
@@ -110,7 +117,7 @@ void SimInit(int argc, char **argv)
     #endif
 
     //设备复位
-    for(int i=0;i<=30-1;i++){
+    for(int i=0;i<=3000-1;i++){
         dut->clock=!dut->clock;
         dut->reset = 1;
         dut->eval();

@@ -2,6 +2,7 @@
 module step_fun(
   input step
 );
+`ifndef SYNTHESIS
 
 `ifndef USE_IVERILOG
 import "DPI-C" function void SimStep1(input int step_data);
@@ -17,6 +18,6 @@ begin
 end 
 
 `endif 
-
+`endif
 endmodule
 

@@ -7,8 +7,13 @@ _start:
   la sp, _stack_pointer
   /* 2. 复制.data段：从MROM(LMA)到SRAM(VMA) */
   la t0, _text_start  /* 源地址：.data在MROM的起始（LMA）AT */
-  la t1, _text_end  /* 目的地址：.data在SRAM的起始（VMA） */
+  la t1, _text_end  /* 目的地址：.data在SRAM的起始（VMA）0x300002B8 */
   la t2, _text_load_start    /* .data在SRAM的结束地址 */
+  # li t2, 0x80000000
+  # sd t0, 0(t2)
+  # sd t1, 8(t2)
+  # li t0, 0
+  # ld t0, 0(t2)
   mv t0, zero
   mv t1, zero
   mv t2, zero

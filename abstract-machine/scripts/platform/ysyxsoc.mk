@@ -41,7 +41,11 @@ ifeq ($(ARCH),minirv-npc)
 	@cp $(IMAGE).elf $(AM_HOME)/../npc/hex/test.elf
 
 	$(MAKE) -C $(AM_HOME)/../npc sim; 
-
+else ifeq ($(ARCH),riscv64i-ysyxsoc)
+	@cp $(IMAGE).bin $(AM_HOME)/../npc/hex/test.bin
+	@cp $(IMAGE).elf $(AM_HOME)/../npc/hex/test.elf
+	# $(MAKE) -C $(AM_HOME)/../npc encode; 
+	# $(MAKE) -C $(AM_HOME)/../npc sim; 
 else ifeq ($(ARCH),riscv32e-npc)
 	@echo TEST $(AM_HOME)/../npc/hex/test.bin
 	@cp $(IMAGE).bin $(AM_HOME)/../npc/hex/test.bin
@@ -49,7 +53,15 @@ else ifeq ($(ARCH),riscv32e-npc)
 
 	$(MAKE) -C $(AM_HOME)/../npc sim;
 else ifeq ($(ARCH),riscv32e-ysyxsoc)
-ifeq ($(NV),F)
+ifeq ($(WORK),T)
+	@echo TEST $(AM_HOME)/../npc/hex/test.bin
+	@cp $(IMAGE).bin $(AM_HOME)/../npc/hex/test.bin
+	@cp $(IMAGE).elf $(AM_HOME)/../npc/hex/test.elf
+	$(MAKE) -C $(AM_HOME)/../npc encode;
+	# @cp $(IMAGE).bin $(AM_HOME)/../iverilog_test/hex/test.bin
+	# @cp $(IMAGE).elf $(AM_HOME)/../iverilog_test/hex/test.elf
+	# $(MAKE) -C $(AM_HOME)/../iverilog_test run;
+else ifeq ($(NV),F)
 	@echo TEST $(AM_HOME)/../npc/hex/test.bin
 	@cp $(IMAGE).bin $(AM_HOME)/../npc/hex/test.bin
 	@cp $(IMAGE).elf $(AM_HOME)/../npc/hex/test.elf

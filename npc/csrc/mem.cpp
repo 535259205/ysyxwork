@@ -13,7 +13,7 @@
 
 #define ROM_BASE (0x30000000)
 #define RAM_BASE (0x0f000000)
-#define PSRAM_SIZE (0x20000000>>2)
+#define PSRAM_SIZE (0x8000000)
 
 // static uint32_t mem[MEM_SIZE];
 static uint32_t rom[FLASH_SIZE] = {0};
@@ -50,6 +50,7 @@ extern "C" void mrom_read(int32_t addr, int32_t *data) {
 
 extern "C" int32_t psram_ctr(int32_t addr, int32_t data, int32_t write) {
   if (write){
+    // printf("psram_write: addr=0x%08X, data=0x%08X, write=0x%02X\n", addr, data, write);
     switch(write&0xFF)
     {
       //写8bit 数据
@@ -58,24 +59,26 @@ extern "C" int32_t psram_ctr(int32_t addr, int32_t data, int32_t write) {
       uint32_t word_addr = addr >> 2;     // 计算字地址
       uint32_t byte_offset = addr & 0x3;   // 获取低2位作为字节偏移
       uint32_t current_data = psram[word_addr]; // 读取当前值
-      
+      data = (data >> 24)&0xFF;
       // 根据字节偏移修改对应位置的数据
       switch(byte_offset) {
-        case 3: // 最低字节
+        case 0: // 最低字节
           current_data = (current_data & 0xFFFFFF00) | (data & 0xFF);
           break;
-        case 2: // 第二字节
+        case 1: // 第二字节
           current_data = (current_data & 0xFFFF00FF) | ((data & 0xFF) << 8);
           break;
-        case 1: // 第三字节
+        case 2: // 第三字节
           current_data = (current_data & 0xFF00FFFF) | ((data & 0xFF) << 16);
           break;
-        case 0: // 最高字节
+        case 3: // 最高字节
           current_data = (current_data & 0x00FFFFFF) | ((data & 0xFF) << 24);
           break;
       }
       
       psram[word_addr] = current_data; // 写回修改后的值
+      // printf("addr = 0x%08X  data = 0x%08X current_data = 0x%08X write = %d\n", addr, data,current_data,write);
+
     }
       break;
     }
@@ -84,15 +87,15 @@ extern "C" int32_t psram_ctr(int32_t addr, int32_t data, int32_t write) {
       uint32_t word_addr = addr >> 2;     // 计算字地址
       uint32_t byte_offset = addr & 0x3;   // 获取低2位作为字节偏移
       uint32_t current_data = psram[word_addr]; // 读取当前值
-      uint16_t half_word_data = data & 0xFFFF; // 只取低16位数据
-      
-      // 根据字节偏移修改对应位置的半字
+      data = (data >> 16)&0xFFFF;
+
+      // 根据字节偏移修改对应位置的半
       switch(byte_offset) {
-        case 2: // 低半字
-          current_data = (current_data & 0xFFFF0000) | half_word_data;
+        case 0: 
+          current_data = (current_data & 0xFFFF0000) | data;
           break;
-        case 0: // 高半字
-          current_data = (current_data & 0x0000FFFF) | (half_word_data << 16);
+        case 2: 
+          current_data = (current_data & 0x0000FFFF) | data<<16;
           break;
         default: // 非对齐地址，不支持
           printf("ERROR: psram_ctr: unaligned 16-bit write at addr=0x%08X\n", addr);
@@ -100,6 +103,7 @@ extern "C" int32_t psram_ctr(int32_t addr, int32_t data, int32_t write) {
       }
       
       psram[word_addr] = current_data; // 写回修改后的值
+      // printf("addr = 0x%08X  data = 0x%08X current_data = 0x%08X,write = %d\n", addr, data,current_data,write);
       break;
     }
       //写32bit数据
@@ -112,13 +116,11 @@ extern "C" int32_t psram_ctr(int32_t addr, int32_t data, int32_t write) {
     }
 
     }
-
-    // printf("psram_ctr: addr=0x%08X, data=0x%08X, write=%d\n", addr, data, write);
   }
   else{
     uint32_t r_data;
     r_data = psram[addr>>2];
-    // printf("psram_ctr: addr=0x%08X, read=0x%08X\n", addr, r_data);
+    // printf("psram_read: addr=0x%08X, data=0x%08X\n", addr, r_data);
     return r_data;
   }
 
@@ -168,6 +170,11 @@ void mem_init(const char * file)
   #elif USE_MEM==0
     rom[0x228 / 4] = 0x100073;
   #endif
+
+  // for(int i = 0; i < SDRAM_SIZE; i++)
+  // {
+  //   sdram[i] = i;
+  // }
 
   #ifndef USE_NVBOARD
   printf("diff_MEMCOPY\n");

@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../obj_dir/VysyxSoCFull.h"
+#include "../obj_dir/VTOPmod.h"
 #include "verilated_vcd_c.h"
 #include "verilated.h"
 #include "stdio.h"

@@ -4,7 +4,8 @@ module ebreak_fun(
   input ebreak_flag
 );
 
-`ifndef USE_IVERILOG
+`ifndef SYNTHESIS
+  `ifndef USE_IVERILOG
 import "DPI-C" function void ebreak(input int test);
 always@(*)
 begin
@@ -12,13 +13,14 @@ begin
     ebreak(1);
 end 
 
-`else
+  `else
 always@(*)
 begin
   if(ebreak_flag)
     $sys_ctr(32'd800,32'd1);
 end 
 
+  `endif
 `endif
 
 endmodule
