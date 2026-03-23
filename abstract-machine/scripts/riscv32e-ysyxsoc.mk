@@ -1,7 +1,10 @@
 include $(AM_HOME)/scripts/isa/riscv.mk
 include $(AM_HOME)/scripts/platform/ysyxsoc.mk
-COMMON_CFLAGS += -march=rv32e_zicsr_zifencei  -mabi=ilp32e  # overwrite
-LDFLAGS       += -melf32lriscv                    # overwrite
+COMMON_CFLAGS += -march=rv32e_zicsr_zifencei  -mabi=ilp32e  
+LDFLAGS       += -melf32lriscv                    
+
+# COMMON_CFLAGS += -march=rv64i_zicsr_zifencei  -mabi=lp64
+# LDFLAGS       += -melf64lriscv
 
 WORK?=F
 ifeq ($(WORK),F)

@@ -70,7 +70,7 @@ static inline bool in_sram(paddr_t addr) {
 static inline bool in_uart(paddr_t addr) {
   return addr >= UART_BASE && addr < UART_BASE + 0x1fff;
 }
-#define PSRAM_BASE 0x80000000
+#define PSRAM_BASE 0xA0000000
 #define PSRAM_SIZE 0x04000000
 static uint8_t psram[PSRAM_SIZE] = {0};
 

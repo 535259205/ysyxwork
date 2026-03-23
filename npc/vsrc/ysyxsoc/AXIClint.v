@@ -33,7 +33,7 @@ module AXIClint (
   output wire [1:0]    axi_r_payload_resp,
   output wire          axi_r_payload_last,
   input  wire          clock,
-  input  wire          rst
+  input  wire          reset
 );
 
   wire       [1:0]    _zz_Axi4Incr_alignMask;
@@ -53,7 +53,6 @@ module AXIClint (
   wire       [4:0]    _zz_Axi4Incr_result_10;
   wire       [5:0]    _zz_Axi4Incr_result_11;
   wire       [5:0]    _zz_Axi4Incr_result_12;
-  wire                _zz_when;
   wire       [1:0]    _zz_Axi4Incr_alignMask_1;
   wire       [11:0]   _zz_Axi4Incr_baseIncr_1;
   wire       [2:0]    _zz_Axi4Incr_wrapCase_1_1;
@@ -71,7 +70,6 @@ module AXIClint (
   wire       [4:0]    _zz_Axi4Incr_result_1_11;
   wire       [5:0]    _zz_Axi4Incr_result_1_12;
   wire       [5:0]    _zz_Axi4Incr_result_1_13;
-  wire                _zz_when_1;
   wire                axi_readErrorFlag;
   wire                axi_writeErrorFlag;
   wire                axi_readHaltRequest;
@@ -177,8 +175,6 @@ module AXIClint (
   reg        [31:0]   mtime_L;
   reg        [31:0]   mtime_H;
 
-  assign _zz_when = (axi_aw_payload_len != 8'h0);
-  assign _zz_when_1 = (axi_ar_payload_len != 8'h0);
   assign _zz_Axi4Incr_alignMask = {(2'b01 < Axi4Incr_validSize),(2'b00 < Axi4Incr_validSize)};
   assign _zz_Axi4Incr_baseIncr = {9'd0, Axi4Incr_sizeValue};
   assign _zz_Axi4Incr_wrapCase_2 = {1'd0, Axi4Incr_validSize};
@@ -296,7 +292,7 @@ module AXIClint (
       unburstify_result_payload_last = unburstify_buffer_last;
     end else begin
       unburstify_result_payload_last = 1'b1;
-      if(_zz_when) begin
+      if((axi_aw_payload_len != 8'h0)) begin
         unburstify_result_payload_last = 1'b0;
       end
     end
@@ -427,7 +423,7 @@ module AXIClint (
       unburstify_result_payload_last_1 = unburstify_buffer_last_1;
     end else begin
       unburstify_result_payload_last_1 = 1'b1;
-      if(_zz_when_1) begin
+      if((axi_ar_payload_len != 8'h0)) begin
         unburstify_result_payload_last_1 = 1'b0;
       end
     end
@@ -545,7 +541,7 @@ module AXIClint (
   assign axi_readAddressMasked = (axi_readDataStage_payload_fragment_addr & (~ 32'h00000003));
   assign axi_writeAddressMasked = (unburstify_result_payload_fragment_addr & (~ 32'h00000003));
   always @(posedge clock) begin
-    if(rst) begin
+    if(reset) begin
       unburstify_buffer_valid <= 1'b0;
       axi_writeRsp_rValid <= 1'b0;
       unburstify_buffer_valid_1 <= 1'b0;
@@ -559,7 +555,7 @@ module AXIClint (
         end
       end
       if(!unburstify_buffer_valid) begin
-        if(_zz_when) begin
+        if((axi_aw_payload_len != 8'h0)) begin
           if(unburstify_result_ready) begin
             unburstify_buffer_valid <= axi_aw_valid;
           end
@@ -574,7 +570,7 @@ module AXIClint (
         end
       end
       if(!unburstify_buffer_valid_1) begin
-        if(_zz_when_1) begin
+        if((axi_ar_payload_len != 8'h0)) begin
           if(unburstify_result_ready_1) begin
             unburstify_buffer_valid_1 <= axi_ar_valid;
           end
@@ -596,7 +592,7 @@ module AXIClint (
       unburstify_buffer_transaction_addr[11 : 0] <= Axi4Incr_result[11 : 0];
     end
     if(!unburstify_buffer_valid) begin
-      if(_zz_when) begin
+      if((axi_aw_payload_len != 8'h0)) begin
         if(unburstify_result_ready) begin
           unburstify_buffer_transaction_addr <= axi_aw_payload_addr;
           unburstify_buffer_transaction_id <= axi_aw_payload_id;
@@ -616,7 +612,7 @@ module AXIClint (
       unburstify_buffer_transaction_addr_1[11 : 0] <= Axi4Incr_result_1[11 : 0];
     end
     if(!unburstify_buffer_valid_1) begin
-      if(_zz_when_1) begin
+      if((axi_ar_payload_len != 8'h0)) begin
         if(unburstify_result_ready_1) begin
           unburstify_buffer_transaction_addr_1 <= axi_ar_payload_addr;
           unburstify_buffer_transaction_id_1 <= axi_ar_payload_id;

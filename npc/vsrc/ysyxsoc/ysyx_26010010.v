@@ -331,8 +331,8 @@ module ysyx_26010010 (
     .axi_s_r_payload_id     (soc_1_axi_s_r_payload_id[3:0]    ), //o
     .axi_s_r_payload_resp   (soc_1_axi_s_r_payload_resp[1:0]  ), //o
     .axi_s_r_payload_last   (soc_1_axi_s_r_payload_last       ), //o
-    .rst                    (reset                            ), //i
-    .clock                  (clock                            )  //i
+    .clock                  (clock                            ), //i
+    .reset                  (reset                            )  //i
   );
   assign io_master_awvalid = turn_io_slave_awvalid;
   assign io_master_awaddr = turn_io_slave_awaddr;
