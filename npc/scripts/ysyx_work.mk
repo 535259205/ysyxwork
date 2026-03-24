@@ -4,7 +4,7 @@ WORK_HOME:= $(NPC_HOME)/../WORK
 
 TOP_MODULE :=TOPmod
 
-VSRCS = $(shell find $(NPC_HOME)/vsrc/ -name "*.v")
+VSRCS =  $(shell find $(NPC_HOME)/vsrc/ -name "*.v")
 VSRCS += $(shell find $(NPC_HOME)/vsrc/ -name "*.sv")
 VSRCS += $(shell find $(WORK_HOME)/ysyxSoC/perip/ -name "*.v")
 VSRCS += $(shell find $(WORK_HOME)/ysyxSoC/build/ -name "*.v")

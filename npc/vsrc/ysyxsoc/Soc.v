@@ -233,7 +233,7 @@ module Soc (
     .clock                    (clock                            ), //i
     .reset                    (reset                            )  //i
   );
-  AXIXbar xbar (
+  AXIXbar_new xbar (
     .axi_m_0_aw_valid         (cpu_axi_if_aw_valid               ), //i
     .axi_m_0_aw_ready         (xbar_axi_m_0_aw_ready             ), //o
     .axi_m_0_aw_payload_addr  (cpu_axi_if_aw_payload_addr[31:0]  ), //i
@@ -349,7 +349,9 @@ module Soc (
     .axi_s_1_r_payload_data   (clint_axi_r_payload_data[31:0]    ), //i
     .axi_s_1_r_payload_id     (clint_axi_r_payload_id[3:0]       ), //i
     .axi_s_1_r_payload_resp   (clint_axi_r_payload_resp[1:0]     ), //i
-    .axi_s_1_r_payload_last   (clint_axi_r_payload_last          )  //i
+    .axi_s_1_r_payload_last   (clint_axi_r_payload_last          ), //i
+    .clock                    (clock                             ), //i
+    .reset                    (reset                             )  //i
   );
   AXIClint clint (
     .axi_aw_valid         (xbar_axi_s_1_aw_valid             ), //i

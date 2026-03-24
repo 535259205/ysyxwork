@@ -120,25 +120,26 @@ module test_cpu (
   localparam MEM_MEMt_r_ar = 2'd2;
   localparam MEM_MEMt_r_r = 2'd3;
 
-  reg                 ebreak_fun_1_ebreak_flag;
-  wire                IF_axi_if_axi_m_ar_valid;
-  wire       [31:0]   IF_axi_if_axi_m_ar_payload_addr;
-  wire       [3:0]    IF_axi_if_axi_m_ar_payload_id;
-  wire       [7:0]    IF_axi_if_axi_m_ar_payload_len;
-  wire       [2:0]    IF_axi_if_axi_m_ar_payload_size;
-  wire       [1:0]    IF_axi_if_axi_m_ar_payload_burst;
-  wire                IF_axi_if_axi_m_aw_valid;
-  wire       [31:0]   IF_axi_if_axi_m_aw_payload_addr;
-  wire       [3:0]    IF_axi_if_axi_m_aw_payload_id;
-  wire       [7:0]    IF_axi_if_axi_m_aw_payload_len;
-  wire       [2:0]    IF_axi_if_axi_m_aw_payload_size;
-  wire       [1:0]    IF_axi_if_axi_m_aw_payload_burst;
-  wire                IF_axi_if_axi_m_w_valid;
-  wire       [31:0]   IF_axi_if_axi_m_w_payload_data;
-  wire       [3:0]    IF_axi_if_axi_m_w_payload_strb;
-  wire                IF_axi_if_axi_m_w_payload_last;
-  wire                IF_axi_if_axi_m_r_ready;
-  wire                IF_axi_if_axi_m_b_ready;
+  reg                 EX_EXt_ebreak_ebreak_flag;
+  wire       [31:0]   debug_debug_data_0;
+  wire                IF_axi_if_axi_ar_valid;
+  wire       [31:0]   IF_axi_if_axi_ar_payload_addr;
+  wire       [3:0]    IF_axi_if_axi_ar_payload_id;
+  wire       [7:0]    IF_axi_if_axi_ar_payload_len;
+  wire       [2:0]    IF_axi_if_axi_ar_payload_size;
+  wire       [1:0]    IF_axi_if_axi_ar_payload_burst;
+  wire                IF_axi_if_axi_aw_valid;
+  wire       [31:0]   IF_axi_if_axi_aw_payload_addr;
+  wire       [3:0]    IF_axi_if_axi_aw_payload_id;
+  wire       [7:0]    IF_axi_if_axi_aw_payload_len;
+  wire       [2:0]    IF_axi_if_axi_aw_payload_size;
+  wire       [1:0]    IF_axi_if_axi_aw_payload_burst;
+  wire                IF_axi_if_axi_w_valid;
+  wire       [31:0]   IF_axi_if_axi_w_payload_data;
+  wire       [3:0]    IF_axi_if_axi_w_payload_strb;
+  wire                IF_axi_if_axi_w_payload_last;
+  wire                IF_axi_if_axi_r_ready;
+  wire                IF_axi_if_axi_b_ready;
   wire                IF_axi_if_code_valid;
   wire       [31:0]   IF_axi_if_code_payload;
   wire       [31:0]   _zz_pip_ctrl_2_down_IDtoEX_imm;
@@ -255,6 +256,10 @@ module test_cpu (
   wire       [31:0]   _zz_when_3;
   wire       [31:0]   _zz_pip_ctrl_3_down_RD_36;
   wire       [31:0]   _zz_pip_ctrl_3_down_RD_37;
+  wire       [6:0]    _zz_MEM_MEMt_w_strb;
+  wire       [62:0]   _zz_MEM_MEMt_w_data;
+  wire       [4:0]    _zz_MEM_MEMt_w_data_1;
+  wire       [4:0]    _zz_MEM_MEMt_r_data;
   wire       [31:0]   _zz_pip_ctrl_4_down_RD_out;
   wire       [7:0]    _zz_pip_ctrl_4_down_RD_out_1;
   wire       [31:0]   _zz_pip_ctrl_4_down_RD_out_2;
@@ -317,13 +322,12 @@ module test_cpu (
   reg                 pip_ctrl_4_up_ready;
   reg                 pip_ctrl_4_down_ready;
   reg                 pip_ctrl_5_up_ready;
-  reg                 _zz_pip_ctrl_2_haltRequest_pipCPU_l603;
-  reg                 _zz_pip_ctrl_1_haltRequest_pipCPU_l602;
-  reg                 _zz_pip_ctrl_5_haltRequest_pipCPU_l596;
-  reg                 _zz_pip_ctrl_4_haltRequest_pipCPU_l595;
-  reg                 _zz_pip_ctrl_3_haltRequest_pipCPU_l594;
-  reg                 _zz_pip_ctrl_2_haltRequest_pipCPU_l593;
-  reg                 _zz_pip_ctrl_1_haltRequest_pipCPU_l592;
+  reg                 _zz_pip_ctrl_1_haltRequest_pipCPU_l617;
+  reg                 _zz_pip_ctrl_5_haltRequest_pipCPU_l611;
+  reg                 _zz_pip_ctrl_4_haltRequest_pipCPU_l610;
+  reg                 _zz_pip_ctrl_3_haltRequest_pipCPU_l609;
+  reg                 _zz_pip_ctrl_2_haltRequest_pipCPU_l608;
+  reg                 _zz_pip_ctrl_1_haltRequest_pipCPU_l607;
   wire       [31:0]   pip_ctrl_5_down_RD_out;
   wire       [4:0]    pip_ctrl_5_down_RD_sel;
   wire                pip_ctrl_5_down_MEM_read_valid;
@@ -395,6 +399,7 @@ module test_cpu (
   wire       [31:0]   EXtoIF_nPC;
   wire                EXtoIF_valid;
   reg                 pc_valid;
+  reg                 fence_i;
   wire       [31:0]   IF_addr;
   wire                IF_code_valid;
   reg                 IF_code_ready;
@@ -463,8 +468,8 @@ module test_cpu (
   reg                 axi_mem_w_valid_1;
   wire                axi_mem_w_ready_1;
   reg        [31:0]   axi_mem_w_payload_data_1;
-  wire       [3:0]    axi_mem_w_payload_strb_1;
-  wire                axi_mem_w_payload_last_1;
+  reg        [3:0]    axi_mem_w_payload_strb_1;
+  reg                 axi_mem_w_payload_last_1;
   wire                axi_mem_b_valid_1;
   reg                 axi_mem_b_ready_1;
   wire       [3:0]    axi_mem_b_payload_id_1;
@@ -483,6 +488,10 @@ module test_cpu (
   wire       [1:0]    axi_mem_r_payload_resp_1;
   wire                axi_mem_r_payload_last_1;
   wire                mem_busy;
+  wire       [1:0]    MEM_MEMt_addrl;
+  wire       [3:0]    MEM_MEMt_w_strb;
+  wire       [31:0]   MEM_MEMt_w_data;
+  wire       [31:0]   MEM_MEMt_r_data;
   reg        [1:0]    MEM_MEMt_busy;
   wire                MEM_MEMt_w_wantExit;
   reg                 MEM_MEMt_w_wantStart;
@@ -492,28 +501,25 @@ module test_cpu (
   reg                 MEM_MEMt_r_wantStart;
   wire                MEM_MEMt_r_wantKill;
   reg                 MEM_MEMt_r_r_flag;
+  reg                 mem_busy_regNext;
   wire       [31:0]   _zz_1;
   wire       [31:0]   _zz_2;
-  wire                pip_ctrl_1_haltRequest_pipCPU_l592;
-  wire                pip_ctrl_2_haltRequest_pipCPU_l593;
-  wire                pip_ctrl_3_haltRequest_pipCPU_l594;
-  wire                pip_ctrl_4_haltRequest_pipCPU_l595;
-  wire                pip_ctrl_5_haltRequest_pipCPU_l596;
-  wire                pip_ctrl_1_haltRequest_pipCPU_l602;
-  wire                pip_ctrl_2_haltRequest_pipCPU_l603;
+  wire                pip_ctrl_1_haltRequest_pipCPU_l607;
+  wire                pip_ctrl_2_haltRequest_pipCPU_l608;
+  wire                pip_ctrl_3_haltRequest_pipCPU_l609;
+  wire                pip_ctrl_4_haltRequest_pipCPU_l610;
+  wire                pip_ctrl_5_haltRequest_pipCPU_l611;
+  wire                pip_ctrl_1_haltRequest_pipCPU_l617;
   reg                 EXtoIF_valid_regNext;
-  wire                pip_ctrl_2_throwWhen_pipCPU_l606;
+  wire                pip_ctrl_2_throwWhen_pipCPU_l620;
   wire                pip_ctrl_2_up_forgetOne;
-  reg                 pip_ctrl_3_up_isFiring_regNext;
-  wire                IF_code_fire;
-  reg                 EXtoIF_valid_regNext_1;
+  reg                 pip_ctrl_4_down_valid_regNext;
   wire                debug_new_flag;
   reg        [31:0]   debug_debug_cnt;
-  reg        [31:0]   _zz_data_0;
   reg        [31:0]   IF_code_payload_regNextWhen;
   reg        [1:0]    MEM_MEMt_w_stateReg;
   reg        [1:0]    MEM_MEMt_w_stateNext;
-  wire                axi_mem_w_fire;
+  wire                axi_mem_aw_fire;
   wire                axi_mem_b_fire;
   wire                MEM_MEMt_w_onExit_BOOT;
   wire                MEM_MEMt_w_onExit_start;
@@ -706,53 +712,58 @@ module test_cpu (
   assign _zz_when_3 = pip_ctrl_3_down_IDtoEX_rs1;
   assign _zz_pip_ctrl_3_down_RD_36 = (pip_ctrl_3_down_PC + pip_ctrl_3_down_IDtoEX_imm);
   assign _zz_pip_ctrl_3_down_RD_37 = (pip_ctrl_3_down_PC + 32'h00000004);
-  assign _zz_pip_ctrl_4_down_RD_out_1 = axi_mem_r_payload_data_1[7 : 0];
+  assign _zz_MEM_MEMt_w_strb = ({3'd0,pip_ctrl_4_down_MEM_mask} <<< MEM_MEMt_addrl);
+  assign _zz_MEM_MEMt_w_data = ({31'd0,pip_ctrl_4_down_RD} <<< _zz_MEM_MEMt_w_data_1);
+  assign _zz_MEM_MEMt_w_data_1 = ({3'd0,MEM_MEMt_addrl} <<< 2'd3);
+  assign _zz_MEM_MEMt_r_data = ({3'd0,MEM_MEMt_addrl} <<< 2'd3);
+  assign _zz_pip_ctrl_4_down_RD_out_1 = MEM_MEMt_r_data[7 : 0];
   assign _zz_pip_ctrl_4_down_RD_out = {24'd0, _zz_pip_ctrl_4_down_RD_out_1};
-  assign _zz_pip_ctrl_4_down_RD_out_3 = axi_mem_r_payload_data_1[7 : 0];
+  assign _zz_pip_ctrl_4_down_RD_out_3 = MEM_MEMt_r_data[7 : 0];
   assign _zz_pip_ctrl_4_down_RD_out_2 = {{24{_zz_pip_ctrl_4_down_RD_out_3[7]}}, _zz_pip_ctrl_4_down_RD_out_3};
-  assign _zz_pip_ctrl_4_down_RD_out_5 = axi_mem_r_payload_data_1[15 : 0];
+  assign _zz_pip_ctrl_4_down_RD_out_5 = MEM_MEMt_r_data[15 : 0];
   assign _zz_pip_ctrl_4_down_RD_out_4 = {16'd0, _zz_pip_ctrl_4_down_RD_out_5};
-  assign _zz_pip_ctrl_4_down_RD_out_7 = axi_mem_r_payload_data_1[15 : 0];
+  assign _zz_pip_ctrl_4_down_RD_out_7 = MEM_MEMt_r_data[15 : 0];
   assign _zz_pip_ctrl_4_down_RD_out_6 = {{16{_zz_pip_ctrl_4_down_RD_out_7[15]}}, _zz_pip_ctrl_4_down_RD_out_7};
-  AXI_IF IF_axi_if (
-    .axi_m_aw_valid         (IF_axi_if_axi_m_aw_valid             ), //o
-    .axi_m_aw_ready         (axi_if_aw_ready                      ), //i
-    .axi_m_aw_payload_addr  (IF_axi_if_axi_m_aw_payload_addr[31:0]), //o
-    .axi_m_aw_payload_id    (IF_axi_if_axi_m_aw_payload_id[3:0]   ), //o
-    .axi_m_aw_payload_len   (IF_axi_if_axi_m_aw_payload_len[7:0]  ), //o
-    .axi_m_aw_payload_size  (IF_axi_if_axi_m_aw_payload_size[2:0] ), //o
-    .axi_m_aw_payload_burst (IF_axi_if_axi_m_aw_payload_burst[1:0]), //o
-    .axi_m_w_valid          (IF_axi_if_axi_m_w_valid              ), //o
-    .axi_m_w_ready          (axi_if_w_ready                       ), //i
-    .axi_m_w_payload_data   (IF_axi_if_axi_m_w_payload_data[31:0] ), //o
-    .axi_m_w_payload_strb   (IF_axi_if_axi_m_w_payload_strb[3:0]  ), //o
-    .axi_m_w_payload_last   (IF_axi_if_axi_m_w_payload_last       ), //o
-    .axi_m_b_valid          (axi_if_b_valid                       ), //i
-    .axi_m_b_ready          (IF_axi_if_axi_m_b_ready              ), //o
-    .axi_m_b_payload_id     (axi_if_b_payload_id[3:0]             ), //i
-    .axi_m_b_payload_resp   (axi_if_b_payload_resp[1:0]           ), //i
-    .axi_m_ar_valid         (IF_axi_if_axi_m_ar_valid             ), //o
-    .axi_m_ar_ready         (axi_if_ar_ready                      ), //i
-    .axi_m_ar_payload_addr  (IF_axi_if_axi_m_ar_payload_addr[31:0]), //o
-    .axi_m_ar_payload_id    (IF_axi_if_axi_m_ar_payload_id[3:0]   ), //o
-    .axi_m_ar_payload_len   (IF_axi_if_axi_m_ar_payload_len[7:0]  ), //o
-    .axi_m_ar_payload_size  (IF_axi_if_axi_m_ar_payload_size[2:0] ), //o
-    .axi_m_ar_payload_burst (IF_axi_if_axi_m_ar_payload_burst[1:0]), //o
-    .axi_m_r_valid          (axi_if_r_valid                       ), //i
-    .axi_m_r_ready          (IF_axi_if_axi_m_r_ready              ), //o
-    .axi_m_r_payload_data   (axi_if_r_payload_data[31:0]          ), //i
-    .axi_m_r_payload_id     (axi_if_r_payload_id[3:0]             ), //i
-    .axi_m_r_payload_resp   (axi_if_r_payload_resp[1:0]           ), //i
-    .axi_m_r_payload_last   (axi_if_r_payload_last                ), //i
-    .addr                   (IF_addr[31:0]                        ), //i
-    .code_valid             (IF_axi_if_code_valid                 ), //o
-    .code_ready             (IF_code_ready                        ), //i
-    .code_payload           (IF_axi_if_code_payload[31:0]         ), //o
-    .clock                  (clock                                ), //i
-    .reset                  (reset                                )  //i
+  Icache IF_axi_if (
+    .axi_aw_valid         (IF_axi_if_axi_aw_valid             ), //o
+    .axi_aw_ready         (axi_if_aw_ready                    ), //i
+    .axi_aw_payload_addr  (IF_axi_if_axi_aw_payload_addr[31:0]), //o
+    .axi_aw_payload_id    (IF_axi_if_axi_aw_payload_id[3:0]   ), //o
+    .axi_aw_payload_len   (IF_axi_if_axi_aw_payload_len[7:0]  ), //o
+    .axi_aw_payload_size  (IF_axi_if_axi_aw_payload_size[2:0] ), //o
+    .axi_aw_payload_burst (IF_axi_if_axi_aw_payload_burst[1:0]), //o
+    .axi_w_valid          (IF_axi_if_axi_w_valid              ), //o
+    .axi_w_ready          (axi_if_w_ready                     ), //i
+    .axi_w_payload_data   (IF_axi_if_axi_w_payload_data[31:0] ), //o
+    .axi_w_payload_strb   (IF_axi_if_axi_w_payload_strb[3:0]  ), //o
+    .axi_w_payload_last   (IF_axi_if_axi_w_payload_last       ), //o
+    .axi_b_valid          (axi_if_b_valid                     ), //i
+    .axi_b_ready          (IF_axi_if_axi_b_ready              ), //o
+    .axi_b_payload_id     (axi_if_b_payload_id[3:0]           ), //i
+    .axi_b_payload_resp   (axi_if_b_payload_resp[1:0]         ), //i
+    .axi_ar_valid         (IF_axi_if_axi_ar_valid             ), //o
+    .axi_ar_ready         (axi_if_ar_ready                    ), //i
+    .axi_ar_payload_addr  (IF_axi_if_axi_ar_payload_addr[31:0]), //o
+    .axi_ar_payload_id    (IF_axi_if_axi_ar_payload_id[3:0]   ), //o
+    .axi_ar_payload_len   (IF_axi_if_axi_ar_payload_len[7:0]  ), //o
+    .axi_ar_payload_size  (IF_axi_if_axi_ar_payload_size[2:0] ), //o
+    .axi_ar_payload_burst (IF_axi_if_axi_ar_payload_burst[1:0]), //o
+    .axi_r_valid          (axi_if_r_valid                     ), //i
+    .axi_r_ready          (IF_axi_if_axi_r_ready              ), //o
+    .axi_r_payload_data   (axi_if_r_payload_data[31:0]        ), //i
+    .axi_r_payload_id     (axi_if_r_payload_id[3:0]           ), //i
+    .axi_r_payload_resp   (axi_if_r_payload_resp[1:0]         ), //i
+    .axi_r_payload_last   (axi_if_r_payload_last              ), //i
+    .addr                 (IF_addr[31:0]                      ), //i
+    .code_valid           (IF_axi_if_code_valid               ), //o
+    .code_ready           (IF_code_ready                      ), //i
+    .code_payload         (IF_axi_if_code_payload[31:0]       ), //o
+    .fence_i              (fence_i                            ), //i
+    .clock                (clock                              ), //i
+    .reset                (reset                              )  //i
   );
-  ebreak_fun ebreak_fun_1 (
-    .ebreak_flag (ebreak_fun_1_ebreak_flag)  //i
+  ebreak_fun EX_EXt_ebreak (
+    .ebreak_flag (EX_EXt_ebreak_ebreak_flag)  //i
   );
   my_debug debug_gpr_debug (
     .data_0  (gpr_0[31:0] ), //i
@@ -790,10 +801,10 @@ module test_cpu (
     .clock   (clock       )  //i
   );
   step_fun debug_step (
-    .step (pip_ctrl_3_up_isFiring_regNext)  //i
+    .step (pip_ctrl_4_down_valid_regNext)  //i
   );
   my_debug_1 debug_debug (
-    .data_0 (_zz_data_0[31:0]                 ), //i
+    .data_0 (debug_debug_data_0[31:0]         ), //i
     .data_1 (32'h0                            ), //i
     .data_2 (IF_code_payload_regNextWhen[31:0]), //i
     .clock  (clock                            )  //i
@@ -3564,72 +3575,65 @@ module test_cpu (
   `endif
 
   always @(*) begin
-    _zz_pip_ctrl_2_haltRequest_pipCPU_l603 = 1'b0;
+    _zz_pip_ctrl_1_haltRequest_pipCPU_l617 = 1'b0;
     if((! IF_code_valid)) begin
-      _zz_pip_ctrl_2_haltRequest_pipCPU_l603 = 1'b1;
+      _zz_pip_ctrl_1_haltRequest_pipCPU_l617 = 1'b1;
     end
   end
 
   always @(*) begin
-    _zz_pip_ctrl_1_haltRequest_pipCPU_l602 = 1'b0;
-    if((! IF_code_valid)) begin
-      _zz_pip_ctrl_1_haltRequest_pipCPU_l602 = 1'b1;
-    end
-  end
-
-  always @(*) begin
-    _zz_pip_ctrl_5_haltRequest_pipCPU_l596 = 1'b0;
+    _zz_pip_ctrl_5_haltRequest_pipCPU_l611 = 1'b0;
     if(mem_busy) begin
-      _zz_pip_ctrl_5_haltRequest_pipCPU_l596 = 1'b1;
+      _zz_pip_ctrl_5_haltRequest_pipCPU_l611 = 1'b1;
     end
   end
 
   always @(*) begin
-    _zz_pip_ctrl_4_haltRequest_pipCPU_l595 = 1'b0;
+    _zz_pip_ctrl_4_haltRequest_pipCPU_l610 = 1'b0;
     if(mem_busy) begin
-      _zz_pip_ctrl_4_haltRequest_pipCPU_l595 = 1'b1;
+      _zz_pip_ctrl_4_haltRequest_pipCPU_l610 = 1'b1;
     end
   end
 
   always @(*) begin
-    _zz_pip_ctrl_3_haltRequest_pipCPU_l594 = 1'b0;
+    _zz_pip_ctrl_3_haltRequest_pipCPU_l609 = 1'b0;
     if(mem_busy) begin
-      _zz_pip_ctrl_3_haltRequest_pipCPU_l594 = 1'b1;
+      _zz_pip_ctrl_3_haltRequest_pipCPU_l609 = 1'b1;
     end
   end
 
   always @(*) begin
-    _zz_pip_ctrl_2_haltRequest_pipCPU_l593 = 1'b0;
+    _zz_pip_ctrl_2_haltRequest_pipCPU_l608 = 1'b0;
     if(mem_busy) begin
-      _zz_pip_ctrl_2_haltRequest_pipCPU_l593 = 1'b1;
+      _zz_pip_ctrl_2_haltRequest_pipCPU_l608 = 1'b1;
     end
   end
 
   always @(*) begin
-    _zz_pip_ctrl_1_haltRequest_pipCPU_l592 = 1'b0;
+    _zz_pip_ctrl_1_haltRequest_pipCPU_l607 = 1'b0;
     if(mem_busy) begin
-      _zz_pip_ctrl_1_haltRequest_pipCPU_l592 = 1'b1;
+      _zz_pip_ctrl_1_haltRequest_pipCPU_l607 = 1'b1;
     end
   end
 
-  assign axi_if_aw_valid = IF_axi_if_axi_m_aw_valid;
-  assign axi_if_aw_payload_addr = IF_axi_if_axi_m_aw_payload_addr;
-  assign axi_if_aw_payload_id = IF_axi_if_axi_m_aw_payload_id;
-  assign axi_if_aw_payload_len = IF_axi_if_axi_m_aw_payload_len;
-  assign axi_if_aw_payload_size = IF_axi_if_axi_m_aw_payload_size;
-  assign axi_if_aw_payload_burst = IF_axi_if_axi_m_aw_payload_burst;
-  assign axi_if_w_valid = IF_axi_if_axi_m_w_valid;
-  assign axi_if_w_payload_data = IF_axi_if_axi_m_w_payload_data;
-  assign axi_if_w_payload_strb = IF_axi_if_axi_m_w_payload_strb;
-  assign axi_if_w_payload_last = IF_axi_if_axi_m_w_payload_last;
-  assign axi_if_b_ready = IF_axi_if_axi_m_b_ready;
-  assign axi_if_ar_valid = IF_axi_if_axi_m_ar_valid;
-  assign axi_if_ar_payload_addr = IF_axi_if_axi_m_ar_payload_addr;
-  assign axi_if_ar_payload_id = IF_axi_if_axi_m_ar_payload_id;
-  assign axi_if_ar_payload_len = IF_axi_if_axi_m_ar_payload_len;
-  assign axi_if_ar_payload_size = IF_axi_if_axi_m_ar_payload_size;
-  assign axi_if_ar_payload_burst = IF_axi_if_axi_m_ar_payload_burst;
-  assign axi_if_r_ready = IF_axi_if_axi_m_r_ready;
+  assign axi_if_aw_valid = IF_axi_if_axi_aw_valid;
+  assign axi_if_aw_payload_addr = IF_axi_if_axi_aw_payload_addr;
+  assign axi_if_aw_payload_id = IF_axi_if_axi_aw_payload_id;
+  assign axi_if_aw_payload_len = IF_axi_if_axi_aw_payload_len;
+  assign axi_if_aw_payload_size = IF_axi_if_axi_aw_payload_size;
+  assign axi_if_aw_payload_burst = IF_axi_if_axi_aw_payload_burst;
+  assign axi_if_w_valid = IF_axi_if_axi_w_valid;
+  assign axi_if_w_payload_data = IF_axi_if_axi_w_payload_data;
+  assign axi_if_w_payload_strb = IF_axi_if_axi_w_payload_strb;
+  assign axi_if_w_payload_last = IF_axi_if_axi_w_payload_last;
+  assign axi_if_b_ready = IF_axi_if_axi_b_ready;
+  assign axi_if_ar_valid = IF_axi_if_axi_ar_valid;
+  assign axi_if_ar_payload_addr = IF_axi_if_axi_ar_payload_addr;
+  assign axi_if_ar_payload_id = IF_axi_if_axi_ar_payload_id;
+  assign axi_if_ar_payload_len = IF_axi_if_axi_ar_payload_len;
+  assign axi_if_ar_payload_size = IF_axi_if_axi_ar_payload_size;
+  assign axi_if_ar_payload_burst = IF_axi_if_axi_ar_payload_burst;
+  assign axi_if_r_ready = IF_axi_if_axi_r_ready;
   assign IF_code_valid = IF_axi_if_code_valid;
   assign IF_code_payload = IF_axi_if_code_payload;
   assign pip_ctrl_1_up_valid = pc_valid;
@@ -3638,7 +3642,11 @@ module test_cpu (
     if(IF_code_valid_regNext) begin
       IF_code_ready = 1'b0;
     end else begin
-      IF_code_ready = 1'b1;
+      if((! EXtoIF_valid)) begin
+        IF_code_ready = 1'b1;
+      end else begin
+        IF_code_ready = 1'b0;
+      end
     end
   end
 
@@ -4358,7 +4366,7 @@ module test_cpu (
   assign _zz_pip_ctrl_2_down_IDtoEX_fun_16 = RVCode_SRLI;
   assign _zz_pip_ctrl_2_down_IDtoEX_fun_17 = RVCode_SRAI;
   assign _zz_pip_ctrl_2_down_IDtoEX_fun_18 = RVCode_SLTI;
-  assign _zz_pip_ctrl_2_down_IDtoEX_fun_19 = RVCode_SLTU;
+  assign _zz_pip_ctrl_2_down_IDtoEX_fun_19 = RVCode_SLTIU;
   assign _zz_pip_ctrl_2_down_IDtoEX_fun_20 = RVCode_LB;
   assign _zz_pip_ctrl_2_down_IDtoEX_fun_21 = RVCode_LH;
   assign _zz_pip_ctrl_2_down_IDtoEX_fun_22 = RVCode_LW;
@@ -4477,6 +4485,8 @@ module test_cpu (
         end
         RVCode_EBREAK : begin
         end
+        RVCode_FENCEI : begin
+        end
         default : begin
         end
       endcase
@@ -4568,6 +4578,8 @@ module test_cpu (
         end
         RVCode_EBREAK : begin
         end
+        RVCode_FENCEI : begin
+        end
         default : begin
         end
       endcase
@@ -4656,6 +4668,8 @@ module test_cpu (
         RVCode_JAL : begin
         end
         RVCode_EBREAK : begin
+        end
+        RVCode_FENCEI : begin
         end
         default : begin
         end
@@ -4751,6 +4765,8 @@ module test_cpu (
         end
         RVCode_EBREAK : begin
         end
+        RVCode_FENCEI : begin
+        end
         default : begin
         end
       endcase
@@ -4838,6 +4854,8 @@ module test_cpu (
         RVCode_JAL : begin
         end
         RVCode_EBREAK : begin
+        end
+        RVCode_FENCEI : begin
         end
         default : begin
         end
@@ -4952,6 +4970,8 @@ module test_cpu (
         end
         RVCode_EBREAK : begin
         end
+        RVCode_FENCEI : begin
+        end
         default : begin
         end
       endcase
@@ -5051,6 +5071,8 @@ module test_cpu (
         RVCode_JAL : begin
         end
         RVCode_EBREAK : begin
+        end
+        RVCode_FENCEI : begin
         end
         default : begin
         end
@@ -5161,6 +5183,9 @@ module test_cpu (
         end
         RVCode_EBREAK : begin
         end
+        RVCode_FENCEI : begin
+          EX_EXt_nPC = (pip_ctrl_3_down_PC + 32'h00000004);
+        end
         default : begin
         end
       endcase
@@ -5267,6 +5292,9 @@ module test_cpu (
         end
         RVCode_EBREAK : begin
         end
+        RVCode_FENCEI : begin
+          EX_EXt_nPC_valid = 1'b1;
+        end
         default : begin
         end
       endcase
@@ -5274,88 +5302,181 @@ module test_cpu (
   end
 
   always @(*) begin
-    ebreak_fun_1_ebreak_flag = 1'b0;
-    case(pip_ctrl_3_down_IDtoEX_fun)
-      RVCode_ADD : begin
-      end
-      RVCode_SUB : begin
-      end
-      RVCode_AND_1 : begin
-      end
-      RVCode_OR_1 : begin
-      end
-      RVCode_XOR_1 : begin
-      end
-      RVCode_SLL_1 : begin
-      end
-      RVCode_SRL_1 : begin
-      end
-      RVCode_SRA_1 : begin
-      end
-      RVCode_SLT : begin
-      end
-      RVCode_SLTU : begin
-      end
-      RVCode_ADDI : begin
-      end
-      RVCode_XORI : begin
-      end
-      RVCode_ORI : begin
-      end
-      RVCode_ANDI : begin
-      end
-      RVCode_SLLI : begin
-      end
-      RVCode_SRLI : begin
-      end
-      RVCode_SRAI : begin
-      end
-      RVCode_SLTI : begin
-      end
-      RVCode_SLTIU : begin
-      end
-      RVCode_LB : begin
-      end
-      RVCode_LH : begin
-      end
-      RVCode_LW : begin
-      end
-      RVCode_LBU : begin
-      end
-      RVCode_LHU : begin
-      end
-      RVCode_SW : begin
-      end
-      RVCode_SH : begin
-      end
-      RVCode_SB : begin
-      end
-      RVCode_JALR : begin
-      end
-      RVCode_BEQ : begin
-      end
-      RVCode_BNE : begin
-      end
-      RVCode_BLT : begin
-      end
-      RVCode_BGE : begin
-      end
-      RVCode_BLTU : begin
-      end
-      RVCode_BGEU : begin
-      end
-      RVCode_LUI : begin
-      end
-      RVCode_AUIPC : begin
-      end
-      RVCode_JAL : begin
-      end
-      RVCode_EBREAK : begin
-        ebreak_fun_1_ebreak_flag = 1'b1;
-      end
-      default : begin
-      end
-    endcase
+    EX_EXt_ebreak_ebreak_flag = 1'b0;
+    if(pip_ctrl_3_up_isFiring) begin
+      case(pip_ctrl_3_down_IDtoEX_fun)
+        RVCode_ADD : begin
+        end
+        RVCode_SUB : begin
+        end
+        RVCode_AND_1 : begin
+        end
+        RVCode_OR_1 : begin
+        end
+        RVCode_XOR_1 : begin
+        end
+        RVCode_SLL_1 : begin
+        end
+        RVCode_SRL_1 : begin
+        end
+        RVCode_SRA_1 : begin
+        end
+        RVCode_SLT : begin
+        end
+        RVCode_SLTU : begin
+        end
+        RVCode_ADDI : begin
+        end
+        RVCode_XORI : begin
+        end
+        RVCode_ORI : begin
+        end
+        RVCode_ANDI : begin
+        end
+        RVCode_SLLI : begin
+        end
+        RVCode_SRLI : begin
+        end
+        RVCode_SRAI : begin
+        end
+        RVCode_SLTI : begin
+        end
+        RVCode_SLTIU : begin
+        end
+        RVCode_LB : begin
+        end
+        RVCode_LH : begin
+        end
+        RVCode_LW : begin
+        end
+        RVCode_LBU : begin
+        end
+        RVCode_LHU : begin
+        end
+        RVCode_SW : begin
+        end
+        RVCode_SH : begin
+        end
+        RVCode_SB : begin
+        end
+        RVCode_JALR : begin
+        end
+        RVCode_BEQ : begin
+        end
+        RVCode_BNE : begin
+        end
+        RVCode_BLT : begin
+        end
+        RVCode_BGE : begin
+        end
+        RVCode_BLTU : begin
+        end
+        RVCode_BGEU : begin
+        end
+        RVCode_LUI : begin
+        end
+        RVCode_AUIPC : begin
+        end
+        RVCode_JAL : begin
+        end
+        RVCode_EBREAK : begin
+          EX_EXt_ebreak_ebreak_flag = 1'b1;
+        end
+        RVCode_FENCEI : begin
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
+    fence_i = 1'b0;
+    if(pip_ctrl_3_up_isFiring) begin
+      case(pip_ctrl_3_down_IDtoEX_fun)
+        RVCode_ADD : begin
+        end
+        RVCode_SUB : begin
+        end
+        RVCode_AND_1 : begin
+        end
+        RVCode_OR_1 : begin
+        end
+        RVCode_XOR_1 : begin
+        end
+        RVCode_SLL_1 : begin
+        end
+        RVCode_SRL_1 : begin
+        end
+        RVCode_SRA_1 : begin
+        end
+        RVCode_SLT : begin
+        end
+        RVCode_SLTU : begin
+        end
+        RVCode_ADDI : begin
+        end
+        RVCode_XORI : begin
+        end
+        RVCode_ORI : begin
+        end
+        RVCode_ANDI : begin
+        end
+        RVCode_SLLI : begin
+        end
+        RVCode_SRLI : begin
+        end
+        RVCode_SRAI : begin
+        end
+        RVCode_SLTI : begin
+        end
+        RVCode_SLTIU : begin
+        end
+        RVCode_LB : begin
+        end
+        RVCode_LH : begin
+        end
+        RVCode_LW : begin
+        end
+        RVCode_LBU : begin
+        end
+        RVCode_LHU : begin
+        end
+        RVCode_SW : begin
+        end
+        RVCode_SH : begin
+        end
+        RVCode_SB : begin
+        end
+        RVCode_JALR : begin
+        end
+        RVCode_BEQ : begin
+        end
+        RVCode_BNE : begin
+        end
+        RVCode_BLT : begin
+        end
+        RVCode_BGE : begin
+        end
+        RVCode_BLTU : begin
+        end
+        RVCode_BGEU : begin
+        end
+        RVCode_LUI : begin
+        end
+        RVCode_AUIPC : begin
+        end
+        RVCode_JAL : begin
+        end
+        RVCode_EBREAK : begin
+        end
+        RVCode_FENCEI : begin
+          fence_i = 1'b1;
+        end
+        default : begin
+        end
+      endcase
+    end
   end
 
   assign EXtoIF_nPC = EX_EXt_nPC;
@@ -5389,6 +5510,10 @@ module test_cpu (
   assign axi_mem_r_payload_id_1 = axi_mem_r_payload_id;
   assign axi_mem_r_payload_resp_1 = axi_mem_r_payload_resp;
   assign axi_mem_r_payload_last_1 = axi_mem_r_payload_last;
+  assign MEM_MEMt_addrl = pip_ctrl_4_down_MEM_addr[1 : 0];
+  assign MEM_MEMt_w_strb = _zz_MEM_MEMt_w_strb[3:0];
+  assign MEM_MEMt_w_data = _zz_MEM_MEMt_w_data[31:0];
+  assign MEM_MEMt_r_data = (axi_mem_r_payload_data_1 >>> _zz_MEM_MEMt_r_data);
   always @(*) begin
     pip_ctrl_4_down_RD_out = pip_ctrl_4_down_RD;
     case(MEM_MEMt_r_stateReg)
@@ -5406,7 +5531,7 @@ module test_cpu (
               pip_ctrl_4_down_RD_out = (pip_ctrl_4_down_MEM_unsigned ? _zz_pip_ctrl_4_down_RD_out_4 : _zz_pip_ctrl_4_down_RD_out_6);
             end
             default : begin
-              pip_ctrl_4_down_RD_out = axi_mem_r_payload_data_1;
+              pip_ctrl_4_down_RD_out = MEM_MEMt_r_data;
             end
           endcase
         end
@@ -5523,7 +5648,7 @@ module test_cpu (
       MEM_MEMt_w_start : begin
       end
       MEM_MEMt_w_w : begin
-        axi_mem_w_payload_data_1 = pip_ctrl_4_down_RD;
+        axi_mem_w_payload_data_1 = MEM_MEMt_w_data;
       end
       MEM_MEMt_w_b : begin
       end
@@ -5532,8 +5657,36 @@ module test_cpu (
     endcase
   end
 
-  assign axi_mem_w_payload_strb_1 = 4'b0000;
-  assign axi_mem_w_payload_last_1 = 1'b0;
+  always @(*) begin
+    axi_mem_w_payload_strb_1 = 4'b0000;
+    case(MEM_MEMt_w_stateReg)
+      MEM_MEMt_w_start : begin
+      end
+      MEM_MEMt_w_w : begin
+        axi_mem_w_payload_strb_1 = MEM_MEMt_w_strb;
+      end
+      MEM_MEMt_w_b : begin
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  always @(*) begin
+    axi_mem_w_payload_last_1 = 1'b0;
+    case(MEM_MEMt_w_stateReg)
+      MEM_MEMt_w_start : begin
+      end
+      MEM_MEMt_w_w : begin
+        axi_mem_w_payload_last_1 = 1'b1;
+      end
+      MEM_MEMt_w_b : begin
+      end
+      default : begin
+      end
+    endcase
+  end
+
   always @(*) begin
     axi_mem_b_ready_1 = 1'b0;
     case(MEM_MEMt_w_stateReg)
@@ -5650,7 +5803,7 @@ module test_cpu (
     endcase
   end
 
-  assign mem_busy = (MEM_MEMt_busy[0] || MEM_MEMt_busy[1]);
+  assign mem_busy = ((MEM_MEMt_busy[0] && pip_ctrl_4_down_MEM_write_valid) || (MEM_MEMt_busy[1] && pip_ctrl_4_down_MEM_read_valid));
   assign MEM_MEMt_w_wantExit = 1'b0;
   always @(*) begin
     MEM_MEMt_w_wantStart = 1'b0;
@@ -5687,16 +5840,15 @@ module test_cpu (
   assign MEM_MEMt_r_wantKill = 1'b0;
   assign _zz_1 = ({31'd0,1'b1} <<< pip_ctrl_5_down_RD_sel);
   assign _zz_2 = ({31'd0,1'b1} <<< pip_ctrl_3_down_RD_sel);
-  assign pip_ctrl_1_haltRequest_pipCPU_l592 = _zz_pip_ctrl_1_haltRequest_pipCPU_l592;
-  assign pip_ctrl_2_haltRequest_pipCPU_l593 = _zz_pip_ctrl_2_haltRequest_pipCPU_l593;
-  assign pip_ctrl_3_haltRequest_pipCPU_l594 = _zz_pip_ctrl_3_haltRequest_pipCPU_l594;
-  assign pip_ctrl_4_haltRequest_pipCPU_l595 = _zz_pip_ctrl_4_haltRequest_pipCPU_l595;
-  assign pip_ctrl_5_haltRequest_pipCPU_l596 = _zz_pip_ctrl_5_haltRequest_pipCPU_l596;
-  assign pip_ctrl_1_haltRequest_pipCPU_l602 = _zz_pip_ctrl_1_haltRequest_pipCPU_l602;
-  assign pip_ctrl_2_haltRequest_pipCPU_l603 = _zz_pip_ctrl_2_haltRequest_pipCPU_l603;
-  assign pip_ctrl_2_throwWhen_pipCPU_l606 = (EXtoIF_valid_regNext || EXtoIF_valid);
-  assign pip_ctrl_2_up_forgetOne = (|pip_ctrl_2_throwWhen_pipCPU_l606);
-  assign pip_ctrl_2_up_cancel = (|pip_ctrl_2_throwWhen_pipCPU_l606);
+  assign pip_ctrl_1_haltRequest_pipCPU_l607 = _zz_pip_ctrl_1_haltRequest_pipCPU_l607;
+  assign pip_ctrl_2_haltRequest_pipCPU_l608 = _zz_pip_ctrl_2_haltRequest_pipCPU_l608;
+  assign pip_ctrl_3_haltRequest_pipCPU_l609 = _zz_pip_ctrl_3_haltRequest_pipCPU_l609;
+  assign pip_ctrl_4_haltRequest_pipCPU_l610 = _zz_pip_ctrl_4_haltRequest_pipCPU_l610;
+  assign pip_ctrl_5_haltRequest_pipCPU_l611 = _zz_pip_ctrl_5_haltRequest_pipCPU_l611;
+  assign pip_ctrl_1_haltRequest_pipCPU_l617 = _zz_pip_ctrl_1_haltRequest_pipCPU_l617;
+  assign pip_ctrl_2_throwWhen_pipCPU_l620 = (EXtoIF_valid_regNext || EXtoIF_valid);
+  assign pip_ctrl_2_up_forgetOne = (|pip_ctrl_2_throwWhen_pipCPU_l620);
+  assign pip_ctrl_2_up_cancel = (|pip_ctrl_2_throwWhen_pipCPU_l620);
   always @(*) begin
     pip_ctrl_1_down_ready = pip_ctrl_2_up_ready;
     if((! pip_ctrl_2_up_isValid)) begin
@@ -5727,31 +5879,31 @@ module test_cpu (
 
   always @(*) begin
     pip_ctrl_1_down_valid = pip_ctrl_1_up_valid;
-    if((|{pip_ctrl_1_haltRequest_pipCPU_l602,pip_ctrl_1_haltRequest_pipCPU_l592})) begin
+    if((|{pip_ctrl_1_haltRequest_pipCPU_l617,pip_ctrl_1_haltRequest_pipCPU_l607})) begin
       pip_ctrl_1_down_valid = 1'b0;
     end
   end
 
   always @(*) begin
     pip_ctrl_1_up_ready = pip_ctrl_1_down_isReady;
-    if((|{pip_ctrl_1_haltRequest_pipCPU_l602,pip_ctrl_1_haltRequest_pipCPU_l592})) begin
+    if((|{pip_ctrl_1_haltRequest_pipCPU_l617,pip_ctrl_1_haltRequest_pipCPU_l607})) begin
       pip_ctrl_1_up_ready = 1'b0;
     end
   end
 
   always @(*) begin
     pip_ctrl_2_down_valid = pip_ctrl_2_up_valid;
-    if((|{pip_ctrl_2_haltRequest_pipCPU_l603,pip_ctrl_2_haltRequest_pipCPU_l593})) begin
+    if((|pip_ctrl_2_haltRequest_pipCPU_l608)) begin
       pip_ctrl_2_down_valid = 1'b0;
     end
-    if((|pip_ctrl_2_throwWhen_pipCPU_l606)) begin
+    if((|pip_ctrl_2_throwWhen_pipCPU_l620)) begin
       pip_ctrl_2_down_valid = 1'b0;
     end
   end
 
   always @(*) begin
     pip_ctrl_2_up_ready = pip_ctrl_2_down_isReady;
-    if((|{pip_ctrl_2_haltRequest_pipCPU_l603,pip_ctrl_2_haltRequest_pipCPU_l593})) begin
+    if((|pip_ctrl_2_haltRequest_pipCPU_l608)) begin
       pip_ctrl_2_up_ready = 1'b0;
     end
   end
@@ -5760,14 +5912,14 @@ module test_cpu (
   assign pip_ctrl_2_down_PC = pip_ctrl_2_up_PC;
   always @(*) begin
     pip_ctrl_3_down_valid = pip_ctrl_3_up_valid;
-    if((|pip_ctrl_3_haltRequest_pipCPU_l594)) begin
+    if((|pip_ctrl_3_haltRequest_pipCPU_l609)) begin
       pip_ctrl_3_down_valid = 1'b0;
     end
   end
 
   always @(*) begin
     pip_ctrl_3_up_ready = pip_ctrl_3_down_isReady;
-    if((|pip_ctrl_3_haltRequest_pipCPU_l594)) begin
+    if((|pip_ctrl_3_haltRequest_pipCPU_l609)) begin
       pip_ctrl_3_up_ready = 1'b0;
     end
   end
@@ -5780,14 +5932,14 @@ module test_cpu (
   assign pip_ctrl_3_down_IDtoEX_rs2 = pip_ctrl_3_up_IDtoEX_rs2;
   always @(*) begin
     pip_ctrl_4_down_valid = pip_ctrl_4_up_valid;
-    if((|pip_ctrl_4_haltRequest_pipCPU_l595)) begin
+    if((|pip_ctrl_4_haltRequest_pipCPU_l610)) begin
       pip_ctrl_4_down_valid = 1'b0;
     end
   end
 
   always @(*) begin
     pip_ctrl_4_up_ready = pip_ctrl_4_down_isReady;
-    if((|pip_ctrl_4_haltRequest_pipCPU_l595)) begin
+    if((|pip_ctrl_4_haltRequest_pipCPU_l610)) begin
       pip_ctrl_4_up_ready = 1'b0;
     end
   end
@@ -5801,14 +5953,14 @@ module test_cpu (
   assign pip_ctrl_4_down_MEM_unsigned = pip_ctrl_4_up_MEM_unsigned;
   always @(*) begin
     pip_ctrl_5_down_valid = pip_ctrl_5_up_valid;
-    if((|pip_ctrl_5_haltRequest_pipCPU_l596)) begin
+    if((|pip_ctrl_5_haltRequest_pipCPU_l611)) begin
       pip_ctrl_5_down_valid = 1'b0;
     end
   end
 
   always @(*) begin
     pip_ctrl_5_up_ready = pip_ctrl_5_down_isReady;
-    if((|pip_ctrl_5_haltRequest_pipCPU_l596)) begin
+    if((|pip_ctrl_5_haltRequest_pipCPU_l611)) begin
       pip_ctrl_5_up_ready = 1'b0;
     end
   end
@@ -5834,8 +5986,8 @@ module test_cpu (
   assign pip_ctrl_4_down_isReady = pip_ctrl_4_down_ready;
   assign pip_ctrl_5_up_isValid = pip_ctrl_5_up_valid;
   assign pip_ctrl_5_down_isReady = 1'b1;
-  assign IF_code_fire = (IF_code_valid && IF_code_ready);
-  assign debug_new_flag = ((IF_code_fire || EXtoIF_valid) || EXtoIF_valid_regNext_1);
+  assign debug_new_flag = (IF_code_valid && IF_code_ready);
+  assign debug_debug_data_0 = pip_ctrl_3_down_PC;
   always @(*) begin
     MEM_MEMt_w_stateNext = MEM_MEMt_w_stateReg;
     case(MEM_MEMt_w_stateReg)
@@ -5845,7 +5997,7 @@ module test_cpu (
         end
       end
       MEM_MEMt_w_w : begin
-        if(axi_mem_w_fire) begin
+        if(axi_mem_aw_fire) begin
           MEM_MEMt_w_stateNext = MEM_MEMt_w_b;
         end
       end
@@ -5865,7 +6017,7 @@ module test_cpu (
     end
   end
 
-  assign axi_mem_w_fire = (axi_mem_w_valid_1 && axi_mem_w_ready_1);
+  assign axi_mem_aw_fire = (axi_mem_aw_valid_1 && axi_mem_aw_ready_1);
   assign axi_mem_b_fire = (axi_mem_b_valid_1 && axi_mem_b_ready_1);
   assign MEM_MEMt_w_onExit_BOOT = ((MEM_MEMt_w_stateNext != MEM_MEMt_w_BOOT) && (MEM_MEMt_w_stateReg == MEM_MEMt_w_BOOT));
   assign MEM_MEMt_w_onExit_start = ((MEM_MEMt_w_stateNext != MEM_MEMt_w_start) && (MEM_MEMt_w_stateReg == MEM_MEMt_w_start));
@@ -5950,7 +6102,7 @@ module test_cpu (
       gpr_31 <= 32'h0;
       pc_valid <= 1'b0;
       IF_IFt_pc <= 32'h30000000;
-      MEM_MEMt_busy <= 2'b00;
+      MEM_MEMt_busy <= 2'b11;
       MEM_MEMt_w_w_flag <= 1'b0;
       MEM_MEMt_r_r_flag <= 1'b0;
       pip_ctrl_2_up_valid <= 1'b0;
@@ -5974,7 +6126,7 @@ module test_cpu (
       if(pip_ctrl_4_up_isFiring) begin
         MEM_MEMt_r_r_flag <= 1'b1;
       end
-      if((pip_ctrl_5_down_MEM_read_valid && (pip_ctrl_5_down_RD_sel != 5'h0))) begin
+      if(((mem_busy_regNext && pip_ctrl_5_down_MEM_read_valid) && (pip_ctrl_5_down_RD_sel != 5'h0))) begin
         if(_zz_1[0]) begin
           gpr_0 <= pip_ctrl_5_down_RD_out;
         end
@@ -6199,17 +6351,33 @@ module test_cpu (
         end
       end
       MEM_MEMt_w_stateReg <= MEM_MEMt_w_stateNext;
-      if(MEM_MEMt_w_onExit_start) begin
-        MEM_MEMt_busy[0] <= 1'b1;
-      end
+      case(MEM_MEMt_w_stateReg)
+        MEM_MEMt_w_start : begin
+          MEM_MEMt_busy[0] <= 1'b1;
+        end
+        MEM_MEMt_w_w : begin
+        end
+        MEM_MEMt_w_b : begin
+        end
+        default : begin
+        end
+      endcase
       if(MEM_MEMt_w_onEntry_start) begin
         MEM_MEMt_busy[0] <= 1'b0;
         MEM_MEMt_w_w_flag <= 1'b0;
       end
       MEM_MEMt_r_stateReg <= MEM_MEMt_r_stateNext;
-      if(MEM_MEMt_r_onExit_start) begin
-        MEM_MEMt_busy[1] <= 1'b1;
-      end
+      case(MEM_MEMt_r_stateReg)
+        MEM_MEMt_r_start : begin
+          MEM_MEMt_busy[1] <= 1'b1;
+        end
+        MEM_MEMt_r_ar : begin
+        end
+        MEM_MEMt_r_r : begin
+        end
+        default : begin
+        end
+      endcase
       if(MEM_MEMt_r_onEntry_start) begin
         MEM_MEMt_busy[1] <= 1'b0;
         MEM_MEMt_r_r_flag <= 1'b0;
@@ -6219,6 +6387,7 @@ module test_cpu (
 
   always @(posedge clock) begin
     IF_code_valid_regNext <= IF_code_valid;
+    mem_busy_regNext <= mem_busy;
     EXtoIF_valid_regNext <= EXtoIF_valid;
     if(pip_ctrl_1_down_isReady) begin
       pip_ctrl_2_up_CODE <= pip_ctrl_1_down_CODE;
@@ -6246,11 +6415,7 @@ module test_cpu (
       pip_ctrl_5_up_MEM_read_valid <= pip_ctrl_4_down_MEM_read_valid;
       pip_ctrl_5_up_RD_out <= pip_ctrl_4_down_RD_out;
     end
-    pip_ctrl_3_up_isFiring_regNext <= pip_ctrl_3_up_isFiring;
-    EXtoIF_valid_regNext_1 <= EXtoIF_valid;
-    if(debug_new_flag) begin
-      _zz_data_0 <= pip_ctrl_1_down_PC;
-    end
+    pip_ctrl_4_down_valid_regNext <= pip_ctrl_4_down_valid;
     if(debug_new_flag) begin
       IF_code_payload_regNextWhen <= IF_code_payload;
     end

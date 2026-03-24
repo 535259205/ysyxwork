@@ -23,13 +23,13 @@ int32_t sdram_api(int32_t addr, int32_t data, int32_t write,uint32_t *sdram){
       new_data = (new_data & 0xFFFFFF00) | (data & 0x000000FF);
     }
     if (!(mask & 0x02)) {  // 第1个字节
-      new_data = (new_data & 0xFFFF00FF) | ((data & 0x0000FF00) << 0);
+      new_data = (new_data & 0xFFFF00FF) | (data & 0x0000FF00);
     }
     if (!(mask & 0x04)) {  // 第2个字节
-      new_data = (new_data & 0xFF00FFFF) | ((data & 0x00FF0000) << 0);
+      new_data = (new_data & 0xFF00FFFF) | (data & 0x00FF0000);
     }
     if (!(mask & 0x08)) {  // 第3个字节 (MSB)
-      new_data = (new_data & 0x00FFFFFF) | ((data & 0xFF000000) << 0);
+      new_data = (new_data & 0x00FFFFFF) | (data & 0xFF000000);
     }
 
     sdram[addr>>2] = new_data;

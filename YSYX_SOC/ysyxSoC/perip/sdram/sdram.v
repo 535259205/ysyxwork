@@ -75,6 +75,7 @@ end
 
 reg [3:0]cmd_write_q;
 reg [3:0]cmd_read_q;
+reg [3:0]dqm_q;
 reg [31:0]wdata;
 reg [31:0]rdata;
 always@(posedge clk)
@@ -86,18 +87,24 @@ end
 always@(posedge clk)
 begin
   if(CMD_ACTIVE)
+  begin
     wdata<=32'd0;
+    dqm_q<=4'hf;
+  end
   else if(cmd_write_q[0])
   begin
     wdata[31:16]<=dq;
     `ifndef USE_IVERILOG
-    sdram_ctr(full_addr,{dq,wdata[15:0]},dqm);
+    sdram_ctr(full_addr,{dq,wdata[15:0]},{dqm,dqm_q[1:0]});
     `else
-    $mem_ctr(32'd1,full_addr,{dq,wdata[15:0]},dqm);
+    $mem_ctr(32'd1,full_addr,{dq,wdata[15:0]},{dqm,dqm_q[1:0]});
     `endif
   end
   else if(CMD_WRITE)
+  begin
     wdata[15:0]<=dq;
+    dqm_q[1:0]<=dqm;
+  end
 end 
 
 
