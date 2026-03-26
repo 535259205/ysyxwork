@@ -274,59 +274,24 @@ module AXIClint (
 
   always @(*) begin
     axi_aw_ready = 1'b0;
-    if(!unburstify_buffer_valid) begin
-      axi_aw_ready = unburstify_result_ready;
-    end
-  end
-
-  always @(*) begin
     if(unburstify_buffer_valid) begin
       unburstify_result_valid = 1'b1;
-    end else begin
-      unburstify_result_valid = axi_aw_valid;
-    end
-  end
-
-  always @(*) begin
-    if(unburstify_buffer_valid) begin
       unburstify_result_payload_last = unburstify_buffer_last;
+      unburstify_result_payload_fragment_id = unburstify_buffer_transaction_id;
+      unburstify_result_payload_fragment_size = unburstify_buffer_transaction_size;
+      unburstify_result_payload_fragment_burst = unburstify_buffer_transaction_burst;
+      unburstify_result_payload_fragment_addr = Axi4Incr_result;
     end else begin
+      axi_aw_ready = unburstify_result_ready;
+      unburstify_result_valid = axi_aw_valid;
+      unburstify_result_payload_fragment_addr = axi_aw_payload_addr;
+      unburstify_result_payload_fragment_id = axi_aw_payload_id;
+      unburstify_result_payload_fragment_size = axi_aw_payload_size;
+      unburstify_result_payload_fragment_burst = axi_aw_payload_burst;
       unburstify_result_payload_last = 1'b1;
       if((axi_aw_payload_len != 8'h0)) begin
         unburstify_result_payload_last = 1'b0;
       end
-    end
-  end
-
-  always @(*) begin
-    if(unburstify_buffer_valid) begin
-      unburstify_result_payload_fragment_id = unburstify_buffer_transaction_id;
-    end else begin
-      unburstify_result_payload_fragment_id = axi_aw_payload_id;
-    end
-  end
-
-  always @(*) begin
-    if(unburstify_buffer_valid) begin
-      unburstify_result_payload_fragment_size = unburstify_buffer_transaction_size;
-    end else begin
-      unburstify_result_payload_fragment_size = axi_aw_payload_size;
-    end
-  end
-
-  always @(*) begin
-    if(unburstify_buffer_valid) begin
-      unburstify_result_payload_fragment_burst = unburstify_buffer_transaction_burst;
-    end else begin
-      unburstify_result_payload_fragment_burst = axi_aw_payload_burst;
-    end
-  end
-
-  always @(*) begin
-    if(unburstify_buffer_valid) begin
-      unburstify_result_payload_fragment_addr = Axi4Incr_result;
-    end else begin
-      unburstify_result_payload_fragment_addr = axi_aw_payload_addr;
     end
   end
 
@@ -351,15 +316,9 @@ module AXIClint (
   always @(*) begin
     if(axi_w_payload_last) begin
       axi_writeJoinEvent_ready = (axi_writeRsp_ready && (! axi_writeHaltRequest));
-    end else begin
-      axi_writeJoinEvent_ready = (! axi_writeHaltRequest);
-    end
-  end
-
-  always @(*) begin
-    if(axi_w_payload_last) begin
       axi_writeRsp_valid = axi_writeOccur;
     end else begin
+      axi_writeJoinEvent_ready = (! axi_writeHaltRequest);
       axi_writeRsp_valid = 1'b0;
     end
   end
@@ -405,59 +364,24 @@ module AXIClint (
 
   always @(*) begin
     axi_ar_ready = 1'b0;
-    if(!unburstify_buffer_valid_1) begin
-      axi_ar_ready = unburstify_result_ready_1;
-    end
-  end
-
-  always @(*) begin
     if(unburstify_buffer_valid_1) begin
       unburstify_result_valid_1 = 1'b1;
-    end else begin
-      unburstify_result_valid_1 = axi_ar_valid;
-    end
-  end
-
-  always @(*) begin
-    if(unburstify_buffer_valid_1) begin
       unburstify_result_payload_last_1 = unburstify_buffer_last_1;
+      unburstify_result_payload_fragment_id_1 = unburstify_buffer_transaction_id_1;
+      unburstify_result_payload_fragment_size_1 = unburstify_buffer_transaction_size_1;
+      unburstify_result_payload_fragment_burst_1 = unburstify_buffer_transaction_burst_1;
+      unburstify_result_payload_fragment_addr_1 = Axi4Incr_result_1;
     end else begin
+      axi_ar_ready = unburstify_result_ready_1;
+      unburstify_result_valid_1 = axi_ar_valid;
+      unburstify_result_payload_fragment_addr_1 = axi_ar_payload_addr;
+      unburstify_result_payload_fragment_id_1 = axi_ar_payload_id;
+      unburstify_result_payload_fragment_size_1 = axi_ar_payload_size;
+      unburstify_result_payload_fragment_burst_1 = axi_ar_payload_burst;
       unburstify_result_payload_last_1 = 1'b1;
       if((axi_ar_payload_len != 8'h0)) begin
         unburstify_result_payload_last_1 = 1'b0;
       end
-    end
-  end
-
-  always @(*) begin
-    if(unburstify_buffer_valid_1) begin
-      unburstify_result_payload_fragment_id_1 = unburstify_buffer_transaction_id_1;
-    end else begin
-      unburstify_result_payload_fragment_id_1 = axi_ar_payload_id;
-    end
-  end
-
-  always @(*) begin
-    if(unburstify_buffer_valid_1) begin
-      unburstify_result_payload_fragment_size_1 = unburstify_buffer_transaction_size_1;
-    end else begin
-      unburstify_result_payload_fragment_size_1 = axi_ar_payload_size;
-    end
-  end
-
-  always @(*) begin
-    if(unburstify_buffer_valid_1) begin
-      unburstify_result_payload_fragment_burst_1 = unburstify_buffer_transaction_burst_1;
-    end else begin
-      unburstify_result_payload_fragment_burst_1 = axi_ar_payload_burst;
-    end
-  end
-
-  always @(*) begin
-    if(unburstify_buffer_valid_1) begin
-      unburstify_result_payload_fragment_addr_1 = Axi4Incr_result_1;
-    end else begin
-      unburstify_result_payload_fragment_addr_1 = axi_ar_payload_addr;
     end
   end
 

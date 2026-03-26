@@ -288,566 +288,182 @@ module AXIXbar_new (
 
   always @(*) begin
     axi_m_0_r_valid = 1'b0;
-    case(r_stateReg)
-      r_start : begin
-      end
-      r_turn : begin
-        if(_zz_2) begin
-          axi_m_0_r_valid = axi_s_0_r_valid;
-        end
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
     axi_m_0_r_payload_data = 32'b00000000000000000000000000000000;
-    case(r_stateReg)
-      r_start : begin
-      end
-      r_turn : begin
-        if(_zz_2) begin
-          axi_m_0_r_payload_data = axi_s_0_r_payload_data;
-        end
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
     axi_m_0_r_payload_id = 4'b0000;
-    case(r_stateReg)
-      r_start : begin
-      end
-      r_turn : begin
-        if(_zz_2) begin
-          axi_m_0_r_payload_id = axi_s_0_r_payload_id;
-        end
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
     axi_m_0_r_payload_resp = 2'b00;
-    case(r_stateReg)
-      r_start : begin
-      end
-      r_turn : begin
-        if(_zz_2) begin
-          axi_m_0_r_payload_resp = axi_s_0_r_payload_resp;
-        end
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
     axi_m_0_r_payload_last = 1'b0;
+    axi_m_0_ar_ready = 1'b0;
+    axi_s_0_r_ready = 1'b0;
+    axi_s_0_ar_valid = 1'b0;
+    axi_s_0_ar_payload_addr = 32'b00000000000000000000000000000000;
+    axi_s_0_ar_payload_id = 4'b0000;
+    axi_s_0_ar_payload_len = 8'b00000000;
+    axi_s_0_ar_payload_size = 3'b000;
+    axi_s_0_ar_payload_burst = 2'b00;
+    axi_m_1_r_valid = 1'b0;
+    axi_m_1_r_payload_data = 32'b00000000000000000000000000000000;
+    axi_m_1_r_payload_id = 4'b0000;
+    axi_m_1_r_payload_resp = 2'b00;
+    axi_m_1_r_payload_last = 1'b0;
+    axi_m_1_ar_ready = 1'b0;
+    r_wantStart = 1'b0;
+    r_stateNext = r_stateReg;
     case(r_stateReg)
       r_start : begin
-      end
-      r_turn : begin
-        if(_zz_2) begin
-          axi_m_0_r_payload_last = axi_s_0_r_payload_last;
+        if(axi_m_1_ar_valid) begin
+          r_stateNext = r_turn;
+        end else begin
+          if(axi_m_0_ar_valid) begin
+            r_stateNext = r_turn;
+          end
         end
       end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    axi_m_0_ar_ready = 1'b0;
-    case(r_stateReg)
-      r_start : begin
-      end
       r_turn : begin
+        axi_s_0_ar_valid = _zz_axi_s_0_ar_valid;
         if(_zz_2) begin
           axi_m_0_ar_ready = axi_s_0_ar_ready;
         end
+        if(_zz_3) begin
+          axi_m_1_ar_ready = axi_s_0_ar_ready;
+        end
+        axi_s_0_ar_payload_addr = _zz_axi_s_0_ar_payload_addr;
+        axi_s_0_ar_payload_id = _zz_axi_s_0_ar_payload_id;
+        axi_s_0_ar_payload_len = _zz_axi_s_0_ar_payload_len;
+        axi_s_0_ar_payload_size = _zz_axi_s_0_ar_payload_size;
+        axi_s_0_ar_payload_burst = _zz_axi_s_0_ar_payload_burst;
+        if(_zz_2) begin
+          axi_m_0_r_valid = axi_s_0_r_valid;
+        end
+        if(_zz_3) begin
+          axi_m_1_r_valid = axi_s_0_r_valid;
+        end
+        axi_s_0_r_ready = _zz_axi_s_0_r_ready;
+        if(_zz_2) begin
+          axi_m_0_r_payload_data = axi_s_0_r_payload_data;
+        end
+        if(_zz_3) begin
+          axi_m_1_r_payload_data = axi_s_0_r_payload_data;
+        end
+        if(_zz_2) begin
+          axi_m_0_r_payload_id = axi_s_0_r_payload_id;
+        end
+        if(_zz_3) begin
+          axi_m_1_r_payload_id = axi_s_0_r_payload_id;
+        end
+        if(_zz_2) begin
+          axi_m_0_r_payload_resp = axi_s_0_r_payload_resp;
+        end
+        if(_zz_3) begin
+          axi_m_1_r_payload_resp = axi_s_0_r_payload_resp;
+        end
+        if(_zz_2) begin
+          axi_m_0_r_payload_last = axi_s_0_r_payload_last;
+        end
+        if(_zz_3) begin
+          axi_m_1_r_payload_last = axi_s_0_r_payload_last;
+        end
+        if(((_zz_when && _zz_axi_s_0_r_ready) && _zz_when_1)) begin
+          r_stateNext = r_start;
+        end
       end
       default : begin
+        r_wantStart = 1'b1;
       end
     endcase
+    if(r_wantStart) begin
+      r_stateNext = r_start;
+    end
+    if(r_wantKill) begin
+      r_stateNext = r_BOOT;
+    end
   end
 
   always @(*) begin
     axi_m_0_w_ready = 1'b0;
-    case(w_stateReg)
-      w_start : begin
-      end
-      w_turn : begin
-        if(_zz_5) begin
-          axi_m_0_w_ready = axi_s_0_w_ready;
-        end
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
     axi_m_0_aw_ready = 1'b0;
-    case(w_stateReg)
-      w_start : begin
-      end
-      w_turn : begin
-        if(_zz_5) begin
-          axi_m_0_aw_ready = axi_s_0_aw_ready;
-        end
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
     axi_m_0_b_valid = 1'b0;
-    case(w_stateReg)
-      w_start : begin
-      end
-      w_turn : begin
-        if(_zz_5) begin
-          axi_m_0_b_valid = axi_s_0_b_valid;
-        end
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
     axi_m_0_b_payload_id = 4'b0000;
-    case(w_stateReg)
-      w_start : begin
-      end
-      w_turn : begin
-        if(_zz_5) begin
-          axi_m_0_b_payload_id = axi_s_0_b_payload_id;
-        end
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
     axi_m_0_b_payload_resp = 2'b00;
-    case(w_stateReg)
-      w_start : begin
-      end
-      w_turn : begin
-        if(_zz_5) begin
-          axi_m_0_b_payload_resp = axi_s_0_b_payload_resp;
-        end
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    axi_s_0_r_ready = 1'b0;
-    case(r_stateReg)
-      r_start : begin
-      end
-      r_turn : begin
-        axi_s_0_r_ready = _zz_axi_s_0_r_ready;
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    axi_s_0_ar_valid = 1'b0;
-    case(r_stateReg)
-      r_start : begin
-      end
-      r_turn : begin
-        axi_s_0_ar_valid = _zz_axi_s_0_ar_valid;
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    axi_s_0_ar_payload_addr = 32'b00000000000000000000000000000000;
-    case(r_stateReg)
-      r_start : begin
-      end
-      r_turn : begin
-        axi_s_0_ar_payload_addr = _zz_axi_s_0_ar_payload_addr;
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    axi_s_0_ar_payload_id = 4'b0000;
-    case(r_stateReg)
-      r_start : begin
-      end
-      r_turn : begin
-        axi_s_0_ar_payload_id = _zz_axi_s_0_ar_payload_id;
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    axi_s_0_ar_payload_len = 8'b00000000;
-    case(r_stateReg)
-      r_start : begin
-      end
-      r_turn : begin
-        axi_s_0_ar_payload_len = _zz_axi_s_0_ar_payload_len;
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    axi_s_0_ar_payload_size = 3'b000;
-    case(r_stateReg)
-      r_start : begin
-      end
-      r_turn : begin
-        axi_s_0_ar_payload_size = _zz_axi_s_0_ar_payload_size;
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    axi_s_0_ar_payload_burst = 2'b00;
-    case(r_stateReg)
-      r_start : begin
-      end
-      r_turn : begin
-        axi_s_0_ar_payload_burst = _zz_axi_s_0_ar_payload_burst;
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
     axi_s_0_w_valid = 1'b0;
-    case(w_stateReg)
-      w_start : begin
-      end
-      w_turn : begin
-        axi_s_0_w_valid = _zz_axi_s_0_w_valid;
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
     axi_s_0_w_payload_data = 32'b00000000000000000000000000000000;
-    case(w_stateReg)
-      w_start : begin
-      end
-      w_turn : begin
-        axi_s_0_w_payload_data = _zz_axi_s_0_w_payload_data;
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
     axi_s_0_w_payload_strb = 4'b0000;
-    case(w_stateReg)
-      w_start : begin
-      end
-      w_turn : begin
-        axi_s_0_w_payload_strb = _zz_axi_s_0_w_payload_strb;
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
     axi_s_0_w_payload_last = 1'b0;
-    case(w_stateReg)
-      w_start : begin
-      end
-      w_turn : begin
-        axi_s_0_w_payload_last = _zz_axi_s_0_w_payload_last;
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
     axi_s_0_aw_valid = 1'b0;
+    axi_s_0_aw_payload_addr = 32'b00000000000000000000000000000000;
+    axi_s_0_aw_payload_id = 4'b0000;
+    axi_s_0_aw_payload_len = 8'b00000000;
+    axi_s_0_aw_payload_size = 3'b000;
+    axi_s_0_aw_payload_burst = 2'b00;
+    axi_s_0_b_ready = 1'b0;
+    axi_m_1_w_ready = 1'b0;
+    axi_m_1_aw_ready = 1'b0;
+    axi_m_1_b_valid = 1'b0;
+    axi_m_1_b_payload_id = 4'b0000;
+    axi_m_1_b_payload_resp = 2'b00;
+    w_wantStart = 1'b0;
+    w_stateNext = w_stateReg;
     case(w_stateReg)
       w_start : begin
+        if(axi_m_1_aw_valid) begin
+          w_stateNext = w_turn;
+        end
       end
       w_turn : begin
         axi_s_0_aw_valid = _zz_axi_s_0_aw_valid;
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    axi_s_0_aw_payload_addr = 32'b00000000000000000000000000000000;
-    case(w_stateReg)
-      w_start : begin
-      end
-      w_turn : begin
-        axi_s_0_aw_payload_addr = _zz_axi_s_0_aw_payload_addr;
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    axi_s_0_aw_payload_id = 4'b0000;
-    case(w_stateReg)
-      w_start : begin
-      end
-      w_turn : begin
-        axi_s_0_aw_payload_id = _zz_axi_s_0_aw_payload_id;
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    axi_s_0_aw_payload_len = 8'b00000000;
-    case(w_stateReg)
-      w_start : begin
-      end
-      w_turn : begin
-        axi_s_0_aw_payload_len = _zz_axi_s_0_aw_payload_len;
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    axi_s_0_aw_payload_size = 3'b000;
-    case(w_stateReg)
-      w_start : begin
-      end
-      w_turn : begin
-        axi_s_0_aw_payload_size = _zz_axi_s_0_aw_payload_size;
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    axi_s_0_aw_payload_burst = 2'b00;
-    case(w_stateReg)
-      w_start : begin
-      end
-      w_turn : begin
-        axi_s_0_aw_payload_burst = _zz_axi_s_0_aw_payload_burst;
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    axi_s_0_b_ready = 1'b0;
-    case(w_stateReg)
-      w_start : begin
-      end
-      w_turn : begin
-        axi_s_0_b_ready = _zz_axi_s_0_b_ready;
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    axi_m_1_r_valid = 1'b0;
-    case(r_stateReg)
-      r_start : begin
-      end
-      r_turn : begin
-        if(_zz_3) begin
-          axi_m_1_r_valid = axi_s_0_r_valid;
+        if(_zz_5) begin
+          axi_m_0_aw_ready = axi_s_0_aw_ready;
         end
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    axi_m_1_r_payload_data = 32'b00000000000000000000000000000000;
-    case(r_stateReg)
-      r_start : begin
-      end
-      r_turn : begin
-        if(_zz_3) begin
-          axi_m_1_r_payload_data = axi_s_0_r_payload_data;
-        end
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    axi_m_1_r_payload_id = 4'b0000;
-    case(r_stateReg)
-      r_start : begin
-      end
-      r_turn : begin
-        if(_zz_3) begin
-          axi_m_1_r_payload_id = axi_s_0_r_payload_id;
-        end
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    axi_m_1_r_payload_resp = 2'b00;
-    case(r_stateReg)
-      r_start : begin
-      end
-      r_turn : begin
-        if(_zz_3) begin
-          axi_m_1_r_payload_resp = axi_s_0_r_payload_resp;
-        end
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    axi_m_1_r_payload_last = 1'b0;
-    case(r_stateReg)
-      r_start : begin
-      end
-      r_turn : begin
-        if(_zz_3) begin
-          axi_m_1_r_payload_last = axi_s_0_r_payload_last;
-        end
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    axi_m_1_ar_ready = 1'b0;
-    case(r_stateReg)
-      r_start : begin
-      end
-      r_turn : begin
-        if(_zz_3) begin
-          axi_m_1_ar_ready = axi_s_0_ar_ready;
-        end
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    axi_m_1_w_ready = 1'b0;
-    case(w_stateReg)
-      w_start : begin
-      end
-      w_turn : begin
-        if(_zz_6) begin
-          axi_m_1_w_ready = axi_s_0_w_ready;
-        end
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    axi_m_1_aw_ready = 1'b0;
-    case(w_stateReg)
-      w_start : begin
-      end
-      w_turn : begin
         if(_zz_6) begin
           axi_m_1_aw_ready = axi_s_0_aw_ready;
         end
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    axi_m_1_b_valid = 1'b0;
-    case(w_stateReg)
-      w_start : begin
-      end
-      w_turn : begin
+        axi_s_0_aw_payload_addr = _zz_axi_s_0_aw_payload_addr;
+        axi_s_0_aw_payload_id = _zz_axi_s_0_aw_payload_id;
+        axi_s_0_aw_payload_len = _zz_axi_s_0_aw_payload_len;
+        axi_s_0_aw_payload_size = _zz_axi_s_0_aw_payload_size;
+        axi_s_0_aw_payload_burst = _zz_axi_s_0_aw_payload_burst;
+        axi_s_0_w_valid = _zz_axi_s_0_w_valid;
+        if(_zz_5) begin
+          axi_m_0_w_ready = axi_s_0_w_ready;
+        end
+        if(_zz_6) begin
+          axi_m_1_w_ready = axi_s_0_w_ready;
+        end
+        axi_s_0_w_payload_data = _zz_axi_s_0_w_payload_data;
+        axi_s_0_w_payload_strb = _zz_axi_s_0_w_payload_strb;
+        axi_s_0_w_payload_last = _zz_axi_s_0_w_payload_last;
+        if(_zz_5) begin
+          axi_m_0_b_valid = axi_s_0_b_valid;
+        end
         if(_zz_6) begin
           axi_m_1_b_valid = axi_s_0_b_valid;
         end
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    axi_m_1_b_payload_id = 4'b0000;
-    case(w_stateReg)
-      w_start : begin
-      end
-      w_turn : begin
+        axi_s_0_b_ready = _zz_axi_s_0_b_ready;
+        if(_zz_5) begin
+          axi_m_0_b_payload_id = axi_s_0_b_payload_id;
+        end
         if(_zz_6) begin
           axi_m_1_b_payload_id = axi_s_0_b_payload_id;
         end
-      end
-      default : begin
-      end
-    endcase
-  end
-
-  always @(*) begin
-    axi_m_1_b_payload_resp = 2'b00;
-    case(w_stateReg)
-      w_start : begin
-      end
-      w_turn : begin
+        if(_zz_5) begin
+          axi_m_0_b_payload_resp = axi_s_0_b_payload_resp;
+        end
         if(_zz_6) begin
           axi_m_1_b_payload_resp = axi_s_0_b_payload_resp;
         end
+        if((_zz_when_2 && _zz_axi_s_0_b_ready)) begin
+          w_stateNext = w_start;
+        end
       end
       default : begin
+        w_wantStart = 1'b1;
       end
     endcase
+    if(w_wantStart) begin
+      w_stateNext = w_start;
+    end
+    if(w_wantKill) begin
+      w_stateNext = w_BOOT;
+    end
   end
 
   assign axi_s_1_r_ready = 1'b0;
@@ -869,63 +485,9 @@ module AXIXbar_new (
   assign axi_s_1_aw_payload_burst = 2'b00;
   assign axi_s_1_b_ready = 1'b0;
   assign r_wantExit = 1'b0;
-  always @(*) begin
-    r_wantStart = 1'b0;
-    case(r_stateReg)
-      r_start : begin
-      end
-      r_turn : begin
-      end
-      default : begin
-        r_wantStart = 1'b1;
-      end
-    endcase
-  end
-
   assign r_wantKill = 1'b0;
   assign w_wantExit = 1'b0;
-  always @(*) begin
-    w_wantStart = 1'b0;
-    case(w_stateReg)
-      w_start : begin
-      end
-      w_turn : begin
-      end
-      default : begin
-        w_wantStart = 1'b1;
-      end
-    endcase
-  end
-
   assign w_wantKill = 1'b0;
-  always @(*) begin
-    r_stateNext = r_stateReg;
-    case(r_stateReg)
-      r_start : begin
-        if(axi_m_1_ar_valid) begin
-          r_stateNext = r_turn;
-        end else begin
-          if(axi_m_0_ar_valid) begin
-            r_stateNext = r_turn;
-          end
-        end
-      end
-      r_turn : begin
-        if(((_zz_when && _zz_axi_s_0_r_ready) && _zz_when_1)) begin
-          r_stateNext = r_start;
-        end
-      end
-      default : begin
-      end
-    endcase
-    if(r_wantStart) begin
-      r_stateNext = r_start;
-    end
-    if(r_wantKill) begin
-      r_stateNext = r_BOOT;
-    end
-  end
-
   assign _zz_axi_s_0_r_ready = _zz__zz_axi_s_0_r_ready;
   assign _zz_1 = ({1'd0,1'b1} <<< r_sel_m);
   assign _zz_2 = _zz_1[0];
@@ -936,30 +498,6 @@ module AXIXbar_new (
   assign r_onEntry_BOOT = ((r_stateNext == r_BOOT) && (r_stateReg != r_BOOT));
   assign r_onEntry_start = ((r_stateNext == r_start) && (r_stateReg != r_start));
   assign r_onEntry_turn = ((r_stateNext == r_turn) && (r_stateReg != r_turn));
-  always @(*) begin
-    w_stateNext = w_stateReg;
-    case(w_stateReg)
-      w_start : begin
-        if(axi_m_1_aw_valid) begin
-          w_stateNext = w_turn;
-        end
-      end
-      w_turn : begin
-        if((_zz_when_2 && _zz_axi_s_0_b_ready)) begin
-          w_stateNext = w_start;
-        end
-      end
-      default : begin
-      end
-    endcase
-    if(w_wantStart) begin
-      w_stateNext = w_start;
-    end
-    if(w_wantKill) begin
-      w_stateNext = w_BOOT;
-    end
-  end
-
   assign _zz_axi_s_0_b_ready = _zz__zz_axi_s_0_b_ready;
   assign _zz_4 = ({1'd0,1'b1} <<< w_sel);
   assign _zz_5 = _zz_4[0];

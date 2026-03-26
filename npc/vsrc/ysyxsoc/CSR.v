@@ -20,6 +20,13 @@ module CSR (
   reg        [31:0]   mtvec;
 
   assign _zz_mcycle = (mcycle + 64'h0000000000000001);
+  my_debug debug (
+    .data_0 (mtvec[31:0]  ), //i
+    .data_1 (mcause[31:0] ), //i
+    .data_2 (mstatus[31:0]), //i
+    .data_3 (mepc[31:0]   ), //i
+    .clock  (clock        )  //i
+  );
   always @(*) begin
     case(csr_rsel)
       12'hb00 : begin
