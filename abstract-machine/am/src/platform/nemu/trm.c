@@ -23,6 +23,7 @@ char getch(void)
   if(ev.keycode == AM_KEY_RETURN) return '\n';
   if(ev.keycode == AM_KEY_END) return '\n';
   if(ev.keycode == AM_KEY_BACKSPACE) return '\b';
+  if(ev.keycode == AM_KEY_MINUS) return '_';
   if(*names[ev.keycode]>='A' && *names[ev.keycode]<='Z') return *names[ev.keycode]+32;
 
 
