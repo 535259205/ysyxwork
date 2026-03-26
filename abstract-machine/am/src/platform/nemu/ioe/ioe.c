@@ -21,7 +21,22 @@ void __am_disk_blkio(AM_DISK_BLKIO_T *io);
 static void __am_timer_config(AM_TIMER_CONFIG_T *cfg) { cfg->present = true; cfg->has_rtc = true; }
 static void __am_input_config(AM_INPUT_CONFIG_T *cfg) { cfg->present = true;  }
 static void __am_uart_config(AM_UART_CONFIG_T *cfg)   { cfg->present = true; }
-static void __am_net_config (AM_NET_CONFIG_T *cfg)    { cfg->present = false; }
+
+static void __am_uart_rx(AM_UART_RX_T *rx) {
+  volatile uint8_t *serial_base = (volatile uint8_t *)0xa00003f8;
+  volatile uint8_t *lsr = serial_base + 5;  // 线路状态寄存器
+  
+  // 检查是否有数据可读 (bit 0 = 1 表示有数据)
+  if ((*lsr & 0x01) == 0) {
+    rx->data =-1;  // 没有数据
+  }
+  
+  // 读取数据寄存器
+  rx->data = *serial_base;
+}
+
+
+static void __am_net_config (AM_NET_CONFIG_T *cfg)    { cfg->present = true; }
 
 
 
@@ -37,6 +52,7 @@ static void *lut[128] = {
   [AM_GPU_STATUS  ] = __am_gpu_status,
 
   [AM_UART_CONFIG ] = __am_uart_config,
+  [AM_UART_RX     ] = __am_uart_rx,
 
   [AM_AUDIO_CONFIG] = __am_audio_config,
   [AM_AUDIO_CTRL  ] = __am_audio_ctrl,
