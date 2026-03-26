@@ -20,7 +20,7 @@ char getch(void)
 {
   AM_INPUT_KEYBRD_T ev = io_read(AM_INPUT_KEYBRD);
   if (ev.keycode == AM_KEY_NONE || ev.keydown==0) return -1;
-
+  if(ev.keycode == AM_KEY_END) return '\n';
   return *names[ev.keycode];
 }
 
