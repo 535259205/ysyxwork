@@ -35,6 +35,10 @@ void DisasmEncode(struct SdbReg * info,uint32_t len)
 		}
 
 		cs_free(insn, count);
-	} else
-		printf("ERROR: Failed to disassemble given code!\n");
+	} else{
+		static int cnt = 0;
+		cnt++;
+		if(cnt<5)
+			printf("ERROR: Failed to disassemble given code!\n");
+	}
 }
