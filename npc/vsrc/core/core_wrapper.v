@@ -73,7 +73,7 @@ ysyx_26010010 u_cpu(
 .io_master_awburst(io_master_awburst),
 .io_master_wready(io_master_wready),
 .io_master_wvalid(io_master_wvalid),
-.io_master_wdata(io_master_wvalid),
+.io_master_wdata(io_master_wdata),
 .io_master_wstrb(io_master_wstrb),
 .io_master_wlast(io_master_wlast),
 .io_master_bready(io_master_bready),

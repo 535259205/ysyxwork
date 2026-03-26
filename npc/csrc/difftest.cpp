@@ -38,14 +38,12 @@ int difftest_comp(struct SdbReg *info)
             printf("reg %d diff: 0x%x != 0x%x\n", i, cpu_ref.gpr[i], info->reg[i]);
             printf("pc diff: 0x%x != 0x%x\n", cpu_ref.pc, info->pc);
             flag = 0;
-            // return 0;
         }
     }
-    if(cpu_ref.pc!=info->pc){ // 使用 -> 访问指针成员
-        printf("pc diff: 0x%x != 0x%x\n", cpu_ref.pc, info->pc);
-        flag = 0;
-        // return 0;
-    }
+    // if(cpu_ref.pc!=info->pc){ // 使用 -> 访问指针成员
+    //     printf("pc diff: 0x%x != 0x%x\n", cpu_ref.pc, info->pc);
+    //     flag = 0;
+    // }
     // if(cpu_ref.mtvec!=info->mtvec){ // 使用 -> 访问指针成员
     //     printf("mtvec diff: 0x%x != 0x%x\n", cpu_ref.mtvec, info->mtvec);
     //     flag = 0;

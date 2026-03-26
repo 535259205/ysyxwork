@@ -45,16 +45,16 @@ module Icache (
   localparam s_axi_r = 2'd2;
 
   wire       [31:0]   cache_mem_spinal_port0;
-  wire       [6:0]    _zz_pc_r_addr;
-  wire       [6:0]    _zz_pc_r_addr_1;
-  wire       [5:0]    _zz_cache_mem_port;
-  wire       [5:0]    _zz_cache_mem_port_1;
-  wire       [6:0]    _zz_cache_mem_port_2;
-  wire       [6:0]    _zz_cache_mem_port_3;
-  wire       [6:0]    _zz_cache_mem_port_4;
+  wire       [7:0]    _zz_pc_r_addr;
+  wire       [7:0]    _zz_pc_r_addr_1;
+  wire       [6:0]    _zz_cache_mem_port;
+  wire       [6:0]    _zz_cache_mem_port_1;
+  wire       [7:0]    _zz_cache_mem_port_2;
+  wire       [7:0]    _zz_cache_mem_port_3;
+  wire       [7:0]    _zz_cache_mem_port_4;
   wire       [31:0]   _zz_cache_mem_port_5;
   reg                 _zz_when;
-  wire       [5:0]    _zz_code_payload;
+  wire       [6:0]    _zz_code_payload;
   reg                 _zz_1;
   reg        [31:0]   error_cnt;
   reg                 cache_valid_0;
@@ -65,16 +65,16 @@ module Icache (
   reg                 cache_valid_5;
   reg                 cache_valid_6;
   reg                 cache_valid_7;
-  wire       [2:0]    pc_offset;
+  wire       [3:0]    pc_offset;
   wire       [2:0]    pc_index;
-  wire       [23:0]   pc_tag;
-  wire       [6:0]    pc_r_addr;
-  reg        [23:0]   cache_tag;
+  wire       [22:0]   pc_tag;
+  wire       [7:0]    pc_r_addr;
+  reg        [22:0]   cache_tag;
   wire                s_wantExit;
   reg                 s_wantStart;
   wire                s_wantKill;
   reg                 s_start_code_valid;
-  reg        [3:0]    s_axi_r_cnt;
+  reg        [4:0]    s_axi_r_cnt;
   reg                 s_axi_r_ar_flag;
   reg        [1:0]    s_stateReg;
   reg        [1:0]    s_stateNext;
@@ -92,14 +92,14 @@ module Icache (
   reg [39:0] s_stateNext_string;
   `endif
 
-  (* ram_style = "distributed" *) reg [31:0] cache_mem [0:63];
+  (* ram_style = "distributed" *) reg [31:0] cache_mem [0:127];
 
-  assign _zz_pc_r_addr = (pc_index * 4'b1000);
+  assign _zz_pc_r_addr = (pc_index * 5'h10);
   assign _zz_pc_r_addr_1 = {4'd0, pc_offset};
-  assign _zz_code_payload = pc_r_addr[5:0];
+  assign _zz_code_payload = pc_r_addr[6:0];
   assign _zz_cache_mem_port_2 = (_zz_cache_mem_port_3 + _zz_cache_mem_port_4);
-  assign _zz_cache_mem_port_1 = _zz_cache_mem_port_2[5:0];
-  assign _zz_cache_mem_port_3 = (pc_index * 4'b1000);
+  assign _zz_cache_mem_port_1 = _zz_cache_mem_port_2[6:0];
+  assign _zz_cache_mem_port_3 = (pc_index * 5'h10);
   assign _zz_cache_mem_port_4 = {3'd0, s_axi_r_cnt};
   assign _zz_cache_mem_port_5 = axi_r_payload_data;
   assign cache_mem_spinal_port0 = cache_mem[_zz_code_payload];
@@ -187,14 +187,14 @@ module Icache (
       s_start : begin
       end
       s_axi_r : begin
-        axi_ar_payload_addr = {pc_tag,{pc_index,5'h0}};
+        axi_ar_payload_addr = {pc_tag,{pc_index,6'h0}};
       end
       default : begin
       end
     endcase
   end
 
-  assign axi_ar_payload_len = 8'h07;
+  assign axi_ar_payload_len = 8'h0f;
   assign axi_ar_payload_size = 3'b010;
   assign axi_ar_payload_burst = 2'b01;
   always @(*) begin
@@ -235,9 +235,9 @@ module Icache (
     endcase
   end
 
-  assign pc_offset = addr[4 : 2];
-  assign pc_index = addr[7 : 5];
-  assign pc_tag = addr[31 : 8];
+  assign pc_offset = addr[5 : 2];
+  assign pc_index = addr[8 : 6];
+  assign pc_tag = addr[31 : 9];
   assign pc_r_addr = (_zz_pc_r_addr + _zz_pc_r_addr_1);
   assign s_wantExit = 1'b0;
   always @(*) begin
@@ -274,7 +274,7 @@ module Icache (
       end
       s_axi_r : begin
         if(axi_r_fire) begin
-          if((s_axi_r_cnt == 4'b0111)) begin
+          if((s_axi_r_cnt == 5'h0f)) begin
             s_stateNext = s_start;
           end
         end
@@ -311,9 +311,9 @@ module Icache (
       cache_valid_5 <= 1'b0;
       cache_valid_6 <= 1'b0;
       cache_valid_7 <= 1'b0;
-      cache_tag <= 24'h0;
+      cache_tag <= 23'h0;
       s_start_code_valid <= 1'b0;
-      s_axi_r_cnt <= 4'b0000;
+      s_axi_r_cnt <= 5'h0;
       s_axi_r_ar_flag <= 1'b0;
       s_stateReg <= s_BOOT;
     end else begin
@@ -360,8 +360,8 @@ module Icache (
             s_axi_r_ar_flag <= 1'b1;
           end
           if(axi_r_fire) begin
-            s_axi_r_cnt <= (s_axi_r_cnt + 4'b0001);
-            if((s_axi_r_cnt == 4'b0111)) begin
+            s_axi_r_cnt <= (s_axi_r_cnt + 5'h01);
+            if((s_axi_r_cnt == 5'h0f)) begin
               axi_r_ready <= 1'b0;
               if(_zz_4[0]) begin
                 cache_valid_0 <= 1'b1;
@@ -396,7 +396,7 @@ module Icache (
         end
       endcase
       if(s_onEntry_axi_r) begin
-        s_axi_r_cnt <= 4'b0000;
+        s_axi_r_cnt <= 5'h0;
         s_axi_r_ar_flag <= 1'b0;
       end
     end

@@ -1,5 +1,7 @@
 #include <iostream>
+// #include "../obj_dir/VTOPmod.h"
 #include "../obj_dir/VysyxSoCFull.h"
+
 #include "verilated_vcd_c.h"
 #include "verilated.h"
 #include "stdio.h"
@@ -16,7 +18,9 @@
 #define OVER_CNT   UINT32_MAX
 
 
+// VTOPmod *dut = new VTOPmod(); 
 VysyxSoCFull *dut = new VysyxSoCFull(); 
+
 vluint64_t sim_time = 0;
 VerilatedVcdC *m_trace = new VerilatedVcdC();
 
