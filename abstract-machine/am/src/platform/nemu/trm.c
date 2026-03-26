@@ -12,7 +12,10 @@ void putch(char ch) {
 }
 char getch(void)
 {
-  return 'A';
+  AM_INPUT_KEYBRD_T ev = io_read(AM_INPUT_KEYBRD);
+  if (ev.keycode == AM_KEY_NONE) return -1;
+
+  return ev.keycode;
 }
 
 void halt(int code) {
