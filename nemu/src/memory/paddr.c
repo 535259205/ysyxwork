@@ -18,7 +18,7 @@
 #include <device/mmio.h>
 #include <isa.h>
 
-#define USE_EXMEM 1
+#define USE_EXMEM 0
 
 #if   defined(CONFIG_PMEM_MALLOC)
 static uint8_t *pmem = NULL;
@@ -70,7 +70,7 @@ static inline bool in_sram(paddr_t addr) {
 static inline bool in_uart(paddr_t addr) {
   return addr >= UART_BASE && addr < UART_BASE + 0x1fff;
 }
-#define PSRAM_BASE 0x80000000
+#define PSRAM_BASE 0xA0000000
 #define PSRAM_SIZE 0x04000000
 static uint8_t psram[PSRAM_SIZE] = {0};
 
@@ -107,11 +107,12 @@ word_t paddr_read(paddr_t addr, int len) {
   {
     return psram_read(addr, len);
   }
+  else if(likely(in_uart(addr)))
+  {
+    return 0;
+  }
   #endif
-  // else if(likely(in_uart(addr)))
-  // {
-  //   return 0;
-  // }
+
   IFDEF(CONFIG_DEVICE, return mmio_read(addr, len));
   out_of_bound(addr);
   return 0;

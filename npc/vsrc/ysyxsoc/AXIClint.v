@@ -33,7 +33,7 @@ module AXIClint (
   output wire [1:0]    axi_r_payload_resp,
   output wire          axi_r_payload_last,
   input  wire          clock,
-  input  wire          rst
+  input  wire          reset
 );
 
   wire       [1:0]    _zz_Axi4Incr_alignMask;
@@ -465,7 +465,7 @@ module AXIClint (
   assign axi_readAddressMasked = (axi_readDataStage_payload_fragment_addr & (~ 32'h00000003));
   assign axi_writeAddressMasked = (unburstify_result_payload_fragment_addr & (~ 32'h00000003));
   always @(posedge clock) begin
-    if(rst) begin
+    if(reset) begin
       unburstify_buffer_valid <= 1'b0;
       axi_writeRsp_rValid <= 1'b0;
       unburstify_buffer_valid_1 <= 1'b0;

@@ -14,7 +14,7 @@ csrc := ./csrc/*.cpp
 WORK ?=F
 
 ifeq ($(WORK),F)
--include ./scripts/ysyx_logsim.mk
+-include ./scripts/ysyx_study.mk
 else
 -include ./scripts/ysyx_work.mk
 endif

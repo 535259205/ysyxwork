@@ -1,5 +1,7 @@
 #include <iostream>
-#include "../obj_dir/VTOPmod.h"
+// #include "../obj_dir/VTOPmod.h"
+#include "../obj_dir/VysyxSoCFull.h"
+
 #include "verilated_vcd_c.h"
 #include "verilated.h"
 #include "stdio.h"
@@ -7,7 +9,7 @@
 #include "debug.h"
 
 
-#define USE_WAVE1 1
+#define USE_WAVE1 0
 #define WAVE_START (15000*0)
 #define SHOW_LIMIT 10
 #define USE_ITRACE 0
@@ -16,7 +18,9 @@
 #define OVER_CNT   UINT32_MAX
 
 
-VTOPmod *dut = new VTOPmod(); 
+// VTOPmod *dut = new VTOPmod(); 
+VysyxSoCFull *dut = new VysyxSoCFull(); 
+
 vluint64_t sim_time = 0;
 VerilatedVcdC *m_trace = new VerilatedVcdC();
 

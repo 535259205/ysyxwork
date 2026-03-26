@@ -10,42 +10,41 @@ MEMORY{
 }
 
 SECTIONS {
-
     . = ORIGIN(FLASH);
     .boot :
     {
         KEEP(*(entry))
     } > FLASH
-    . = ORIGIN(SDRAM_CODE);
-    . = ALIGN(8);
+    . = ORIGIN(FLASH);
+    . = ALIGN(align_num);
     .text : {
-        . = ALIGN(8);  
+        . = ALIGN(align_num);  
         _text_start = .;
         *(.text)
         *(.text*)
         *(.rodata)
         *(.rodata.*)
         *(.srodata*)
-        . = ALIGN(8);
+        . = ALIGN(align_num);
         _text_end = .;
     } >SDRAM_CODE AT> FLASH
 
-    _text_load_start = ALIGN(LOADADDR(.text),8);
+    _text_load_start = ALIGN(LOADADDR(.text),align_num);
 
     . = ORIGIN(SDRAM);
     .data : {
-        . = ALIGN(8);
+        . = ALIGN(align_num);
         _data_start = .;
         *(.data)
         *(.data*)
         *(.sdata)
         *(.sdata*)
-        . = ALIGN(8);
+        . = ALIGN(align_num);
         _data_end = .;
     } > SDRAM AT> FLASH
 
     /* 数据段在MROM中的起始地址（LMA） */
-    _data_load_start = ALIGN(LOADADDR(.data),8);
+    _data_load_start = ALIGN(LOADADDR(.data),align_num);
 
     .bss : {
         *(.bss)
@@ -57,7 +56,6 @@ SECTIONS {
     . = ALIGN(0x1000);
     _stack_top = .;                     /* 栈顶（高地址） */
     . = . - 0x1000;                    /* 向下分配2KB栈空间 */
-    . = ALIGN(8);
     _stack_bottom = .;                  /* 栈底（低地址） */
     _stack_pointer = _stack_top;        /* 栈指针初始指向栈顶 */
 

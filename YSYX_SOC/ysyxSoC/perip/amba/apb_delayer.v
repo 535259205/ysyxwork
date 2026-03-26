@@ -24,29 +24,40 @@ module apb_delayer (
   input  wire          reset
 );
 
-  apb_delayer_my apb_delayer_my_inst(
-    .in_in_paddr    (in_paddr),
-    .in_in_psel     (in_psel),
-    .in_in_penable  (in_penable),
-    .in_in_pprot    (in_pprot),
-    .in_in_pwrite   (in_pwrite),
-    .in_in_pwdata   (in_pwdata),
-    .in_in_pstrb    (in_pstrb),
-    .in_in_pready   (in_pready),
-    .in_in_prdata   (in_prdata),
-    .in_in_pslverr  (in_pslverr),
-    .out_in_paddr   (out_paddr),
-    .out_in_psel    (out_psel),
-    .out_in_penable (out_penable),
-    .out_in_pprot   (out_pprot),
-    .out_in_pwrite  (out_pwrite),
-    .out_in_pwdata  (out_pwdata),
-    .out_in_pstrb   (out_pstrb),
-    .out_in_pready  (out_pready),
-    .out_in_prdata  (out_prdata),
-    .out_in_pslverr (out_pslverr),
-    .clock          (clock),
-    .reset          (reset)
-  );
+  // apb_delayer_my apb_delayer_my_inst(
+  //   .in_in_paddr    (in_paddr),
+  //   .in_in_psel     (in_psel),
+  //   .in_in_penable  (in_penable),
+  //   .in_in_pprot    (in_pprot),
+  //   .in_in_pwrite   (in_pwrite),
+  //   .in_in_pwdata   (in_pwdata),
+  //   .in_in_pstrb    (in_pstrb),
+  //   .in_in_pready   (in_pready),
+  //   .in_in_prdata   (in_prdata),
+  //   .in_in_pslverr  (in_pslverr),
+  //   .out_in_paddr   (out_paddr),
+  //   .out_in_psel    (out_psel),
+  //   .out_in_penable (out_penable),
+  //   .out_in_pprot   (out_pprot),
+  //   .out_in_pwrite  (out_pwrite),
+  //   .out_in_pwdata  (out_pwdata),
+  //   .out_in_pstrb   (out_pstrb),
+  //   .out_in_pready  (out_pready),
+  //   .out_in_prdata  (out_prdata),
+  //   .out_in_pslverr (out_pslverr),
+  //   .clock          (clock),
+  //   .reset          (reset)
+  // );
+
+  assign out_paddr   = in_paddr;
+  assign out_psel    = in_psel;
+  assign out_penable = in_penable;
+  assign out_pprot   = in_pprot;
+  assign out_pwrite  = in_pwrite;
+  assign out_pwdata  = in_pwdata;
+  assign out_pstrb   = in_pstrb;
+  assign in_pready   = out_pready;
+  assign in_prdata   = out_prdata;
+  assign in_pslverr  = out_pslverr;
 
 endmodule

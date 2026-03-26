@@ -37,7 +37,6 @@ void boot_cpy(uintptr_t src_addr, uintptr_t dst_addr, uintptr_t data_end) {
 
   }
     asm volatile("fence.i" ::: "memory");
-    asm volatile("fence" ::: "memory");
 }
 
 // 初始化数据段（全局变量到RAM里面）
