@@ -12,6 +12,10 @@ module CSR (
   input  wire          reset
 );
 
+  reg        [31:0]   debug_data_0;
+  reg        [31:0]   debug_data_1;
+  reg        [31:0]   debug_data_2;
+  reg        [31:0]   debug_data_3;
   wire       [63:0]   _zz_mcycle;
   reg        [63:0]   mcycle;
   reg        [31:0]   mstatus;
@@ -21,11 +25,11 @@ module CSR (
 
   assign _zz_mcycle = (mcycle + 64'h0000000000000001);
   my_debug debug (
-    .data_0 (mtvec[31:0]  ), //i
-    .data_1 (mcause[31:0] ), //i
-    .data_2 (mstatus[31:0]), //i
-    .data_3 (mepc[31:0]   ), //i
-    .clock  (clock        )  //i
+    .data_0 (debug_data_0[31:0]), //i
+    .data_1 (debug_data_1[31:0]), //i
+    .data_2 (debug_data_2[31:0]), //i
+    .data_3 (debug_data_3[31:0]), //i
+    .clock  (clock             )  //i
   );
   always @(*) begin
     case(csr_rsel)
@@ -57,6 +61,31 @@ module CSR (
         r_data = 32'h0;
       end
     endcase
+  end
+
+  always @(*) begin
+    debug_data_0 = mtvec;
+    debug_data_1 = mcause;
+    debug_data_2 = mstatus;
+    debug_data_3 = mepc;
+    if(w_valid) begin
+      case(csr_wsel)
+        12'h300 : begin
+          debug_data_2 = w_data;
+        end
+        12'h305 : begin
+          debug_data_0 = w_data;
+        end
+        12'h342 : begin
+          debug_data_1 = w_data;
+        end
+        12'h341 : begin
+          debug_data_3 = w_data;
+        end
+        default : begin
+        end
+      endcase
+    end
   end
 
   always @(posedge clock) begin

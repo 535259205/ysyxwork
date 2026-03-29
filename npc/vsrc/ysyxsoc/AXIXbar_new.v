@@ -106,15 +106,15 @@ module AXIXbar_new (
   output wire          axi_s_1_b_ready,
   input  wire [3:0]    axi_s_1_b_payload_id,
   input  wire [1:0]    axi_s_1_b_payload_resp,
-  output wire          axi_s_1_ar_valid,
+  output reg           axi_s_1_ar_valid,
   input  wire          axi_s_1_ar_ready,
-  output wire [31:0]   axi_s_1_ar_payload_addr,
-  output wire [3:0]    axi_s_1_ar_payload_id,
-  output wire [7:0]    axi_s_1_ar_payload_len,
-  output wire [2:0]    axi_s_1_ar_payload_size,
-  output wire [1:0]    axi_s_1_ar_payload_burst,
+  output reg  [31:0]   axi_s_1_ar_payload_addr,
+  output reg  [3:0]    axi_s_1_ar_payload_id,
+  output reg  [7:0]    axi_s_1_ar_payload_len,
+  output reg  [2:0]    axi_s_1_ar_payload_size,
+  output reg  [1:0]    axi_s_1_ar_payload_burst,
   input  wire          axi_s_1_r_valid,
-  output wire          axi_s_1_r_ready,
+  output reg           axi_s_1_r_ready,
   input  wire [31:0]   axi_s_1_r_payload_data,
   input  wire [3:0]    axi_s_1_r_payload_id,
   input  wire [1:0]    axi_s_1_r_payload_resp,
@@ -129,13 +129,13 @@ module AXIXbar_new (
   localparam w_start = 2'd1;
   localparam w_turn = 2'd2;
 
+  reg                 _zz__zz_axi_s_0_ar_valid;
+  reg        [31:0]   _zz__zz_axi_s_0_ar_payload_addr;
+  reg        [3:0]    _zz__zz_axi_s_0_ar_payload_id;
+  reg        [7:0]    _zz__zz_axi_s_0_ar_payload_len;
+  reg        [2:0]    _zz__zz_axi_s_0_ar_payload_size;
+  reg        [1:0]    _zz__zz_axi_s_0_ar_payload_burst;
   reg                 _zz__zz_axi_s_0_r_ready;
-  reg                 _zz_axi_s_0_ar_valid;
-  reg        [31:0]   _zz_axi_s_0_ar_payload_addr;
-  reg        [3:0]    _zz_axi_s_0_ar_payload_id;
-  reg        [7:0]    _zz_axi_s_0_ar_payload_len;
-  reg        [2:0]    _zz_axi_s_0_ar_payload_size;
-  reg        [1:0]    _zz_axi_s_0_ar_payload_burst;
   reg                 _zz_when;
   reg                 _zz_when_1;
   reg                 _zz__zz_axi_s_0_b_ready;
@@ -161,6 +161,12 @@ module AXIXbar_new (
   reg        [0:0]    w_sel;
   reg        [1:0]    r_stateReg;
   reg        [1:0]    r_stateNext;
+  wire                _zz_axi_s_0_ar_valid;
+  wire       [31:0]   _zz_axi_s_0_ar_payload_addr;
+  wire       [3:0]    _zz_axi_s_0_ar_payload_id;
+  wire       [7:0]    _zz_axi_s_0_ar_payload_len;
+  wire       [2:0]    _zz_axi_s_0_ar_payload_size;
+  wire       [1:0]    _zz_axi_s_0_ar_payload_burst;
   wire                _zz_axi_s_0_r_ready;
   wire       [1:0]    _zz_1;
   wire                _zz_2;
@@ -194,24 +200,24 @@ module AXIXbar_new (
   always @(*) begin
     case(r_sel_m)
       1'b0 : begin
+        _zz__zz_axi_s_0_ar_valid = axi_m_0_ar_valid;
+        _zz__zz_axi_s_0_ar_payload_addr = axi_m_0_ar_payload_addr;
+        _zz__zz_axi_s_0_ar_payload_id = axi_m_0_ar_payload_id;
+        _zz__zz_axi_s_0_ar_payload_len = axi_m_0_ar_payload_len;
+        _zz__zz_axi_s_0_ar_payload_size = axi_m_0_ar_payload_size;
+        _zz__zz_axi_s_0_ar_payload_burst = axi_m_0_ar_payload_burst;
         _zz__zz_axi_s_0_r_ready = axi_m_0_r_ready;
-        _zz_axi_s_0_ar_valid = axi_m_0_ar_valid;
-        _zz_axi_s_0_ar_payload_addr = axi_m_0_ar_payload_addr;
-        _zz_axi_s_0_ar_payload_id = axi_m_0_ar_payload_id;
-        _zz_axi_s_0_ar_payload_len = axi_m_0_ar_payload_len;
-        _zz_axi_s_0_ar_payload_size = axi_m_0_ar_payload_size;
-        _zz_axi_s_0_ar_payload_burst = axi_m_0_ar_payload_burst;
         _zz_when = axi_m_0_r_valid;
         _zz_when_1 = axi_m_0_r_payload_last;
       end
       default : begin
+        _zz__zz_axi_s_0_ar_valid = axi_m_1_ar_valid;
+        _zz__zz_axi_s_0_ar_payload_addr = axi_m_1_ar_payload_addr;
+        _zz__zz_axi_s_0_ar_payload_id = axi_m_1_ar_payload_id;
+        _zz__zz_axi_s_0_ar_payload_len = axi_m_1_ar_payload_len;
+        _zz__zz_axi_s_0_ar_payload_size = axi_m_1_ar_payload_size;
+        _zz__zz_axi_s_0_ar_payload_burst = axi_m_1_ar_payload_burst;
         _zz__zz_axi_s_0_r_ready = axi_m_1_r_ready;
-        _zz_axi_s_0_ar_valid = axi_m_1_ar_valid;
-        _zz_axi_s_0_ar_payload_addr = axi_m_1_ar_payload_addr;
-        _zz_axi_s_0_ar_payload_id = axi_m_1_ar_payload_id;
-        _zz_axi_s_0_ar_payload_len = axi_m_1_ar_payload_len;
-        _zz_axi_s_0_ar_payload_size = axi_m_1_ar_payload_size;
-        _zz_axi_s_0_ar_payload_burst = axi_m_1_ar_payload_burst;
         _zz_when = axi_m_1_r_valid;
         _zz_when_1 = axi_m_1_r_payload_last;
       end
@@ -306,6 +312,13 @@ module AXIXbar_new (
     axi_m_1_r_payload_resp = 2'b00;
     axi_m_1_r_payload_last = 1'b0;
     axi_m_1_ar_ready = 1'b0;
+    axi_s_1_r_ready = 1'b0;
+    axi_s_1_ar_valid = 1'b0;
+    axi_s_1_ar_payload_addr = 32'b00000000000000000000000000000000;
+    axi_s_1_ar_payload_id = 4'b0000;
+    axi_s_1_ar_payload_len = 8'b00000000;
+    axi_s_1_ar_payload_size = 3'b000;
+    axi_s_1_ar_payload_burst = 2'b00;
     r_wantStart = 1'b0;
     r_stateNext = r_stateReg;
     case(r_stateReg)
@@ -319,48 +332,94 @@ module AXIXbar_new (
         end
       end
       r_turn : begin
-        axi_s_0_ar_valid = _zz_axi_s_0_ar_valid;
-        if(_zz_2) begin
-          axi_m_0_ar_ready = axi_s_0_ar_ready;
-        end
-        if(_zz_3) begin
-          axi_m_1_ar_ready = axi_s_0_ar_ready;
-        end
-        axi_s_0_ar_payload_addr = _zz_axi_s_0_ar_payload_addr;
-        axi_s_0_ar_payload_id = _zz_axi_s_0_ar_payload_id;
-        axi_s_0_ar_payload_len = _zz_axi_s_0_ar_payload_len;
-        axi_s_0_ar_payload_size = _zz_axi_s_0_ar_payload_size;
-        axi_s_0_ar_payload_burst = _zz_axi_s_0_ar_payload_burst;
-        if(_zz_2) begin
-          axi_m_0_r_valid = axi_s_0_r_valid;
-        end
-        if(_zz_3) begin
-          axi_m_1_r_valid = axi_s_0_r_valid;
-        end
-        axi_s_0_r_ready = _zz_axi_s_0_r_ready;
-        if(_zz_2) begin
-          axi_m_0_r_payload_data = axi_s_0_r_payload_data;
-        end
-        if(_zz_3) begin
-          axi_m_1_r_payload_data = axi_s_0_r_payload_data;
-        end
-        if(_zz_2) begin
-          axi_m_0_r_payload_id = axi_s_0_r_payload_id;
-        end
-        if(_zz_3) begin
-          axi_m_1_r_payload_id = axi_s_0_r_payload_id;
-        end
-        if(_zz_2) begin
-          axi_m_0_r_payload_resp = axi_s_0_r_payload_resp;
-        end
-        if(_zz_3) begin
-          axi_m_1_r_payload_resp = axi_s_0_r_payload_resp;
-        end
-        if(_zz_2) begin
-          axi_m_0_r_payload_last = axi_s_0_r_payload_last;
-        end
-        if(_zz_3) begin
-          axi_m_1_r_payload_last = axi_s_0_r_payload_last;
+        if((r_sel_s == 1'b1)) begin
+          axi_s_1_ar_valid = _zz_axi_s_0_ar_valid;
+          if(_zz_2) begin
+            axi_m_0_ar_ready = axi_s_1_ar_ready;
+          end
+          if(_zz_3) begin
+            axi_m_1_ar_ready = axi_s_1_ar_ready;
+          end
+          axi_s_1_ar_payload_addr = _zz_axi_s_0_ar_payload_addr;
+          axi_s_1_ar_payload_id = _zz_axi_s_0_ar_payload_id;
+          axi_s_1_ar_payload_len = _zz_axi_s_0_ar_payload_len;
+          axi_s_1_ar_payload_size = _zz_axi_s_0_ar_payload_size;
+          axi_s_1_ar_payload_burst = _zz_axi_s_0_ar_payload_burst;
+          if(_zz_2) begin
+            axi_m_0_r_valid = axi_s_1_r_valid;
+          end
+          if(_zz_3) begin
+            axi_m_1_r_valid = axi_s_1_r_valid;
+          end
+          axi_s_1_r_ready = _zz_axi_s_0_r_ready;
+          if(_zz_2) begin
+            axi_m_0_r_payload_data = axi_s_1_r_payload_data;
+          end
+          if(_zz_3) begin
+            axi_m_1_r_payload_data = axi_s_1_r_payload_data;
+          end
+          if(_zz_2) begin
+            axi_m_0_r_payload_id = axi_s_1_r_payload_id;
+          end
+          if(_zz_3) begin
+            axi_m_1_r_payload_id = axi_s_1_r_payload_id;
+          end
+          if(_zz_2) begin
+            axi_m_0_r_payload_resp = axi_s_1_r_payload_resp;
+          end
+          if(_zz_3) begin
+            axi_m_1_r_payload_resp = axi_s_1_r_payload_resp;
+          end
+          if(_zz_2) begin
+            axi_m_0_r_payload_last = axi_s_1_r_payload_last;
+          end
+          if(_zz_3) begin
+            axi_m_1_r_payload_last = axi_s_1_r_payload_last;
+          end
+        end else begin
+          axi_s_0_ar_valid = _zz_axi_s_0_ar_valid;
+          if(_zz_2) begin
+            axi_m_0_ar_ready = axi_s_0_ar_ready;
+          end
+          if(_zz_3) begin
+            axi_m_1_ar_ready = axi_s_0_ar_ready;
+          end
+          axi_s_0_ar_payload_addr = _zz_axi_s_0_ar_payload_addr;
+          axi_s_0_ar_payload_id = _zz_axi_s_0_ar_payload_id;
+          axi_s_0_ar_payload_len = _zz_axi_s_0_ar_payload_len;
+          axi_s_0_ar_payload_size = _zz_axi_s_0_ar_payload_size;
+          axi_s_0_ar_payload_burst = _zz_axi_s_0_ar_payload_burst;
+          if(_zz_2) begin
+            axi_m_0_r_valid = axi_s_0_r_valid;
+          end
+          if(_zz_3) begin
+            axi_m_1_r_valid = axi_s_0_r_valid;
+          end
+          axi_s_0_r_ready = _zz_axi_s_0_r_ready;
+          if(_zz_2) begin
+            axi_m_0_r_payload_data = axi_s_0_r_payload_data;
+          end
+          if(_zz_3) begin
+            axi_m_1_r_payload_data = axi_s_0_r_payload_data;
+          end
+          if(_zz_2) begin
+            axi_m_0_r_payload_id = axi_s_0_r_payload_id;
+          end
+          if(_zz_3) begin
+            axi_m_1_r_payload_id = axi_s_0_r_payload_id;
+          end
+          if(_zz_2) begin
+            axi_m_0_r_payload_resp = axi_s_0_r_payload_resp;
+          end
+          if(_zz_3) begin
+            axi_m_1_r_payload_resp = axi_s_0_r_payload_resp;
+          end
+          if(_zz_2) begin
+            axi_m_0_r_payload_last = axi_s_0_r_payload_last;
+          end
+          if(_zz_3) begin
+            axi_m_1_r_payload_last = axi_s_0_r_payload_last;
+          end
         end
         if(((_zz_when && _zz_axi_s_0_r_ready) && _zz_when_1)) begin
           r_stateNext = r_start;
@@ -466,13 +525,6 @@ module AXIXbar_new (
     end
   end
 
-  assign axi_s_1_r_ready = 1'b0;
-  assign axi_s_1_ar_valid = 1'b0;
-  assign axi_s_1_ar_payload_addr = 32'b00000000000000000000000000000000;
-  assign axi_s_1_ar_payload_id = 4'b0000;
-  assign axi_s_1_ar_payload_len = 8'b00000000;
-  assign axi_s_1_ar_payload_size = 3'b000;
-  assign axi_s_1_ar_payload_burst = 2'b00;
   assign axi_s_1_w_valid = 1'b0;
   assign axi_s_1_w_payload_data = 32'b00000000000000000000000000000000;
   assign axi_s_1_w_payload_strb = 4'b0000;
@@ -488,6 +540,12 @@ module AXIXbar_new (
   assign r_wantKill = 1'b0;
   assign w_wantExit = 1'b0;
   assign w_wantKill = 1'b0;
+  assign _zz_axi_s_0_ar_valid = _zz__zz_axi_s_0_ar_valid;
+  assign _zz_axi_s_0_ar_payload_addr = _zz__zz_axi_s_0_ar_payload_addr;
+  assign _zz_axi_s_0_ar_payload_id = _zz__zz_axi_s_0_ar_payload_id;
+  assign _zz_axi_s_0_ar_payload_len = _zz__zz_axi_s_0_ar_payload_len;
+  assign _zz_axi_s_0_ar_payload_size = _zz__zz_axi_s_0_ar_payload_size;
+  assign _zz_axi_s_0_ar_payload_burst = _zz__zz_axi_s_0_ar_payload_burst;
   assign _zz_axi_s_0_r_ready = _zz__zz_axi_s_0_r_ready;
   assign _zz_1 = ({1'd0,1'b1} <<< r_sel_m);
   assign _zz_2 = _zz_1[0];
@@ -522,9 +580,9 @@ module AXIXbar_new (
           if(axi_m_1_ar_valid) begin
             r_sel_m <= 1'b1;
             if(((32'h02000000 <= axi_m_1_ar_payload_addr) && (axi_m_1_ar_payload_addr <= 32'h0200ffff))) begin
-              r_sel_s <= 1'b0;
-            end else begin
               r_sel_s <= 1'b1;
+            end else begin
+              r_sel_s <= 1'b0;
             end
           end else begin
             if(axi_m_0_ar_valid) begin

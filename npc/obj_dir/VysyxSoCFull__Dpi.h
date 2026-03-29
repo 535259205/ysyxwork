@@ -16,7 +16,7 @@ extern "C" {
 
 
     // DPI IMPORTS
-    // DPI import at vsrc/fun/step_fun.v:8:30
+    // DPI import at vsrc/fun/step_fun.v:9:30
     extern void SimStep1(int step_data);
     // DPI import at vsrc/fun/debug_fun.v:13:30
     extern void debug(int addr, int data);

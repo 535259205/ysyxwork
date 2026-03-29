@@ -39,6 +39,6 @@ void DisasmEncode(struct SdbReg * info,uint32_t len)
 		static int cnt = 0;
 		cnt++;
 		if(cnt<5)
-			printf("ERROR: Failed to disassemble given code!\n");
+			printf("ERROR: Failed to disassemble given code! error is %X,PC is %X\n",info->inst,info->pc);
 	}
 }

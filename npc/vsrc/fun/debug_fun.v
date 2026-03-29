@@ -11,7 +11,7 @@ module debug_fun(
   `ifndef USE_IVERILOG
 
 import "DPI-C" function void debug(input int addr,input int data);
-always @(negedge clk)
+always @(posedge clk)
 begin
     debug(addr,data);
 end
