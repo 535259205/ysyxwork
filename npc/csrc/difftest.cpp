@@ -74,7 +74,7 @@ int difftest_exec_reg(struct SdbReg *info)
     }
 
     static int all_count = 0;
-    difftest_exec(1);
+    
     difftest_regcpy(&cpu_ref.gpr[0], DIFFTEST_TO_DUT);
 
     // 寄存器判断 - 注意使用指针访问 为0代表报错
@@ -86,6 +86,7 @@ int difftest_exec_reg(struct SdbReg *info)
         printf("all_count: %d\n", all_count);
         return 0;
     }
+    difftest_exec(1);
     all_count++;
     return 1;
 }

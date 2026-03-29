@@ -73,14 +73,15 @@ module Icache (
   wire                s_wantExit;
   reg                 s_wantStart;
   wire                s_wantKill;
-  reg                 s_start_code_valid;
+  reg        [22:0]   s_pc_tag_reg;
+  reg        [2:0]    s_pc_index_reg;
   reg        [4:0]    s_axi_r_cnt;
   reg                 s_axi_r_ar_flag;
   reg        [1:0]    s_stateReg;
   reg        [1:0]    s_stateNext;
-  wire       [7:0]    _zz_4;
   wire                axi_ar_fire;
   wire                axi_r_fire;
+  wire       [7:0]    _zz_4;
   wire                s_onExit_BOOT;
   wire                s_onExit_start;
   wire                s_onExit_axi_r;
@@ -99,7 +100,7 @@ module Icache (
   assign _zz_code_payload = pc_r_addr[6:0];
   assign _zz_cache_mem_port_2 = (_zz_cache_mem_port_3 + _zz_cache_mem_port_4);
   assign _zz_cache_mem_port_1 = _zz_cache_mem_port_2[6:0];
-  assign _zz_cache_mem_port_3 = (pc_index * 5'h10);
+  assign _zz_cache_mem_port_3 = (s_pc_index_reg * 5'h10);
   assign _zz_cache_mem_port_4 = {3'd0, s_axi_r_cnt};
   assign _zz_cache_mem_port_5 = axi_r_payload_data;
   assign cache_mem_spinal_port0 = cache_mem[_zz_code_payload];
@@ -151,22 +152,19 @@ module Icache (
     s_stateNext = s_stateReg;
     case(s_stateReg)
       s_start : begin
-        code_valid = s_start_code_valid;
+        code_valid = 1'b0;
         if(fence_i) begin
           s_stateNext = s_axi_r;
         end else begin
-          if(code_ready) begin
+          if(1'b1) begin
             if((cache_tag != pc_tag)) begin
               s_stateNext = s_axi_r;
             end else begin
               if((! _zz_when)) begin
                 s_stateNext = s_axi_r;
               end else begin
-                if(!(! s_start_code_valid)) begin
-                  if(s_start_code_valid) begin
-                    code_payload = cache_mem_spinal_port0;
-                  end
-                end
+                code_payload = cache_mem_spinal_port0;
+                code_valid = 1'b1;
               end
             end
           end
@@ -174,7 +172,7 @@ module Icache (
       end
       s_axi_r : begin
         axi_ar_valid = (! s_axi_r_ar_flag);
-        axi_ar_payload_addr = {pc_tag,{pc_index,6'h0}};
+        axi_ar_payload_addr = {s_pc_tag_reg,{s_pc_index_reg,6'h0}};
         if(axi_r_fire) begin
           _zz_1 = 1'b1;
           if((s_axi_r_cnt == 5'h0f)) begin
@@ -215,9 +213,9 @@ module Icache (
   assign pc_r_addr = (_zz_pc_r_addr + _zz_pc_r_addr_1);
   assign s_wantExit = 1'b0;
   assign s_wantKill = 1'b0;
-  assign _zz_4 = ({7'd0,1'b1} <<< pc_index);
   assign axi_ar_fire = (axi_ar_valid && axi_ar_ready);
   assign axi_r_fire = (axi_r_valid && axi_r_ready);
+  assign _zz_4 = ({7'd0,1'b1} <<< s_pc_index_reg);
   assign s_onExit_BOOT = ((s_stateNext != s_BOOT) && (s_stateReg == s_BOOT));
   assign s_onExit_start = ((s_stateNext != s_start) && (s_stateReg == s_start));
   assign s_onExit_axi_r = ((s_stateNext != s_axi_r) && (s_stateReg == s_axi_r));
@@ -237,7 +235,8 @@ module Icache (
       cache_valid_6 <= 1'b0;
       cache_valid_7 <= 1'b0;
       cache_tag <= 23'h0;
-      s_start_code_valid <= 1'b0;
+      s_pc_tag_reg <= 23'h0;
+      s_pc_index_reg <= 3'b000;
       s_axi_r_cnt <= 5'h0;
       s_axi_r_ar_flag <= 1'b0;
       s_stateReg <= s_BOOT;
@@ -245,7 +244,6 @@ module Icache (
       s_stateReg <= s_stateNext;
       case(s_stateReg)
         s_start : begin
-          s_start_code_valid <= 1'b0;
           if(fence_i) begin
             cache_valid_0 <= 1'b0;
             cache_valid_1 <= 1'b0;
@@ -256,7 +254,7 @@ module Icache (
             cache_valid_6 <= 1'b0;
             cache_valid_7 <= 1'b0;
           end else begin
-            if(code_ready) begin
+            if(1'b1) begin
               if((cache_tag != pc_tag)) begin
                 cache_tag <= pc_tag;
                 error_cnt <= (error_cnt + 32'h00000001);
@@ -271,10 +269,6 @@ module Icache (
               end else begin
                 if((! _zz_when)) begin
                   error_cnt <= (error_cnt + 32'h00000001);
-                end else begin
-                  if((! s_start_code_valid)) begin
-                    s_start_code_valid <= 1'b1;
-                  end
                 end
               end
             end
@@ -321,6 +315,8 @@ module Icache (
         end
       endcase
       if(s_onEntry_axi_r) begin
+        s_pc_tag_reg <= pc_tag;
+        s_pc_index_reg <= pc_index;
         s_axi_r_cnt <= 5'h0;
         s_axi_r_ar_flag <= 1'b0;
       end

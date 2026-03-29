@@ -21,6 +21,7 @@
 
 #define CH_OFFSET 0
 
+
 static uint8_t *serial_base = NULL;
 
 
@@ -34,7 +35,11 @@ static void serial_io_handler(uint32_t offset, int len, bool is_write) {
     /* We bind the serial port with the host stderr in NEMU. */
     case CH_OFFSET:
       if (is_write) serial_putc(serial_base[0]);
-      else panic("do not support read");
+      else serial_base[0] = getchar();
+      // panic("do not support read");
+      break;
+    case 0x05:
+      serial_base[5] = 1;
       break;
     default: panic("do not support offset = %d", offset);
   }

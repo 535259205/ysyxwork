@@ -1,13 +1,15 @@
 `timescale 1ns/1ns
 module step_fun(
-  input step
+  input step,
+  input clk
 );
 `ifndef SYNTHESIS
 
 `ifndef USE_IVERILOG
 import "DPI-C" function void SimStep1(input int step_data);
-always@(negedge step)
+always@(posedge clk)
 begin
+    if(step)
     SimStep1(1);
 end 
 `else

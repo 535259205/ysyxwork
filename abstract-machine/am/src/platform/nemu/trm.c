@@ -1,6 +1,6 @@
 #include <am.h>
 #include <nemu.h>
-
+#include "amdev.h"
 extern char _heap_start;
 int main(const char *args);
 
@@ -9,6 +9,26 @@ static const char mainargs[MAINARGS_MAX_LEN] = TOSTRING(MAINARGS_PLACEHOLDER); /
 
 void putch(char ch) {
   outb(SERIAL_PORT, ch);
+}
+
+// #define NAMEINIT(key)  [ AM_KEY_##key ] = #key,
+// static const char *names[] = {
+//   AM_KEYS(NAMEINIT)
+// };
+
+char getch(void)
+{
+  return io_read(AM_UART_RX).data;
+  // AM_INPUT_KEYBRD_T ev = io_read(AM_INPUT_KEYBRD);
+  // if(ev.keycode == AM_KEY_NONE || ev.keydown==0) return -1;
+  // if(ev.keycode == AM_KEY_RETURN) return '\n';
+  // if(ev.keycode == AM_KEY_END) return '\n';
+  // if(ev.keycode == AM_KEY_BACKSPACE) return '\b';
+  // if(ev.keycode == AM_KEY_MINUS) return '_';
+  // if(*names[ev.keycode]>='A' && *names[ev.keycode]<='Z') return *names[ev.keycode]+32;
+
+
+  // return *names[ev.keycode];
 }
 
 void halt(int code) {
