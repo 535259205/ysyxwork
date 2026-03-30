@@ -15,7 +15,6 @@
 
 // INCLUDE MODULE CLASSES
 #include "VysyxSoCFull___024root.h"
-#include "VysyxSoCFull___024unit.h"
 
 // DPI TYPES for DPI Export callbacks (Internal use)
 
@@ -31,18 +30,6 @@ class alignas(VL_CACHE_LINE_BYTES) VysyxSoCFull__Syms final : public VerilatedSy
 
     // MODULE INSTANCE STATE
     VysyxSoCFull___024root         TOP;
-    VysyxSoCFull___024unit         TOP____024unit;
-
-    // SCOPE NAMES
-    VerilatedScope* __Vscopep_ysyxSoCFull__asic__axi42apb;
-    VerilatedScope* __Vscopep_ysyxSoCFull__asic__axi4frag;
-    VerilatedScope* __Vscopep_ysyxSoCFull__asic__axi4xbar;
-    VerilatedScope* __Vscopep_ysyxSoCFull__asic__axi4xbar_1;
-    VerilatedScope* __Vscopep_ysyxSoCFull__asic__axi4yank;
-    VerilatedScope* __Vscopep_ysyxSoCFull__asic__axi4yank__unnamedblk1;
-    VerilatedScope* __Vscopep_ysyxSoCFull__asic__lmrom;
-    VerilatedScope* __Vscopep_ysyxSoCFull__flash;
-    VerilatedScope* __Vscopep_ysyxSoCFull__flash__flash_cmd_i;
 
     // CONSTRUCTORS
     VysyxSoCFull__Syms(VerilatedContext* contextp, const char* namep, VysyxSoCFull* modelp);

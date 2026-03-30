@@ -15,8 +15,10 @@ WORK ?=F
 
 ifeq ($(WORK),F)
 -include ./scripts/ysyx_study.mk
-else
+else ifeq ($(WORK),T)
 -include ./scripts/ysyx_work.mk
+else ifeq ($(WORK),N)
+-include ./scripts/npc.mk
 endif
 
 VERILATOR_INC := $(shell dirname $(shell find ~/environment -name "verilated.h"))

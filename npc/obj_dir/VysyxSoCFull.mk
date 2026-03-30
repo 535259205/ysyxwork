@@ -52,6 +52,7 @@ VM_USER_CLASSES = \
   iringbuf \
   main \
   mem \
+  npc_api \
   probe \
   sdb \
   sim \
@@ -84,6 +85,8 @@ iringbuf.o: ./csrc/iringbuf.cpp
 main.o: ./csrc/main.cpp 
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<
 mem.o: ./csrc/mem.cpp 
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<
+npc_api.o: ./csrc/npc_api.cpp 
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<
 probe.o: ./csrc/probe.cpp 
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<

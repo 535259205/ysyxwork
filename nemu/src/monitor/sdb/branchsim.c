@@ -4,15 +4,15 @@
 #include "stdint.h"
 
 // 分支预测器配置
-#define BTB_SIZE 1024  // BTB条目数
-#define BHT_SIZE 1024  // BHT条目数
-#define PHT_SIZE 256   // PHT条目数
-#define GHR_SIZE 12    // 全局历史寄存器大小
+#define BTB_SIZE 1024  // BTB条目数 分支预测缓冲区
+#define BHT_SIZE 1024  // BHT条目数 分支历史表
+#define PHT_SIZE 256   // PHT条目数 模式历史表
+#define GHR_SIZE 12    // 全局历史寄存器大小 记录近几次的分支指令
 
 // 分支目标缓冲区(BTB)条目
 typedef struct {
-    uint32_t tag;      // 地址标签
-    uint32_t target;   // 目标地址
+    uint32_t tag;      // 地址标签 分支指令地址
+    uint32_t target;   // 目标地址 跳转目标地址
     uint8_t valid;     // 有效位
 } BTBEntry;
 
@@ -108,6 +108,7 @@ void update_ghr(uint8_t taken) {
 // 查询BTB获取目标地址
 uint32_t btb_query(uint32_t pc) {
     uint32_t index = btb_hash(pc);
+    //查表
     if (btb[index].valid && btb[index].tag == (pc & ~(BTB_SIZE - 1))) {
         btb_hits++;
         return btb[index].target;
@@ -152,7 +153,7 @@ void branch_train(uint32_t pc, uint32_t target, uint8_t taken) {
     
     // 更新预测器状态
     if (taken) {
-        // 分支实际跳转
+        // 分支实际跳转 跳转错误
         if (predicted_target == 0 || predicted_target != target) {
             // BTB未命中或目标地址错误，更新BTB
             update_btb(pc, target);
