@@ -17,7 +17,7 @@
 
 // static uint32_t mem[MEM_SIZE];
 static uint32_t rom[FLASH_SIZE] = {0};
-static uint32_t flash[FLASH_SIZE] = {0};
+uint32_t flash[FLASH_SIZE] = {0};
 static uint32_t psram[PSRAM_SIZE];
 static uint32_t sdram[SDRAM_SIZE];
 
