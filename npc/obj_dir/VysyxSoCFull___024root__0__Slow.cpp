@@ -97,6 +97,7 @@ VL_ATTR_COLD bool VysyxSoCFull___024root___trigger_anySet__stl(const VlUnpacked<
 
 extern const VlUnpacked<IData/*31:0*/, 8> VysyxSoCFull__ConstPool__TABLE_h30ab60d4_0;
 void VysyxSoCFull___024root____Vdpiimwrap_ysyxSoCFull__DOT__encode_1__DOT__ebreak_module__DOT__ebreak_TOP(IData/*31:0*/ test);
+extern const VlUnpacked<CData/*1:0*/, 16> VysyxSoCFull__ConstPool__TABLE_h4ade42b4_0;
 extern const VlUnpacked<CData/*1:0*/, 16> VysyxSoCFull__ConstPool__TABLE_hae0125a9_0;
 
 VL_ATTR_COLD void VysyxSoCFull___024root___stl_sequent__TOP__0(VysyxSoCFull___024root* vlSelf) {
@@ -1088,7 +1089,7 @@ VL_ATTR_COLD void VysyxSoCFull___024root___stl_sequent__TOP__0(VysyxSoCFull___02
                                ? (IData)(vlSelfRef.ysyxSoCFull__DOT__encode_1_axi4lite_w_payload_strb)
                                : 0U);
     vlSelfRef.ysyxSoCFull__DOT__aximem_1__DOT__mem_w_len 
-        = VysyxSoCFull__ConstPool__TABLE_hae0125a9_0
+        = VysyxSoCFull__ConstPool__TABLE_h4ade42b4_0
         [vlSelfRef.__Vtableidx1];
     vlSelfRef.ysyxSoCFull__DOT__uart__DOT__mmio_w_len 
         = VysyxSoCFull__ConstPool__TABLE_hae0125a9_0

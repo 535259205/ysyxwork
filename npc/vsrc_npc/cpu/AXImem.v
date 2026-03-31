@@ -63,8 +63,8 @@ module AXImem (
       4'b0011 : begin
         mem_w_len = 2'b01;
       end
-      4'b0111 : begin
-        mem_w_len = 2'b10;
+      4'b1100 : begin
+        mem_w_len = 2'b01;
       end
       4'b1111 : begin
         mem_w_len = 2'b11;

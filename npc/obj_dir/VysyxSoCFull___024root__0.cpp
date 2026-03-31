@@ -131,6 +131,7 @@ extern const VlUnpacked<IData/*31:0*/, 8> VysyxSoCFull__ConstPool__TABLE_h30ab60
 extern const VlUnpacked<CData/*1:0*/, 32> VysyxSoCFull__ConstPool__TABLE_hd023cda9_0;
 extern const VlUnpacked<CData/*0:0*/, 32> VysyxSoCFull__ConstPool__TABLE_h68b19cab_0;
 extern const VlUnpacked<CData/*0:0*/, 32> VysyxSoCFull__ConstPool__TABLE_h5008ca46_0;
+extern const VlUnpacked<CData/*1:0*/, 16> VysyxSoCFull__ConstPool__TABLE_h4ade42b4_0;
 extern const VlUnpacked<CData/*1:0*/, 16> VysyxSoCFull__ConstPool__TABLE_hae0125a9_0;
 
 void VysyxSoCFull___024root___nba_sequent__TOP__0(VysyxSoCFull___024root* vlSelf) {
@@ -474,7 +475,7 @@ void VysyxSoCFull___024root___nba_sequent__TOP__0(VysyxSoCFull___024root* vlSelf
         vlSelfRef.ysyxSoCFull__DOT__aximem_1_axi4lite_aw_ready = 0U;
         vlSelfRef.ysyxSoCFull__DOT__csr_1__DOT__mcause = 0x0000000bU;
         vlSelfRef.ysyxSoCFull__DOT__csr_1__DOT__mstatus = 0x00001800U;
-        vlSelfRef.ysyxSoCFull__DOT__csr_1__DOT__mtvec = 0x30000000U;
+        vlSelfRef.ysyxSoCFull__DOT__csr_1__DOT__mtvec = 0x80000000U;
         vlSelfRef.ysyxSoCFull__DOT__csr_1__DOT__mepc = 0U;
         vlSelfRef.ysyxSoCFull__DOT__grp_1__DOT__reg_0 = 0U;
         vlSelfRef.ysyxSoCFull__DOT__grp_1__DOT__reg_1 = 0U;
@@ -2061,7 +2062,7 @@ void VysyxSoCFull___024root___nba_sequent__TOP__0(VysyxSoCFull___024root* vlSelf
                                ? (IData)(vlSelfRef.ysyxSoCFull__DOT__encode_1_axi4lite_w_payload_strb)
                                : 0U);
     vlSelfRef.ysyxSoCFull__DOT__aximem_1__DOT__mem_w_len 
-        = VysyxSoCFull__ConstPool__TABLE_hae0125a9_0
+        = VysyxSoCFull__ConstPool__TABLE_h4ade42b4_0
         [vlSelfRef.__Vtableidx1];
     vlSelfRef.ysyxSoCFull__DOT__uart__DOT__mmio_w_len 
         = VysyxSoCFull__ConstPool__TABLE_hae0125a9_0

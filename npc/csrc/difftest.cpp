@@ -44,22 +44,22 @@ int difftest_comp(struct SdbReg *info)
         printf("pc diff: 0x%x != 0x%x\n", cpu_ref.pc, info->pc);
         flag = 0;
     }
-    // if(cpu_ref.mtvec!=info->mtvec){ // 使用 -> 访问指针成员
-    //     printf("mtvec diff: 0x%x != 0x%x\n", cpu_ref.mtvec, info->mtvec);
-    //     flag = 0;
-    // }
-    // if(cpu_ref.mcause!=info->mcause){ // 使用 -> 访问指针成员
-    //     printf("mcause diff: 0x%x != 0x%x\n", cpu_ref.mcause, info->mcause);
-    //     flag = 0;
-    // }
-    // if(cpu_ref.mstatus!=info->mstatus){ // 使用 -> 访问指针成员
-    //     printf("mstatus diff: 0x%x != 0x%x\n", cpu_ref.mstatus, info->mstatus);
-    //     flag = 0;
-    // }
-    // if(cpu_ref.mepc!=info->mepc){ // 使用 -> 访问指针成员
-    //     printf("mepc diff: 0x%x != 0x%x\n", cpu_ref.mepc, info->mepc);
-    //     flag = 0;
-    // }
+    if(cpu_ref.mtvec!=info->mtvec){ // 使用 -> 访问指针成员
+        printf("mtvec diff: 0x%x != 0x%x\n", cpu_ref.mtvec, info->mtvec);
+        flag = 0;
+    }
+    if(cpu_ref.mcause!=info->mcause){ // 使用 -> 访问指针成员
+        printf("mcause diff: 0x%x != 0x%x\n", cpu_ref.mcause, info->mcause);
+        flag = 0;
+    }
+    if(cpu_ref.mstatus!=info->mstatus){ // 使用 -> 访问指针成员
+        printf("mstatus diff: 0x%x != 0x%x\n", cpu_ref.mstatus, info->mstatus);
+        flag = 0;
+    }
+    if(cpu_ref.mepc!=info->mepc){ // 使用 -> 访问指针成员
+        printf("mepc diff: 0x%x != 0x%x\n", cpu_ref.mepc, info->mepc);
+        flag = 0;
+    }
     return flag;
 }
 

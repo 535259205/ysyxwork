@@ -88,7 +88,7 @@ module CSR (
       mstatus <= 32'h00001800;
       mcause <= 32'h0000000b;
       mepc <= 32'h0;
-      mtvec <= 32'h30000000;
+      mtvec <= 32'h80000000;
     end else begin
       mcycle <= _zz_mcycle;
       if(com_encode_ecall) begin

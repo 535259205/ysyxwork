@@ -8,6 +8,11 @@ extern const VlUnpacked<IData/*31:0*/, 8> VysyxSoCFull__ConstPool__TABLE_h30ab60
     0x4d454d20U, 0x57422020U, 0x3f3f3f3fU, 0x3f3f3f3fU
 }};
 
+extern const VlUnpacked<CData/*1:0*/, 16> VysyxSoCFull__ConstPool__TABLE_h4ade42b4_0 = {{
+    0U, 0U, 0U, 1U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 1U, 0U, 0U, 3U
+}};
+
 extern const VlUnpacked<CData/*0:0*/, 32> VysyxSoCFull__ConstPool__TABLE_h5008ca46_0 = {{
     0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
     1U, 0U, 1U, 0U, 1U, 0U, 1U, 0U,

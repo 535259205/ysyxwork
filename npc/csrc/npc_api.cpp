@@ -2,8 +2,8 @@
 #include "PMEM_ADDR.h"
 #include "stdio.h"
 #define USE_DEBUG 1
-#define MEM_SIZE (0x4000000)
-static uint32_t mem[MEM_SIZE];
+#define MEM_SIZE (0x01000000)
+// static uint32_t mem[MEM_SIZE];
 // static uint32_t rom[MEM_SIZE] = {0};
 extern uint32_t rom[];
 extern "C" void mmio_w(int addr, int data, int len)
@@ -24,6 +24,7 @@ extern "C" void mem_w( int data, int addr, int len)
   uint32_t tar_addr = (addr&0x7fffffff)>>2;
   if (tar_addr >= MEM_SIZE){
     // pmem_w(addr, data, len);
+    printf("ERR: mem_w addr=0x%08x, len=%d\n", addr, len);
     return;
   }
   uint32_t data_temp=rom[tar_addr];
@@ -116,11 +117,12 @@ extern "C"  int mem_r( int addr, int len)
     // uint32_t temp=pmem_r(addr, len);
     // iringbuf_memadd("mio_r", addr, len, temp);
     // return temp;
+    printf("ERR: mem_r addr=0x%08x, len=%d\n", addr, len);
     return 0;
   }
   uint32_t data_temp=rom[tar_addr];
   uint32_t addrl=addr&0x3;
-  uint32_t tar_data;
+  uint32_t tar_data=data_temp;
   switch(len)
   {
     case 1:
