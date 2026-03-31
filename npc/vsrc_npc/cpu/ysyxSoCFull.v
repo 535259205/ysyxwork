@@ -239,7 +239,7 @@ module ysyxSoCFull (
     .com_encode_w_pc    (encode_1_com_csr_w_pc[31:0]   ), //i
     .com_encode_r_pc    (csr_1_com_encode_r_pc[31:0]   ), //o
     .com_encode_mret    (encode_1_com_csr_mret         ), //i
-    .vaild              (encode_1_com_csr_vaild        ), //i
+    .vaild              (1'b1                          ), //i
     .clock              (clock                         ), //i
     .reset              (reset                         )  //i
   );

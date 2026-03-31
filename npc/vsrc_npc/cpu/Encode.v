@@ -564,7 +564,7 @@ module Encode (
   assign csr_csr_code = code[31 : 20];
   assign csr_imm = {27'h0,code[19 : 15]};
   assign com_csr_csr_sel = csr_csr_code;
-  assign com_csr_w_pc = com_pc_PC;
+  assign com_csr_w_pc = pc_pc;
   assign _zz_axi4lite_ar_payload_addr = (com_grp_rs1 + imm_I);
   assign _zz_com_grp_rd = ({3'd0,_zz_axi4lite_ar_payload_addr[1 : 0]} <<< 2'd3);
   always @(*) begin

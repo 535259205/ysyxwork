@@ -19,7 +19,6 @@ module CSR (
   wire       [31:0]   debug_data_4;
   wire       [31:0]   debug_data_5;
   wire       [63:0]   _zz_mcycle;
-  wire       [31:0]   _zz_mepc;
   reg        [63:0]   mcycle;
   reg        [31:0]   mstatus;
   reg        [31:0]   mcause;
@@ -27,7 +26,6 @@ module CSR (
   reg        [31:0]   mtvec;
 
   assign _zz_mcycle = (mcycle + 64'h0000000000000001);
-  assign _zz_mepc = (com_encode_w_pc - 32'h00000004);
   my_debug_1 debug (
     .data_0 (mtvec[31:0]       ), //i
     .data_1 (mcause[31:0]      ), //i
@@ -93,7 +91,7 @@ module CSR (
       mcycle <= _zz_mcycle;
       if(com_encode_ecall) begin
         if(vaild) begin
-          mepc <= _zz_mepc;
+          mepc <= com_encode_w_pc;
         end
       end else begin
         if(!com_encode_mret) begin

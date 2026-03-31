@@ -39,7 +39,7 @@ $(LIBCAPSTONE):
 # 编译前确保capstone库已准备好
 $(CURDIR)/csrc/disasm.cpp: $(LIBCAPSTONE)
 #-g -fsanitize=address
-all:
+all: $(LIBCAPSTONE)
 	@@verilator --trace  -cc --top-module $(TOP_MODULE) $(VSRCS)  --exe $(csrc) \
 		--relative-includes \
 		--error-limit 0 \

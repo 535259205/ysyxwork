@@ -1,7 +1,7 @@
 #include "stdint.h"
 #include "PMEM_ADDR.h"
 #include "stdio.h"
-#define USE_DEBUG 1
+#define USE_DEBUG 0
 #define MEM_SIZE (0x01000000)
 // static uint32_t mem[MEM_SIZE];
 // static uint32_t rom[MEM_SIZE] = {0};
@@ -129,7 +129,6 @@ extern "C"  int mem_r( int addr, int len)
       tar_data = (data_temp>>(8*(addrl)))&0xFF;
       break;
     case 2:
-
       tar_data = (data_temp>>(8*(addrl)))&0xFFFF;
       break;
     case 4:
