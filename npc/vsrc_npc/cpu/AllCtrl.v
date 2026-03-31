@@ -8,14 +8,18 @@ module AllCtrl (
   output wire          u_vaild_2,
   output wire          u_vaild_3,
   output reg           u_vaild_4,
+  input  wire          axi0_ar_ready,
+  input  wire          axi0_ar_vaild,
+  input  wire          axi0_r_vaild,
   input  wire          axi0_r_ready,
   input  wire          axi0_w_vaild,
-  input  wire          axi0_r_fire,
-  input  wire          axi0_w_fire,
+  input  wire          axi0_w_ready,
+  input  wire          axi_ar_ready,
+  input  wire          axi_ar_vaild,
+  input  wire          axi_r_vaild,
   input  wire          axi_r_ready,
   input  wire          axi_w_vaild,
-  input  wire          axi_r_fire,
-  input  wire          axi_w_fire,
+  input  wire          axi_w_ready,
   output reg           r_sel,
   input  wire          clock,
   input  wire          reset
@@ -33,7 +37,7 @@ module AllCtrl (
   wire                s_wantKill;
   reg        [2:0]    s_stateReg;
   reg        [2:0]    s_stateNext;
-  reg                 axi_r_fire_regNext;
+  reg                 _zz_1;
   wire                s_onExit_BOOT;
   wire                s_onExit_IF_1;
   wire                s_onExit_ID;
@@ -89,7 +93,7 @@ module AllCtrl (
     case(s_stateReg)
       s_IF_1 : begin
         u_vaild_0 = 1'b1;
-        if(axi0_r_fire) begin
+        if((axi0_r_ready && axi0_r_vaild)) begin
           s_stateNext = s_ID;
         end
       end
@@ -97,10 +101,10 @@ module AllCtrl (
         s_stateNext = s_EX;
       end
       s_EX : begin
-        if(axi_w_fire) begin
+        if((axi_w_ready && axi_w_vaild)) begin
           s_stateNext = s_WB;
         end else begin
-          if((axi_r_ready || axi_w_vaild)) begin
+          if((axi_ar_vaild || axi_w_vaild)) begin
             s_stateNext = s_MEM;
           end else begin
             s_stateNext = s_WB;
@@ -108,10 +112,10 @@ module AllCtrl (
         end
       end
       s_MEM : begin
-        if((axi_w_fire || axi_r_fire_regNext)) begin
+        if(((axi_w_ready && axi_w_vaild) || _zz_1)) begin
           s_stateNext = s_WB;
         end
-        if(axi_r_ready) begin
+        if((axi_ar_vaild || axi_r_ready)) begin
           r_sel = 1'b1;
         end
       end
@@ -132,8 +136,10 @@ module AllCtrl (
 
   always @(*) begin
     u_vaild_1 = 1'b0;
+    step = 1'b0;
     if(s_onEntry_ID) begin
       u_vaild_1 = 1'b1;
+      step = 1'b1;
     end
   end
 
@@ -143,13 +149,6 @@ module AllCtrl (
     u_vaild_4 = 1'b0;
     if(s_onEntry_WB) begin
       u_vaild_4 = 1'b1;
-    end
-  end
-
-  always @(*) begin
-    step = 1'b0;
-    if(s_onExit_WB) begin
-      step = 1'b1;
     end
   end
 
@@ -176,7 +175,7 @@ module AllCtrl (
   end
 
   always @(posedge clock) begin
-    axi_r_fire_regNext <= axi_r_fire;
+    _zz_1 <= (axi_r_ready && axi_r_vaild);
   end
 
 

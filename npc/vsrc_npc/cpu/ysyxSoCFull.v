@@ -155,10 +155,6 @@ module ysyxSoCFull (
   wire                u_vaild_2;
   wire                u_vaild_3;
   wire                u_vaild_4;
-  wire                AxiIn_0_w_fire;
-  wire                AxiIn_0_r_fire;
-  wire                AxiIn_1_w_fire;
-  wire                AxiIn_1_r_fire;
 
   PC pc_1 (
     .com_encode_code          (pc_1_com_encode_code[31:0]               ), //o
@@ -471,22 +467,26 @@ module ysyxSoCFull (
     .reset                 (reset                                      )  //i
   );
   AllCtrl ctrl (
-    .u_vaild_0    (ctrl_u_vaild_0              ), //o
-    .u_vaild_1    (ctrl_u_vaild_1              ), //o
-    .u_vaild_2    (ctrl_u_vaild_2              ), //o
-    .u_vaild_3    (ctrl_u_vaild_3              ), //o
-    .u_vaild_4    (ctrl_u_vaild_4              ), //o
-    .axi0_r_ready (pc_1_axi4lite_r_ready       ), //i
-    .axi0_w_vaild (axiarbiter_1_AxiIn_0_w_valid), //i
-    .axi0_r_fire  (AxiIn_0_r_fire              ), //i
-    .axi0_w_fire  (AxiIn_0_w_fire              ), //i
-    .axi_r_ready  (encode_1_axi4lite_r_ready   ), //i
-    .axi_w_vaild  (encode_1_axi4lite_w_valid   ), //i
-    .axi_r_fire   (AxiIn_1_r_fire              ), //i
-    .axi_w_fire   (AxiIn_1_w_fire              ), //i
-    .r_sel        (ctrl_r_sel                  ), //o
-    .clock        (clock                       ), //i
-    .reset        (reset                       )  //i
+    .u_vaild_0     (ctrl_u_vaild_0               ), //o
+    .u_vaild_1     (ctrl_u_vaild_1               ), //o
+    .u_vaild_2     (ctrl_u_vaild_2               ), //o
+    .u_vaild_3     (ctrl_u_vaild_3               ), //o
+    .u_vaild_4     (ctrl_u_vaild_4               ), //o
+    .axi0_ar_ready (axiarbiter_1_AxiIn_0_ar_ready), //i
+    .axi0_ar_vaild (pc_1_axi4lite_ar_valid       ), //i
+    .axi0_r_vaild  (axiarbiter_1_AxiIn_0_r_valid ), //i
+    .axi0_r_ready  (pc_1_axi4lite_r_ready        ), //i
+    .axi0_w_vaild  (axiarbiter_1_AxiIn_0_w_valid ), //i
+    .axi0_w_ready  (axiarbiter_1_AxiIn_0_w_ready ), //i
+    .axi_ar_ready  (axiarbiter_1_AxiIn_1_ar_ready), //i
+    .axi_ar_vaild  (encode_1_axi4lite_ar_valid   ), //i
+    .axi_r_vaild   (axiarbiter_1_AxiIn_1_r_valid ), //i
+    .axi_r_ready   (encode_1_axi4lite_r_ready    ), //i
+    .axi_w_vaild   (encode_1_axi4lite_w_valid    ), //i
+    .axi_w_ready   (axiarbiter_1_AxiIn_1_w_ready ), //i
+    .r_sel         (ctrl_r_sel                   ), //o
+    .clock         (clock                        ), //i
+    .reset         (reset                        )  //i
   );
   assign axiarbiter_1_AxiIn_0_w_valid = 1'b0;
   assign u_vaild_0 = ctrl_u_vaild_0;
@@ -494,9 +494,5 @@ module ysyxSoCFull (
   assign u_vaild_2 = ctrl_u_vaild_2;
   assign u_vaild_3 = ctrl_u_vaild_3;
   assign u_vaild_4 = ctrl_u_vaild_4;
-  assign AxiIn_0_w_fire = (axiarbiter_1_AxiIn_0_w_valid && axiarbiter_1_AxiIn_0_w_ready);
-  assign AxiIn_0_r_fire = (axiarbiter_1_AxiIn_0_r_valid && pc_1_axi4lite_r_ready);
-  assign AxiIn_1_w_fire = (encode_1_axi4lite_w_valid && axiarbiter_1_AxiIn_1_w_ready);
-  assign AxiIn_1_r_fire = (axiarbiter_1_AxiIn_1_r_valid && encode_1_axi4lite_r_ready);
 
 endmodule

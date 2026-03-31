@@ -5,7 +5,7 @@
 #define MEM_SIZE (0x4000000)
 static uint32_t mem[MEM_SIZE];
 // static uint32_t rom[MEM_SIZE] = {0};
-extern uint32_t flash[];
+extern uint32_t rom[];
 extern "C" void mmio_w(int addr, int data, int len)
 {
   if (addr == PUART_BASE_ADDR)
@@ -26,9 +26,10 @@ extern "C" void mem_w( int data, int addr, int len)
     // pmem_w(addr, data, len);
     return;
   }
-  uint32_t data_temp=mem[tar_addr];
+  uint32_t data_temp=rom[tar_addr];
   uint32_t addrl=addr&0x3;
-  uint32_t tar_data=data<<(8*(addrl));
+  uint32_t tar_data=data;
+  printf("mem_w addr=0x%08x, len=%d, data=0x%08x write\n", addr, len, data);
   
   // 根据长度和地址偏移设置不同的掩码
   if (len == 1) {
@@ -83,13 +84,13 @@ extern "C" void mem_w( int data, int addr, int len)
   switch (len)
   {
     case 1:
-      mem[tar_addr] = data_temp|tar_data;
+      rom[tar_addr] = data_temp|tar_data;
       break;
     case 2:
-      mem[tar_addr] = data_temp|tar_data;
+      rom[tar_addr] = data_temp|tar_data;
       break;
     case 4:
-      mem[tar_addr] = data;
+      rom[tar_addr] = data;
       break;
     default:
       break;
@@ -115,7 +116,7 @@ extern "C"  int mem_r( int addr, int len)
     // return temp;
     return 0;
   }
-  uint32_t data_temp=mem[tar_addr];
+  uint32_t data_temp=rom[tar_addr];
   uint32_t addrl=addr&0x3;
   uint32_t tar_data;
   switch(len)
@@ -134,6 +135,7 @@ extern "C"  int mem_r( int addr, int len)
       break;
   }
   // iringbuf_memadd("mem_r", addr, len, tar_data);
+  printf("mem_r addr=0x%08x, len=%d, data=0x%08x\n", addr, len, tar_data);  
   return tar_data;
 }
 
@@ -143,7 +145,7 @@ extern "C"  int rom_r(int addr)
   uint32_t tar_addr = (addr&0x7fffffff)>>2;
   if (tar_addr >= MEM_SIZE)
     return 0;
-  return flash[tar_addr];
+  return rom[tar_addr];
 }
 
 

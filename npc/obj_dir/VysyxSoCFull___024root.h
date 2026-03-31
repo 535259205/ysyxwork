@@ -52,7 +52,6 @@ class alignas(VL_CACHE_LINE_BYTES) VysyxSoCFull___024root final {
         CData/*0:0*/ ysyxSoCFull__DOT__pc_1__DOT__flag;
         CData/*0:0*/ ysyxSoCFull__DOT__pc_1__DOT__npc_flag;
         CData/*0:0*/ ysyxSoCFull__DOT__pc_1__DOT__axi4lite_ar_fire;
-        CData/*0:0*/ ysyxSoCFull__DOT__encode_1__DOT__vaild;
         CData/*0:0*/ ysyxSoCFull__DOT__encode_1__DOT___zz_com_grp_rd_24;
         CData/*0:0*/ ysyxSoCFull__DOT__encode_1__DOT__ErrorReg;
         CData/*0:0*/ ysyxSoCFull__DOT__encode_1__DOT__ebreak;
@@ -60,7 +59,6 @@ class alignas(VL_CACHE_LINE_BYTES) VysyxSoCFull___024root final {
         CData/*0:0*/ ysyxSoCFull__DOT__encode_1__DOT__axi4lite_b_fire;
         CData/*0:0*/ ysyxSoCFull__DOT__encode_1__DOT__mem_flag;
         CData/*0:0*/ ysyxSoCFull__DOT__encode_1__DOT__mem_ar_flag;
-        CData/*0:0*/ ysyxSoCFull__DOT__encode_1__DOT__axi4lite_w_fire;
         CData/*0:0*/ ysyxSoCFull__DOT__encode_1__DOT____VdfgExtracted_hf015dc25__0;
         CData/*0:0*/ ysyxSoCFull__DOT__grp_1__DOT__rd_vaild;
         CData/*1:0*/ ysyxSoCFull__DOT__aximem_1__DOT__mem_w_len;
@@ -80,10 +78,10 @@ class alignas(VL_CACHE_LINE_BYTES) VysyxSoCFull___024root final {
         CData/*0:0*/ ysyxSoCFull__DOT__axiarbiter_1__DOT__AxiOut_3_aw_valid;
         CData/*0:0*/ ysyxSoCFull__DOT__axiarbiter_1__DOT__AxiOut_3_aw_ready;
         CData/*0:0*/ ysyxSoCFull__DOT__axiarbiter_1__DOT___zz_AxiIn_1_w_ready;
-    };
-    struct {
         CData/*0:0*/ ysyxSoCFull__DOT__axiarbiter_1__DOT___zz_AxiIn_1_aw_ready;
         CData/*0:0*/ ysyxSoCFull__DOT__axiarbiter_1__DOT___zz_AxiIn_1_b_valid;
+    };
+    struct {
         CData/*1:0*/ ysyxSoCFull__DOT__axiarbiter_1__DOT__wsel;
         CData/*0:0*/ ysyxSoCFull__DOT__axiarbiter_1__DOT__rsel;
         CData/*1:0*/ ysyxSoCFull__DOT__uart__DOT__mmio_w_len;
@@ -107,7 +105,8 @@ class alignas(VL_CACHE_LINE_BYTES) VysyxSoCFull___024root final {
         CData/*0:0*/ ysyxSoCFull__DOT__ctrl__DOT__s_wantStart;
         CData/*2:0*/ ysyxSoCFull__DOT__ctrl__DOT__s_stateReg;
         CData/*2:0*/ ysyxSoCFull__DOT__ctrl__DOT__s_stateNext;
-        CData/*0:0*/ ysyxSoCFull__DOT__ctrl__DOT__axi_r_fire_regNext;
+        CData/*0:0*/ ysyxSoCFull__DOT__ctrl__DOT___zz_1;
+        CData/*0:0*/ ysyxSoCFull__DOT__ctrl__DOT__step_fun_1__DOT__step;
         CData/*3:0*/ __Vtableidx1;
         CData/*3:0*/ __Vtableidx2;
         CData/*3:0*/ __Vtableidx4;
@@ -146,9 +145,9 @@ class alignas(VL_CACHE_LINE_BYTES) VysyxSoCFull___024root final {
         IData/*31:0*/ ysyxSoCFull__DOT__grp_1__DOT__reg_3;
         IData/*31:0*/ ysyxSoCFull__DOT__grp_1__DOT__reg_4;
         IData/*31:0*/ ysyxSoCFull__DOT__grp_1__DOT__reg_5;
+        IData/*31:0*/ ysyxSoCFull__DOT__grp_1__DOT__reg_6;
     };
     struct {
-        IData/*31:0*/ ysyxSoCFull__DOT__grp_1__DOT__reg_6;
         IData/*31:0*/ ysyxSoCFull__DOT__grp_1__DOT__reg_7;
         IData/*31:0*/ ysyxSoCFull__DOT__grp_1__DOT__reg_8;
         IData/*31:0*/ ysyxSoCFull__DOT__grp_1__DOT__reg_9;

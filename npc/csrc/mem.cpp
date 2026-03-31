@@ -16,8 +16,8 @@
 #define PSRAM_SIZE (0x8000000)
 
 // static uint32_t mem[MEM_SIZE];
-static uint32_t rom[FLASH_SIZE] = {0};
-uint32_t flash[FLASH_SIZE] = {0};
+uint32_t rom[FLASH_SIZE] = {0};
+// uint32_t flash[FLASH_SIZE] = {0};
 static uint32_t psram[PSRAM_SIZE];
 static uint32_t sdram[SDRAM_SIZE];
 
@@ -87,11 +87,6 @@ void mem_init(const char * file)
   #elif USE_MEM==0
     rom[0x228 / 4] = 0x100073;
   #endif
-
-  // for(int i = 0; i < SDRAM_SIZE; i++)
-  // {
-  //   sdram[i] = i;
-  // }
 
   #ifndef USE_NVBOARD
   printf("diff_MEMCOPY\n");
