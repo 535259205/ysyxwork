@@ -29,7 +29,7 @@ extern "C" void mem_w( int data, int addr, int len)
   uint32_t data_temp=rom[tar_addr];
   uint32_t addrl=addr&0x3;
   uint32_t tar_data=data;
-  printf("mem_w addr=0x%08x, len=%d, data=0x%08x write\n", addr, len, data);
+  // printf("mem_w addr=0x%08x, len=%d, data=0x%08x write\n", addr, len, data);
   
   // 根据长度和地址偏移设置不同的掩码
   if (len == 1) {
@@ -135,7 +135,7 @@ extern "C"  int mem_r( int addr, int len)
       break;
   }
   // iringbuf_memadd("mem_r", addr, len, tar_data);
-  printf("mem_r addr=0x%08x, len=%d, data=0x%08x\n", addr, len, tar_data);  
+  // printf("mem_r addr=0x%08x, len=%d, data=0x%08x\n", addr, len, tar_data);  
   return tar_data;
 }
 
