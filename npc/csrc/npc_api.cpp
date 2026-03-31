@@ -1,7 +1,7 @@
 #include "stdint.h"
 #include "PMEM_ADDR.h"
 #include "stdio.h"
-
+#define USE_DEBUG 1
 #define MEM_SIZE (0x4000000)
 static uint32_t mem[MEM_SIZE];
 // static uint32_t rom[MEM_SIZE] = {0};
@@ -29,7 +29,9 @@ extern "C" void mem_w( int data, int addr, int len)
   uint32_t data_temp=rom[tar_addr];
   uint32_t addrl=addr&0x3;
   uint32_t tar_data=data;
-  // printf("mem_w addr=0x%08x, len=%d, data=0x%08x write\n", addr, len, data);
+#if USE_DEBUG
+  printf("mem_w addr=0x%08x, len=%d, data=0x%08x write\n", addr, len, data);
+#endif
   
   // 根据长度和地址偏移设置不同的掩码
   if (len == 1) {
@@ -135,7 +137,9 @@ extern "C"  int mem_r( int addr, int len)
       break;
   }
   // iringbuf_memadd("mem_r", addr, len, tar_data);
-  // printf("mem_r addr=0x%08x, len=%d, data=0x%08x\n", addr, len, tar_data);  
+#if USE_DEBUG
+  printf("mem_r addr=0x%08x, len=%d, data=0x%08x\n", addr, len, tar_data);
+#endif
   return tar_data;
 }
 
