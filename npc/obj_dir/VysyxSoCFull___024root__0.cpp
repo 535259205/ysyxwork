@@ -543,9 +543,11 @@ void VysyxSoCFull___024root___nba_sequent__TOP__0(VysyxSoCFull___024root* vlSelf
             }
         }
         if (vlSelfRef.ysyxSoCFull__DOT__encode_1_com_csr_ecall) {
-            vlSelfRef.ysyxSoCFull__DOT__csr_1__DOT__mepc 
-                = (vlSelfRef.ysyxSoCFull__DOT__pc_1__DOT__PC_cnt 
-                   - (IData)(4U));
+            if (vlSelfRef.ysyxSoCFull__DOT__encode_1_com_csr_vaild) {
+                vlSelfRef.ysyxSoCFull__DOT__csr_1__DOT__mepc 
+                    = (vlSelfRef.ysyxSoCFull__DOT__pc_1__DOT__PC_cnt 
+                       - (IData)(4U));
+            }
         } else if ((1U & (~ (IData)(vlSelfRef.ysyxSoCFull__DOT__encode_1_com_csr_mret)))) {
             if (vlSelfRef.ysyxSoCFull__DOT__encode_1_com_csr_vaild) {
                 if ((0x0300U != (vlSelfRef.ysyxSoCFull__DOT__encode_1__DOT__code 
