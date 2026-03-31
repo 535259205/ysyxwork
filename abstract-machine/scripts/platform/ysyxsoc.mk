@@ -36,22 +36,11 @@ image: image-dep
 	@$(OBJCOPY) -S --set-section-flags .bss=alloc,contents -O binary $(IMAGE).elf $(IMAGE).bin
 
 run: insert-arg
-ifeq ($(ARCH),minirv-npc)
-	@cp $(IMAGE).bin $(AM_HOME)/../npc/hex/test.bin
-	@cp $(IMAGE).elf $(AM_HOME)/../npc/hex/test.elf
-
-	$(MAKE) -C $(AM_HOME)/../npc sim; 
-else ifeq ($(ARCH),riscv64i-ysyxsoc)
+ifeq ($(ARCH),riscv64i-ysyxsoc)
 	@cp $(IMAGE).bin $(AM_HOME)/../npc/hex/test.bin
 	@cp $(IMAGE).elf $(AM_HOME)/../npc/hex/test.elf
 	# $(MAKE) -C $(AM_HOME)/../npc encode; 
 	# $(MAKE) -C $(AM_HOME)/../npc sim; 
-else ifeq ($(ARCH),riscv32e-npc)
-	@echo TEST $(AM_HOME)/../npc/hex/test.bin
-	@cp $(IMAGE).bin $(AM_HOME)/../npc/hex/test.bin
-	@cp $(IMAGE).elf $(AM_HOME)/../npc/hex/test.elf
-
-	$(MAKE) -C $(AM_HOME)/../npc sim;
 else ifeq ($(ARCH),riscv32e-ysyxsoc)
 ifeq ($(WORK),T)
 	@echo TEST $(AM_HOME)/../npc/hex/test.bin
@@ -65,11 +54,13 @@ else ifeq ($(NV),F)
 	@echo TEST $(AM_HOME)/../npc/hex/test.bin
 	@cp $(IMAGE).bin $(AM_HOME)/../npc/hex/test.bin
 	@cp $(IMAGE).elf $(AM_HOME)/../npc/hex/test.elf
+	$(MAKE) -C $(AM_HOME)/../npc all;
 	$(MAKE) -C $(AM_HOME)/../npc sim;
 else ifeq ($(NV),T)
 	@echo TEST $(AM_HOME)/../nvboard/MY_Test/ysyx/gpio/hex/test.bin
 	@cp $(IMAGE).bin $(AM_HOME)/../nvboard/MY_Test/ysyx/gpio/hex/test.bin
 	@cp $(IMAGE).elf $(AM_HOME)/../nvboard/MY_Test/ysyx/gpio/hex/test.elf
+	$(MAKE) -C $(AM_HOME)/../nvboard/MY_Test/ysyx/gpio all;
 	$(MAKE) -C $(AM_HOME)/../nvboard/MY_Test/ysyx/gpio sim;
 endif
 endif

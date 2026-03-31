@@ -126,8 +126,12 @@ module test_cpu (
   reg                 WB_csr_w_valid;
   reg        [11:0]   WB_csr_csr_wsel;
   reg        [11:0]   WB_csr_csr_rsel;
-  reg        [31:0]   debug_debug_data_0;
-  reg        [31:0]   debug_debug_data_2;
+  reg        [31:0]   debug_difftest_data_0;
+  wire       [31:0]   debug_difftest_data_1;
+  reg        [31:0]   debug_difftest_data_2;
+  wire       [31:0]   debug_performance_data_0;
+  wire       [31:0]   debug_performance_data_1;
+  wire       [31:0]   debug_performance_data_2;
   wire                IF_axi_if_axi_ar_valid;
   wire       [31:0]   IF_axi_if_axi_ar_payload_addr;
   wire       [3:0]    IF_axi_if_axi_ar_payload_id;
@@ -659,7 +663,10 @@ module test_cpu (
   reg        [31:0]   gpr_31_regNext;
   wire                debug_flag;
   reg                 debug_step_flag;
-  wire                debug_new_flag;
+  reg        [31:0]   EXtoIF_nPC_regNextWhen;
+  reg        [31:0]   debug_IFU_cnt;
+  reg        [31:0]   debug_IDU_cnt;
+  reg        [31:0]   debug_EXU_cnt;
   reg        [1:0]    MEM_MEMt_w_stateReg;
   reg        [1:0]    MEM_MEMt_w_stateNext;
   wire                axi_mem_aw_fire;
@@ -965,11 +972,17 @@ module test_cpu (
     .step (debug_step_flag), //i
     .clk  (clock          )  //i
   );
-  my_debug_2 debug_debug (
-    .data_0 (debug_debug_data_0[31:0]), //i
-    .data_1 (32'h0                   ), //i
-    .data_2 (debug_debug_data_2[31:0]), //i
-    .clock  (clock                   )  //i
+  my_debug_2 debug_difftest (
+    .data_0 (debug_difftest_data_0[31:0]), //i
+    .data_1 (debug_difftest_data_1[31:0]), //i
+    .data_2 (debug_difftest_data_2[31:0]), //i
+    .clock  (clock                      )  //i
+  );
+  my_debug_3 debug_performance (
+    .data_0 (debug_performance_data_0[31:0]), //i
+    .data_1 (debug_performance_data_1[31:0]), //i
+    .data_2 (debug_performance_data_2[31:0]), //i
+    .clock  (clock                         )  //i
   );
   always @(*) begin
     case(pip_ctrl_5_down_CSR_rs1_imm)
@@ -5070,16 +5083,19 @@ module test_cpu (
   assign debug_flag = 1'b0;
   always @(*) begin
     debug_step_flag = 1'b0;
-    debug_debug_data_0 = 32'h0;
-    debug_debug_data_2 = pip_ctrl_5_down_CODE;
+    debug_difftest_data_0 = 32'h0;
+    debug_difftest_data_2 = pip_ctrl_5_down_CODE;
     if(pip_ctrl_4_up_isFiring) begin
       debug_step_flag = 1'b1;
-      debug_debug_data_0 = pip_ctrl_4_down_PC;
-      debug_debug_data_2 = pip_ctrl_4_down_CODE;
+      debug_difftest_data_0 = pip_ctrl_4_down_PC;
+      debug_difftest_data_2 = pip_ctrl_4_down_CODE;
     end
   end
 
-  assign debug_new_flag = (IF_code_valid && IF_code_ready);
+  assign debug_difftest_data_1 = EXtoIF_nPC_regNextWhen;
+  assign debug_performance_data_0 = debug_IFU_cnt;
+  assign debug_performance_data_1 = debug_IDU_cnt;
+  assign debug_performance_data_2 = debug_EXU_cnt;
   assign axi_mem_aw_fire = (axi_mem_aw_valid_1 && axi_mem_aw_ready_1);
   assign axi_mem_b_fire = (axi_mem_b_valid_1 && axi_mem_b_ready_1);
   assign MEM_MEMt_w_onExit_BOOT = ((MEM_MEMt_w_stateNext != MEM_MEMt_w_BOOT) && (MEM_MEMt_w_stateReg == MEM_MEMt_w_BOOT));
@@ -5144,6 +5160,9 @@ module test_cpu (
       pip_ctrl_3_up_valid <= 1'b0;
       pip_ctrl_4_up_valid <= 1'b0;
       pip_ctrl_5_up_valid <= 1'b0;
+      debug_IFU_cnt <= 32'h0;
+      debug_IDU_cnt <= 32'h0;
+      debug_EXU_cnt <= 32'h0;
       MEM_MEMt_w_stateReg <= MEM_MEMt_w_BOOT;
       MEM_MEMt_r_stateReg <= MEM_MEMt_r_BOOT;
     end else begin
@@ -5382,6 +5401,15 @@ module test_cpu (
         pip_ctrl_4_up_valid <= pip_ctrl_3_down_isValid;
       end
       pip_ctrl_5_up_valid <= pip_ctrl_4_down_isValid;
+      if(pip_ctrl_1_down_valid) begin
+        debug_IFU_cnt <= (debug_IFU_cnt + 32'h00000001);
+      end
+      if(pip_ctrl_2_down_valid) begin
+        debug_IDU_cnt <= (debug_IDU_cnt + 32'h00000001);
+      end
+      if(pip_ctrl_3_down_valid) begin
+        debug_EXU_cnt <= (debug_EXU_cnt + 32'h00000001);
+      end
       MEM_MEMt_w_stateReg <= MEM_MEMt_w_stateNext;
       if(MEM_MEMt_w_onEntry_start) begin
         MEM_MEMt_w_flag <= 1'b0;
@@ -5474,6 +5502,9 @@ module test_cpu (
     gpr_29_regNext <= gpr_29;
     gpr_30_regNext <= gpr_30;
     gpr_31_regNext <= gpr_31;
+    if(EXtoIF_valid) begin
+      EXtoIF_nPC_regNextWhen <= EXtoIF_nPC;
+    end
   end
 
 

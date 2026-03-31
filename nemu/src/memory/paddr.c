@@ -139,14 +139,14 @@ void paddr_write(paddr_t addr, int len, word_t data) {
     psram_write(addr, len, data);
     return;
   }
+#endif
   else if(likely(in_uart(addr)))
   {
     #if USE_EXMEM==0
-    putchar(data);
+    // putchar(data);
     #endif
     return;
   }
-  #endif
   IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); return);
   out_of_bound(addr);
 }

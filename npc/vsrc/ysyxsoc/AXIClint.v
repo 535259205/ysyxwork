@@ -36,6 +36,8 @@ module AXIClint (
   input  wire          reset
 );
 
+  wire       [31:0]   debug_data_0;
+  wire       [31:0]   debug_data_1;
   wire       [1:0]    _zz_Axi4Incr_alignMask;
   wire       [11:0]   _zz_Axi4Incr_baseIncr;
   wire       [2:0]    _zz_Axi4Incr_wrapCase_2;
@@ -207,6 +209,11 @@ module AXIClint (
   assign _zz_Axi4Incr_result_1_11 = Axi4Incr_baseIncr_1[4 : 0];
   assign _zz_Axi4Incr_result_1_12 = Axi4Incr_base_1[11 : 6];
   assign _zz_Axi4Incr_result_1_13 = Axi4Incr_baseIncr_1[5 : 0];
+  my_debug_4 debug (
+    .data_0 (debug_data_0[31:0]), //i
+    .data_1 (debug_data_1[31:0]), //i
+    .clock  (clock             )  //i
+  );
   always @(*) begin
     case(Axi4Incr_wrapCase)
       3'b000 : _zz_Axi4Incr_result = {_zz_Axi4Incr_result_1,_zz_Axi4Incr_result_2};
@@ -464,6 +471,8 @@ module AXIClint (
   assign axi_readOccur = (axi_r_valid && axi_r_ready);
   assign axi_readAddressMasked = (axi_readDataStage_payload_fragment_addr & (~ 32'h00000003));
   assign axi_writeAddressMasked = (unburstify_result_payload_fragment_addr & (~ 32'h00000003));
+  assign debug_data_0 = mtime_L;
+  assign debug_data_1 = mtime_H;
   always @(posedge clock) begin
     if(reset) begin
       unburstify_buffer_valid <= 1'b0;

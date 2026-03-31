@@ -37,6 +37,8 @@ int main(int argc, char *argv[]) {
 
   extern void show_cache();
   show_cache();
+  extern void branch_statistics();
+  branch_statistics();
 
   return is_exit_status_bad();
 }

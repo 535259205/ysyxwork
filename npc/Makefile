@@ -15,8 +15,10 @@ WORK ?=F
 
 ifeq ($(WORK),F)
 -include ./scripts/ysyx_study.mk
-else
+else ifeq ($(WORK),T)
 -include ./scripts/ysyx_work.mk
+else ifeq ($(WORK),N)
+-include ./scripts/npc.mk
 endif
 
 VERILATOR_INC := $(shell dirname $(shell find ~/environment -name "verilated.h"))
@@ -37,7 +39,7 @@ $(LIBCAPSTONE):
 # 编译前确保capstone库已准备好
 $(CURDIR)/csrc/disasm.cpp: $(LIBCAPSTONE)
 #-g -fsanitize=address
-all:
+all: $(LIBCAPSTONE)
 	@@verilator --trace  -cc --top-module $(TOP_MODULE) $(VSRCS)  --exe $(csrc) \
 		--relative-includes \
 		--error-limit 0 \

@@ -49,6 +49,10 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc)
   //cachesim
   // extern void cache_add(uint32_t pc);
   // cache_add(_this->pc);
+  
+  //branchsim
+  // extern void branch_sim(uint32_t snpc, uint32_t dnpc);
+  // IFDEF(1, branch_sim(_this->snpc, dnpc));
 
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
   //SCAN_ALL_POINT
