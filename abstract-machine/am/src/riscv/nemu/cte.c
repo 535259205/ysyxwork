@@ -27,9 +27,9 @@ Context* __am_irq_handle(Context *c) {
     }
     c = user_handler(ev, c);
     assert(c != NULL);
-    if (c->mcause == 0x08 || c->mcause == 0x0B) {
-      c->mepc += 4;            // RV32/RV64 都是 +4
-    }
+    // if (c->mcause == 0x08 || c->mcause == 0x0B) {
+    //   c->mepc += 4;            // RV32/RV64 都是 +4
+    // }
 
 
   }
