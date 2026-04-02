@@ -2,7 +2,6 @@
 # Variables
 IVERILOG = iverilog
 VVP = vvp
-TOP_MODULE = ysyxsoc_tb
 
 NPC_HOME = ../npc
 INCLUDE = -I/home/ylqt/environment/oss_cad_suite/oss-cad-suite/include/iverilog
