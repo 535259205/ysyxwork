@@ -9,6 +9,7 @@ Context* __am_irq_handle(Context *c) {
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
+      case 0x0B:
       case 0x08:
         // 检查a7寄存器的值，确定是yield请求
         if (c->GPR1 == -1)   // x17是a7寄存器
