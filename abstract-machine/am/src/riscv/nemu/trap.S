@@ -48,6 +48,7 @@ __am_asm_trap:
   csrr t1, mstatus
   csrr t2, mepc
 # 存储异常、状态、pc 同样压栈
+  addi t2, t2, 4
   STORE t0, OFFSET_CAUSE(sp)
   STORE t1, OFFSET_STATUS(sp)
   STORE t2, OFFSET_EPC(sp)
@@ -66,7 +67,6 @@ __am_asm_trap:
   LOAD t0, OFFSET_CAUSE(sp)
   LOAD t1, OFFSET_STATUS(sp)
   LOAD t2, OFFSET_EPC(sp)
-  addi t2, t2, 4
   csrw mcause, t0
   csrw mstatus, t1
   csrw mepc, t2
