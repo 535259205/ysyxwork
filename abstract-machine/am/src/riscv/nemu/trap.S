@@ -52,7 +52,7 @@ __am_asm_trap:
   STORE t1, OFFSET_STATUS(sp)
   STORE t2, OFFSET_EPC(sp)
 
-#   set mstatus.MPRV to pass difftest 访问特权级修改位设置1
+  #set mstatus.MPRV to pass difftest 访问特权级修改位设置1
   li a0, (1 << 17)
   or t1, t1, a0
   csrw mstatus, t1
@@ -66,7 +66,7 @@ __am_asm_trap:
   LOAD t0, OFFSET_CAUSE(sp)
   LOAD t1, OFFSET_STATUS(sp)
   LOAD t2, OFFSET_EPC(sp)
-  # addi t2, t2, 4
+  addi t2, t2, 4
   csrw mcause, t0
   csrw mstatus, t1
   csrw mepc, t2
