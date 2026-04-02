@@ -11,6 +11,8 @@ Context* __am_irq_handle(Context *c) {
     Event ev = {0};
     switch (c->mcause) {
       case 0x0B:
+        printf("IRQ_TIMER\n");
+        break;
       case 0x08:
         // 检查a7寄存器的值，确定是yield请求
         if (c->GPR1 == -1)   // x17是a7寄存器
@@ -57,7 +59,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   //栈指针
   ctx->gpr[2] = (uintptr_t)ctx;
   // ctx->gpr[2] =((uintptr_t)kstack.end - sizeof(Context));
-  ctx->mcause = 0x00;
+  ctx->mcause = 0x08;
   ctx->mstatus = 0x00202122;  // MIE = 1
   // 要设置mepc为入口函数的地址 mret会进行如果mepc+4
   ctx->mepc = (uintptr_t)entry;
