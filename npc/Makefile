@@ -78,7 +78,6 @@ gtk :
 	gtkwave waveform.vcd wave_sign.gtkw
 
 
-
 # 7. 清理目标
 clean:
 	rm -rf ./obj_dir

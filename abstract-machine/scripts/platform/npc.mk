@@ -39,6 +39,7 @@ ifeq ($(ARCH),minirv-npc)
 else ifeq ($(ARCH),riscv32e-npc)
 	@echo TEST $(AM_HOME)/../npc/hex/test.bin
 	@cp $(IMAGE).bin $(AM_HOME)/../npc/hex/test.bin
+	@cp $(IMAGE).bin $(AM_HOME)/../iverilog_test/hex/test.bin
 	@cp $(IMAGE).elf $(AM_HOME)/../npc/hex/test.elf
 	$(MAKE) -C $(AM_HOME)/../npc WORK=N all;
 	$(MAKE) -C $(AM_HOME)/../npc sim;

@@ -2,7 +2,6 @@
 # Variables
 IVERILOG = iverilog
 VVP = vvp
-TOP_MODULE = ysyxsoc_tb
 
 NPC_HOME = ../npc
 INCLUDE = -I/home/ylqt/environment/oss_cad_suite/oss-cad-suite/include/iverilog
@@ -37,9 +36,11 @@ run: build
 gtk:
 	gtkwave ysyxsoc_tb.vcd wave.gtkw
 
+turn:
+	@@hexdump -v -e '1/4 "%08x\n"' ./hex/test.bin > ./hex/test.mem
 # Clean
 clean:
 	rm -rf ./build/*
 
 # Phony targets
-.PHONY: all run  clean build gtk
+.PHONY: all run  clean build gtk turn
