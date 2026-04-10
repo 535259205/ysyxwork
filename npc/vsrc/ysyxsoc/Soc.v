@@ -406,14 +406,14 @@ module Soc (
   assign axi_m_r_ready = xbar_axi_s_0_r_ready;
   assign axi_s_ar_ready = 1'b0;
   assign axi_s_r_valid = 1'b0;
-  assign axi_s_r_payload_data = 32'b00000000000000000000000000000000;
-  assign axi_s_r_payload_id = 4'b0000;
-  assign axi_s_r_payload_resp = 2'b00;
-  assign axi_s_r_payload_last = 1'b0;
+  assign axi_s_r_payload_data = 32'bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
+  assign axi_s_r_payload_id = 4'bxxxx;
+  assign axi_s_r_payload_resp = 2'bxx;
+  assign axi_s_r_payload_last = 1'bx;
   assign axi_s_w_ready = 1'b0;
   assign axi_s_aw_ready = 1'b0;
   assign axi_s_b_valid = 1'b0;
-  assign axi_s_b_payload_id = 4'b0000;
-  assign axi_s_b_payload_resp = 2'b00;
+  assign axi_s_b_payload_id = 4'bxxxx;
+  assign axi_s_b_payload_resp = 2'bxx;
 
 endmodule

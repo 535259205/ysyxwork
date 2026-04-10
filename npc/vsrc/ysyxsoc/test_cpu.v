@@ -4006,86 +4006,121 @@ module test_cpu (
   assign pip_ctrl_5_down_CODE = pip_ctrl_5_CODE_bypass;
   always @(*) begin
     pip_ctrl_5_CODE_bypass = pip_ctrl_5_up_CODE;
-    pip_ctrl_5_PC_bypass = pip_ctrl_5_up_PC;
-    pip_ctrl_5_RD_valid_bypass = pip_ctrl_5_up_RD_valid;
-    pip_ctrl_5_RD_sel_bypass = pip_ctrl_5_up_RD_sel;
-    pip_ctrl_5_RD_bypass = pip_ctrl_5_up_RD;
-    pass_valid = 1'b0;
     if(pip_ctrl_3_up_isFiring) begin
-      pass_valid = 1'b1;
-      pip_ctrl_5_RD_bypass = pip_ctrl_3_down_RD;
-      pip_ctrl_5_RD_sel_bypass = pip_ctrl_3_down_RD_sel;
-      pip_ctrl_5_RD_valid_bypass = pip_ctrl_3_down_RD_valid;
-      pip_ctrl_5_PC_bypass = pip_ctrl_3_down_PC;
       pip_ctrl_5_CODE_bypass = pip_ctrl_3_down_CODE;
     end
   end
 
   assign pip_ctrl_5_down_PC = pip_ctrl_5_PC_bypass;
+  always @(*) begin
+    pip_ctrl_5_PC_bypass = pip_ctrl_5_up_PC;
+    if(pip_ctrl_3_up_isFiring) begin
+      pip_ctrl_5_PC_bypass = pip_ctrl_3_down_PC;
+    end
+  end
+
   assign pip_ctrl_5_down_RD_valid = pip_ctrl_5_RD_valid_bypass;
+  always @(*) begin
+    pip_ctrl_5_RD_valid_bypass = pip_ctrl_5_up_RD_valid;
+    if(pip_ctrl_3_up_isFiring) begin
+      pip_ctrl_5_RD_valid_bypass = pip_ctrl_3_down_RD_valid;
+    end
+  end
+
   assign pip_ctrl_5_down_RD_sel = pip_ctrl_5_RD_sel_bypass;
+  always @(*) begin
+    pip_ctrl_5_RD_sel_bypass = pip_ctrl_5_up_RD_sel;
+    if(pip_ctrl_3_up_isFiring) begin
+      pip_ctrl_5_RD_sel_bypass = pip_ctrl_3_down_RD_sel;
+    end
+  end
+
   assign pip_ctrl_5_down_RD = pip_ctrl_5_RD_bypass;
   always @(*) begin
+    pip_ctrl_5_RD_bypass = pip_ctrl_5_up_RD;
+    if(pip_ctrl_3_up_isFiring) begin
+      pip_ctrl_5_RD_bypass = pip_ctrl_3_down_RD;
+    end
+  end
+
+  always @(*) begin
     _zz_pip_ctrl_2_haltRequest_pipCPU_l742 = 1'b0;
-    if((((pip_ctrl_3_down_MEM_read_valid || pip_ctrl_4_down_MEM_read_valid) || pip_ctrl_3_down_CSR_valid) || pip_ctrl_4_down_CSR_valid)) begin
+    if(((((pip_ctrl_3_down_MEM_read_valid || pip_ctrl_4_down_MEM_read_valid) || pip_ctrl_3_down_CSR_valid) || pip_ctrl_4_down_CSR_valid) || pip_ctrl_5_down_CSR_valid)) begin
       _zz_pip_ctrl_2_haltRequest_pipCPU_l742 = 1'b1;
     end
   end
 
   always @(*) begin
     _zz_pip_ctrl_4_throwWhen_pipCPU_l727 = 1'b0;
+    if(pip_ctrl_5_down_CSR_valid) begin
+      case(pip_ctrl_5_down_IDtoEX_fun)
+        RVCode_MRET : begin
+          _zz_pip_ctrl_4_throwWhen_pipCPU_l727 = 1'b1;
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
     _zz_pip_ctrl_3_throwWhen_pipCPU_l726 = 1'b0;
+    if(pip_ctrl_5_down_CSR_valid) begin
+      case(pip_ctrl_5_down_IDtoEX_fun)
+        RVCode_MRET : begin
+          _zz_pip_ctrl_3_throwWhen_pipCPU_l726 = 1'b1;
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
     _zz_pip_ctrl_2_throwWhen_pipCPU_l725 = 1'b0;
+    if(pip_ctrl_5_down_CSR_valid) begin
+      case(pip_ctrl_5_down_IDtoEX_fun)
+        RVCode_MRET : begin
+          _zz_pip_ctrl_2_throwWhen_pipCPU_l725 = 1'b1;
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
     _zz_pip_ctrl_4_throwWhen_pipCPU_l717 = 1'b0;
-    _zz_pip_ctrl_3_throwWhen_pipCPU_l716 = 1'b0;
-    _zz_pip_ctrl_2_throwWhen_pipCPU_l715 = 1'b0;
-    EXtoIF_nPC = EX_EXt_nPC;
-    EXtoIF_valid = EX_EXt_nPC_valid;
-    WB_csr_w_valid = pip_ctrl_5_down_CSR_valid;
-    WB_csr_csr_wsel = pip_ctrl_5_down_CSR_sel;
-    WB_csr_csr_rsel = pip_ctrl_5_down_CSR_sel;
-    WB_csr_w_data = 32'h0;
-    WB_csr_flag = 1'b0;
     if(pip_ctrl_5_down_CSR_valid) begin
       case(pip_ctrl_5_down_IDtoEX_fun)
         RVCode_ECALL : begin
-          WB_csr_csr_wsel = 12'h341;
-          WB_csr_csr_rsel = 12'h305;
-          WB_csr_w_data = pip_ctrl_5_down_PC;
-          EXtoIF_valid = 1'b1;
-          EXtoIF_nPC = WB_csr_r_data;
-          _zz_pip_ctrl_2_throwWhen_pipCPU_l715 = 1'b1;
-          _zz_pip_ctrl_3_throwWhen_pipCPU_l716 = 1'b1;
           _zz_pip_ctrl_4_throwWhen_pipCPU_l717 = 1'b1;
-          WB_csr_flag = 1'b1;
         end
-        RVCode_MRET : begin
-          WB_csr_w_valid = 1'b0;
-          WB_csr_csr_rsel = 12'h341;
-          EXtoIF_valid = 1'b1;
-          EXtoIF_nPC = WB_csr_r_data;
-          _zz_pip_ctrl_2_throwWhen_pipCPU_l725 = 1'b1;
-          _zz_pip_ctrl_3_throwWhen_pipCPU_l726 = 1'b1;
-          _zz_pip_ctrl_4_throwWhen_pipCPU_l727 = 1'b1;
-          WB_csr_flag = 1'b1;
+        default : begin
         end
-        RVCode_CSRRW : begin
-          WB_csr_w_data = WB_gpr_rdata;
+      endcase
+    end
+  end
+
+  always @(*) begin
+    _zz_pip_ctrl_3_throwWhen_pipCPU_l716 = 1'b0;
+    if(pip_ctrl_5_down_CSR_valid) begin
+      case(pip_ctrl_5_down_IDtoEX_fun)
+        RVCode_ECALL : begin
+          _zz_pip_ctrl_3_throwWhen_pipCPU_l716 = 1'b1;
         end
-        RVCode_CSRRS : begin
-          WB_csr_w_data = (WB_gpr_rdata | WB_csr_r_data);
+        default : begin
         end
-        RVCode_CSRRC : begin
-          WB_csr_w_data = (WB_csr_r_data & (~ WB_gpr_rdata));
-        end
-        RVCode_CSRRWI : begin
-          WB_csr_w_data = {27'd0, _zz_w_data};
-        end
-        RVCode_CSRRSI : begin
-          WB_csr_w_data = (WB_gpr_rdata | _zz_w_data_1);
-        end
-        RVCode_CSRRCI : begin
-          WB_csr_w_data = (WB_csr_r_data & (~ _zz_w_data_2));
+      endcase
+    end
+  end
+
+  always @(*) begin
+    _zz_pip_ctrl_2_throwWhen_pipCPU_l715 = 1'b0;
+    if(pip_ctrl_5_down_CSR_valid) begin
+      case(pip_ctrl_5_down_IDtoEX_fun)
+        RVCode_ECALL : begin
+          _zz_pip_ctrl_2_throwWhen_pipCPU_l715 = 1'b1;
         end
         default : begin
         end
@@ -4142,291 +4177,806 @@ module test_cpu (
   assign _zz_pip_ctrl_2_down_IDtoEX_fun = 6'h0;
   always @(*) begin
     pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun;
-    pip_ctrl_2_down_IDtoEX_imm = 32'h0;
-    pip_ctrl_2_down_IDtoEX_rd_sel = 5'h0;
-    id_rs1_sel = 5'h0;
-    id_rs2_sel = 5'h0;
-    ID_IDt_error_flag = 1'b0;
     if(pip_ctrl_2_up_isFiring) begin
       casez(pip_ctrl_2_down_CODE)
         32'b0000000??????????000?????0110011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_1;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
         end
         32'b0100000??????????000?????0110011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_2;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
         end
         32'b0000000??????????111?????0110011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_3;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
         end
         32'b0000000??????????110?????0110011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_4;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
         end
         32'b0000000??????????100?????0110011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_5;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
         end
         32'b0000000??????????001?????0110011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_6;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
         end
         32'b0000000??????????101?????0110011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_7;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
         end
         32'b0100000??????????101?????0110011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_8;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
         end
         32'b0000000??????????010?????0110011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_9;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
         end
         32'b0000000??????????011?????0110011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_10;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
         end
         32'b?????????????????000?????0010011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_11;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm;
         end
         32'b?????????????????100?????0010011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_12;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_2;
         end
         32'b?????????????????110?????0010011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_13;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_4;
         end
         32'b?????????????????111?????0010011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_14;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_6;
         end
         32'b0000000??????????001?????0010011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_15;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_8;
         end
         32'b0000000??????????101?????0010011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_16;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_10;
         end
         32'b0100000??????????101?????0010011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_17;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_12;
         end
         32'b?????????????????010?????0010011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_18;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_14;
         end
         32'b?????????????????011?????0010011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_19;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_16;
         end
         32'b?????????????????000?????0000011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_20;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_18;
         end
         32'b?????????????????001?????0000011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_21;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_20;
         end
         32'b?????????????????010?????0000011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_22;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_22;
         end
         32'b?????????????????100?????0000011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_23;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_24;
         end
         32'b?????????????????101?????0000011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_24;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_26;
         end
         32'b?????????????????000?????1100111 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_25;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_28;
         end
         32'h30200073 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_26;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_30;
         end
         32'h0000100f : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_27;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_32;
         end
         32'h00100073 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_28;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_34;
         end
         32'h00000073 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_29;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_36;
         end
         32'b?????????????????010?????0100011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_30;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_38;
         end
         32'b?????????????????001?????0100011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_31;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_40;
         end
         32'b?????????????????000?????0100011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_32;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_42;
         end
         32'b?????????????????000?????1100011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_33;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_44;
         end
         32'b?????????????????001?????1100011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_34;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_46;
         end
         32'b?????????????????100?????1100011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_35;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_48;
         end
         32'b?????????????????101?????1100011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_36;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_50;
         end
         32'b?????????????????110?????1100011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_37;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_52;
         end
         32'b?????????????????111?????1100011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_38;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_54;
         end
         32'b?????????????????????????0110111 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_39;
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = {pip_ctrl_2_down_CODE[31 : 12],12'h0};
         end
         32'b?????????????????????????0010111 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_40;
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = {pip_ctrl_2_down_CODE[31 : 12],12'h0};
         end
         32'b?????????????????????????1101111 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_41;
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_56;
         end
         32'b?????????????????001?????1110011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_42;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_58;
         end
         32'b?????????????????010?????1110011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_43;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_60;
         end
         32'b?????????????????011?????1110011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_44;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_62;
         end
         32'b?????????????????101?????1110011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_45;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_64;
         end
         32'b?????????????????110?????1110011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_46;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
-          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_66;
         end
         32'b?????????????????111?????1110011 : begin
           pip_ctrl_2_down_IDtoEX_fun = _zz_pip_ctrl_2_down_IDtoEX_fun_47;
-          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
-          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
+    pip_ctrl_2_down_IDtoEX_imm = 32'h0;
+    if(pip_ctrl_2_up_isFiring) begin
+      casez(pip_ctrl_2_down_CODE)
+        32'b0000000??????????000?????0110011 : begin
+        end
+        32'b0100000??????????000?????0110011 : begin
+        end
+        32'b0000000??????????111?????0110011 : begin
+        end
+        32'b0000000??????????110?????0110011 : begin
+        end
+        32'b0000000??????????100?????0110011 : begin
+        end
+        32'b0000000??????????001?????0110011 : begin
+        end
+        32'b0000000??????????101?????0110011 : begin
+        end
+        32'b0100000??????????101?????0110011 : begin
+        end
+        32'b0000000??????????010?????0110011 : begin
+        end
+        32'b0000000??????????011?????0110011 : begin
+        end
+        32'b?????????????????000?????0010011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm;
+        end
+        32'b?????????????????100?????0010011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_2;
+        end
+        32'b?????????????????110?????0010011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_4;
+        end
+        32'b?????????????????111?????0010011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_6;
+        end
+        32'b0000000??????????001?????0010011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_8;
+        end
+        32'b0000000??????????101?????0010011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_10;
+        end
+        32'b0100000??????????101?????0010011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_12;
+        end
+        32'b?????????????????010?????0010011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_14;
+        end
+        32'b?????????????????011?????0010011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_16;
+        end
+        32'b?????????????????000?????0000011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_18;
+        end
+        32'b?????????????????001?????0000011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_20;
+        end
+        32'b?????????????????010?????0000011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_22;
+        end
+        32'b?????????????????100?????0000011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_24;
+        end
+        32'b?????????????????101?????0000011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_26;
+        end
+        32'b?????????????????000?????1100111 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_28;
+        end
+        32'h30200073 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_30;
+        end
+        32'h0000100f : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_32;
+        end
+        32'h00100073 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_34;
+        end
+        32'h00000073 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_36;
+        end
+        32'b?????????????????010?????0100011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_38;
+        end
+        32'b?????????????????001?????0100011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_40;
+        end
+        32'b?????????????????000?????0100011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_42;
+        end
+        32'b?????????????????000?????1100011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_44;
+        end
+        32'b?????????????????001?????1100011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_46;
+        end
+        32'b?????????????????100?????1100011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_48;
+        end
+        32'b?????????????????101?????1100011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_50;
+        end
+        32'b?????????????????110?????1100011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_52;
+        end
+        32'b?????????????????111?????1100011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_54;
+        end
+        32'b?????????????????????????0110111 : begin
+          pip_ctrl_2_down_IDtoEX_imm = {pip_ctrl_2_down_CODE[31 : 12],12'h0};
+        end
+        32'b?????????????????????????0010111 : begin
+          pip_ctrl_2_down_IDtoEX_imm = {pip_ctrl_2_down_CODE[31 : 12],12'h0};
+        end
+        32'b?????????????????????????1101111 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_56;
+        end
+        32'b?????????????????001?????1110011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_58;
+        end
+        32'b?????????????????010?????1110011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_60;
+        end
+        32'b?????????????????011?????1110011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_62;
+        end
+        32'b?????????????????101?????1110011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_64;
+        end
+        32'b?????????????????110?????1110011 : begin
+          pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_66;
+        end
+        32'b?????????????????111?????1110011 : begin
           pip_ctrl_2_down_IDtoEX_imm = _zz_pip_ctrl_2_down_IDtoEX_imm_68;
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
+    pip_ctrl_2_down_IDtoEX_rd_sel = 5'h0;
+    if(pip_ctrl_2_up_isFiring) begin
+      casez(pip_ctrl_2_down_CODE)
+        32'b0000000??????????000?????0110011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b0100000??????????000?????0110011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b0000000??????????111?????0110011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b0000000??????????110?????0110011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b0000000??????????100?????0110011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b0000000??????????001?????0110011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b0000000??????????101?????0110011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b0100000??????????101?????0110011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b0000000??????????010?????0110011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b0000000??????????011?????0110011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b?????????????????000?????0010011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b?????????????????100?????0010011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b?????????????????110?????0010011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b?????????????????111?????0010011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b0000000??????????001?????0010011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b0000000??????????101?????0010011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b0100000??????????101?????0010011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b?????????????????010?????0010011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b?????????????????011?????0010011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b?????????????????000?????0000011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b?????????????????001?????0000011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b?????????????????010?????0000011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b?????????????????100?????0000011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b?????????????????101?????0000011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b?????????????????000?????1100111 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'h30200073 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'h0000100f : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'h00100073 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'h00000073 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b?????????????????010?????0100011 : begin
+        end
+        32'b?????????????????001?????0100011 : begin
+        end
+        32'b?????????????????000?????0100011 : begin
+        end
+        32'b?????????????????000?????1100011 : begin
+        end
+        32'b?????????????????001?????1100011 : begin
+        end
+        32'b?????????????????100?????1100011 : begin
+        end
+        32'b?????????????????101?????1100011 : begin
+        end
+        32'b?????????????????110?????1100011 : begin
+        end
+        32'b?????????????????111?????1100011 : begin
+        end
+        32'b?????????????????????????0110111 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b?????????????????????????0010111 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b?????????????????????????1101111 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b?????????????????001?????1110011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b?????????????????010?????1110011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b?????????????????011?????1110011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b?????????????????101?????1110011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b?????????????????110?????1110011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        32'b?????????????????111?????1110011 : begin
+          pip_ctrl_2_down_IDtoEX_rd_sel = pip_ctrl_2_down_CODE[11 : 7];
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
+    id_rs1_sel = 5'h0;
+    if(pip_ctrl_2_up_isFiring) begin
+      casez(pip_ctrl_2_down_CODE)
+        32'b0000000??????????000?????0110011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b0100000??????????000?????0110011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b0000000??????????111?????0110011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b0000000??????????110?????0110011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b0000000??????????100?????0110011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b0000000??????????001?????0110011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b0000000??????????101?????0110011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b0100000??????????101?????0110011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b0000000??????????010?????0110011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b0000000??????????011?????0110011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????000?????0010011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????100?????0010011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????110?????0010011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????111?????0010011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b0000000??????????001?????0010011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b0000000??????????101?????0010011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b0100000??????????101?????0010011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????010?????0010011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????011?????0010011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????000?????0000011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????001?????0000011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????010?????0000011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????100?????0000011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????101?????0000011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????000?????1100111 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'h30200073 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'h0000100f : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'h00100073 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'h00000073 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????010?????0100011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????001?????0100011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????000?????0100011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????000?????1100011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????001?????1100011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????100?????1100011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????101?????1100011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????110?????1100011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????111?????1100011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????????????0110111 : begin
+        end
+        32'b?????????????????????????0010111 : begin
+        end
+        32'b?????????????????????????1101111 : begin
+        end
+        32'b?????????????????001?????1110011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????010?????1110011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????011?????1110011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????101?????1110011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????110?????1110011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        32'b?????????????????111?????1110011 : begin
+          id_rs1_sel = pip_ctrl_2_down_CODE[19 : 15];
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
+    id_rs2_sel = 5'h0;
+    if(pip_ctrl_2_up_isFiring) begin
+      casez(pip_ctrl_2_down_CODE)
+        32'b0000000??????????000?????0110011 : begin
+          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
+        end
+        32'b0100000??????????000?????0110011 : begin
+          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
+        end
+        32'b0000000??????????111?????0110011 : begin
+          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
+        end
+        32'b0000000??????????110?????0110011 : begin
+          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
+        end
+        32'b0000000??????????100?????0110011 : begin
+          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
+        end
+        32'b0000000??????????001?????0110011 : begin
+          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
+        end
+        32'b0000000??????????101?????0110011 : begin
+          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
+        end
+        32'b0100000??????????101?????0110011 : begin
+          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
+        end
+        32'b0000000??????????010?????0110011 : begin
+          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
+        end
+        32'b0000000??????????011?????0110011 : begin
+          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
+        end
+        32'b?????????????????000?????0010011 : begin
+        end
+        32'b?????????????????100?????0010011 : begin
+        end
+        32'b?????????????????110?????0010011 : begin
+        end
+        32'b?????????????????111?????0010011 : begin
+        end
+        32'b0000000??????????001?????0010011 : begin
+        end
+        32'b0000000??????????101?????0010011 : begin
+        end
+        32'b0100000??????????101?????0010011 : begin
+        end
+        32'b?????????????????010?????0010011 : begin
+        end
+        32'b?????????????????011?????0010011 : begin
+        end
+        32'b?????????????????000?????0000011 : begin
+        end
+        32'b?????????????????001?????0000011 : begin
+        end
+        32'b?????????????????010?????0000011 : begin
+        end
+        32'b?????????????????100?????0000011 : begin
+        end
+        32'b?????????????????101?????0000011 : begin
+        end
+        32'b?????????????????000?????1100111 : begin
+        end
+        32'h30200073 : begin
+        end
+        32'h0000100f : begin
+        end
+        32'h00100073 : begin
+        end
+        32'h00000073 : begin
+        end
+        32'b?????????????????010?????0100011 : begin
+          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
+        end
+        32'b?????????????????001?????0100011 : begin
+          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
+        end
+        32'b?????????????????000?????0100011 : begin
+          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
+        end
+        32'b?????????????????000?????1100011 : begin
+          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
+        end
+        32'b?????????????????001?????1100011 : begin
+          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
+        end
+        32'b?????????????????100?????1100011 : begin
+          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
+        end
+        32'b?????????????????101?????1100011 : begin
+          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
+        end
+        32'b?????????????????110?????1100011 : begin
+          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
+        end
+        32'b?????????????????111?????1100011 : begin
+          id_rs2_sel = pip_ctrl_2_down_CODE[24 : 20];
+        end
+        32'b?????????????????????????0110111 : begin
+        end
+        32'b?????????????????????????0010111 : begin
+        end
+        32'b?????????????????????????1101111 : begin
+        end
+        32'b?????????????????001?????1110011 : begin
+        end
+        32'b?????????????????010?????1110011 : begin
+        end
+        32'b?????????????????011?????1110011 : begin
+        end
+        32'b?????????????????101?????1110011 : begin
+        end
+        32'b?????????????????110?????1110011 : begin
+        end
+        32'b?????????????????111?????1110011 : begin
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
+    ID_IDt_error_flag = 1'b0;
+    if(pip_ctrl_2_up_isFiring) begin
+      casez(pip_ctrl_2_down_CODE)
+        32'b0000000??????????000?????0110011 : begin
+        end
+        32'b0100000??????????000?????0110011 : begin
+        end
+        32'b0000000??????????111?????0110011 : begin
+        end
+        32'b0000000??????????110?????0110011 : begin
+        end
+        32'b0000000??????????100?????0110011 : begin
+        end
+        32'b0000000??????????001?????0110011 : begin
+        end
+        32'b0000000??????????101?????0110011 : begin
+        end
+        32'b0100000??????????101?????0110011 : begin
+        end
+        32'b0000000??????????010?????0110011 : begin
+        end
+        32'b0000000??????????011?????0110011 : begin
+        end
+        32'b?????????????????000?????0010011 : begin
+        end
+        32'b?????????????????100?????0010011 : begin
+        end
+        32'b?????????????????110?????0010011 : begin
+        end
+        32'b?????????????????111?????0010011 : begin
+        end
+        32'b0000000??????????001?????0010011 : begin
+        end
+        32'b0000000??????????101?????0010011 : begin
+        end
+        32'b0100000??????????101?????0010011 : begin
+        end
+        32'b?????????????????010?????0010011 : begin
+        end
+        32'b?????????????????011?????0010011 : begin
+        end
+        32'b?????????????????000?????0000011 : begin
+        end
+        32'b?????????????????001?????0000011 : begin
+        end
+        32'b?????????????????010?????0000011 : begin
+        end
+        32'b?????????????????100?????0000011 : begin
+        end
+        32'b?????????????????101?????0000011 : begin
+        end
+        32'b?????????????????000?????1100111 : begin
+        end
+        32'h30200073 : begin
+        end
+        32'h0000100f : begin
+        end
+        32'h00100073 : begin
+        end
+        32'h00000073 : begin
+        end
+        32'b?????????????????010?????0100011 : begin
+        end
+        32'b?????????????????001?????0100011 : begin
+        end
+        32'b?????????????????000?????0100011 : begin
+        end
+        32'b?????????????????000?????1100011 : begin
+        end
+        32'b?????????????????001?????1100011 : begin
+        end
+        32'b?????????????????100?????1100011 : begin
+        end
+        32'b?????????????????101?????1100011 : begin
+        end
+        32'b?????????????????110?????1100011 : begin
+        end
+        32'b?????????????????111?????1100011 : begin
+        end
+        32'b?????????????????????????0110111 : begin
+        end
+        32'b?????????????????????????0010111 : begin
+        end
+        32'b?????????????????????????1101111 : begin
+        end
+        32'b?????????????????001?????1110011 : begin
+        end
+        32'b?????????????????010?????1110011 : begin
+        end
+        32'b?????????????????011?????1110011 : begin
+        end
+        32'b?????????????????101?????1110011 : begin
+        end
+        32'b?????????????????110?????1110011 : begin
+        end
+        32'b?????????????????111?????1110011 : begin
         end
         default : begin
           ID_IDt_error_flag = 1'b1;
@@ -4487,18 +5037,761 @@ module test_cpu (
   assign pip_ctrl_2_down_CSR_rs1_imm = pip_ctrl_2_down_CODE[19 : 15];
   always @(*) begin
     pip_ctrl_3_down_MEM_addr = 32'h0;
+    if(pip_ctrl_3_up_isFiring) begin
+      case(pip_ctrl_3_down_IDtoEX_fun)
+        RVCode_ADD : begin
+        end
+        RVCode_SUB : begin
+        end
+        RVCode_AND_1 : begin
+        end
+        RVCode_OR_1 : begin
+        end
+        RVCode_XOR_1 : begin
+        end
+        RVCode_SLL_1 : begin
+        end
+        RVCode_SRL_1 : begin
+        end
+        RVCode_SRA_1 : begin
+        end
+        RVCode_SLT : begin
+        end
+        RVCode_SLTU : begin
+        end
+        RVCode_ADDI : begin
+        end
+        RVCode_XORI : begin
+        end
+        RVCode_ORI : begin
+        end
+        RVCode_ANDI : begin
+        end
+        RVCode_SLLI : begin
+        end
+        RVCode_SRLI : begin
+        end
+        RVCode_SRAI : begin
+        end
+        RVCode_SLTI : begin
+        end
+        RVCode_SLTIU : begin
+        end
+        RVCode_LB : begin
+          pip_ctrl_3_down_MEM_addr = (pip_ctrl_3_down_IDtoEX_rs1 + pip_ctrl_3_down_IDtoEX_imm);
+        end
+        RVCode_LH : begin
+          pip_ctrl_3_down_MEM_addr = (pip_ctrl_3_down_IDtoEX_rs1 + pip_ctrl_3_down_IDtoEX_imm);
+        end
+        RVCode_LW : begin
+          pip_ctrl_3_down_MEM_addr = (pip_ctrl_3_down_IDtoEX_rs1 + pip_ctrl_3_down_IDtoEX_imm);
+        end
+        RVCode_LBU : begin
+          pip_ctrl_3_down_MEM_addr = (pip_ctrl_3_down_IDtoEX_rs1 + pip_ctrl_3_down_IDtoEX_imm);
+        end
+        RVCode_LHU : begin
+          pip_ctrl_3_down_MEM_addr = (pip_ctrl_3_down_IDtoEX_rs1 + pip_ctrl_3_down_IDtoEX_imm);
+        end
+        RVCode_SW : begin
+          pip_ctrl_3_down_MEM_addr = (pip_ctrl_3_down_IDtoEX_rs1 + pip_ctrl_3_down_IDtoEX_imm);
+        end
+        RVCode_SH : begin
+          pip_ctrl_3_down_MEM_addr = (pip_ctrl_3_down_IDtoEX_rs1 + pip_ctrl_3_down_IDtoEX_imm);
+        end
+        RVCode_SB : begin
+          pip_ctrl_3_down_MEM_addr = (pip_ctrl_3_down_IDtoEX_rs1 + pip_ctrl_3_down_IDtoEX_imm);
+        end
+        RVCode_JALR : begin
+        end
+        RVCode_BEQ : begin
+        end
+        RVCode_BNE : begin
+        end
+        RVCode_BLT : begin
+        end
+        RVCode_BGE : begin
+        end
+        RVCode_BLTU : begin
+        end
+        RVCode_BGEU : begin
+        end
+        RVCode_LUI : begin
+        end
+        RVCode_AUIPC : begin
+        end
+        RVCode_JAL : begin
+        end
+        RVCode_EBREAK : begin
+        end
+        RVCode_FENCEI : begin
+        end
+        RVCode_ECALL : begin
+        end
+        RVCode_MRET : begin
+        end
+        RVCode_CSRRW : begin
+        end
+        RVCode_CSRRS : begin
+        end
+        RVCode_CSRRC : begin
+        end
+        RVCode_CSRRWI : begin
+        end
+        RVCode_CSRRSI : begin
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
     pip_ctrl_3_down_MEM_read_valid = 1'b0;
+    if(pip_ctrl_3_up_isFiring) begin
+      case(pip_ctrl_3_down_IDtoEX_fun)
+        RVCode_ADD : begin
+        end
+        RVCode_SUB : begin
+        end
+        RVCode_AND_1 : begin
+        end
+        RVCode_OR_1 : begin
+        end
+        RVCode_XOR_1 : begin
+        end
+        RVCode_SLL_1 : begin
+        end
+        RVCode_SRL_1 : begin
+        end
+        RVCode_SRA_1 : begin
+        end
+        RVCode_SLT : begin
+        end
+        RVCode_SLTU : begin
+        end
+        RVCode_ADDI : begin
+        end
+        RVCode_XORI : begin
+        end
+        RVCode_ORI : begin
+        end
+        RVCode_ANDI : begin
+        end
+        RVCode_SLLI : begin
+        end
+        RVCode_SRLI : begin
+        end
+        RVCode_SRAI : begin
+        end
+        RVCode_SLTI : begin
+        end
+        RVCode_SLTIU : begin
+        end
+        RVCode_LB : begin
+          pip_ctrl_3_down_MEM_read_valid = 1'b1;
+        end
+        RVCode_LH : begin
+          pip_ctrl_3_down_MEM_read_valid = 1'b1;
+        end
+        RVCode_LW : begin
+          pip_ctrl_3_down_MEM_read_valid = 1'b1;
+        end
+        RVCode_LBU : begin
+          pip_ctrl_3_down_MEM_read_valid = 1'b1;
+        end
+        RVCode_LHU : begin
+          pip_ctrl_3_down_MEM_read_valid = 1'b1;
+        end
+        RVCode_SW : begin
+        end
+        RVCode_SH : begin
+        end
+        RVCode_SB : begin
+        end
+        RVCode_JALR : begin
+        end
+        RVCode_BEQ : begin
+        end
+        RVCode_BNE : begin
+        end
+        RVCode_BLT : begin
+        end
+        RVCode_BGE : begin
+        end
+        RVCode_BLTU : begin
+        end
+        RVCode_BGEU : begin
+        end
+        RVCode_LUI : begin
+        end
+        RVCode_AUIPC : begin
+        end
+        RVCode_JAL : begin
+        end
+        RVCode_EBREAK : begin
+        end
+        RVCode_FENCEI : begin
+        end
+        RVCode_ECALL : begin
+        end
+        RVCode_MRET : begin
+        end
+        RVCode_CSRRW : begin
+        end
+        RVCode_CSRRS : begin
+        end
+        RVCode_CSRRC : begin
+        end
+        RVCode_CSRRWI : begin
+        end
+        RVCode_CSRRSI : begin
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
     pip_ctrl_3_down_MEM_write_valid = 1'b0;
+    if(pip_ctrl_3_up_isFiring) begin
+      case(pip_ctrl_3_down_IDtoEX_fun)
+        RVCode_ADD : begin
+        end
+        RVCode_SUB : begin
+        end
+        RVCode_AND_1 : begin
+        end
+        RVCode_OR_1 : begin
+        end
+        RVCode_XOR_1 : begin
+        end
+        RVCode_SLL_1 : begin
+        end
+        RVCode_SRL_1 : begin
+        end
+        RVCode_SRA_1 : begin
+        end
+        RVCode_SLT : begin
+        end
+        RVCode_SLTU : begin
+        end
+        RVCode_ADDI : begin
+        end
+        RVCode_XORI : begin
+        end
+        RVCode_ORI : begin
+        end
+        RVCode_ANDI : begin
+        end
+        RVCode_SLLI : begin
+        end
+        RVCode_SRLI : begin
+        end
+        RVCode_SRAI : begin
+        end
+        RVCode_SLTI : begin
+        end
+        RVCode_SLTIU : begin
+        end
+        RVCode_LB : begin
+        end
+        RVCode_LH : begin
+        end
+        RVCode_LW : begin
+        end
+        RVCode_LBU : begin
+        end
+        RVCode_LHU : begin
+        end
+        RVCode_SW : begin
+          pip_ctrl_3_down_MEM_write_valid = 1'b1;
+        end
+        RVCode_SH : begin
+          pip_ctrl_3_down_MEM_write_valid = 1'b1;
+        end
+        RVCode_SB : begin
+          pip_ctrl_3_down_MEM_write_valid = 1'b1;
+        end
+        RVCode_JALR : begin
+        end
+        RVCode_BEQ : begin
+        end
+        RVCode_BNE : begin
+        end
+        RVCode_BLT : begin
+        end
+        RVCode_BGE : begin
+        end
+        RVCode_BLTU : begin
+        end
+        RVCode_BGEU : begin
+        end
+        RVCode_LUI : begin
+        end
+        RVCode_AUIPC : begin
+        end
+        RVCode_JAL : begin
+        end
+        RVCode_EBREAK : begin
+        end
+        RVCode_FENCEI : begin
+        end
+        RVCode_ECALL : begin
+        end
+        RVCode_MRET : begin
+        end
+        RVCode_CSRRW : begin
+        end
+        RVCode_CSRRS : begin
+        end
+        RVCode_CSRRC : begin
+        end
+        RVCode_CSRRWI : begin
+        end
+        RVCode_CSRRSI : begin
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
     pip_ctrl_3_down_MEM_mask = 4'b0000;
+    if(pip_ctrl_3_up_isFiring) begin
+      case(pip_ctrl_3_down_IDtoEX_fun)
+        RVCode_ADD : begin
+        end
+        RVCode_SUB : begin
+        end
+        RVCode_AND_1 : begin
+        end
+        RVCode_OR_1 : begin
+        end
+        RVCode_XOR_1 : begin
+        end
+        RVCode_SLL_1 : begin
+        end
+        RVCode_SRL_1 : begin
+        end
+        RVCode_SRA_1 : begin
+        end
+        RVCode_SLT : begin
+        end
+        RVCode_SLTU : begin
+        end
+        RVCode_ADDI : begin
+        end
+        RVCode_XORI : begin
+        end
+        RVCode_ORI : begin
+        end
+        RVCode_ANDI : begin
+        end
+        RVCode_SLLI : begin
+        end
+        RVCode_SRLI : begin
+        end
+        RVCode_SRAI : begin
+        end
+        RVCode_SLTI : begin
+        end
+        RVCode_SLTIU : begin
+        end
+        RVCode_LB : begin
+          pip_ctrl_3_down_MEM_mask = 4'b0001;
+        end
+        RVCode_LH : begin
+          pip_ctrl_3_down_MEM_mask = 4'b0011;
+        end
+        RVCode_LW : begin
+          pip_ctrl_3_down_MEM_mask = 4'b1111;
+        end
+        RVCode_LBU : begin
+          pip_ctrl_3_down_MEM_mask = 4'b0001;
+        end
+        RVCode_LHU : begin
+          pip_ctrl_3_down_MEM_mask = 4'b0011;
+        end
+        RVCode_SW : begin
+          pip_ctrl_3_down_MEM_mask = 4'b1111;
+        end
+        RVCode_SH : begin
+          pip_ctrl_3_down_MEM_mask = 4'b0011;
+        end
+        RVCode_SB : begin
+          pip_ctrl_3_down_MEM_mask = 4'b0001;
+        end
+        RVCode_JALR : begin
+        end
+        RVCode_BEQ : begin
+        end
+        RVCode_BNE : begin
+        end
+        RVCode_BLT : begin
+        end
+        RVCode_BGE : begin
+        end
+        RVCode_BLTU : begin
+        end
+        RVCode_BGEU : begin
+        end
+        RVCode_LUI : begin
+        end
+        RVCode_AUIPC : begin
+        end
+        RVCode_JAL : begin
+        end
+        RVCode_EBREAK : begin
+        end
+        RVCode_FENCEI : begin
+        end
+        RVCode_ECALL : begin
+        end
+        RVCode_MRET : begin
+        end
+        RVCode_CSRRW : begin
+        end
+        RVCode_CSRRS : begin
+        end
+        RVCode_CSRRC : begin
+        end
+        RVCode_CSRRWI : begin
+        end
+        RVCode_CSRRSI : begin
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
     pip_ctrl_3_down_MEM_unsigned = 1'b0;
+    if(pip_ctrl_3_up_isFiring) begin
+      case(pip_ctrl_3_down_IDtoEX_fun)
+        RVCode_ADD : begin
+        end
+        RVCode_SUB : begin
+        end
+        RVCode_AND_1 : begin
+        end
+        RVCode_OR_1 : begin
+        end
+        RVCode_XOR_1 : begin
+        end
+        RVCode_SLL_1 : begin
+        end
+        RVCode_SRL_1 : begin
+        end
+        RVCode_SRA_1 : begin
+        end
+        RVCode_SLT : begin
+        end
+        RVCode_SLTU : begin
+        end
+        RVCode_ADDI : begin
+        end
+        RVCode_XORI : begin
+        end
+        RVCode_ORI : begin
+        end
+        RVCode_ANDI : begin
+        end
+        RVCode_SLLI : begin
+        end
+        RVCode_SRLI : begin
+        end
+        RVCode_SRAI : begin
+        end
+        RVCode_SLTI : begin
+        end
+        RVCode_SLTIU : begin
+        end
+        RVCode_LB : begin
+        end
+        RVCode_LH : begin
+        end
+        RVCode_LW : begin
+        end
+        RVCode_LBU : begin
+          pip_ctrl_3_down_MEM_unsigned = 1'b1;
+        end
+        RVCode_LHU : begin
+          pip_ctrl_3_down_MEM_unsigned = 1'b1;
+        end
+        RVCode_SW : begin
+        end
+        RVCode_SH : begin
+        end
+        RVCode_SB : begin
+        end
+        RVCode_JALR : begin
+        end
+        RVCode_BEQ : begin
+        end
+        RVCode_BNE : begin
+        end
+        RVCode_BLT : begin
+        end
+        RVCode_BGE : begin
+        end
+        RVCode_BLTU : begin
+        end
+        RVCode_BGEU : begin
+        end
+        RVCode_LUI : begin
+        end
+        RVCode_AUIPC : begin
+        end
+        RVCode_JAL : begin
+        end
+        RVCode_EBREAK : begin
+        end
+        RVCode_FENCEI : begin
+        end
+        RVCode_ECALL : begin
+        end
+        RVCode_MRET : begin
+        end
+        RVCode_CSRRW : begin
+        end
+        RVCode_CSRRS : begin
+        end
+        RVCode_CSRRC : begin
+        end
+        RVCode_CSRRWI : begin
+        end
+        RVCode_CSRRSI : begin
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
     pip_ctrl_3_down_CSR_sel = 12'h0;
+    if(pip_ctrl_3_up_isFiring) begin
+      case(pip_ctrl_3_down_IDtoEX_fun)
+        RVCode_ADD : begin
+        end
+        RVCode_SUB : begin
+        end
+        RVCode_AND_1 : begin
+        end
+        RVCode_OR_1 : begin
+        end
+        RVCode_XOR_1 : begin
+        end
+        RVCode_SLL_1 : begin
+        end
+        RVCode_SRL_1 : begin
+        end
+        RVCode_SRA_1 : begin
+        end
+        RVCode_SLT : begin
+        end
+        RVCode_SLTU : begin
+        end
+        RVCode_ADDI : begin
+        end
+        RVCode_XORI : begin
+        end
+        RVCode_ORI : begin
+        end
+        RVCode_ANDI : begin
+        end
+        RVCode_SLLI : begin
+        end
+        RVCode_SRLI : begin
+        end
+        RVCode_SRAI : begin
+        end
+        RVCode_SLTI : begin
+        end
+        RVCode_SLTIU : begin
+        end
+        RVCode_LB : begin
+        end
+        RVCode_LH : begin
+        end
+        RVCode_LW : begin
+        end
+        RVCode_LBU : begin
+        end
+        RVCode_LHU : begin
+        end
+        RVCode_SW : begin
+        end
+        RVCode_SH : begin
+        end
+        RVCode_SB : begin
+        end
+        RVCode_JALR : begin
+        end
+        RVCode_BEQ : begin
+        end
+        RVCode_BNE : begin
+        end
+        RVCode_BLT : begin
+        end
+        RVCode_BGE : begin
+        end
+        RVCode_BLTU : begin
+        end
+        RVCode_BGEU : begin
+        end
+        RVCode_LUI : begin
+        end
+        RVCode_AUIPC : begin
+        end
+        RVCode_JAL : begin
+        end
+        RVCode_EBREAK : begin
+        end
+        RVCode_FENCEI : begin
+        end
+        RVCode_ECALL : begin
+        end
+        RVCode_MRET : begin
+        end
+        RVCode_CSRRW : begin
+          pip_ctrl_3_down_CSR_sel = pip_ctrl_3_down_IDtoEX_imm[11 : 0];
+        end
+        RVCode_CSRRS : begin
+          pip_ctrl_3_down_CSR_sel = pip_ctrl_3_down_IDtoEX_imm[11 : 0];
+        end
+        RVCode_CSRRC : begin
+          pip_ctrl_3_down_CSR_sel = pip_ctrl_3_down_IDtoEX_imm[11 : 0];
+        end
+        RVCode_CSRRWI : begin
+          pip_ctrl_3_down_CSR_sel = pip_ctrl_3_down_IDtoEX_imm[11 : 0];
+        end
+        RVCode_CSRRSI : begin
+          pip_ctrl_3_down_CSR_sel = pip_ctrl_3_down_IDtoEX_imm[11 : 0];
+        end
+        default : begin
+          pip_ctrl_3_down_CSR_sel = pip_ctrl_3_down_IDtoEX_imm[11 : 0];
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
     pip_ctrl_3_down_CSR_valid = 1'b0;
+    if(pip_ctrl_3_up_isFiring) begin
+      case(pip_ctrl_3_down_IDtoEX_fun)
+        RVCode_ADD : begin
+        end
+        RVCode_SUB : begin
+        end
+        RVCode_AND_1 : begin
+        end
+        RVCode_OR_1 : begin
+        end
+        RVCode_XOR_1 : begin
+        end
+        RVCode_SLL_1 : begin
+        end
+        RVCode_SRL_1 : begin
+        end
+        RVCode_SRA_1 : begin
+        end
+        RVCode_SLT : begin
+        end
+        RVCode_SLTU : begin
+        end
+        RVCode_ADDI : begin
+        end
+        RVCode_XORI : begin
+        end
+        RVCode_ORI : begin
+        end
+        RVCode_ANDI : begin
+        end
+        RVCode_SLLI : begin
+        end
+        RVCode_SRLI : begin
+        end
+        RVCode_SRAI : begin
+        end
+        RVCode_SLTI : begin
+        end
+        RVCode_SLTIU : begin
+        end
+        RVCode_LB : begin
+        end
+        RVCode_LH : begin
+        end
+        RVCode_LW : begin
+        end
+        RVCode_LBU : begin
+        end
+        RVCode_LHU : begin
+        end
+        RVCode_SW : begin
+        end
+        RVCode_SH : begin
+        end
+        RVCode_SB : begin
+        end
+        RVCode_JALR : begin
+        end
+        RVCode_BEQ : begin
+        end
+        RVCode_BNE : begin
+        end
+        RVCode_BLT : begin
+        end
+        RVCode_BGE : begin
+        end
+        RVCode_BLTU : begin
+        end
+        RVCode_BGEU : begin
+        end
+        RVCode_LUI : begin
+        end
+        RVCode_AUIPC : begin
+        end
+        RVCode_JAL : begin
+        end
+        RVCode_EBREAK : begin
+        end
+        RVCode_FENCEI : begin
+        end
+        RVCode_ECALL : begin
+          pip_ctrl_3_down_CSR_valid = 1'b1;
+        end
+        RVCode_MRET : begin
+          pip_ctrl_3_down_CSR_valid = 1'b1;
+        end
+        RVCode_CSRRW : begin
+          pip_ctrl_3_down_CSR_valid = 1'b1;
+        end
+        RVCode_CSRRS : begin
+          pip_ctrl_3_down_CSR_valid = 1'b1;
+        end
+        RVCode_CSRRC : begin
+          pip_ctrl_3_down_CSR_valid = 1'b1;
+        end
+        RVCode_CSRRWI : begin
+          pip_ctrl_3_down_CSR_valid = 1'b1;
+        end
+        RVCode_CSRRSI : begin
+          pip_ctrl_3_down_CSR_valid = 1'b1;
+        end
+        default : begin
+          pip_ctrl_3_down_CSR_valid = 1'b1;
+        end
+      endcase
+    end
+  end
+
+  assign pip_ctrl_3_down_RD_sel = pip_ctrl_3_down_IDtoEX_rd_sel;
+  always @(*) begin
     pip_ctrl_3_down_RD = 32'h0;
-    pip_ctrl_3_down_RD_valid = 1'b1;
-    EX_EXt_nPC = 32'h0;
-    EX_EXt_nPC_valid = 1'b0;
-    EX_EXt_ebreak_ebreak_flag = 1'b0;
-    fence_i = 1'b0;
     if(pip_ctrl_3_up_isFiring) begin
       case(pip_ctrl_3_down_IDtoEX_fun)
         RVCode_ADD : begin
@@ -4559,104 +5852,38 @@ module test_cpu (
           pip_ctrl_3_down_RD = {31'd0, _zz_pip_ctrl_3_down_RD_32};
         end
         RVCode_LB : begin
-          pip_ctrl_3_down_MEM_addr = (pip_ctrl_3_down_IDtoEX_rs1 + pip_ctrl_3_down_IDtoEX_imm);
-          pip_ctrl_3_down_RD_valid = 1'b0;
-          pip_ctrl_3_down_MEM_read_valid = 1'b1;
-          pip_ctrl_3_down_MEM_mask = 4'b0001;
         end
         RVCode_LH : begin
-          pip_ctrl_3_down_MEM_addr = (pip_ctrl_3_down_IDtoEX_rs1 + pip_ctrl_3_down_IDtoEX_imm);
-          pip_ctrl_3_down_RD_valid = 1'b0;
-          pip_ctrl_3_down_MEM_read_valid = 1'b1;
-          pip_ctrl_3_down_MEM_mask = 4'b0011;
         end
         RVCode_LW : begin
-          pip_ctrl_3_down_MEM_addr = (pip_ctrl_3_down_IDtoEX_rs1 + pip_ctrl_3_down_IDtoEX_imm);
-          pip_ctrl_3_down_RD_valid = 1'b0;
-          pip_ctrl_3_down_MEM_read_valid = 1'b1;
-          pip_ctrl_3_down_MEM_mask = 4'b1111;
         end
         RVCode_LBU : begin
-          pip_ctrl_3_down_MEM_addr = (pip_ctrl_3_down_IDtoEX_rs1 + pip_ctrl_3_down_IDtoEX_imm);
-          pip_ctrl_3_down_RD_valid = 1'b0;
-          pip_ctrl_3_down_MEM_read_valid = 1'b1;
-          pip_ctrl_3_down_MEM_mask = 4'b0001;
-          pip_ctrl_3_down_MEM_unsigned = 1'b1;
         end
         RVCode_LHU : begin
-          pip_ctrl_3_down_MEM_addr = (pip_ctrl_3_down_IDtoEX_rs1 + pip_ctrl_3_down_IDtoEX_imm);
-          pip_ctrl_3_down_RD_valid = 1'b0;
-          pip_ctrl_3_down_MEM_read_valid = 1'b1;
-          pip_ctrl_3_down_MEM_mask = 4'b0011;
-          pip_ctrl_3_down_MEM_unsigned = 1'b1;
         end
         RVCode_SW : begin
-          pip_ctrl_3_down_MEM_addr = (pip_ctrl_3_down_IDtoEX_rs1 + pip_ctrl_3_down_IDtoEX_imm);
           pip_ctrl_3_down_RD = pip_ctrl_3_down_IDtoEX_rs2;
-          pip_ctrl_3_down_RD_valid = 1'b0;
-          pip_ctrl_3_down_MEM_write_valid = 1'b1;
-          pip_ctrl_3_down_MEM_mask = 4'b1111;
         end
         RVCode_SH : begin
-          pip_ctrl_3_down_MEM_addr = (pip_ctrl_3_down_IDtoEX_rs1 + pip_ctrl_3_down_IDtoEX_imm);
           pip_ctrl_3_down_RD = {16'd0, _zz_pip_ctrl_3_down_RD_33};
-          pip_ctrl_3_down_RD_valid = 1'b0;
-          pip_ctrl_3_down_MEM_write_valid = 1'b1;
-          pip_ctrl_3_down_MEM_mask = 4'b0011;
         end
         RVCode_SB : begin
-          pip_ctrl_3_down_MEM_addr = (pip_ctrl_3_down_IDtoEX_rs1 + pip_ctrl_3_down_IDtoEX_imm);
           pip_ctrl_3_down_RD = {24'd0, _zz_pip_ctrl_3_down_RD_34};
-          pip_ctrl_3_down_RD_valid = 1'b0;
-          pip_ctrl_3_down_MEM_write_valid = 1'b1;
-          pip_ctrl_3_down_MEM_mask = 4'b0001;
         end
         RVCode_JALR : begin
           pip_ctrl_3_down_RD = _zz_pip_ctrl_3_down_RD_35;
-          EX_EXt_nPC_valid = 1'b1;
-          EX_EXt_nPC = (pip_ctrl_3_down_IDtoEX_rs1 + pip_ctrl_3_down_IDtoEX_imm);
         end
         RVCode_BEQ : begin
-          pip_ctrl_3_down_RD_valid = 1'b0;
-          if((pip_ctrl_3_down_IDtoEX_rs1 == pip_ctrl_3_down_IDtoEX_rs2)) begin
-            EX_EXt_nPC = (pip_ctrl_3_down_PC + pip_ctrl_3_down_IDtoEX_imm);
-            EX_EXt_nPC_valid = 1'b1;
-          end
         end
         RVCode_BNE : begin
-          pip_ctrl_3_down_RD_valid = 1'b0;
-          if((pip_ctrl_3_down_IDtoEX_rs1 != pip_ctrl_3_down_IDtoEX_rs2)) begin
-            EX_EXt_nPC = (pip_ctrl_3_down_PC + pip_ctrl_3_down_IDtoEX_imm);
-            EX_EXt_nPC_valid = 1'b1;
-          end
         end
         RVCode_BLT : begin
-          pip_ctrl_3_down_RD_valid = 1'b0;
-          if(($signed(_zz_when) < $signed(_zz_when_1))) begin
-            EX_EXt_nPC = (pip_ctrl_3_down_PC + pip_ctrl_3_down_IDtoEX_imm);
-            EX_EXt_nPC_valid = 1'b1;
-          end
         end
         RVCode_BGE : begin
-          pip_ctrl_3_down_RD_valid = 1'b0;
-          if(($signed(_zz_when_2) <= $signed(_zz_when_3))) begin
-            EX_EXt_nPC = (pip_ctrl_3_down_PC + pip_ctrl_3_down_IDtoEX_imm);
-            EX_EXt_nPC_valid = 1'b1;
-          end
         end
         RVCode_BLTU : begin
-          pip_ctrl_3_down_RD_valid = 1'b0;
-          if((pip_ctrl_3_down_IDtoEX_rs1 < pip_ctrl_3_down_IDtoEX_rs2)) begin
-            EX_EXt_nPC = (pip_ctrl_3_down_PC + pip_ctrl_3_down_IDtoEX_imm);
-            EX_EXt_nPC_valid = 1'b1;
-          end
         end
         RVCode_BGEU : begin
-          pip_ctrl_3_down_RD_valid = 1'b0;
-          if((pip_ctrl_3_down_IDtoEX_rs2 <= pip_ctrl_3_down_IDtoEX_rs1)) begin
-            EX_EXt_nPC = (pip_ctrl_3_down_PC + pip_ctrl_3_down_IDtoEX_imm);
-            EX_EXt_nPC_valid = 1'b1;
-          end
         end
         RVCode_LUI : begin
           pip_ctrl_3_down_RD = pip_ctrl_3_down_IDtoEX_imm;
@@ -4666,55 +5893,151 @@ module test_cpu (
         end
         RVCode_JAL : begin
           pip_ctrl_3_down_RD = _zz_pip_ctrl_3_down_RD_37;
-          EX_EXt_nPC_valid = 1'b1;
-          EX_EXt_nPC = (pip_ctrl_3_down_PC + pip_ctrl_3_down_IDtoEX_imm);
         end
         RVCode_EBREAK : begin
-          EX_EXt_ebreak_ebreak_flag = 1'b1;
         end
         RVCode_FENCEI : begin
-          fence_i = 1'b1;
-          EX_EXt_nPC_valid = 1'b1;
-          EX_EXt_nPC = (pip_ctrl_3_down_PC + 32'h00000004);
+        end
+        RVCode_ECALL : begin
+        end
+        RVCode_MRET : begin
+        end
+        RVCode_CSRRW : begin
+        end
+        RVCode_CSRRS : begin
+        end
+        RVCode_CSRRC : begin
+        end
+        RVCode_CSRRWI : begin
+        end
+        RVCode_CSRRSI : begin
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
+    pip_ctrl_3_down_RD_valid = 1'b1;
+    if(pip_ctrl_3_up_isFiring) begin
+      case(pip_ctrl_3_down_IDtoEX_fun)
+        RVCode_ADD : begin
+        end
+        RVCode_SUB : begin
+        end
+        RVCode_AND_1 : begin
+        end
+        RVCode_OR_1 : begin
+        end
+        RVCode_XOR_1 : begin
+        end
+        RVCode_SLL_1 : begin
+        end
+        RVCode_SRL_1 : begin
+        end
+        RVCode_SRA_1 : begin
+        end
+        RVCode_SLT : begin
+        end
+        RVCode_SLTU : begin
+        end
+        RVCode_ADDI : begin
+        end
+        RVCode_XORI : begin
+        end
+        RVCode_ORI : begin
+        end
+        RVCode_ANDI : begin
+        end
+        RVCode_SLLI : begin
+        end
+        RVCode_SRLI : begin
+        end
+        RVCode_SRAI : begin
+        end
+        RVCode_SLTI : begin
+        end
+        RVCode_SLTIU : begin
+        end
+        RVCode_LB : begin
+          pip_ctrl_3_down_RD_valid = 1'b0;
+        end
+        RVCode_LH : begin
+          pip_ctrl_3_down_RD_valid = 1'b0;
+        end
+        RVCode_LW : begin
+          pip_ctrl_3_down_RD_valid = 1'b0;
+        end
+        RVCode_LBU : begin
+          pip_ctrl_3_down_RD_valid = 1'b0;
+        end
+        RVCode_LHU : begin
+          pip_ctrl_3_down_RD_valid = 1'b0;
+        end
+        RVCode_SW : begin
+          pip_ctrl_3_down_RD_valid = 1'b0;
+        end
+        RVCode_SH : begin
+          pip_ctrl_3_down_RD_valid = 1'b0;
+        end
+        RVCode_SB : begin
+          pip_ctrl_3_down_RD_valid = 1'b0;
+        end
+        RVCode_JALR : begin
+        end
+        RVCode_BEQ : begin
+          pip_ctrl_3_down_RD_valid = 1'b0;
+        end
+        RVCode_BNE : begin
+          pip_ctrl_3_down_RD_valid = 1'b0;
+        end
+        RVCode_BLT : begin
+          pip_ctrl_3_down_RD_valid = 1'b0;
+        end
+        RVCode_BGE : begin
+          pip_ctrl_3_down_RD_valid = 1'b0;
+        end
+        RVCode_BLTU : begin
+          pip_ctrl_3_down_RD_valid = 1'b0;
+        end
+        RVCode_BGEU : begin
+          pip_ctrl_3_down_RD_valid = 1'b0;
+        end
+        RVCode_LUI : begin
+        end
+        RVCode_AUIPC : begin
+        end
+        RVCode_JAL : begin
+        end
+        RVCode_EBREAK : begin
+        end
+        RVCode_FENCEI : begin
           pip_ctrl_3_down_RD_valid = 1'b0;
         end
         RVCode_ECALL : begin
-          pip_ctrl_3_down_CSR_valid = 1'b1;
           pip_ctrl_3_down_RD_valid = 1'b0;
         end
         RVCode_MRET : begin
-          pip_ctrl_3_down_CSR_valid = 1'b1;
           pip_ctrl_3_down_RD_valid = 1'b0;
         end
         RVCode_CSRRW : begin
-          pip_ctrl_3_down_CSR_valid = 1'b1;
           pip_ctrl_3_down_RD_valid = 1'b0;
-          pip_ctrl_3_down_CSR_sel = pip_ctrl_3_down_IDtoEX_imm[11 : 0];
         end
         RVCode_CSRRS : begin
-          pip_ctrl_3_down_CSR_valid = 1'b1;
           pip_ctrl_3_down_RD_valid = 1'b0;
-          pip_ctrl_3_down_CSR_sel = pip_ctrl_3_down_IDtoEX_imm[11 : 0];
         end
         RVCode_CSRRC : begin
-          pip_ctrl_3_down_CSR_valid = 1'b1;
           pip_ctrl_3_down_RD_valid = 1'b0;
-          pip_ctrl_3_down_CSR_sel = pip_ctrl_3_down_IDtoEX_imm[11 : 0];
         end
         RVCode_CSRRWI : begin
-          pip_ctrl_3_down_CSR_valid = 1'b1;
           pip_ctrl_3_down_RD_valid = 1'b0;
-          pip_ctrl_3_down_CSR_sel = pip_ctrl_3_down_IDtoEX_imm[11 : 0];
         end
         RVCode_CSRRSI : begin
-          pip_ctrl_3_down_CSR_valid = 1'b1;
           pip_ctrl_3_down_RD_valid = 1'b0;
-          pip_ctrl_3_down_CSR_sel = pip_ctrl_3_down_IDtoEX_imm[11 : 0];
         end
         default : begin
-          pip_ctrl_3_down_CSR_valid = 1'b1;
           pip_ctrl_3_down_RD_valid = 1'b0;
-          pip_ctrl_3_down_CSR_sel = pip_ctrl_3_down_IDtoEX_imm[11 : 0];
         end
       endcase
     end
@@ -4723,7 +6046,490 @@ module test_cpu (
     end
   end
 
-  assign pip_ctrl_3_down_RD_sel = pip_ctrl_3_down_IDtoEX_rd_sel;
+  always @(*) begin
+    EX_EXt_nPC = 32'h0;
+    if(pip_ctrl_3_up_isFiring) begin
+      case(pip_ctrl_3_down_IDtoEX_fun)
+        RVCode_ADD : begin
+        end
+        RVCode_SUB : begin
+        end
+        RVCode_AND_1 : begin
+        end
+        RVCode_OR_1 : begin
+        end
+        RVCode_XOR_1 : begin
+        end
+        RVCode_SLL_1 : begin
+        end
+        RVCode_SRL_1 : begin
+        end
+        RVCode_SRA_1 : begin
+        end
+        RVCode_SLT : begin
+        end
+        RVCode_SLTU : begin
+        end
+        RVCode_ADDI : begin
+        end
+        RVCode_XORI : begin
+        end
+        RVCode_ORI : begin
+        end
+        RVCode_ANDI : begin
+        end
+        RVCode_SLLI : begin
+        end
+        RVCode_SRLI : begin
+        end
+        RVCode_SRAI : begin
+        end
+        RVCode_SLTI : begin
+        end
+        RVCode_SLTIU : begin
+        end
+        RVCode_LB : begin
+        end
+        RVCode_LH : begin
+        end
+        RVCode_LW : begin
+        end
+        RVCode_LBU : begin
+        end
+        RVCode_LHU : begin
+        end
+        RVCode_SW : begin
+        end
+        RVCode_SH : begin
+        end
+        RVCode_SB : begin
+        end
+        RVCode_JALR : begin
+          EX_EXt_nPC = (pip_ctrl_3_down_IDtoEX_rs1 + pip_ctrl_3_down_IDtoEX_imm);
+        end
+        RVCode_BEQ : begin
+          if((pip_ctrl_3_down_IDtoEX_rs1 == pip_ctrl_3_down_IDtoEX_rs2)) begin
+            EX_EXt_nPC = (pip_ctrl_3_down_PC + pip_ctrl_3_down_IDtoEX_imm);
+          end
+        end
+        RVCode_BNE : begin
+          if((pip_ctrl_3_down_IDtoEX_rs1 != pip_ctrl_3_down_IDtoEX_rs2)) begin
+            EX_EXt_nPC = (pip_ctrl_3_down_PC + pip_ctrl_3_down_IDtoEX_imm);
+          end
+        end
+        RVCode_BLT : begin
+          if(($signed(_zz_when) < $signed(_zz_when_1))) begin
+            EX_EXt_nPC = (pip_ctrl_3_down_PC + pip_ctrl_3_down_IDtoEX_imm);
+          end
+        end
+        RVCode_BGE : begin
+          if(($signed(_zz_when_2) <= $signed(_zz_when_3))) begin
+            EX_EXt_nPC = (pip_ctrl_3_down_PC + pip_ctrl_3_down_IDtoEX_imm);
+          end
+        end
+        RVCode_BLTU : begin
+          if((pip_ctrl_3_down_IDtoEX_rs1 < pip_ctrl_3_down_IDtoEX_rs2)) begin
+            EX_EXt_nPC = (pip_ctrl_3_down_PC + pip_ctrl_3_down_IDtoEX_imm);
+          end
+        end
+        RVCode_BGEU : begin
+          if((pip_ctrl_3_down_IDtoEX_rs2 <= pip_ctrl_3_down_IDtoEX_rs1)) begin
+            EX_EXt_nPC = (pip_ctrl_3_down_PC + pip_ctrl_3_down_IDtoEX_imm);
+          end
+        end
+        RVCode_LUI : begin
+        end
+        RVCode_AUIPC : begin
+        end
+        RVCode_JAL : begin
+          EX_EXt_nPC = (pip_ctrl_3_down_PC + pip_ctrl_3_down_IDtoEX_imm);
+        end
+        RVCode_EBREAK : begin
+        end
+        RVCode_FENCEI : begin
+          EX_EXt_nPC = (pip_ctrl_3_down_PC + 32'h00000004);
+        end
+        RVCode_ECALL : begin
+        end
+        RVCode_MRET : begin
+        end
+        RVCode_CSRRW : begin
+        end
+        RVCode_CSRRS : begin
+        end
+        RVCode_CSRRC : begin
+        end
+        RVCode_CSRRWI : begin
+        end
+        RVCode_CSRRSI : begin
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
+    EX_EXt_nPC_valid = 1'b0;
+    if(pip_ctrl_3_up_isFiring) begin
+      case(pip_ctrl_3_down_IDtoEX_fun)
+        RVCode_ADD : begin
+        end
+        RVCode_SUB : begin
+        end
+        RVCode_AND_1 : begin
+        end
+        RVCode_OR_1 : begin
+        end
+        RVCode_XOR_1 : begin
+        end
+        RVCode_SLL_1 : begin
+        end
+        RVCode_SRL_1 : begin
+        end
+        RVCode_SRA_1 : begin
+        end
+        RVCode_SLT : begin
+        end
+        RVCode_SLTU : begin
+        end
+        RVCode_ADDI : begin
+        end
+        RVCode_XORI : begin
+        end
+        RVCode_ORI : begin
+        end
+        RVCode_ANDI : begin
+        end
+        RVCode_SLLI : begin
+        end
+        RVCode_SRLI : begin
+        end
+        RVCode_SRAI : begin
+        end
+        RVCode_SLTI : begin
+        end
+        RVCode_SLTIU : begin
+        end
+        RVCode_LB : begin
+        end
+        RVCode_LH : begin
+        end
+        RVCode_LW : begin
+        end
+        RVCode_LBU : begin
+        end
+        RVCode_LHU : begin
+        end
+        RVCode_SW : begin
+        end
+        RVCode_SH : begin
+        end
+        RVCode_SB : begin
+        end
+        RVCode_JALR : begin
+          EX_EXt_nPC_valid = 1'b1;
+        end
+        RVCode_BEQ : begin
+          if((pip_ctrl_3_down_IDtoEX_rs1 == pip_ctrl_3_down_IDtoEX_rs2)) begin
+            EX_EXt_nPC_valid = 1'b1;
+          end
+        end
+        RVCode_BNE : begin
+          if((pip_ctrl_3_down_IDtoEX_rs1 != pip_ctrl_3_down_IDtoEX_rs2)) begin
+            EX_EXt_nPC_valid = 1'b1;
+          end
+        end
+        RVCode_BLT : begin
+          if(($signed(_zz_when) < $signed(_zz_when_1))) begin
+            EX_EXt_nPC_valid = 1'b1;
+          end
+        end
+        RVCode_BGE : begin
+          if(($signed(_zz_when_2) <= $signed(_zz_when_3))) begin
+            EX_EXt_nPC_valid = 1'b1;
+          end
+        end
+        RVCode_BLTU : begin
+          if((pip_ctrl_3_down_IDtoEX_rs1 < pip_ctrl_3_down_IDtoEX_rs2)) begin
+            EX_EXt_nPC_valid = 1'b1;
+          end
+        end
+        RVCode_BGEU : begin
+          if((pip_ctrl_3_down_IDtoEX_rs2 <= pip_ctrl_3_down_IDtoEX_rs1)) begin
+            EX_EXt_nPC_valid = 1'b1;
+          end
+        end
+        RVCode_LUI : begin
+        end
+        RVCode_AUIPC : begin
+        end
+        RVCode_JAL : begin
+          EX_EXt_nPC_valid = 1'b1;
+        end
+        RVCode_EBREAK : begin
+        end
+        RVCode_FENCEI : begin
+          EX_EXt_nPC_valid = 1'b1;
+        end
+        RVCode_ECALL : begin
+        end
+        RVCode_MRET : begin
+        end
+        RVCode_CSRRW : begin
+        end
+        RVCode_CSRRS : begin
+        end
+        RVCode_CSRRC : begin
+        end
+        RVCode_CSRRWI : begin
+        end
+        RVCode_CSRRSI : begin
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
+    EX_EXt_ebreak_ebreak_flag = 1'b0;
+    if(pip_ctrl_3_up_isFiring) begin
+      case(pip_ctrl_3_down_IDtoEX_fun)
+        RVCode_ADD : begin
+        end
+        RVCode_SUB : begin
+        end
+        RVCode_AND_1 : begin
+        end
+        RVCode_OR_1 : begin
+        end
+        RVCode_XOR_1 : begin
+        end
+        RVCode_SLL_1 : begin
+        end
+        RVCode_SRL_1 : begin
+        end
+        RVCode_SRA_1 : begin
+        end
+        RVCode_SLT : begin
+        end
+        RVCode_SLTU : begin
+        end
+        RVCode_ADDI : begin
+        end
+        RVCode_XORI : begin
+        end
+        RVCode_ORI : begin
+        end
+        RVCode_ANDI : begin
+        end
+        RVCode_SLLI : begin
+        end
+        RVCode_SRLI : begin
+        end
+        RVCode_SRAI : begin
+        end
+        RVCode_SLTI : begin
+        end
+        RVCode_SLTIU : begin
+        end
+        RVCode_LB : begin
+        end
+        RVCode_LH : begin
+        end
+        RVCode_LW : begin
+        end
+        RVCode_LBU : begin
+        end
+        RVCode_LHU : begin
+        end
+        RVCode_SW : begin
+        end
+        RVCode_SH : begin
+        end
+        RVCode_SB : begin
+        end
+        RVCode_JALR : begin
+        end
+        RVCode_BEQ : begin
+        end
+        RVCode_BNE : begin
+        end
+        RVCode_BLT : begin
+        end
+        RVCode_BGE : begin
+        end
+        RVCode_BLTU : begin
+        end
+        RVCode_BGEU : begin
+        end
+        RVCode_LUI : begin
+        end
+        RVCode_AUIPC : begin
+        end
+        RVCode_JAL : begin
+        end
+        RVCode_EBREAK : begin
+          EX_EXt_ebreak_ebreak_flag = 1'b1;
+        end
+        RVCode_FENCEI : begin
+        end
+        RVCode_ECALL : begin
+        end
+        RVCode_MRET : begin
+        end
+        RVCode_CSRRW : begin
+        end
+        RVCode_CSRRS : begin
+        end
+        RVCode_CSRRC : begin
+        end
+        RVCode_CSRRWI : begin
+        end
+        RVCode_CSRRSI : begin
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
+    fence_i = 1'b0;
+    if(pip_ctrl_3_up_isFiring) begin
+      case(pip_ctrl_3_down_IDtoEX_fun)
+        RVCode_ADD : begin
+        end
+        RVCode_SUB : begin
+        end
+        RVCode_AND_1 : begin
+        end
+        RVCode_OR_1 : begin
+        end
+        RVCode_XOR_1 : begin
+        end
+        RVCode_SLL_1 : begin
+        end
+        RVCode_SRL_1 : begin
+        end
+        RVCode_SRA_1 : begin
+        end
+        RVCode_SLT : begin
+        end
+        RVCode_SLTU : begin
+        end
+        RVCode_ADDI : begin
+        end
+        RVCode_XORI : begin
+        end
+        RVCode_ORI : begin
+        end
+        RVCode_ANDI : begin
+        end
+        RVCode_SLLI : begin
+        end
+        RVCode_SRLI : begin
+        end
+        RVCode_SRAI : begin
+        end
+        RVCode_SLTI : begin
+        end
+        RVCode_SLTIU : begin
+        end
+        RVCode_LB : begin
+        end
+        RVCode_LH : begin
+        end
+        RVCode_LW : begin
+        end
+        RVCode_LBU : begin
+        end
+        RVCode_LHU : begin
+        end
+        RVCode_SW : begin
+        end
+        RVCode_SH : begin
+        end
+        RVCode_SB : begin
+        end
+        RVCode_JALR : begin
+        end
+        RVCode_BEQ : begin
+        end
+        RVCode_BNE : begin
+        end
+        RVCode_BLT : begin
+        end
+        RVCode_BGE : begin
+        end
+        RVCode_BLTU : begin
+        end
+        RVCode_BGEU : begin
+        end
+        RVCode_LUI : begin
+        end
+        RVCode_AUIPC : begin
+        end
+        RVCode_JAL : begin
+        end
+        RVCode_EBREAK : begin
+        end
+        RVCode_FENCEI : begin
+          fence_i = 1'b1;
+        end
+        RVCode_ECALL : begin
+        end
+        RVCode_MRET : begin
+        end
+        RVCode_CSRRW : begin
+        end
+        RVCode_CSRRS : begin
+        end
+        RVCode_CSRRC : begin
+        end
+        RVCode_CSRRWI : begin
+        end
+        RVCode_CSRRSI : begin
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
+    EXtoIF_nPC = EX_EXt_nPC;
+    if(pip_ctrl_5_down_CSR_valid) begin
+      case(pip_ctrl_5_down_IDtoEX_fun)
+        RVCode_ECALL : begin
+          EXtoIF_nPC = WB_csr_r_data;
+        end
+        RVCode_MRET : begin
+          EXtoIF_nPC = WB_csr_r_data;
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
+    EXtoIF_valid = EX_EXt_nPC_valid;
+    if(pip_ctrl_5_down_CSR_valid) begin
+      case(pip_ctrl_5_down_IDtoEX_fun)
+        RVCode_ECALL : begin
+          EXtoIF_valid = 1'b1;
+        end
+        RVCode_MRET : begin
+          EXtoIF_valid = 1'b1;
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
   assign axi_mem_aw_valid = axi_mem_aw_valid_1;
   assign axi_mem_aw_ready_1 = axi_mem_aw_ready;
   assign axi_mem_aw_payload_addr = axi_mem_aw_payload_addr_1;
@@ -4759,26 +6565,70 @@ module test_cpu (
   assign MEM_MEMt_r_data = (axi_mem_r_payload_data_1 >>> _zz_MEM_MEMt_r_data);
   always @(*) begin
     axi_mem_aw_valid_1 = 1'b0;
-    axi_mem_aw_payload_addr_1 = 32'b00000000000000000000000000000000;
-    axi_mem_aw_payload_id_1 = 4'b0000;
-    axi_mem_aw_payload_len_1 = 8'b00000000;
-    axi_mem_aw_payload_size_1 = 3'b000;
-    axi_mem_w_valid_1 = 1'b0;
-    axi_mem_w_payload_data_1 = 32'b00000000000000000000000000000000;
-    axi_mem_w_payload_strb_1 = 4'b0000;
-    axi_mem_w_payload_last_1 = 1'b0;
-    axi_mem_b_ready_1 = 1'b0;
-    MEM_MEMt_w_wantStart = 1'b0;
-    MEM_MEMt_w_stateNext = MEM_MEMt_w_stateReg;
     case(MEM_MEMt_w_stateReg)
       MEM_MEMt_w_start : begin
-        if(MEM_MEMt_w_flag) begin
-          MEM_MEMt_w_stateNext = MEM_MEMt_w_w;
-        end
       end
       MEM_MEMt_w_w : begin
         axi_mem_aw_valid_1 = 1'b1;
+      end
+      MEM_MEMt_w_b : begin
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  always @(*) begin
+    axi_mem_aw_payload_addr_1 = 32'bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
+    case(MEM_MEMt_w_stateReg)
+      MEM_MEMt_w_start : begin
+      end
+      MEM_MEMt_w_w : begin
         axi_mem_aw_payload_addr_1 = pip_ctrl_4_down_MEM_addr;
+      end
+      MEM_MEMt_w_b : begin
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  always @(*) begin
+    axi_mem_aw_payload_id_1 = 4'bxxxx;
+    case(MEM_MEMt_w_stateReg)
+      MEM_MEMt_w_start : begin
+      end
+      MEM_MEMt_w_w : begin
+        axi_mem_aw_payload_id_1 = 4'b0000;
+      end
+      MEM_MEMt_w_b : begin
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  always @(*) begin
+    axi_mem_aw_payload_len_1 = 8'bxxxxxxxx;
+    case(MEM_MEMt_w_stateReg)
+      MEM_MEMt_w_start : begin
+      end
+      MEM_MEMt_w_w : begin
+        axi_mem_aw_payload_len_1 = 8'h0;
+      end
+      MEM_MEMt_w_b : begin
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  always @(*) begin
+    axi_mem_aw_payload_size_1 = 3'bxxx;
+    case(MEM_MEMt_w_stateReg)
+      MEM_MEMt_w_start : begin
+      end
+      MEM_MEMt_w_w : begin
         case(pip_ctrl_4_down_MEM_mask)
           4'b0001 : begin
             axi_mem_aw_payload_size_1 = 3'b000;
@@ -4790,55 +6640,164 @@ module test_cpu (
             axi_mem_aw_payload_size_1 = 3'b010;
           end
         endcase
-        axi_mem_aw_payload_len_1 = 8'h0;
-        axi_mem_aw_payload_id_1 = 4'b0000;
+      end
+      MEM_MEMt_w_b : begin
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  assign axi_mem_aw_payload_burst_1 = 2'bxx;
+  always @(*) begin
+    axi_mem_w_valid_1 = 1'b0;
+    case(MEM_MEMt_w_stateReg)
+      MEM_MEMt_w_start : begin
+      end
+      MEM_MEMt_w_w : begin
         axi_mem_w_valid_1 = 1'b1;
+      end
+      MEM_MEMt_w_b : begin
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  always @(*) begin
+    axi_mem_w_payload_data_1 = 32'bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
+    case(MEM_MEMt_w_stateReg)
+      MEM_MEMt_w_start : begin
+      end
+      MEM_MEMt_w_w : begin
         axi_mem_w_payload_data_1 = MEM_MEMt_w_data;
+      end
+      MEM_MEMt_w_b : begin
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  always @(*) begin
+    axi_mem_w_payload_strb_1 = 4'bxxxx;
+    case(MEM_MEMt_w_stateReg)
+      MEM_MEMt_w_start : begin
+      end
+      MEM_MEMt_w_w : begin
         axi_mem_w_payload_strb_1 = MEM_MEMt_w_strb;
+      end
+      MEM_MEMt_w_b : begin
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  always @(*) begin
+    axi_mem_w_payload_last_1 = 1'bx;
+    case(MEM_MEMt_w_stateReg)
+      MEM_MEMt_w_start : begin
+      end
+      MEM_MEMt_w_w : begin
         axi_mem_w_payload_last_1 = 1'b1;
-        if(axi_mem_aw_fire) begin
-          MEM_MEMt_w_stateNext = MEM_MEMt_w_b;
-        end
+      end
+      MEM_MEMt_w_b : begin
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  always @(*) begin
+    axi_mem_b_ready_1 = 1'b0;
+    case(MEM_MEMt_w_stateReg)
+      MEM_MEMt_w_start : begin
+      end
+      MEM_MEMt_w_w : begin
       end
       MEM_MEMt_w_b : begin
         axi_mem_b_ready_1 = 1'b1;
-        if(axi_mem_b_fire) begin
-          MEM_MEMt_w_stateNext = MEM_MEMt_w_start;
-        end
       end
       default : begin
-        MEM_MEMt_w_wantStart = 1'b1;
       end
     endcase
-    if(MEM_MEMt_w_wantStart) begin
-      MEM_MEMt_w_stateNext = MEM_MEMt_w_start;
-    end
-    if(MEM_MEMt_w_wantKill) begin
-      MEM_MEMt_w_stateNext = MEM_MEMt_w_BOOT;
-    end
   end
 
-  assign axi_mem_aw_payload_burst_1 = 2'b00;
   always @(*) begin
     axi_mem_ar_valid_1 = 1'b0;
-    axi_mem_ar_payload_addr_1 = 32'b00000000000000000000000000000000;
-    axi_mem_ar_payload_id_1 = 4'b0000;
-    axi_mem_ar_payload_len_1 = 8'b00000000;
-    axi_mem_ar_payload_size_1 = 3'b000;
-    axi_mem_r_ready_1 = 1'b0;
-    MEM_MEMt_r_wantStart = 1'b0;
-    pip_ctrl_4_down_RD = pip_ctrl_4_up_RD;
-    pip_ctrl_4_down_RD_valid = pip_ctrl_4_up_RD_valid;
-    MEM_MEMt_r_stateNext = MEM_MEMt_r_stateReg;
     case(MEM_MEMt_r_stateReg)
       MEM_MEMt_r_start : begin
-        if(MEM_MEMt_r_flag) begin
-          MEM_MEMt_r_stateNext = MEM_MEMt_r_ar;
-        end
       end
       MEM_MEMt_r_ar : begin
         axi_mem_ar_valid_1 = 1'b1;
+      end
+      MEM_MEMt_r_r : begin
+      end
+      MEM_MEMt_r_delay : begin
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  always @(*) begin
+    axi_mem_ar_payload_addr_1 = 32'bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
+    case(MEM_MEMt_r_stateReg)
+      MEM_MEMt_r_start : begin
+      end
+      MEM_MEMt_r_ar : begin
         axi_mem_ar_payload_addr_1 = pip_ctrl_4_down_MEM_addr;
+      end
+      MEM_MEMt_r_r : begin
+      end
+      MEM_MEMt_r_delay : begin
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  always @(*) begin
+    axi_mem_ar_payload_id_1 = 4'bxxxx;
+    case(MEM_MEMt_r_stateReg)
+      MEM_MEMt_r_start : begin
+      end
+      MEM_MEMt_r_ar : begin
+        axi_mem_ar_payload_id_1 = 4'b0000;
+      end
+      MEM_MEMt_r_r : begin
+      end
+      MEM_MEMt_r_delay : begin
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  always @(*) begin
+    axi_mem_ar_payload_len_1 = 8'bxxxxxxxx;
+    case(MEM_MEMt_r_stateReg)
+      MEM_MEMt_r_start : begin
+      end
+      MEM_MEMt_r_ar : begin
+        axi_mem_ar_payload_len_1 = 8'h0;
+      end
+      MEM_MEMt_r_r : begin
+      end
+      MEM_MEMt_r_delay : begin
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  always @(*) begin
+    axi_mem_ar_payload_size_1 = 3'bxxx;
+    case(MEM_MEMt_r_stateReg)
+      MEM_MEMt_r_start : begin
+      end
+      MEM_MEMt_r_ar : begin
         case(pip_ctrl_4_down_MEM_mask)
           4'b0001 : begin
             axi_mem_ar_payload_size_1 = 3'b000;
@@ -4850,52 +6809,72 @@ module test_cpu (
             axi_mem_ar_payload_size_1 = 3'b010;
           end
         endcase
-        axi_mem_ar_payload_len_1 = 8'h0;
-        axi_mem_ar_payload_id_1 = 4'b0000;
-        if(axi_mem_ar_fire) begin
-          MEM_MEMt_r_stateNext = MEM_MEMt_r_r;
-        end
+      end
+      MEM_MEMt_r_r : begin
+      end
+      MEM_MEMt_r_delay : begin
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  assign axi_mem_ar_payload_burst_1 = 2'bxx;
+  always @(*) begin
+    axi_mem_r_ready_1 = 1'b0;
+    case(MEM_MEMt_r_stateReg)
+      MEM_MEMt_r_start : begin
+      end
+      MEM_MEMt_r_ar : begin
       end
       MEM_MEMt_r_r : begin
         axi_mem_r_ready_1 = 1'b1;
-        if(axi_mem_r_fire) begin
-          pip_ctrl_4_down_RD_valid = 1'b1;
-          case(pip_ctrl_4_down_MEM_mask)
-            4'b0001 : begin
-              pip_ctrl_4_down_RD = (pip_ctrl_4_down_MEM_unsigned ? _zz_pip_ctrl_4_down_RD : _zz_pip_ctrl_4_down_RD_2);
-            end
-            4'b0011 : begin
-              pip_ctrl_4_down_RD = (pip_ctrl_4_down_MEM_unsigned ? _zz_pip_ctrl_4_down_RD_4 : _zz_pip_ctrl_4_down_RD_6);
-            end
-            default : begin
-              pip_ctrl_4_down_RD = MEM_MEMt_r_data;
-            end
-          endcase
-          MEM_MEMt_r_stateNext = MEM_MEMt_r_delay;
-        end
       end
       MEM_MEMt_r_delay : begin
-        MEM_MEMt_r_stateNext = MEM_MEMt_r_start;
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  assign pip_ctrl_4_haltRequest_pipCPU_l370 = _zz_pip_ctrl_4_haltRequest_pipCPU_l370;
+  assign pip_ctrl_4_haltRequest_pipCPU_l371 = _zz_pip_ctrl_4_haltRequest_pipCPU_l371;
+  assign pip_ctrl_4_haltRequest_pipCPU_l372 = _zz_pip_ctrl_4_haltRequest_pipCPU_l372;
+  assign MEM_MEMt_w_wantExit = 1'b0;
+  always @(*) begin
+    MEM_MEMt_w_wantStart = 1'b0;
+    case(MEM_MEMt_w_stateReg)
+      MEM_MEMt_w_start : begin
+      end
+      MEM_MEMt_w_w : begin
+      end
+      MEM_MEMt_w_b : begin
+      end
+      default : begin
+        MEM_MEMt_w_wantStart = 1'b1;
+      end
+    endcase
+  end
+
+  assign MEM_MEMt_w_wantKill = 1'b0;
+  assign MEM_MEMt_r_wantExit = 1'b0;
+  always @(*) begin
+    MEM_MEMt_r_wantStart = 1'b0;
+    case(MEM_MEMt_r_stateReg)
+      MEM_MEMt_r_start : begin
+      end
+      MEM_MEMt_r_ar : begin
+      end
+      MEM_MEMt_r_r : begin
+      end
+      MEM_MEMt_r_delay : begin
       end
       default : begin
         MEM_MEMt_r_wantStart = 1'b1;
       end
     endcase
-    if(MEM_MEMt_r_wantStart) begin
-      MEM_MEMt_r_stateNext = MEM_MEMt_r_start;
-    end
-    if(MEM_MEMt_r_wantKill) begin
-      MEM_MEMt_r_stateNext = MEM_MEMt_r_BOOT;
-    end
   end
 
-  assign axi_mem_ar_payload_burst_1 = 2'b00;
-  assign pip_ctrl_4_haltRequest_pipCPU_l370 = _zz_pip_ctrl_4_haltRequest_pipCPU_l370;
-  assign pip_ctrl_4_haltRequest_pipCPU_l371 = _zz_pip_ctrl_4_haltRequest_pipCPU_l371;
-  assign pip_ctrl_4_haltRequest_pipCPU_l372 = _zz_pip_ctrl_4_haltRequest_pipCPU_l372;
-  assign MEM_MEMt_w_wantExit = 1'b0;
-  assign MEM_MEMt_w_wantKill = 1'b0;
-  assign MEM_MEMt_r_wantExit = 1'b0;
   assign MEM_MEMt_r_wantKill = 1'b0;
   assign _zz_1 = ({31'd0,1'b1} <<< pip_ctrl_5_down_RD_sel);
   assign _zz_2 = _zz_1[0];
@@ -4931,6 +6910,95 @@ module test_cpu (
   assign _zz_32 = _zz_1[30];
   assign _zz_33 = _zz_1[31];
   assign WB_gpr_rdata = _zz_WB_gpr_rdata;
+  always @(*) begin
+    WB_csr_w_valid = pip_ctrl_5_down_CSR_valid;
+    if(pip_ctrl_5_down_CSR_valid) begin
+      case(pip_ctrl_5_down_IDtoEX_fun)
+        RVCode_MRET : begin
+          WB_csr_w_valid = 1'b0;
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
+    WB_csr_csr_wsel = pip_ctrl_5_down_CSR_sel;
+    if(pip_ctrl_5_down_CSR_valid) begin
+      case(pip_ctrl_5_down_IDtoEX_fun)
+        RVCode_ECALL : begin
+          WB_csr_csr_wsel = 12'h341;
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
+    WB_csr_csr_rsel = pip_ctrl_5_down_CSR_sel;
+    if(pip_ctrl_5_down_CSR_valid) begin
+      case(pip_ctrl_5_down_IDtoEX_fun)
+        RVCode_ECALL : begin
+          WB_csr_csr_rsel = 12'h305;
+        end
+        RVCode_MRET : begin
+          WB_csr_csr_rsel = 12'h341;
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
+    WB_csr_w_data = 32'h0;
+    if(pip_ctrl_5_down_CSR_valid) begin
+      case(pip_ctrl_5_down_IDtoEX_fun)
+        RVCode_ECALL : begin
+          WB_csr_w_data = pip_ctrl_5_down_PC;
+        end
+        RVCode_CSRRW : begin
+          WB_csr_w_data = WB_gpr_rdata;
+        end
+        RVCode_CSRRS : begin
+          WB_csr_w_data = (WB_gpr_rdata | WB_csr_r_data);
+        end
+        RVCode_CSRRC : begin
+          WB_csr_w_data = (WB_csr_r_data & (~ WB_gpr_rdata));
+        end
+        RVCode_CSRRWI : begin
+          WB_csr_w_data = {27'd0, _zz_w_data};
+        end
+        RVCode_CSRRSI : begin
+          WB_csr_w_data = (WB_gpr_rdata | _zz_w_data_1);
+        end
+        RVCode_CSRRCI : begin
+          WB_csr_w_data = (WB_csr_r_data & (~ _zz_w_data_2));
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
+    WB_csr_flag = 1'b0;
+    if(pip_ctrl_5_down_CSR_valid) begin
+      case(pip_ctrl_5_down_IDtoEX_fun)
+        RVCode_ECALL : begin
+          WB_csr_flag = 1'b1;
+        end
+        RVCode_MRET : begin
+          WB_csr_flag = 1'b1;
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
   assign pip_ctrl_2_throwWhen_pipCPU_l715 = _zz_pip_ctrl_2_throwWhen_pipCPU_l715;
   assign pip_ctrl_3_throwWhen_pipCPU_l716 = _zz_pip_ctrl_3_throwWhen_pipCPU_l716;
   assign pip_ctrl_4_throwWhen_pipCPU_l717 = _zz_pip_ctrl_4_throwWhen_pipCPU_l717;
@@ -4938,6 +7006,13 @@ module test_cpu (
   assign pip_ctrl_3_throwWhen_pipCPU_l726 = _zz_pip_ctrl_3_throwWhen_pipCPU_l726;
   assign pip_ctrl_4_throwWhen_pipCPU_l727 = _zz_pip_ctrl_4_throwWhen_pipCPU_l727;
   assign pip_ctrl_2_haltRequest_pipCPU_l742 = _zz_pip_ctrl_2_haltRequest_pipCPU_l742;
+  always @(*) begin
+    pass_valid = 1'b0;
+    if(pip_ctrl_3_up_isFiring) begin
+      pass_valid = 1'b1;
+    end
+  end
+
   always @(*) begin
     if((((id_rs1_sel == pip_ctrl_5_down_RD_sel) && (pip_ctrl_5_down_RD_sel != 5'h0)) && pip_ctrl_5_down_RD_valid)) begin
       id_rs1 = pip_ctrl_5_down_RD;
@@ -4985,22 +7060,32 @@ module test_cpu (
 
   always @(*) begin
     pip_ctrl_1_down_valid = pip_ctrl_1_up_valid;
-    pip_ctrl_1_up_ready = pip_ctrl_1_down_isReady;
     if((|pip_ctrl_1_haltRequest_pipCPU_l766)) begin
       pip_ctrl_1_down_valid = 1'b0;
+    end
+  end
+
+  always @(*) begin
+    pip_ctrl_1_up_ready = pip_ctrl_1_down_isReady;
+    if((|pip_ctrl_1_haltRequest_pipCPU_l766)) begin
       pip_ctrl_1_up_ready = 1'b0;
     end
   end
 
   always @(*) begin
     pip_ctrl_2_down_valid = pip_ctrl_2_up_valid;
-    pip_ctrl_2_up_ready = pip_ctrl_2_down_isReady;
     if((|pip_ctrl_2_haltRequest_pipCPU_l742)) begin
       pip_ctrl_2_down_valid = 1'b0;
-      pip_ctrl_2_up_ready = 1'b0;
     end
     if((|{pip_ctrl_2_throwWhen_pipCPU_l769,{pip_ctrl_2_throwWhen_pipCPU_l725,pip_ctrl_2_throwWhen_pipCPU_l715}})) begin
       pip_ctrl_2_down_valid = 1'b0;
+    end
+  end
+
+  always @(*) begin
+    pip_ctrl_2_up_ready = pip_ctrl_2_down_isReady;
+    if((|pip_ctrl_2_haltRequest_pipCPU_l742)) begin
+      pip_ctrl_2_up_ready = 1'b0;
     end
   end
 
@@ -5024,13 +7109,18 @@ module test_cpu (
   assign pip_ctrl_3_down_CSR_rs1_imm = pip_ctrl_3_up_CSR_rs1_imm;
   always @(*) begin
     pip_ctrl_4_down_valid = pip_ctrl_4_up_valid;
-    pip_ctrl_4_up_ready = pip_ctrl_4_down_isReady;
     if((|{pip_ctrl_4_haltRequest_pipCPU_l372,{pip_ctrl_4_haltRequest_pipCPU_l371,pip_ctrl_4_haltRequest_pipCPU_l370}})) begin
       pip_ctrl_4_down_valid = 1'b0;
-      pip_ctrl_4_up_ready = 1'b0;
     end
     if((|{pip_ctrl_4_throwWhen_pipCPU_l727,pip_ctrl_4_throwWhen_pipCPU_l717})) begin
       pip_ctrl_4_down_valid = 1'b0;
+    end
+  end
+
+  always @(*) begin
+    pip_ctrl_4_up_ready = pip_ctrl_4_down_isReady;
+    if((|{pip_ctrl_4_haltRequest_pipCPU_l372,{pip_ctrl_4_haltRequest_pipCPU_l371,pip_ctrl_4_haltRequest_pipCPU_l370}})) begin
+      pip_ctrl_4_up_ready = 1'b0;
     end
   end
 
@@ -5043,6 +7133,54 @@ module test_cpu (
   assign pip_ctrl_4_down_IDtoEX_rs2 = pip_ctrl_4_up_IDtoEX_rs2;
   assign pip_ctrl_4_down_CSR_rs1_imm = pip_ctrl_4_up_CSR_rs1_imm;
   assign pip_ctrl_4_down_RD_sel = pip_ctrl_4_up_RD_sel;
+  always @(*) begin
+    pip_ctrl_4_down_RD = pip_ctrl_4_up_RD;
+    case(MEM_MEMt_r_stateReg)
+      MEM_MEMt_r_start : begin
+      end
+      MEM_MEMt_r_ar : begin
+      end
+      MEM_MEMt_r_r : begin
+        if(axi_mem_r_fire) begin
+          case(pip_ctrl_4_down_MEM_mask)
+            4'b0001 : begin
+              pip_ctrl_4_down_RD = (pip_ctrl_4_down_MEM_unsigned ? _zz_pip_ctrl_4_down_RD : _zz_pip_ctrl_4_down_RD_2);
+            end
+            4'b0011 : begin
+              pip_ctrl_4_down_RD = (pip_ctrl_4_down_MEM_unsigned ? _zz_pip_ctrl_4_down_RD_4 : _zz_pip_ctrl_4_down_RD_6);
+            end
+            default : begin
+              pip_ctrl_4_down_RD = MEM_MEMt_r_data;
+            end
+          endcase
+        end
+      end
+      MEM_MEMt_r_delay : begin
+      end
+      default : begin
+      end
+    endcase
+  end
+
+  always @(*) begin
+    pip_ctrl_4_down_RD_valid = pip_ctrl_4_up_RD_valid;
+    case(MEM_MEMt_r_stateReg)
+      MEM_MEMt_r_start : begin
+      end
+      MEM_MEMt_r_ar : begin
+      end
+      MEM_MEMt_r_r : begin
+        if(axi_mem_r_fire) begin
+          pip_ctrl_4_down_RD_valid = 1'b1;
+        end
+      end
+      MEM_MEMt_r_delay : begin
+      end
+      default : begin
+      end
+    endcase
+  end
+
   assign pip_ctrl_4_down_MEM_addr = pip_ctrl_4_up_MEM_addr;
   assign pip_ctrl_4_down_MEM_read_valid = pip_ctrl_4_up_MEM_read_valid;
   assign pip_ctrl_4_down_MEM_write_valid = pip_ctrl_4_up_MEM_write_valid;
@@ -5083,11 +7221,21 @@ module test_cpu (
   assign debug_flag = 1'b0;
   always @(*) begin
     debug_step_flag = 1'b0;
-    debug_difftest_data_0 = 32'h0;
-    debug_difftest_data_2 = pip_ctrl_5_down_CODE;
     if(pip_ctrl_4_up_isFiring) begin
       debug_step_flag = 1'b1;
+    end
+  end
+
+  always @(*) begin
+    debug_difftest_data_0 = 32'h0;
+    if(pip_ctrl_4_up_isFiring) begin
       debug_difftest_data_0 = pip_ctrl_4_down_PC;
+    end
+  end
+
+  always @(*) begin
+    debug_difftest_data_2 = pip_ctrl_5_down_CODE;
+    if(pip_ctrl_4_up_isFiring) begin
       debug_difftest_data_2 = pip_ctrl_4_down_CODE;
     end
   end
@@ -5096,6 +7244,35 @@ module test_cpu (
   assign debug_performance_data_0 = debug_IFU_cnt;
   assign debug_performance_data_1 = debug_IDU_cnt;
   assign debug_performance_data_2 = debug_EXU_cnt;
+  always @(*) begin
+    MEM_MEMt_w_stateNext = MEM_MEMt_w_stateReg;
+    case(MEM_MEMt_w_stateReg)
+      MEM_MEMt_w_start : begin
+        if(MEM_MEMt_w_flag) begin
+          MEM_MEMt_w_stateNext = MEM_MEMt_w_w;
+        end
+      end
+      MEM_MEMt_w_w : begin
+        if(axi_mem_aw_fire) begin
+          MEM_MEMt_w_stateNext = MEM_MEMt_w_b;
+        end
+      end
+      MEM_MEMt_w_b : begin
+        if(axi_mem_b_fire) begin
+          MEM_MEMt_w_stateNext = MEM_MEMt_w_start;
+        end
+      end
+      default : begin
+      end
+    endcase
+    if(MEM_MEMt_w_wantStart) begin
+      MEM_MEMt_w_stateNext = MEM_MEMt_w_start;
+    end
+    if(MEM_MEMt_w_wantKill) begin
+      MEM_MEMt_w_stateNext = MEM_MEMt_w_BOOT;
+    end
+  end
+
   assign axi_mem_aw_fire = (axi_mem_aw_valid_1 && axi_mem_aw_ready_1);
   assign axi_mem_b_fire = (axi_mem_b_valid_1 && axi_mem_b_ready_1);
   assign MEM_MEMt_w_onExit_BOOT = ((MEM_MEMt_w_stateNext != MEM_MEMt_w_BOOT) && (MEM_MEMt_w_stateReg == MEM_MEMt_w_BOOT));
@@ -5106,6 +7283,38 @@ module test_cpu (
   assign MEM_MEMt_w_onEntry_start = ((MEM_MEMt_w_stateNext == MEM_MEMt_w_start) && (MEM_MEMt_w_stateReg != MEM_MEMt_w_start));
   assign MEM_MEMt_w_onEntry_w = ((MEM_MEMt_w_stateNext == MEM_MEMt_w_w) && (MEM_MEMt_w_stateReg != MEM_MEMt_w_w));
   assign MEM_MEMt_w_onEntry_b = ((MEM_MEMt_w_stateNext == MEM_MEMt_w_b) && (MEM_MEMt_w_stateReg != MEM_MEMt_w_b));
+  always @(*) begin
+    MEM_MEMt_r_stateNext = MEM_MEMt_r_stateReg;
+    case(MEM_MEMt_r_stateReg)
+      MEM_MEMt_r_start : begin
+        if(MEM_MEMt_r_flag) begin
+          MEM_MEMt_r_stateNext = MEM_MEMt_r_ar;
+        end
+      end
+      MEM_MEMt_r_ar : begin
+        if(axi_mem_ar_fire) begin
+          MEM_MEMt_r_stateNext = MEM_MEMt_r_r;
+        end
+      end
+      MEM_MEMt_r_r : begin
+        if(axi_mem_r_fire) begin
+          MEM_MEMt_r_stateNext = MEM_MEMt_r_delay;
+        end
+      end
+      MEM_MEMt_r_delay : begin
+        MEM_MEMt_r_stateNext = MEM_MEMt_r_start;
+      end
+      default : begin
+      end
+    endcase
+    if(MEM_MEMt_r_wantStart) begin
+      MEM_MEMt_r_stateNext = MEM_MEMt_r_start;
+    end
+    if(MEM_MEMt_r_wantKill) begin
+      MEM_MEMt_r_stateNext = MEM_MEMt_r_BOOT;
+    end
+  end
+
   assign axi_mem_ar_fire = (axi_mem_ar_valid_1 && axi_mem_ar_ready_1);
   assign axi_mem_r_fire = (axi_mem_r_valid_1 && axi_mem_r_ready_1);
   assign MEM_MEMt_r_onExit_BOOT = ((MEM_MEMt_r_stateNext != MEM_MEMt_r_BOOT) && (MEM_MEMt_r_stateReg == MEM_MEMt_r_BOOT));

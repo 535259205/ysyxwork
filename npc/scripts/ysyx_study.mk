@@ -1,9 +1,13 @@
 TOP_MODULE := ysyxSoCFull
+SYNC_MODULE := ysyxSoCASIC
 
 
-VSRCS ?=	$(shell find ./vsrc/ -name "*.v")
-VSRCS += $(shell find ../ysyxSoC/perip/ -name "*.v")
-VSRCS += $(shell find ../ysyxSoC/build/ -name "*.v")
+NPC_HOME:= $(AM_HOME)/../npc
+STUDY_HOME:= $(AM_HOME)/../ysyxSoC
+
+VSRCS ?=	$(shell find $(NPC_HOME)/vsrc/ -name "*.v")
+VSRCS += $(shell find $(STUDY_HOME)/perip/ -name "*.v")
+VSRCS += $(shell find $(STUDY_HOME)/build/ -name "*.v")
 
 
 

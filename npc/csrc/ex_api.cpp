@@ -43,7 +43,9 @@ int32_t sdram_api(int32_t addr, int32_t data, int32_t write,uint32_t *sdram){
 
 int32_t psram_api(int32_t addr, int32_t data, int32_t write,uint32_t *psram){
   if (write){
-    // printf("psram_write: addr=0x%08X, data=0x%08X, write=0x%02X\n", addr, data, write);
+    #if USE_DEBUG
+    printf("psram_write: addr=0x%08X, data=0x%08X, write=0x%02X\n", addr, data, write);
+    #endif
     switch(write&0xFF)
     {
       //写8bit 数据
@@ -113,7 +115,9 @@ int32_t psram_api(int32_t addr, int32_t data, int32_t write,uint32_t *psram){
   else{
     uint32_t r_data;
     r_data = psram[addr>>2];
-    // printf("psram_read: addr=0x%08X, data=0x%08X\n", addr, r_data);
+    #if USE_DEBUG
+    printf("psram_read: addr=0x%08X, data=0x%08X\n", addr, r_data);
+    #endif
     return r_data;
   }
 

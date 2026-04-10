@@ -7,11 +7,14 @@ module rom_fun(
   output reg [31:0]code
 );
 
+`ifndef SYNTHESIS
+
 import "DPI-C" function int rom_r(input int addr);
 
 always@(posedge clk)
 begin
     code<=rom_r(addr);
 end 
+`endif 
 
 endmodule

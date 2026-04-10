@@ -65,19 +65,70 @@ module CSR (
 
   always @(*) begin
     debug_data_0 = mtvec;
+    if(w_valid) begin
+      case(csr_wsel)
+        12'h300 : begin
+        end
+        12'h305 : begin
+          debug_data_0 = w_data;
+        end
+        12'h342 : begin
+        end
+        12'h341 : begin
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
     debug_data_1 = mcause;
+    if(w_valid) begin
+      case(csr_wsel)
+        12'h300 : begin
+        end
+        12'h305 : begin
+        end
+        12'h342 : begin
+          debug_data_1 = w_data;
+        end
+        12'h341 : begin
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
     debug_data_2 = mstatus;
-    debug_data_3 = mepc;
     if(w_valid) begin
       case(csr_wsel)
         12'h300 : begin
           debug_data_2 = w_data;
         end
         12'h305 : begin
-          debug_data_0 = w_data;
         end
         12'h342 : begin
-          debug_data_1 = w_data;
+        end
+        12'h341 : begin
+        end
+        default : begin
+        end
+      endcase
+    end
+  end
+
+  always @(*) begin
+    debug_data_3 = mepc;
+    if(w_valid) begin
+      case(csr_wsel)
+        12'h300 : begin
+        end
+        12'h305 : begin
+        end
+        12'h342 : begin
         end
         12'h341 : begin
           debug_data_3 = w_data;
