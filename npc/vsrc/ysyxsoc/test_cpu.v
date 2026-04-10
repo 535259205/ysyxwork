@@ -4045,7 +4045,7 @@ module test_cpu (
 
   always @(*) begin
     _zz_pip_ctrl_2_haltRequest_pipCPU_l742 = 1'b0;
-    if((((pip_ctrl_3_down_MEM_read_valid || pip_ctrl_4_down_MEM_read_valid) || pip_ctrl_3_down_CSR_valid) || pip_ctrl_4_down_CSR_valid)) begin
+    if(((((pip_ctrl_3_down_MEM_read_valid || pip_ctrl_4_down_MEM_read_valid) || pip_ctrl_3_down_CSR_valid) || pip_ctrl_4_down_CSR_valid) || pip_ctrl_5_down_CSR_valid)) begin
       _zz_pip_ctrl_2_haltRequest_pipCPU_l742 = 1'b1;
     end
   end

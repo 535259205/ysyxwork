@@ -36,7 +36,7 @@ void boot_cpy(uintptr_t src_addr, uintptr_t dst_addr, uintptr_t data_end) {
     *dst++ = *src++;
 
   }
-    asm volatile("fence" ::: "memory");
+    // asm volatile("fence" ::: "memory");
     asm volatile("fence.i" ::: "memory");
 }
 
