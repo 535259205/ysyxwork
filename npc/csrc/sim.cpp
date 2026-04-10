@@ -9,7 +9,7 @@
 #include "debug.h"
 
 
-#define USE_WAVE1 0
+#define USE_WAVE1 1
 #define WAVE_START (15000*0)
 #define SHOW_LIMIT 10
 #define USE_ITRACE 0
@@ -111,7 +111,7 @@ void SimInit(int argc, char **argv)
     Verilated::commandArgs(argc, argv);
 #if USE_WAVE1
     Verilated::traceEverOn(true);
-    dut->trace(m_trace, 10); //顶层类设置测试波形参数
+    dut->trace(m_trace, 1); //顶层类设置测试波形参数
     m_trace->open("./waveform.vcd"); //设置波形写入的文件
 #endif
     //初始化difftest寄存器

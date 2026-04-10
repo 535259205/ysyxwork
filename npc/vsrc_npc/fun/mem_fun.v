@@ -14,6 +14,7 @@ module mem_fun(
   input         [31:0] r_addr,
   input         [1:0] r_len
 );
+`ifndef SYNTHESIS
 
 import "DPI-C" function void mem_w(input int data,input int addr,input int len);
 import "DPI-C" function int mem_r(input int addr,input int len);
@@ -29,5 +30,6 @@ begin
     if(wen)
       mem_w(w_data,w_addr,w_len+1);
 end 
+`endif 
 
 endmodule

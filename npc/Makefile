@@ -16,12 +16,13 @@ WORK ?=F
 ifeq ($(WORK),F)
 -include ./scripts/ysyx_study.mk
 else ifeq ($(WORK),T)
--include ./scripts/ysyx_work.mk
+-include ./scripts/ysyx_work_net.mk
 else ifeq ($(WORK),N)
--include ./scripts/npc.mk
+-include ./scripts/npc_net.mk
 endif
 
-VERILATOR_INC := $(shell dirname $(shell find ~/environment -name "verilated.h"))
+# VERILATOR_INC := $(shell dirname $(shell find ~/environment -name "verilated.h"))
+VERILATOR_INC := $(shell find ~/environment -name "verilated.h" | head -1 | xargs dirname)
 
 USE_WAVE ?=0
 
@@ -76,11 +77,20 @@ encode :
 	riscv64-linux-gnu-objdump -D -m riscv:rv64 -EL ./hex/test.elf > ./hex/disasm_result.txt
 gtk :
 	gtkwave waveform.vcd wave_sign.gtkw
-
-
-
 # 7. 清理目标
 clean:
 	rm -rf ./obj_dir
+
+#添加用于进行CI测试部分
+#在build目录下生成verilog代码ysyx_xxxxxxxx.V
+SPINAL_DIR := ../SpinalHDL/hw/spinal/MY_Prj
+SBT ?= sbt
+
+verilog:
+	mkdir -p ./build
+	(cd $(AM_HOME)/../SpinalHDL && sbt "runMain SysConfig.MyTopLevelApp")
+
+
+
 
 include ../Makefile

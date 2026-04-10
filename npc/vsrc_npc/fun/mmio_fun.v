@@ -13,6 +13,7 @@ module mmio_fun(
   input         [31:0] r_addr,
   input         [1:0] r_len
 );
+`ifndef SYNTHESIS
 
 import "DPI-C" function void mmio_w(input int addr,input int data,input int len);
 import "DPI-C" function int mmio_r(input int addr,input int len);
@@ -28,5 +29,5 @@ begin
     if(wen)
       mmio_w(w_addr,w_data,w_len+1);
 end 
-
+`endif
 endmodule

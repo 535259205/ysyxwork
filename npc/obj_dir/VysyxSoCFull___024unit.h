@@ -18,8 +18,8 @@ class alignas(VL_CACHE_LINE_BYTES) VysyxSoCFull___024unit final {
     const char* vlNamep;
 
     // CONSTRUCTORS
-    VysyxSoCFull___024unit() = default;
-    ~VysyxSoCFull___024unit() = default;
+    VysyxSoCFull___024unit();
+    ~VysyxSoCFull___024unit();
     void ctor(VysyxSoCFull__Syms* symsp, const char* namep);
     void dtor();
     VL_UNCOPYABLE(VysyxSoCFull___024unit);

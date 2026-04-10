@@ -12,6 +12,27 @@ VysyxSoCFull::VysyxSoCFull(VerilatedContext* _vcontextp__, const char* _vcname__
     , vlSymsp{new VysyxSoCFull__Syms(contextp(), _vcname__, this)}
     , clock{vlSymsp->TOP.clock}
     , reset{vlSymsp->TOP.reset}
+    , externalPins_gpio_seg_0{vlSymsp->TOP.externalPins_gpio_seg_0}
+    , externalPins_gpio_seg_1{vlSymsp->TOP.externalPins_gpio_seg_1}
+    , externalPins_gpio_seg_2{vlSymsp->TOP.externalPins_gpio_seg_2}
+    , externalPins_gpio_seg_3{vlSymsp->TOP.externalPins_gpio_seg_3}
+    , externalPins_gpio_seg_4{vlSymsp->TOP.externalPins_gpio_seg_4}
+    , externalPins_gpio_seg_5{vlSymsp->TOP.externalPins_gpio_seg_5}
+    , externalPins_gpio_seg_6{vlSymsp->TOP.externalPins_gpio_seg_6}
+    , externalPins_gpio_seg_7{vlSymsp->TOP.externalPins_gpio_seg_7}
+    , externalPins_ps2_clk{vlSymsp->TOP.externalPins_ps2_clk}
+    , externalPins_ps2_data{vlSymsp->TOP.externalPins_ps2_data}
+    , externalPins_vga_r{vlSymsp->TOP.externalPins_vga_r}
+    , externalPins_vga_g{vlSymsp->TOP.externalPins_vga_g}
+    , externalPins_vga_b{vlSymsp->TOP.externalPins_vga_b}
+    , externalPins_vga_hsync{vlSymsp->TOP.externalPins_vga_hsync}
+    , externalPins_vga_vsync{vlSymsp->TOP.externalPins_vga_vsync}
+    , externalPins_vga_valid{vlSymsp->TOP.externalPins_vga_valid}
+    , externalPins_uart_rx{vlSymsp->TOP.externalPins_uart_rx}
+    , externalPins_uart_tx{vlSymsp->TOP.externalPins_uart_tx}
+    , externalPins_gpio_out{vlSymsp->TOP.externalPins_gpio_out}
+    , externalPins_gpio_in{vlSymsp->TOP.externalPins_gpio_in}
+    , __PVT____024unit{vlSymsp->TOP.__PVT____024unit}
     , rootp{&(vlSymsp->TOP)}
 {
     // Register model with the context
@@ -52,11 +73,11 @@ void VysyxSoCFull::eval_step() {
     vlSymsp->__Vm_activity = true;
     vlSymsp->__Vm_deleter.deleteAll();
     if (VL_UNLIKELY(!vlSymsp->__Vm_didInit)) {
-        vlSymsp->__Vm_didInit = true;
         VL_DEBUG_IF(VL_DBG_MSGF("+ Initial\n"););
         VysyxSoCFull___024root___eval_static(&(vlSymsp->TOP));
         VysyxSoCFull___024root___eval_initial(&(vlSymsp->TOP));
         VysyxSoCFull___024root___eval_settle(&(vlSymsp->TOP));
+        vlSymsp->__Vm_didInit = true;
     }
     VL_DEBUG_IF(VL_DBG_MSGF("+ Eval\n"););
     VysyxSoCFull___024root___eval(&(vlSymsp->TOP));
@@ -86,7 +107,9 @@ const char* VysyxSoCFull::name() const {
 void VysyxSoCFull___024root___eval_final(VysyxSoCFull___024root* vlSelf);
 
 VL_ATTR_COLD void VysyxSoCFull::final() {
+    contextp()->executingFinal(true);
     VysyxSoCFull___024root___eval_final(&(vlSymsp->TOP));
+    contextp()->executingFinal(false);
 }
 
 //============================================================
@@ -135,6 +158,6 @@ VL_ATTR_COLD void VysyxSoCFull::traceBaseModel(VerilatedTraceBaseC* tfp, int lev
             " use --trace-fst with VerilatedFst object, and --trace-vcd with VerilatedVcd object");
     }
     stfp->spTrace()->addModel(this);
-    stfp->spTrace()->addInitCb(&trace_init, &(vlSymsp->TOP));
+    stfp->spTrace()->addInitCb(&trace_init, &(vlSymsp->TOP), name(), false, 1690);
     VysyxSoCFull___024root__trace_register(&(vlSymsp->TOP), stfp->spTrace());
 }

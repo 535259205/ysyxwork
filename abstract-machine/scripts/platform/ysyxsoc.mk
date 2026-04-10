@@ -19,7 +19,12 @@ LDSCRIPTS += $(AM_HOME)/scripts/linker_soc.ld
 
 
 # LDFLAGS   += --defsym=_pmem_start=0x20000000 --defsym=_entry_offset=0x0
+ifeq ($(ARCH),riscv64i-ysyxsoc)
+LDFLAGS   += --gc-sections -e _start --defsym align_num=8
+else
 LDFLAGS   += --gc-sections -e _start --defsym align_num=4
+endif
+
 
 MAINARGS_MAX_LEN = 64
 MAINARGS_PLACEHOLDER = the_insert-arg_rule_in_Makefile_will_insert_mainargs_here

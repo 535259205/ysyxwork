@@ -6,7 +6,10 @@ VVP = vvp
 NPC_HOME = ../npc
 INCLUDE = -I/home/ylqt/environment/oss_cad_suite/oss-cad-suite/include/iverilog
 
+# -include scripts/npc_net.mk
 -include scripts/npc.mk
+# -include scripts/work_net.mk
+# -include scripts/work.mk
 
 CSRCS = $(shell find ./csrc/ -name "*.cpp")
 CSRCS += $(NPC_HOME)/csrc/ex_api.cpp
@@ -30,15 +33,17 @@ build: $(VSRCS) $(CSRCS)
 	@echo "Build $(TOP_MODULE) done."
 
 # 运行仿真并加载 VPI 模块
-run: build
+run: 
 	vvp $(BUILD_DIR)/$(TOP_MODULE)
 
 gtk:
 	gtkwave ysyxsoc_tb.vcd wave.gtkw
 
+turn:
+	@@hexdump -v -e '1/4 "%08x\n"' ./hex/test.bin > ./hex/test.mem
 # Clean
 clean:
 	rm -rf ./build/*
 
 # Phony targets
-.PHONY: all run  clean build gtk
+.PHONY: all run  clean build gtk turn
