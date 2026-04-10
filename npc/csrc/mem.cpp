@@ -89,10 +89,10 @@ void mem_init(const char * file)
   #endif
 
   #ifndef USE_NVBOARD
-  // printf("diff_MEMCOPY\n");
-  // extern void difftest_cpymem(uint32_t *data, uint32_t len);
-  // extern void difftest_myinit(void);
-  // difftest_myinit();
-  // difftest_cpymem(rom, FLASH_SIZE);
+  printf("diff_MEMCOPY\n");
+  extern void difftest_cpymem(uint32_t *data, uint32_t len);
+  extern void difftest_myinit(void);
+  difftest_myinit();
+  difftest_cpymem(rom, FLASH_SIZE);
   #endif
 }
