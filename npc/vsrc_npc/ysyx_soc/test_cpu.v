@@ -259,10 +259,10 @@ module test_cpu (
   wire       [15:0]   _zz_pip_ctrl_3_down_RD_33;
   wire       [7:0]    _zz_pip_ctrl_3_down_RD_34;
   wire       [31:0]   _zz_pip_ctrl_3_down_RD_35;
-  wire       [31:0]   _zz_when;
-  wire       [31:0]   _zz_when_1;
-  wire       [31:0]   _zz_when_2;
-  wire       [31:0]   _zz_when_3;
+  wire       [31:0]   _zz_when_RVFun_l62;
+  wire       [31:0]   _zz_when_RVFun_l62_1;
+  wire       [31:0]   _zz_when_RVFun_l63;
+  wire       [31:0]   _zz_when_RVFun_l63_1;
   wire       [31:0]   _zz_pip_ctrl_3_down_RD_36;
   wire       [31:0]   _zz_pip_ctrl_3_down_RD_37;
   wire       [6:0]    _zz_MEM_MEMt_w_strb;
@@ -367,7 +367,7 @@ module test_cpu (
   reg                 pip_ctrl_3_down_ready;
   reg                 pip_ctrl_4_up_ready;
   wire                pip_ctrl_4_up_cancel;
-  reg                 _zz_pip_ctrl_1_haltRequest_pipCPU_l766;
+  reg                 _zz_pip_ctrl_1_haltRequest_pipCPU_l763;
   wire       [31:0]   pip_ctrl_3_down_CODE;
   reg        [31:0]   pip_ctrl_5_up_CODE;
   wire       [31:0]   pip_ctrl_5_down_CODE;
@@ -380,13 +380,13 @@ module test_cpu (
   reg        [4:0]    pip_ctrl_5_RD_sel_bypass;
   reg        [31:0]   pip_ctrl_5_up_RD;
   reg        [31:0]   pip_ctrl_5_RD_bypass;
-  reg                 _zz_pip_ctrl_2_haltRequest_pipCPU_l742;
-  reg                 _zz_pip_ctrl_4_throwWhen_pipCPU_l727;
-  reg                 _zz_pip_ctrl_3_throwWhen_pipCPU_l726;
-  reg                 _zz_pip_ctrl_2_throwWhen_pipCPU_l725;
-  reg                 _zz_pip_ctrl_4_throwWhen_pipCPU_l717;
-  reg                 _zz_pip_ctrl_3_throwWhen_pipCPU_l716;
-  reg                 _zz_pip_ctrl_2_throwWhen_pipCPU_l715;
+  reg                 _zz_pip_ctrl_2_haltRequest_pipCPU_l739;
+  reg                 _zz_pip_ctrl_4_throwWhen_pipCPU_l724;
+  reg                 _zz_pip_ctrl_3_throwWhen_pipCPU_l723;
+  reg                 _zz_pip_ctrl_2_throwWhen_pipCPU_l722;
+  reg                 _zz_pip_ctrl_4_throwWhen_pipCPU_l714;
+  reg                 _zz_pip_ctrl_3_throwWhen_pipCPU_l713;
+  reg                 _zz_pip_ctrl_2_throwWhen_pipCPU_l712;
   wire       [31:0]   pip_ctrl_5_down_PC;
   wire       [5:0]    pip_ctrl_5_down_IDtoEX_fun;
   wire       [4:0]    pip_ctrl_5_down_IDtoEX_rd_sel;
@@ -480,6 +480,7 @@ module test_cpu (
   wire                IF_code_ready;
   wire       [31:0]   IF_code_payload;
   reg        [31:0]   IF_IFt_pc;
+  wire                when_pipCPU_l29;
   reg        [31:0]   id_rs1;
   reg        [31:0]   id_rs2;
   reg        [4:0]    id_rs1_sel;
@@ -535,6 +536,13 @@ module test_cpu (
   wire       [5:0]    _zz_pip_ctrl_2_down_IDtoEX_fun_47;
   reg        [31:0]   EX_EXt_nPC;
   reg                 EX_EXt_nPC_valid;
+  wire                when_RVFun_l60;
+  wire                when_RVFun_l61;
+  wire                when_RVFun_l62;
+  wire                when_RVFun_l63;
+  wire                when_RVFun_l64;
+  wire                when_RVFun_l65;
+  wire                when_pipCPU_l318;
   reg                 axi_mem_aw_valid_1;
   wire                axi_mem_aw_ready_1;
   reg        [31:0]   axi_mem_aw_payload_addr_1;
@@ -571,8 +579,11 @@ module test_cpu (
   reg                 MEM_MEMt_w_flag;
   reg                 MEM_MEMt_r_flag;
   reg                 MEM_MEMt_once_flag;
+  wire                when_pipCPU_l370;
   wire                pip_ctrl_4_haltRequest_pipCPU_l370;
+  wire                when_pipCPU_l371;
   wire                pip_ctrl_4_haltRequest_pipCPU_l371;
+  wire                when_pipCPU_l372;
   wire                pip_ctrl_4_haltRequest_pipCPU_l372;
   wire                MEM_MEMt_w_wantExit;
   reg                 MEM_MEMt_w_wantStart;
@@ -580,6 +591,7 @@ module test_cpu (
   wire                MEM_MEMt_r_wantExit;
   reg                 MEM_MEMt_r_wantStart;
   wire                MEM_MEMt_r_wantKill;
+  wire                when_pipCPU_l682;
   wire       [31:0]   _zz_1;
   wire                _zz_2;
   wire                _zz_3;
@@ -615,20 +627,34 @@ module test_cpu (
   wire                _zz_33;
   wire       [31:0]   WB_gpr_rdata;
   reg                 WB_csr_flag;
-  wire                pip_ctrl_2_throwWhen_pipCPU_l715;
-  wire                pip_ctrl_3_throwWhen_pipCPU_l716;
-  wire                pip_ctrl_4_throwWhen_pipCPU_l717;
-  wire                pip_ctrl_2_throwWhen_pipCPU_l725;
-  wire                pip_ctrl_3_throwWhen_pipCPU_l726;
-  wire                pip_ctrl_4_throwWhen_pipCPU_l727;
-  wire                pip_ctrl_2_haltRequest_pipCPU_l742;
+  wire                when_pipCPU_l702;
+  wire                pip_ctrl_2_throwWhen_pipCPU_l712;
+  wire                pip_ctrl_3_throwWhen_pipCPU_l713;
+  wire                pip_ctrl_4_throwWhen_pipCPU_l714;
+  wire                pip_ctrl_2_throwWhen_pipCPU_l722;
+  wire                pip_ctrl_3_throwWhen_pipCPU_l723;
+  wire                pip_ctrl_4_throwWhen_pipCPU_l724;
+  wire                when_pipCPU_l738;
+  wire                pip_ctrl_2_haltRequest_pipCPU_l739;
   reg                 pass_valid;
-  wire                pip_ctrl_1_haltRequest_pipCPU_l766;
+  wire                when_pipCPU_l757;
+  wire                when_pipCPU_l759;
+  wire                when_pipCPU_l762;
+  wire                pip_ctrl_1_haltRequest_pipCPU_l763;
   reg                 EXtoIF_valid_regNext;
-  wire                pip_ctrl_2_throwWhen_pipCPU_l769;
+  wire                pip_ctrl_2_throwWhen_pipCPU_l766;
   wire                pip_ctrl_4_up_forgetOne;
   wire                pip_ctrl_3_up_forgetOne;
   wire                pip_ctrl_2_up_forgetOne;
+  wire                when_StageLink_l71;
+  wire                when_StageLink_l71_1;
+  wire                when_StageLink_l71_2;
+  wire                when_CtrlLink_l191;
+  wire                when_CtrlLink_l191_1;
+  wire                when_CtrlLink_l198;
+  wire                when_CtrlLink_l198_1;
+  wire                when_CtrlLink_l191_2;
+  wire                when_CtrlLink_l198_2;
   reg        [31:0]   gpr_0_regNext;
   reg        [31:0]   gpr_1_regNext;
   reg        [31:0]   gpr_2_regNext;
@@ -862,10 +888,10 @@ module test_cpu (
   assign _zz_pip_ctrl_3_down_RD_33 = pip_ctrl_3_down_IDtoEX_rs2[15 : 0];
   assign _zz_pip_ctrl_3_down_RD_34 = pip_ctrl_3_down_IDtoEX_rs2[7 : 0];
   assign _zz_pip_ctrl_3_down_RD_35 = (pip_ctrl_3_down_PC + 32'h00000004);
-  assign _zz_when = pip_ctrl_3_down_IDtoEX_rs1;
-  assign _zz_when_1 = pip_ctrl_3_down_IDtoEX_rs2;
-  assign _zz_when_2 = pip_ctrl_3_down_IDtoEX_rs2;
-  assign _zz_when_3 = pip_ctrl_3_down_IDtoEX_rs1;
+  assign _zz_when_RVFun_l62 = pip_ctrl_3_down_IDtoEX_rs1;
+  assign _zz_when_RVFun_l62_1 = pip_ctrl_3_down_IDtoEX_rs2;
+  assign _zz_when_RVFun_l63 = pip_ctrl_3_down_IDtoEX_rs2;
+  assign _zz_when_RVFun_l63_1 = pip_ctrl_3_down_IDtoEX_rs1;
   assign _zz_pip_ctrl_3_down_RD_36 = (pip_ctrl_3_down_PC + pip_ctrl_3_down_IDtoEX_imm);
   assign _zz_pip_ctrl_3_down_RD_37 = (pip_ctrl_3_down_PC + 32'h00000004);
   assign _zz_MEM_MEMt_w_strb = ({3'd0,pip_ctrl_4_down_MEM_mask} <<< MEM_MEMt_addrl);
@@ -3997,9 +4023,9 @@ module test_cpu (
   `endif
 
   always @(*) begin
-    _zz_pip_ctrl_1_haltRequest_pipCPU_l766 = 1'b0;
-    if((! IF_code_valid)) begin
-      _zz_pip_ctrl_1_haltRequest_pipCPU_l766 = 1'b1;
+    _zz_pip_ctrl_1_haltRequest_pipCPU_l763 = 1'b0;
+    if(when_pipCPU_l762) begin
+      _zz_pip_ctrl_1_haltRequest_pipCPU_l763 = 1'b1;
     end
   end
 
@@ -4044,18 +4070,18 @@ module test_cpu (
   end
 
   always @(*) begin
-    _zz_pip_ctrl_2_haltRequest_pipCPU_l742 = 1'b0;
-    if(((((pip_ctrl_3_down_MEM_read_valid || pip_ctrl_4_down_MEM_read_valid) || pip_ctrl_3_down_CSR_valid) || pip_ctrl_4_down_CSR_valid) || pip_ctrl_5_down_CSR_valid)) begin
-      _zz_pip_ctrl_2_haltRequest_pipCPU_l742 = 1'b1;
+    _zz_pip_ctrl_2_haltRequest_pipCPU_l739 = 1'b0;
+    if(when_pipCPU_l738) begin
+      _zz_pip_ctrl_2_haltRequest_pipCPU_l739 = 1'b1;
     end
   end
 
   always @(*) begin
-    _zz_pip_ctrl_4_throwWhen_pipCPU_l727 = 1'b0;
+    _zz_pip_ctrl_4_throwWhen_pipCPU_l724 = 1'b0;
     if(pip_ctrl_5_down_CSR_valid) begin
       case(pip_ctrl_5_down_IDtoEX_fun)
         RVCode_MRET : begin
-          _zz_pip_ctrl_4_throwWhen_pipCPU_l727 = 1'b1;
+          _zz_pip_ctrl_4_throwWhen_pipCPU_l724 = 1'b1;
         end
         default : begin
         end
@@ -4064,11 +4090,11 @@ module test_cpu (
   end
 
   always @(*) begin
-    _zz_pip_ctrl_3_throwWhen_pipCPU_l726 = 1'b0;
+    _zz_pip_ctrl_3_throwWhen_pipCPU_l723 = 1'b0;
     if(pip_ctrl_5_down_CSR_valid) begin
       case(pip_ctrl_5_down_IDtoEX_fun)
         RVCode_MRET : begin
-          _zz_pip_ctrl_3_throwWhen_pipCPU_l726 = 1'b1;
+          _zz_pip_ctrl_3_throwWhen_pipCPU_l723 = 1'b1;
         end
         default : begin
         end
@@ -4077,11 +4103,11 @@ module test_cpu (
   end
 
   always @(*) begin
-    _zz_pip_ctrl_2_throwWhen_pipCPU_l725 = 1'b0;
+    _zz_pip_ctrl_2_throwWhen_pipCPU_l722 = 1'b0;
     if(pip_ctrl_5_down_CSR_valid) begin
       case(pip_ctrl_5_down_IDtoEX_fun)
         RVCode_MRET : begin
-          _zz_pip_ctrl_2_throwWhen_pipCPU_l725 = 1'b1;
+          _zz_pip_ctrl_2_throwWhen_pipCPU_l722 = 1'b1;
         end
         default : begin
         end
@@ -4090,11 +4116,11 @@ module test_cpu (
   end
 
   always @(*) begin
-    _zz_pip_ctrl_4_throwWhen_pipCPU_l717 = 1'b0;
+    _zz_pip_ctrl_4_throwWhen_pipCPU_l714 = 1'b0;
     if(pip_ctrl_5_down_CSR_valid) begin
       case(pip_ctrl_5_down_IDtoEX_fun)
         RVCode_ECALL : begin
-          _zz_pip_ctrl_4_throwWhen_pipCPU_l717 = 1'b1;
+          _zz_pip_ctrl_4_throwWhen_pipCPU_l714 = 1'b1;
         end
         default : begin
         end
@@ -4103,11 +4129,11 @@ module test_cpu (
   end
 
   always @(*) begin
-    _zz_pip_ctrl_3_throwWhen_pipCPU_l716 = 1'b0;
+    _zz_pip_ctrl_3_throwWhen_pipCPU_l713 = 1'b0;
     if(pip_ctrl_5_down_CSR_valid) begin
       case(pip_ctrl_5_down_IDtoEX_fun)
         RVCode_ECALL : begin
-          _zz_pip_ctrl_3_throwWhen_pipCPU_l716 = 1'b1;
+          _zz_pip_ctrl_3_throwWhen_pipCPU_l713 = 1'b1;
         end
         default : begin
         end
@@ -4116,11 +4142,11 @@ module test_cpu (
   end
 
   always @(*) begin
-    _zz_pip_ctrl_2_throwWhen_pipCPU_l715 = 1'b0;
+    _zz_pip_ctrl_2_throwWhen_pipCPU_l712 = 1'b0;
     if(pip_ctrl_5_down_CSR_valid) begin
       case(pip_ctrl_5_down_IDtoEX_fun)
         RVCode_ECALL : begin
-          _zz_pip_ctrl_2_throwWhen_pipCPU_l715 = 1'b1;
+          _zz_pip_ctrl_2_throwWhen_pipCPU_l712 = 1'b1;
         end
         default : begin
         end
@@ -4130,21 +4156,21 @@ module test_cpu (
 
   always @(*) begin
     _zz_pip_ctrl_4_haltRequest_pipCPU_l372 = 1'b0;
-    if((MEM_MEMt_w_flag || MEM_MEMt_r_flag)) begin
+    if(when_pipCPU_l372) begin
       _zz_pip_ctrl_4_haltRequest_pipCPU_l372 = 1'b1;
     end
   end
 
   always @(*) begin
     _zz_pip_ctrl_4_haltRequest_pipCPU_l371 = 1'b0;
-    if(((pip_ctrl_4_up_valid && pip_ctrl_4_down_MEM_read_valid) && MEM_MEMt_once_flag)) begin
+    if(when_pipCPU_l371) begin
       _zz_pip_ctrl_4_haltRequest_pipCPU_l371 = 1'b1;
     end
   end
 
   always @(*) begin
     _zz_pip_ctrl_4_haltRequest_pipCPU_l370 = 1'b0;
-    if(((pip_ctrl_4_up_valid && pip_ctrl_4_down_MEM_write_valid) && MEM_MEMt_once_flag)) begin
+    if(when_pipCPU_l370) begin
       _zz_pip_ctrl_4_haltRequest_pipCPU_l370 = 1'b1;
     end
   end
@@ -4170,6 +4196,7 @@ module test_cpu (
   assign IF_code_valid = IF_axi_if_code_valid;
   assign IF_code_payload = IF_axi_if_code_payload;
   assign pip_ctrl_1_up_valid = 1'b1;
+  assign when_pipCPU_l29 = (pip_ctrl_1_down_isFiring && IF_code_valid);
   assign IF_addr = IF_IFt_pc;
   assign IF_code_ready = 1'b1;
   assign pip_ctrl_1_down_CODE = IF_code_payload;
@@ -6041,7 +6068,7 @@ module test_cpu (
         end
       endcase
     end
-    if((! pip_ctrl_3_up_isFiring)) begin
+    if(when_pipCPU_l318) begin
       pip_ctrl_3_down_RD_valid = 1'b0;
     end
   end
@@ -6108,32 +6135,32 @@ module test_cpu (
           EX_EXt_nPC = (pip_ctrl_3_down_IDtoEX_rs1 + pip_ctrl_3_down_IDtoEX_imm);
         end
         RVCode_BEQ : begin
-          if((pip_ctrl_3_down_IDtoEX_rs1 == pip_ctrl_3_down_IDtoEX_rs2)) begin
+          if(when_RVFun_l60) begin
             EX_EXt_nPC = (pip_ctrl_3_down_PC + pip_ctrl_3_down_IDtoEX_imm);
           end
         end
         RVCode_BNE : begin
-          if((pip_ctrl_3_down_IDtoEX_rs1 != pip_ctrl_3_down_IDtoEX_rs2)) begin
+          if(when_RVFun_l61) begin
             EX_EXt_nPC = (pip_ctrl_3_down_PC + pip_ctrl_3_down_IDtoEX_imm);
           end
         end
         RVCode_BLT : begin
-          if(($signed(_zz_when) < $signed(_zz_when_1))) begin
+          if(when_RVFun_l62) begin
             EX_EXt_nPC = (pip_ctrl_3_down_PC + pip_ctrl_3_down_IDtoEX_imm);
           end
         end
         RVCode_BGE : begin
-          if(($signed(_zz_when_2) <= $signed(_zz_when_3))) begin
+          if(when_RVFun_l63) begin
             EX_EXt_nPC = (pip_ctrl_3_down_PC + pip_ctrl_3_down_IDtoEX_imm);
           end
         end
         RVCode_BLTU : begin
-          if((pip_ctrl_3_down_IDtoEX_rs1 < pip_ctrl_3_down_IDtoEX_rs2)) begin
+          if(when_RVFun_l64) begin
             EX_EXt_nPC = (pip_ctrl_3_down_PC + pip_ctrl_3_down_IDtoEX_imm);
           end
         end
         RVCode_BGEU : begin
-          if((pip_ctrl_3_down_IDtoEX_rs2 <= pip_ctrl_3_down_IDtoEX_rs1)) begin
+          if(when_RVFun_l65) begin
             EX_EXt_nPC = (pip_ctrl_3_down_PC + pip_ctrl_3_down_IDtoEX_imm);
           end
         end
@@ -6231,32 +6258,32 @@ module test_cpu (
           EX_EXt_nPC_valid = 1'b1;
         end
         RVCode_BEQ : begin
-          if((pip_ctrl_3_down_IDtoEX_rs1 == pip_ctrl_3_down_IDtoEX_rs2)) begin
+          if(when_RVFun_l60) begin
             EX_EXt_nPC_valid = 1'b1;
           end
         end
         RVCode_BNE : begin
-          if((pip_ctrl_3_down_IDtoEX_rs1 != pip_ctrl_3_down_IDtoEX_rs2)) begin
+          if(when_RVFun_l61) begin
             EX_EXt_nPC_valid = 1'b1;
           end
         end
         RVCode_BLT : begin
-          if(($signed(_zz_when) < $signed(_zz_when_1))) begin
+          if(when_RVFun_l62) begin
             EX_EXt_nPC_valid = 1'b1;
           end
         end
         RVCode_BGE : begin
-          if(($signed(_zz_when_2) <= $signed(_zz_when_3))) begin
+          if(when_RVFun_l63) begin
             EX_EXt_nPC_valid = 1'b1;
           end
         end
         RVCode_BLTU : begin
-          if((pip_ctrl_3_down_IDtoEX_rs1 < pip_ctrl_3_down_IDtoEX_rs2)) begin
+          if(when_RVFun_l64) begin
             EX_EXt_nPC_valid = 1'b1;
           end
         end
         RVCode_BGEU : begin
-          if((pip_ctrl_3_down_IDtoEX_rs2 <= pip_ctrl_3_down_IDtoEX_rs1)) begin
+          if(when_RVFun_l65) begin
             EX_EXt_nPC_valid = 1'b1;
           end
         end
@@ -6498,6 +6525,12 @@ module test_cpu (
     end
   end
 
+  assign when_RVFun_l60 = (pip_ctrl_3_down_IDtoEX_rs1 == pip_ctrl_3_down_IDtoEX_rs2);
+  assign when_RVFun_l61 = (pip_ctrl_3_down_IDtoEX_rs1 != pip_ctrl_3_down_IDtoEX_rs2);
+  assign when_RVFun_l62 = ($signed(_zz_when_RVFun_l62) < $signed(_zz_when_RVFun_l62_1));
+  assign when_RVFun_l63 = ($signed(_zz_when_RVFun_l63) <= $signed(_zz_when_RVFun_l63_1));
+  assign when_RVFun_l64 = (pip_ctrl_3_down_IDtoEX_rs1 < pip_ctrl_3_down_IDtoEX_rs2);
+  assign when_RVFun_l65 = (pip_ctrl_3_down_IDtoEX_rs2 <= pip_ctrl_3_down_IDtoEX_rs1);
   always @(*) begin
     EXtoIF_nPC = EX_EXt_nPC;
     if(pip_ctrl_5_down_CSR_valid) begin
@@ -6530,6 +6563,7 @@ module test_cpu (
     end
   end
 
+  assign when_pipCPU_l318 = (! pip_ctrl_3_up_isFiring);
   assign axi_mem_aw_valid = axi_mem_aw_valid_1;
   assign axi_mem_aw_ready_1 = axi_mem_aw_ready;
   assign axi_mem_aw_payload_addr = axi_mem_aw_payload_addr_1;
@@ -6837,8 +6871,11 @@ module test_cpu (
     endcase
   end
 
+  assign when_pipCPU_l370 = ((pip_ctrl_4_up_valid && pip_ctrl_4_down_MEM_write_valid) && MEM_MEMt_once_flag);
   assign pip_ctrl_4_haltRequest_pipCPU_l370 = _zz_pip_ctrl_4_haltRequest_pipCPU_l370;
+  assign when_pipCPU_l371 = ((pip_ctrl_4_up_valid && pip_ctrl_4_down_MEM_read_valid) && MEM_MEMt_once_flag);
   assign pip_ctrl_4_haltRequest_pipCPU_l371 = _zz_pip_ctrl_4_haltRequest_pipCPU_l371;
+  assign when_pipCPU_l372 = (MEM_MEMt_w_flag || MEM_MEMt_r_flag);
   assign pip_ctrl_4_haltRequest_pipCPU_l372 = _zz_pip_ctrl_4_haltRequest_pipCPU_l372;
   assign MEM_MEMt_w_wantExit = 1'b0;
   always @(*) begin
@@ -6876,6 +6913,7 @@ module test_cpu (
   end
 
   assign MEM_MEMt_r_wantKill = 1'b0;
+  assign when_pipCPU_l682 = ((pip_ctrl_5_down_RD_valid && (pip_ctrl_5_down_RD_sel != 5'h0)) && (! pip_ctrl_4_down_CSR_valid));
   assign _zz_1 = ({31'd0,1'b1} <<< pip_ctrl_5_down_RD_sel);
   assign _zz_2 = _zz_1[0];
   assign _zz_3 = _zz_1[1];
@@ -6999,13 +7037,15 @@ module test_cpu (
     end
   end
 
-  assign pip_ctrl_2_throwWhen_pipCPU_l715 = _zz_pip_ctrl_2_throwWhen_pipCPU_l715;
-  assign pip_ctrl_3_throwWhen_pipCPU_l716 = _zz_pip_ctrl_3_throwWhen_pipCPU_l716;
-  assign pip_ctrl_4_throwWhen_pipCPU_l717 = _zz_pip_ctrl_4_throwWhen_pipCPU_l717;
-  assign pip_ctrl_2_throwWhen_pipCPU_l725 = _zz_pip_ctrl_2_throwWhen_pipCPU_l725;
-  assign pip_ctrl_3_throwWhen_pipCPU_l726 = _zz_pip_ctrl_3_throwWhen_pipCPU_l726;
-  assign pip_ctrl_4_throwWhen_pipCPU_l727 = _zz_pip_ctrl_4_throwWhen_pipCPU_l727;
-  assign pip_ctrl_2_haltRequest_pipCPU_l742 = _zz_pip_ctrl_2_haltRequest_pipCPU_l742;
+  assign when_pipCPU_l702 = (pip_ctrl_5_down_RD_sel != 5'h0);
+  assign pip_ctrl_2_throwWhen_pipCPU_l712 = _zz_pip_ctrl_2_throwWhen_pipCPU_l712;
+  assign pip_ctrl_3_throwWhen_pipCPU_l713 = _zz_pip_ctrl_3_throwWhen_pipCPU_l713;
+  assign pip_ctrl_4_throwWhen_pipCPU_l714 = _zz_pip_ctrl_4_throwWhen_pipCPU_l714;
+  assign pip_ctrl_2_throwWhen_pipCPU_l722 = _zz_pip_ctrl_2_throwWhen_pipCPU_l722;
+  assign pip_ctrl_3_throwWhen_pipCPU_l723 = _zz_pip_ctrl_3_throwWhen_pipCPU_l723;
+  assign pip_ctrl_4_throwWhen_pipCPU_l724 = _zz_pip_ctrl_4_throwWhen_pipCPU_l724;
+  assign when_pipCPU_l738 = ((((pip_ctrl_3_down_MEM_read_valid || pip_ctrl_4_down_MEM_read_valid) || pip_ctrl_3_down_CSR_valid) || pip_ctrl_4_down_CSR_valid) || pip_ctrl_5_down_CSR_valid);
+  assign pip_ctrl_2_haltRequest_pipCPU_l739 = _zz_pip_ctrl_2_haltRequest_pipCPU_l739;
   always @(*) begin
     pass_valid = 1'b0;
     if(pip_ctrl_3_up_isFiring) begin
@@ -7013,92 +7053,102 @@ module test_cpu (
     end
   end
 
+  assign when_pipCPU_l757 = (((id_rs1_sel == pip_ctrl_5_down_RD_sel) && (pip_ctrl_5_down_RD_sel != 5'h0)) && pip_ctrl_5_down_RD_valid);
   always @(*) begin
-    if((((id_rs1_sel == pip_ctrl_5_down_RD_sel) && (pip_ctrl_5_down_RD_sel != 5'h0)) && pip_ctrl_5_down_RD_valid)) begin
+    if(when_pipCPU_l757) begin
       id_rs1 = pip_ctrl_5_down_RD;
     end else begin
       id_rs1 = _zz_id_rs1;
     end
   end
 
+  assign when_pipCPU_l759 = (((id_rs2_sel == pip_ctrl_5_down_RD_sel) && (pip_ctrl_5_down_RD_sel != 5'h0)) && pip_ctrl_5_down_RD_valid);
   always @(*) begin
-    if((((id_rs2_sel == pip_ctrl_5_down_RD_sel) && (pip_ctrl_5_down_RD_sel != 5'h0)) && pip_ctrl_5_down_RD_valid)) begin
+    if(when_pipCPU_l759) begin
       id_rs2 = pip_ctrl_5_down_RD;
     end else begin
       id_rs2 = _zz_id_rs2;
     end
   end
 
-  assign pip_ctrl_1_haltRequest_pipCPU_l766 = _zz_pip_ctrl_1_haltRequest_pipCPU_l766;
-  assign pip_ctrl_2_throwWhen_pipCPU_l769 = (EXtoIF_valid_regNext || EXtoIF_valid);
-  assign pip_ctrl_4_up_forgetOne = (|{pip_ctrl_4_throwWhen_pipCPU_l727,pip_ctrl_4_throwWhen_pipCPU_l717});
-  assign pip_ctrl_4_up_cancel = (|{pip_ctrl_4_throwWhen_pipCPU_l727,pip_ctrl_4_throwWhen_pipCPU_l717});
-  assign pip_ctrl_3_up_forgetOne = (|{pip_ctrl_3_throwWhen_pipCPU_l726,pip_ctrl_3_throwWhen_pipCPU_l716});
-  assign pip_ctrl_3_up_cancel = (|{pip_ctrl_3_throwWhen_pipCPU_l726,pip_ctrl_3_throwWhen_pipCPU_l716});
-  assign pip_ctrl_2_up_forgetOne = (|{pip_ctrl_2_throwWhen_pipCPU_l769,{pip_ctrl_2_throwWhen_pipCPU_l725,pip_ctrl_2_throwWhen_pipCPU_l715}});
-  assign pip_ctrl_2_up_cancel = (|{pip_ctrl_2_throwWhen_pipCPU_l769,{pip_ctrl_2_throwWhen_pipCPU_l725,pip_ctrl_2_throwWhen_pipCPU_l715}});
+  assign when_pipCPU_l762 = (! IF_code_valid);
+  assign pip_ctrl_1_haltRequest_pipCPU_l763 = _zz_pip_ctrl_1_haltRequest_pipCPU_l763;
+  assign pip_ctrl_2_throwWhen_pipCPU_l766 = (EXtoIF_valid_regNext || EXtoIF_valid);
+  assign pip_ctrl_4_up_forgetOne = (|{pip_ctrl_4_throwWhen_pipCPU_l724,pip_ctrl_4_throwWhen_pipCPU_l714});
+  assign pip_ctrl_4_up_cancel = (|{pip_ctrl_4_throwWhen_pipCPU_l724,pip_ctrl_4_throwWhen_pipCPU_l714});
+  assign pip_ctrl_3_up_forgetOne = (|{pip_ctrl_3_throwWhen_pipCPU_l723,pip_ctrl_3_throwWhen_pipCPU_l713});
+  assign pip_ctrl_3_up_cancel = (|{pip_ctrl_3_throwWhen_pipCPU_l723,pip_ctrl_3_throwWhen_pipCPU_l713});
+  assign pip_ctrl_2_up_forgetOne = (|{pip_ctrl_2_throwWhen_pipCPU_l766,{pip_ctrl_2_throwWhen_pipCPU_l722,pip_ctrl_2_throwWhen_pipCPU_l712}});
+  assign pip_ctrl_2_up_cancel = (|{pip_ctrl_2_throwWhen_pipCPU_l766,{pip_ctrl_2_throwWhen_pipCPU_l722,pip_ctrl_2_throwWhen_pipCPU_l712}});
   always @(*) begin
     pip_ctrl_1_down_ready = pip_ctrl_2_up_ready;
-    if((! pip_ctrl_2_up_isValid)) begin
+    if(when_StageLink_l71) begin
       pip_ctrl_1_down_ready = 1'b1;
     end
   end
 
+  assign when_StageLink_l71 = (! pip_ctrl_2_up_isValid);
   always @(*) begin
     pip_ctrl_2_down_ready = pip_ctrl_3_up_ready;
-    if((! pip_ctrl_3_up_isValid)) begin
+    if(when_StageLink_l71_1) begin
       pip_ctrl_2_down_ready = 1'b1;
     end
   end
 
+  assign when_StageLink_l71_1 = (! pip_ctrl_3_up_isValid);
   always @(*) begin
     pip_ctrl_3_down_ready = pip_ctrl_4_up_ready;
-    if((! pip_ctrl_4_up_isValid)) begin
+    if(when_StageLink_l71_2) begin
       pip_ctrl_3_down_ready = 1'b1;
     end
   end
 
+  assign when_StageLink_l71_2 = (! pip_ctrl_4_up_isValid);
   always @(*) begin
     pip_ctrl_1_down_valid = pip_ctrl_1_up_valid;
-    if((|pip_ctrl_1_haltRequest_pipCPU_l766)) begin
+    if(when_CtrlLink_l191) begin
       pip_ctrl_1_down_valid = 1'b0;
     end
   end
 
   always @(*) begin
     pip_ctrl_1_up_ready = pip_ctrl_1_down_isReady;
-    if((|pip_ctrl_1_haltRequest_pipCPU_l766)) begin
+    if(when_CtrlLink_l191) begin
       pip_ctrl_1_up_ready = 1'b0;
     end
   end
 
+  assign when_CtrlLink_l191 = (|pip_ctrl_1_haltRequest_pipCPU_l763);
   always @(*) begin
     pip_ctrl_2_down_valid = pip_ctrl_2_up_valid;
-    if((|pip_ctrl_2_haltRequest_pipCPU_l742)) begin
+    if(when_CtrlLink_l191_1) begin
       pip_ctrl_2_down_valid = 1'b0;
     end
-    if((|{pip_ctrl_2_throwWhen_pipCPU_l769,{pip_ctrl_2_throwWhen_pipCPU_l725,pip_ctrl_2_throwWhen_pipCPU_l715}})) begin
+    if(when_CtrlLink_l198) begin
       pip_ctrl_2_down_valid = 1'b0;
     end
   end
 
   always @(*) begin
     pip_ctrl_2_up_ready = pip_ctrl_2_down_isReady;
-    if((|pip_ctrl_2_haltRequest_pipCPU_l742)) begin
+    if(when_CtrlLink_l191_1) begin
       pip_ctrl_2_up_ready = 1'b0;
     end
   end
 
+  assign when_CtrlLink_l191_1 = (|pip_ctrl_2_haltRequest_pipCPU_l739);
+  assign when_CtrlLink_l198 = (|{pip_ctrl_2_throwWhen_pipCPU_l766,{pip_ctrl_2_throwWhen_pipCPU_l722,pip_ctrl_2_throwWhen_pipCPU_l712}});
   assign pip_ctrl_2_down_CODE = pip_ctrl_2_up_CODE;
   assign pip_ctrl_2_down_PC = pip_ctrl_2_up_PC;
   always @(*) begin
     pip_ctrl_3_down_valid = pip_ctrl_3_up_valid;
-    if((|{pip_ctrl_3_throwWhen_pipCPU_l726,pip_ctrl_3_throwWhen_pipCPU_l716})) begin
+    if(when_CtrlLink_l198_1) begin
       pip_ctrl_3_down_valid = 1'b0;
     end
   end
 
   assign pip_ctrl_3_up_ready = pip_ctrl_3_down_isReady;
+  assign when_CtrlLink_l198_1 = (|{pip_ctrl_3_throwWhen_pipCPU_l723,pip_ctrl_3_throwWhen_pipCPU_l713});
   assign pip_ctrl_3_down_CODE = pip_ctrl_3_up_CODE;
   assign pip_ctrl_3_down_PC = pip_ctrl_3_up_PC;
   assign pip_ctrl_3_down_IDtoEX_fun = pip_ctrl_3_up_IDtoEX_fun;
@@ -7109,21 +7159,23 @@ module test_cpu (
   assign pip_ctrl_3_down_CSR_rs1_imm = pip_ctrl_3_up_CSR_rs1_imm;
   always @(*) begin
     pip_ctrl_4_down_valid = pip_ctrl_4_up_valid;
-    if((|{pip_ctrl_4_haltRequest_pipCPU_l372,{pip_ctrl_4_haltRequest_pipCPU_l371,pip_ctrl_4_haltRequest_pipCPU_l370}})) begin
+    if(when_CtrlLink_l191_2) begin
       pip_ctrl_4_down_valid = 1'b0;
     end
-    if((|{pip_ctrl_4_throwWhen_pipCPU_l727,pip_ctrl_4_throwWhen_pipCPU_l717})) begin
+    if(when_CtrlLink_l198_2) begin
       pip_ctrl_4_down_valid = 1'b0;
     end
   end
 
   always @(*) begin
     pip_ctrl_4_up_ready = pip_ctrl_4_down_isReady;
-    if((|{pip_ctrl_4_haltRequest_pipCPU_l372,{pip_ctrl_4_haltRequest_pipCPU_l371,pip_ctrl_4_haltRequest_pipCPU_l370}})) begin
+    if(when_CtrlLink_l191_2) begin
       pip_ctrl_4_up_ready = 1'b0;
     end
   end
 
+  assign when_CtrlLink_l191_2 = (|{pip_ctrl_4_haltRequest_pipCPU_l372,{pip_ctrl_4_haltRequest_pipCPU_l371,pip_ctrl_4_haltRequest_pipCPU_l370}});
+  assign when_CtrlLink_l198_2 = (|{pip_ctrl_4_throwWhen_pipCPU_l724,pip_ctrl_4_throwWhen_pipCPU_l714});
   assign pip_ctrl_4_down_CODE = pip_ctrl_4_up_CODE;
   assign pip_ctrl_4_down_PC = pip_ctrl_4_up_PC;
   assign pip_ctrl_4_down_IDtoEX_fun = pip_ctrl_4_up_IDtoEX_fun;
@@ -7327,7 +7379,7 @@ module test_cpu (
   assign MEM_MEMt_r_onEntry_ar = ((MEM_MEMt_r_stateNext == MEM_MEMt_r_ar) && (MEM_MEMt_r_stateReg != MEM_MEMt_r_ar));
   assign MEM_MEMt_r_onEntry_r = ((MEM_MEMt_r_stateNext == MEM_MEMt_r_r) && (MEM_MEMt_r_stateReg != MEM_MEMt_r_r));
   assign MEM_MEMt_r_onEntry_delay = ((MEM_MEMt_r_stateNext == MEM_MEMt_r_delay) && (MEM_MEMt_r_stateReg != MEM_MEMt_r_delay));
-  always @(posedge clock) begin
+  always @(posedge clock or posedge reset) begin
     if(reset) begin
       gpr_0 <= 32'h0;
       gpr_1 <= 32'h0;
@@ -7378,22 +7430,22 @@ module test_cpu (
       if(EXtoIF_valid) begin
         IF_IFt_pc <= EXtoIF_nPC;
       end else begin
-        if((pip_ctrl_1_down_isFiring && IF_code_valid)) begin
+        if(when_pipCPU_l29) begin
           IF_IFt_pc <= (IF_IFt_pc + 32'h00000004);
         end
       end
       if(pip_ctrl_4_up_isFiring) begin
         MEM_MEMt_once_flag <= 1'b1;
       end
-      if(((pip_ctrl_4_up_valid && pip_ctrl_4_down_MEM_write_valid) && MEM_MEMt_once_flag)) begin
+      if(when_pipCPU_l370) begin
         MEM_MEMt_w_flag <= 1'b1;
         MEM_MEMt_once_flag <= 1'b0;
       end
-      if(((pip_ctrl_4_up_valid && pip_ctrl_4_down_MEM_read_valid) && MEM_MEMt_once_flag)) begin
+      if(when_pipCPU_l371) begin
         MEM_MEMt_r_flag <= 1'b1;
         MEM_MEMt_once_flag <= 1'b0;
       end
-      if(((pip_ctrl_5_down_RD_valid && (pip_ctrl_5_down_RD_sel != 5'h0)) && (! pip_ctrl_4_down_CSR_valid))) begin
+      if(when_pipCPU_l682) begin
         if(_zz_2) begin
           gpr_0 <= pip_ctrl_5_down_RD;
         end
@@ -7492,7 +7544,7 @@ module test_cpu (
         end
       end
       if(pip_ctrl_5_down_CSR_valid) begin
-        if((pip_ctrl_5_down_RD_sel != 5'h0)) begin
+        if(when_pipCPU_l702) begin
           if(_zz_2) begin
             gpr_0 <= WB_csr_r_data;
           end

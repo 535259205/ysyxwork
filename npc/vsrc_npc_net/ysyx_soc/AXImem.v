@@ -22,7 +22,7 @@ module AXImem (
   input  wire          axi4lite_r_ready,
   output wire [31:0]   axi4lite_r_payload_data,
   output wire [1:0]    axi4lite_r_payload_resp,
-  input  wire          clk,
+  input  wire          clock,
   input  wire          reset
 );
 
@@ -37,7 +37,7 @@ module AXImem (
   wire                axi4lite_ar_fire;
 
   mem_fun mem (
-    .clk    (clk                          ), //i
+    .clk    (clock                        ), //i
     .rst    (reset                        ), //i
     .wen    (axi4lite_aw_fire             ), //i
     .w_data (axi4lite_w_payload_data[31:0]), //i
@@ -77,7 +77,7 @@ module AXImem (
 
   assign axi4lite_r_payload_data = mem_r_data;
   assign mem_r_addr = axi4lite_ar_payload_addr;
-  always @(posedge clk) begin
+  always @(posedge clock) begin
     if(reset) begin
       axi4lite_aw_ready <= 1'b0;
       axi4lite_w_ready <= 1'b0;

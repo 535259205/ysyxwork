@@ -22,7 +22,7 @@ module AXIUart (
   input  wire          AxiIn_r_ready,
   output wire [31:0]   AxiIn_r_payload_data,
   output wire [1:0]    AxiIn_r_payload_resp,
-  input  wire          clk,
+  input  wire          clock,
   input  wire          reset
 );
 
@@ -78,7 +78,7 @@ module AXIUart (
   wire                AxiIn_ar_fire;
 
   mmio_fun mmio (
-    .clk    (clk                       ), //i
+    .clk    (clock                     ), //i
     .rst    (reset                     ), //i
     .wen    (AxiIn_w_fire              ), //i
     .w_data (AxiIn_w_payload_data[31:0]), //i
@@ -190,7 +190,7 @@ module AXIUart (
 
   assign AxiIn_ar_fire = (AxiIn_ar_valid && AxiIn_ar_ready);
   assign mmio_r_addr = AxiIn_ar_payload_addr;
-  always @(posedge clk) begin
+  always @(posedge clock) begin
     if(reset) begin
       slaveFactory_writeJoinEvent_translated_haltWhen_rValid <= 1'b0;
       AxiIn_ar_rValid <= 1'b0;
@@ -210,7 +210,7 @@ module AXIUart (
     end
   end
 
-  always @(posedge clk) begin
+  always @(posedge clock) begin
     if(slaveFactory_writeJoinEvent_translated_haltWhen_ready) begin
       slaveFactory_writeJoinEvent_translated_haltWhen_rData_resp <= slaveFactory_writeJoinEvent_translated_haltWhen_payload_resp;
     end

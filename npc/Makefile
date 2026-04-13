@@ -85,12 +85,17 @@ clean:
 #在build目录下生成verilog代码ysyx_xxxxxxxx.V
 SPINAL_DIR := ../SpinalHDL/hw/spinal/MY_Prj
 SBT ?= sbt
-
+IVERILOG_HOME = $(AM_HOME)/../iverilog_test
 verilog:
 	mkdir -p ./build
 	(cd $(AM_HOME)/../SpinalHDL && sbt "runMain SysConfig.MyTopLevelApp")
 
+sim-iverilog:
+	cp $(IMG) $(IVERILOG_HOME)/hex/test.bin
+	make -C $(IVERILOG_HOME) build
+	make -C $(IVERILOG_HOME) run
 
-
+sim-iverilog-netlist:
+	
 
 include ../Makefile

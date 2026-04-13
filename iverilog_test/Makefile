@@ -3,7 +3,7 @@
 IVERILOG = iverilog
 VVP = vvp
 
-NPC_HOME = ../npc
+IVERILOG_HOME = $(AM_HOME)/../iverilog_test
 INCLUDE = -I/home/ylqt/environment/oss_cad_suite/oss-cad-suite/include/iverilog
 
 # -include scripts/npc_net.mk
@@ -11,7 +11,9 @@ INCLUDE = -I/home/ylqt/environment/oss_cad_suite/oss-cad-suite/include/iverilog
 # -include scripts/work_net.mk
 # -include scripts/work.mk
 
-CSRCS = $(shell find ./csrc/ -name "*.cpp")
+# -include scripts/CI_test.mk
+
+CSRCS = $(shell find $(IVERILOG_HOME)/csrc/ -name "*.cpp")
 CSRCS += $(NPC_HOME)/csrc/ex_api.cpp
 BUILD_DIR = ./build
 # Targets
@@ -29,7 +31,8 @@ build: $(VSRCS) $(CSRCS)
 	-Wno-timescale \
 	-o $(BUILD_DIR)/$(TOP_MODULE) -g2012  $(VSRCS) -m $(BUILD_DIR)/main.so \
 	-s $(TOP_MODULE) \
-	$(INCLUDE)
+	$(INCLUDE)\
+	$(EXTRA_DEFINES)
 	@echo "Build $(TOP_MODULE) done."
 
 # 运行仿真并加载 VPI 模块

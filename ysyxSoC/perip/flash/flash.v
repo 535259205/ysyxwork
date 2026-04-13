@@ -1,5 +1,4 @@
 `timescale 1ns / 10ps
-
 // Refer to the data sheet for the flash instructions at
 // https://www.winbond.com/hq/product/code-storage-flash-memory/serial-nor-flash/?__locale=zh
 
@@ -9,6 +8,8 @@ module flash (
   input  mosi,
   output miso
 );
+
+
   wire reset = ss;
 
   `ifndef USE_IVERILOG
@@ -80,16 +81,24 @@ module flash (
   always@(posedge sck or posedge reset) begin
     if (reset) data <= 32'd0;
     else if (state == data_t) begin
+    `ifndef USE_IVERILOG
       data <= { {counter == 8'd0 ? data_bswap : data}[30:0], 1'b0 };
+    `else
+      data <= { {counter == 8'd0 ? data_bswap[30:0] : data[30:0]}, 1'b0 };
+    `endif
     end
   end
-
+  `ifndef USE_IVERILOG
   assign miso = ss ? 1'b1 : ({(state == data_t && counter == 8'd0) ? data_bswap : data}[31]);
+  `else
+  assign miso = ss ? 1'b1 : ({(state == data_t && counter == 8'd0) ? data_bswap[31] : data[31]});
+  `endif 
 
 endmodule
 
+`ifndef USE_IVERILOG
 import "DPI-C" function void flash_read(input int addr, output int data);
-
+`endif
 module flash_cmd(
   input             clock,
   input             valid,
@@ -99,10 +108,17 @@ module flash_cmd(
 );
   always@(posedge clock) begin
     if (valid)
-      if (cmd == 8'h03) flash_read(addr, data);
+      if (cmd == 8'h03) 
+      `ifndef USE_IVERILOG
+        flash_read(addr, data);
+      `else
+        data=$mem_ctr(32'd0,addr,32'h0,32'h80000000);
+      `endif
       else begin
         $fwrite(32'h80000002, "Assertion failed: Unsupport command `%xh`, only support `03h` read command\n", cmd);
         $fatal;
       end
   end
+
+
 endmodule

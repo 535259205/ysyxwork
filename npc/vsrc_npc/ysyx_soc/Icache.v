@@ -53,8 +53,8 @@ module Icache (
   wire       [7:0]    _zz_cache_mem_port_3;
   wire       [7:0]    _zz_cache_mem_port_4;
   wire       [31:0]   _zz_cache_mem_port_5;
-  reg                 _zz_when;
   wire       [6:0]    _zz_code_payload;
+  reg                 _zz_when_Icache_l75;
   reg                 _zz_1;
   reg        [31:0]   error_cnt;
   reg                 cache_valid_0;
@@ -79,8 +79,12 @@ module Icache (
   reg                 s_axi_r_ar_flag;
   reg        [1:0]    s_stateReg;
   reg        [1:0]    s_stateNext;
+  wire                when_Icache_l70;
+  wire                when_Icache_l75;
+  wire                when_Icache_l69;
   wire                axi_ar_fire;
   wire                axi_r_fire;
+  wire                when_Icache_l103;
   wire       [7:0]    _zz_4;
   wire                s_onExit_BOOT;
   wire                s_onExit_start;
@@ -112,14 +116,14 @@ module Icache (
 
   always @(*) begin
     case(pc_index)
-      3'b000 : _zz_when = cache_valid_0;
-      3'b001 : _zz_when = cache_valid_1;
-      3'b010 : _zz_when = cache_valid_2;
-      3'b011 : _zz_when = cache_valid_3;
-      3'b100 : _zz_when = cache_valid_4;
-      3'b101 : _zz_when = cache_valid_5;
-      3'b110 : _zz_when = cache_valid_6;
-      default : _zz_when = cache_valid_7;
+      3'b000 : _zz_when_Icache_l75 = cache_valid_0;
+      3'b001 : _zz_when_Icache_l75 = cache_valid_1;
+      3'b010 : _zz_when_Icache_l75 = cache_valid_2;
+      3'b011 : _zz_when_Icache_l75 = cache_valid_3;
+      3'b100 : _zz_when_Icache_l75 = cache_valid_4;
+      3'b101 : _zz_when_Icache_l75 = cache_valid_5;
+      3'b110 : _zz_when_Icache_l75 = cache_valid_6;
+      default : _zz_when_Icache_l75 = cache_valid_7;
     endcase
   end
 
@@ -203,9 +207,9 @@ module Icache (
     case(s_stateReg)
       s_start : begin
         if(!fence_i) begin
-          if(1'b1) begin
-            if(!(cache_tag != pc_tag)) begin
-              if(!(! _zz_when)) begin
+          if(when_Icache_l69) begin
+            if(!when_Icache_l70) begin
+              if(!when_Icache_l75) begin
                 code_payload = cache_mem_spinal_port0;
               end
             end
@@ -225,9 +229,9 @@ module Icache (
       s_start : begin
         code_valid = 1'b0;
         if(!fence_i) begin
-          if(1'b1) begin
-            if(!(cache_tag != pc_tag)) begin
-              if(!(! _zz_when)) begin
+          if(when_Icache_l69) begin
+            if(!when_Icache_l70) begin
+              if(!when_Icache_l75) begin
                 code_valid = 1'b1;
               end
             end
@@ -267,11 +271,11 @@ module Icache (
         if(fence_i) begin
           s_stateNext = s_axi_r;
         end else begin
-          if(1'b1) begin
-            if((cache_tag != pc_tag)) begin
+          if(when_Icache_l69) begin
+            if(when_Icache_l70) begin
               s_stateNext = s_axi_r;
             end else begin
-              if((! _zz_when)) begin
+              if(when_Icache_l75) begin
                 s_stateNext = s_axi_r;
               end
             end
@@ -280,7 +284,7 @@ module Icache (
       end
       s_axi_r : begin
         if(axi_r_fire) begin
-          if((s_axi_r_cnt == 5'h0f)) begin
+          if(when_Icache_l103) begin
             s_stateNext = s_start;
           end
         end
@@ -296,8 +300,12 @@ module Icache (
     end
   end
 
+  assign when_Icache_l70 = (cache_tag != pc_tag);
+  assign when_Icache_l75 = (! _zz_when_Icache_l75);
+  assign when_Icache_l69 = 1'b1;
   assign axi_ar_fire = (axi_ar_valid && axi_ar_ready);
   assign axi_r_fire = (axi_r_valid && axi_r_ready);
+  assign when_Icache_l103 = (s_axi_r_cnt == 5'h0f);
   assign _zz_4 = ({7'd0,1'b1} <<< s_pc_index_reg);
   assign s_onExit_BOOT = ((s_stateNext != s_BOOT) && (s_stateReg == s_BOOT));
   assign s_onExit_start = ((s_stateNext != s_start) && (s_stateReg == s_start));
@@ -305,7 +313,7 @@ module Icache (
   assign s_onEntry_BOOT = ((s_stateNext == s_BOOT) && (s_stateReg != s_BOOT));
   assign s_onEntry_start = ((s_stateNext == s_start) && (s_stateReg != s_start));
   assign s_onEntry_axi_r = ((s_stateNext == s_axi_r) && (s_stateReg != s_axi_r));
-  always @(posedge clock) begin
+  always @(posedge clock or posedge reset) begin
     if(reset) begin
       axi_r_ready <= 1'b0;
       error_cnt <= 32'h0;
@@ -337,8 +345,8 @@ module Icache (
             cache_valid_6 <= 1'b0;
             cache_valid_7 <= 1'b0;
           end else begin
-            if(1'b1) begin
-              if((cache_tag != pc_tag)) begin
+            if(when_Icache_l69) begin
+              if(when_Icache_l70) begin
                 cache_tag <= pc_tag;
                 error_cnt <= (error_cnt + 32'h00000001);
                 cache_valid_0 <= 1'b0;
@@ -350,7 +358,7 @@ module Icache (
                 cache_valid_6 <= 1'b0;
                 cache_valid_7 <= 1'b0;
               end else begin
-                if((! _zz_when)) begin
+                if(when_Icache_l75) begin
                   error_cnt <= (error_cnt + 32'h00000001);
                 end
               end
@@ -363,7 +371,7 @@ module Icache (
           end
           if(axi_r_fire) begin
             s_axi_r_cnt <= (s_axi_r_cnt + 5'h01);
-            if((s_axi_r_cnt == 5'h0f)) begin
+            if(when_Icache_l103) begin
               axi_r_ready <= 1'b0;
               if(_zz_4[0]) begin
                 cache_valid_0 <= 1'b1;

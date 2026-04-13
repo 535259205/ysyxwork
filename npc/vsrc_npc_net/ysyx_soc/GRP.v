@@ -180,104 +180,138 @@ module GRP (
   end
 
   always @(posedge clock) begin
-    reg_0 <= 32'h0;
-    if(rd_vaild) begin
-      if((com_encode_rd_sel != 5'h0)) begin
-        if(_zz_1[0]) begin
-          reg_0 <= com_encode_rd;
-        end
-        if(_zz_1[1]) begin
-          reg_1 <= com_encode_rd;
-        end
-        if(_zz_1[2]) begin
-          reg_2 <= com_encode_rd;
-        end
-        if(_zz_1[3]) begin
-          reg_3 <= com_encode_rd;
-        end
-        if(_zz_1[4]) begin
-          reg_4 <= com_encode_rd;
-        end
-        if(_zz_1[5]) begin
-          reg_5 <= com_encode_rd;
-        end
-        if(_zz_1[6]) begin
-          reg_6 <= com_encode_rd;
-        end
-        if(_zz_1[7]) begin
-          reg_7 <= com_encode_rd;
-        end
-        if(_zz_1[8]) begin
-          reg_8 <= com_encode_rd;
-        end
-        if(_zz_1[9]) begin
-          reg_9 <= com_encode_rd;
-        end
-        if(_zz_1[10]) begin
-          reg_10 <= com_encode_rd;
-        end
-        if(_zz_1[11]) begin
-          reg_11 <= com_encode_rd;
-        end
-        if(_zz_1[12]) begin
-          reg_12 <= com_encode_rd;
-        end
-        if(_zz_1[13]) begin
-          reg_13 <= com_encode_rd;
-        end
-        if(_zz_1[14]) begin
-          reg_14 <= com_encode_rd;
-        end
-        if(_zz_1[15]) begin
-          reg_15 <= com_encode_rd;
-        end
-        if(_zz_1[16]) begin
-          reg_16 <= com_encode_rd;
-        end
-        if(_zz_1[17]) begin
-          reg_17 <= com_encode_rd;
-        end
-        if(_zz_1[18]) begin
-          reg_18 <= com_encode_rd;
-        end
-        if(_zz_1[19]) begin
-          reg_19 <= com_encode_rd;
-        end
-        if(_zz_1[20]) begin
-          reg_20 <= com_encode_rd;
-        end
-        if(_zz_1[21]) begin
-          reg_21 <= com_encode_rd;
-        end
-        if(_zz_1[22]) begin
-          reg_22 <= com_encode_rd;
-        end
-        if(_zz_1[23]) begin
-          reg_23 <= com_encode_rd;
-        end
-        if(_zz_1[24]) begin
-          reg_24 <= com_encode_rd;
-        end
-        if(_zz_1[25]) begin
-          reg_25 <= com_encode_rd;
-        end
-        if(_zz_1[26]) begin
-          reg_26 <= com_encode_rd;
-        end
-        if(_zz_1[27]) begin
-          reg_27 <= com_encode_rd;
-        end
-        if(_zz_1[28]) begin
-          reg_28 <= com_encode_rd;
-        end
-        if(_zz_1[29]) begin
-          reg_29 <= com_encode_rd;
-        end
-        if(_zz_1[30]) begin
-          reg_30 <= com_encode_rd;
-        end
-        if(_zz_1[31]) begin
-          reg_31 <= com_encode_rd;
+    if(reset) begin
+      reg_0 <= 32'h0;
+      reg_1 <= 32'h0;
+      reg_2 <= 32'h0;
+      reg_3 <= 32'h0;
+      reg_4 <= 32'h0;
+      reg_5 <= 32'h0;
+      reg_6 <= 32'h0;
+      reg_7 <= 32'h0;
+      reg_8 <= 32'h0;
+      reg_9 <= 32'h0;
+      reg_10 <= 32'h0;
+      reg_11 <= 32'h0;
+      reg_12 <= 32'h0;
+      reg_13 <= 32'h0;
+      reg_14 <= 32'h0;
+      reg_15 <= 32'h0;
+      reg_16 <= 32'h0;
+      reg_17 <= 32'h0;
+      reg_18 <= 32'h0;
+      reg_19 <= 32'h0;
+      reg_20 <= 32'h0;
+      reg_21 <= 32'h0;
+      reg_22 <= 32'h0;
+      reg_23 <= 32'h0;
+      reg_24 <= 32'h0;
+      reg_25 <= 32'h0;
+      reg_26 <= 32'h0;
+      reg_27 <= 32'h0;
+      reg_28 <= 32'h0;
+      reg_29 <= 32'h0;
+      reg_30 <= 32'h0;
+      reg_31 <= 32'h0;
+    end else begin
+      if(rd_vaild) begin
+        if((com_encode_rd_sel != 5'h0)) begin
+          if(_zz_1[0]) begin
+            reg_0 <= com_encode_rd;
+          end
+          if(_zz_1[1]) begin
+            reg_1 <= com_encode_rd;
+          end
+          if(_zz_1[2]) begin
+            reg_2 <= com_encode_rd;
+          end
+          if(_zz_1[3]) begin
+            reg_3 <= com_encode_rd;
+          end
+          if(_zz_1[4]) begin
+            reg_4 <= com_encode_rd;
+          end
+          if(_zz_1[5]) begin
+            reg_5 <= com_encode_rd;
+          end
+          if(_zz_1[6]) begin
+            reg_6 <= com_encode_rd;
+          end
+          if(_zz_1[7]) begin
+            reg_7 <= com_encode_rd;
+          end
+          if(_zz_1[8]) begin
+            reg_8 <= com_encode_rd;
+          end
+          if(_zz_1[9]) begin
+            reg_9 <= com_encode_rd;
+          end
+          if(_zz_1[10]) begin
+            reg_10 <= com_encode_rd;
+          end
+          if(_zz_1[11]) begin
+            reg_11 <= com_encode_rd;
+          end
+          if(_zz_1[12]) begin
+            reg_12 <= com_encode_rd;
+          end
+          if(_zz_1[13]) begin
+            reg_13 <= com_encode_rd;
+          end
+          if(_zz_1[14]) begin
+            reg_14 <= com_encode_rd;
+          end
+          if(_zz_1[15]) begin
+            reg_15 <= com_encode_rd;
+          end
+          if(_zz_1[16]) begin
+            reg_16 <= com_encode_rd;
+          end
+          if(_zz_1[17]) begin
+            reg_17 <= com_encode_rd;
+          end
+          if(_zz_1[18]) begin
+            reg_18 <= com_encode_rd;
+          end
+          if(_zz_1[19]) begin
+            reg_19 <= com_encode_rd;
+          end
+          if(_zz_1[20]) begin
+            reg_20 <= com_encode_rd;
+          end
+          if(_zz_1[21]) begin
+            reg_21 <= com_encode_rd;
+          end
+          if(_zz_1[22]) begin
+            reg_22 <= com_encode_rd;
+          end
+          if(_zz_1[23]) begin
+            reg_23 <= com_encode_rd;
+          end
+          if(_zz_1[24]) begin
+            reg_24 <= com_encode_rd;
+          end
+          if(_zz_1[25]) begin
+            reg_25 <= com_encode_rd;
+          end
+          if(_zz_1[26]) begin
+            reg_26 <= com_encode_rd;
+          end
+          if(_zz_1[27]) begin
+            reg_27 <= com_encode_rd;
+          end
+          if(_zz_1[28]) begin
+            reg_28 <= com_encode_rd;
+          end
+          if(_zz_1[29]) begin
+            reg_29 <= com_encode_rd;
+          end
+          if(_zz_1[30]) begin
+            reg_30 <= com_encode_rd;
+          end
+          if(_zz_1[31]) begin
+            reg_31 <= com_encode_rd;
+          end
         end
       end
     end

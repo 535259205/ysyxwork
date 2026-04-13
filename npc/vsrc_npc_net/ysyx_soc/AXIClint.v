@@ -1,8 +1,8 @@
 // Generator : SpinalHDL v1.12.3    git head : 591e64062329e5e2e2b81f4d52422948053edb97
-// Component : AXIUart
+// Component : AXIClint
 
 `timescale 1ns/1ps 
-module AXIUart (
+module AXIClint (
   input  wire          AxiIn_aw_valid,
   output wire          AxiIn_aw_ready,
   input  wire [31:0]   AxiIn_aw_payload_addr,
@@ -22,7 +22,7 @@ module AXIUart (
   input  wire          AxiIn_r_ready,
   output wire [31:0]   AxiIn_r_payload_data,
   output wire [1:0]    AxiIn_r_payload_resp,
-  input  wire          clk,
+  input  wire          clock,
   input  wire          reset
 );
 
@@ -73,14 +73,14 @@ module AXIUart (
   wire       [31:0]   slaveFactory_readAddressMasked;
   wire       [31:0]   slaveFactory_writeAddressMasked;
   wire                slaveFactory_readOccur;
-  reg        [31:0]   uart_reg;
-  wire                AxiIn_w_fire;
+  reg        [63:0]   mtime;
+  reg        [31:0]   _zz_slaveFactory_readRsp_data;
   wire                AxiIn_ar_fire;
 
   mmio_fun mmio (
-    .clk    (clk                       ), //i
+    .clk    (clock                     ), //i
     .rst    (reset                     ), //i
-    .wen    (AxiIn_w_fire              ), //i
+    .wen    (1'b0                      ), //i
     .w_data (AxiIn_w_payload_data[31:0]), //i
     .w_addr (mmio_w_addr[31:0]         ), //i
     .w_len  (mmio_w_len[1:0]           ), //i
@@ -148,15 +148,15 @@ module AXIUart (
   always @(*) begin
     slaveFactory_readRsp_data = 32'h0;
     case(slaveFactory_readAddressMasked)
-      32'h10000000 : begin
-        slaveFactory_readRsp_data[31 : 0] = uart_reg;
+      32'h1100bff8 : begin
+        slaveFactory_readRsp_data[31 : 0] = _zz_slaveFactory_readRsp_data;
       end
       default : begin
       end
     endcase
     case(slaveFactory_readAddressMasked)
-      32'h10000000 : begin
-        slaveFactory_readRsp_data[31 : 0] = uart_reg;
+      32'h1100bff8 : begin
+        slaveFactory_readRsp_data[31 : 0] = _zz_slaveFactory_readRsp_data;
       end
       default : begin
       end
@@ -166,7 +166,6 @@ module AXIUart (
   assign slaveFactory_readAddressMasked = (slaveFactory_readDataStage_payload_addr & (~ 32'h00000003));
   assign slaveFactory_writeAddressMasked = (AxiIn_aw_payload_addr & (~ 32'h00000003));
   assign slaveFactory_readOccur = (AxiIn_r_valid && AxiIn_r_ready);
-  assign AxiIn_w_fire = (AxiIn_w_valid && AxiIn_w_ready);
   assign mmio_w_addr = AxiIn_aw_payload_addr;
   always @(*) begin
     case(AxiIn_w_payload_strb)
@@ -190,10 +189,11 @@ module AXIUart (
 
   assign AxiIn_ar_fire = (AxiIn_ar_valid && AxiIn_ar_ready);
   assign mmio_r_addr = AxiIn_ar_payload_addr;
-  always @(posedge clk) begin
+  always @(posedge clock) begin
     if(reset) begin
       slaveFactory_writeJoinEvent_translated_haltWhen_rValid <= 1'b0;
       AxiIn_ar_rValid <= 1'b0;
+      mtime <= 64'h0;
     end else begin
       if(slaveFactory_writeJoinEvent_translated_haltWhen_valid) begin
         slaveFactory_writeJoinEvent_translated_haltWhen_rValid <= 1'b1;
@@ -207,10 +207,11 @@ module AXIUart (
       if(slaveFactory_readDataStage_fire) begin
         AxiIn_ar_rValid <= 1'b0;
       end
+      mtime <= (mtime + 64'h0000000000000001);
     end
   end
 
-  always @(posedge clk) begin
+  always @(posedge clock) begin
     if(slaveFactory_writeJoinEvent_translated_haltWhen_ready) begin
       slaveFactory_writeJoinEvent_translated_haltWhen_rData_resp <= slaveFactory_writeJoinEvent_translated_haltWhen_payload_resp;
     end
@@ -218,24 +219,6 @@ module AXIUart (
       AxiIn_ar_rData_addr <= AxiIn_ar_payload_addr;
       AxiIn_ar_rData_prot <= AxiIn_ar_payload_prot;
     end
-    case(slaveFactory_writeAddressMasked)
-      32'h10000000 : begin
-        if(slaveFactory_writeOccur) begin
-          uart_reg <= AxiIn_w_payload_data[31 : 0];
-        end
-      end
-      default : begin
-      end
-    endcase
-    case(slaveFactory_writeAddressMasked)
-      32'h10000000 : begin
-        if(slaveFactory_writeOccur) begin
-          uart_reg <= AxiIn_w_payload_data[31 : 0];
-        end
-      end
-      default : begin
-      end
-    endcase
   end
 
 
