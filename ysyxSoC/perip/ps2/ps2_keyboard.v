@@ -15,6 +15,8 @@ module ps2_keyboard(clk,resetn,ps2_clk,ps2_data,ps2_get,ps2_getdata);
     always @(posedge clk) begin
         if (resetn == 0) begin // reset
             count <= 0;
+            ps2_get<=0;
+
         end
         else begin
             if (sampling) begin
@@ -23,6 +25,8 @@ module ps2_keyboard(clk,resetn,ps2_clk,ps2_data,ps2_get,ps2_getdata);
                     (ps2_data)       &&  // stop bit
                     (^buffer[9:1])) begin      // odd  parity
                     $display("receive %x", buffer[8:1]);
+                    ps2_get<=1;
+
                 end
                 count <= 0;     // for next
               end else begin
@@ -30,21 +34,19 @@ module ps2_keyboard(clk,resetn,ps2_clk,ps2_data,ps2_get,ps2_getdata);
                 count <= count + 3'b1;
               end
             end
+            else
+            begin
+            ps2_get<=0;
+            end
         end
     end
 
     always@(posedge clk)begin
         if(resetn==0)begin
-            ps2_get<=0;
             ps2_getdata<=8'd0;
         end
         else if(^buffer[9:1])begin
             ps2_getdata<=buffer[8:1];
-            ps2_get<=1;
-        end
-        else 
-        begin
-            ps2_get<=0;
         end
 
     end

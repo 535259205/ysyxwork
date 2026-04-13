@@ -91,45 +91,46 @@ static inline int scan_code_to_am_key(uint8_t scancode) {
 void __am_input_keybrd(AM_INPUT_KEYBRD_T *kbd) {
   volatile char *keybrd_reg = (volatile char *)0x10011000;
   volatile unsigned char temp = *keybrd_reg;
-  static bool extended = false;
   int keycode = AM_KEY_NONE;
   bool keydown = false;
 
-  // 检查是否有按键数据
-  if (temp != 0) {
-    // 处理扩展扫描码
-    if (temp == 0xE0) {
-      extended = true;
-    } else {
-      // 检查按键状态（最高位为1表示释放）
-      keydown = !(temp & 0x80);
-      // 获取实际扫描码（清除最高位）
-      uint8_t scan_code = temp & 0x7F;
-
-      if (extended) {
-        // 处理扩展扫描码
-        switch (scan_code) {
-          case 0x72: keycode = AM_KEY_DOWN; break;
-          case 0x75: keycode = AM_KEY_UP; break;
-          case 0x6B: keycode = AM_KEY_LEFT; break;
-          case 0x74: keycode = AM_KEY_RIGHT; break;
-          case 0x70: keycode = AM_KEY_INSERT; break;
-          case 0x71: keycode = AM_KEY_DELETE; break;
-          case 0x6C: keycode = AM_KEY_HOME; break;
-          case 0x69: keycode = AM_KEY_END; break;
-          case 0x7D: keycode = AM_KEY_PAGEUP; break;
-          case 0x7A: keycode = AM_KEY_PAGEDOWN; break;
-          case 0x11: keycode = AM_KEY_RALT; break;
-          case 0x14: keycode = AM_KEY_RCTRL; break;
-        }
-        extended = false;
-      } else {
-        // 处理标准扫描码
-        keycode = scan_code_to_am_key(scan_code);
-      }
-    }
-  }
-
+  if(temp==0){
   kbd->keydown = keydown;
   kbd->keycode = keycode;
+  return;
+  }
+
+  //特殊为0xF0 为断码 0xE0为扩展码
+  if(temp==0xF0){
+    keydown = false;
+    keycode = scan_code_to_am_key(*keybrd_reg);
+    kbd->keydown = keydown;
+    kbd->keycode = keycode;
+    return;
+  }
+  if(temp==0xE0){
+    kbd->keydown = true;
+    temp = *keybrd_reg;
+    if(temp==0xF0){
+      kbd->keydown = false;
+      temp = *keybrd_reg;
+    }
+      switch (temp) {
+        case 0x72: keycode = AM_KEY_DOWN; break;
+        case 0x75: keycode = AM_KEY_UP; break;
+        case 0x6B: keycode = AM_KEY_LEFT; break;
+        case 0x74: keycode = AM_KEY_RIGHT; break;
+        case 0x70: keycode = AM_KEY_INSERT; break;
+        case 0x71: keycode = AM_KEY_DELETE; break;
+        case 0x6C: keycode = AM_KEY_HOME; break;
+        case 0x69: keycode = AM_KEY_END; break;
+        case 0x7D: keycode = AM_KEY_PAGEUP; break;
+        case 0x7A: keycode = AM_KEY_PAGEDOWN; break;
+        case 0x11: keycode = AM_KEY_RALT; break;
+        case 0x14: keycode = AM_KEY_RCTRL; break;
+      }
+  kbd->keycode = keycode;
+  return;
+  }
+
 }

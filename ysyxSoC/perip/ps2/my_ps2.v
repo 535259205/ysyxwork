@@ -27,8 +27,8 @@ module my_ps2 (
   wire                fifo_io_push_ready;
   wire                fifo_io_pop_valid;
   wire       [7:0]    fifo_io_pop_payload;
-  wire       [10:0]   fifo_io_occupancy;
-  wire       [10:0]   fifo_io_availability;
+  wire       [4:0]    fifo_io_occupancy;
+  wire       [4:0]    fifo_io_availability;
   wire       [7:0]    ps2_data_1;
   reg                 ps2_get_regNext;
   wire                valid;
@@ -44,17 +44,17 @@ module my_ps2 (
     .ps2_getdata (ps2_ps2_getdata[7:0])  //o
   );
   StreamFifo fifo (
-    .io_push_valid   (fifo_io_push_valid        ), //i
-    .io_push_ready   (fifo_io_push_ready        ), //o
-    .io_push_payload (ps2_ps2_getdata[7:0]      ), //i
-    .io_pop_valid    (fifo_io_pop_valid         ), //o
-    .io_pop_ready    (fifo_io_pop_ready         ), //i
-    .io_pop_payload  (fifo_io_pop_payload[7:0]  ), //o
-    .io_flush        (1'b0                      ), //i
-    .io_occupancy    (fifo_io_occupancy[10:0]   ), //o
-    .io_availability (fifo_io_availability[10:0]), //o
-    .clk             (clk                       ), //i
-    .reset           (reset                     )  //i
+    .io_push_valid   (fifo_io_push_valid       ), //i
+    .io_push_ready   (fifo_io_push_ready       ), //o
+    .io_push_payload (ps2_ps2_getdata[7:0]     ), //i
+    .io_pop_valid    (fifo_io_pop_valid        ), //o
+    .io_pop_ready    (fifo_io_pop_ready        ), //i
+    .io_pop_payload  (fifo_io_pop_payload[7:0] ), //o
+    .io_flush        (1'b0                     ), //i
+    .io_occupancy    (fifo_io_occupancy[4:0]   ), //o
+    .io_availability (fifo_io_availability[4:0]), //o
+    .clk             (clk                      ), //i
+    .reset           (reset                    )  //i
   );
   assign ps2_data_1 = 8'h0;
   assign ps2_resetn = (! reset);
@@ -94,7 +94,11 @@ module my_ps2 (
     if(when_MYDevice_l286) begin
       case(apb_in_paddr)
         32'h10011000 : begin
-          apb_in_prdata = {24'd0, fifo_io_pop_payload};
+          if(fifo_io_pop_valid) begin
+            apb_in_prdata = {24'd0, fifo_io_pop_payload};
+          end else begin
+            apb_in_prdata = 32'h0;
+          end
         end
         default : begin
         end
