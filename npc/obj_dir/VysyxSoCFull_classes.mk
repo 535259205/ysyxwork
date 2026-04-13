@@ -28,27 +28,24 @@ VM_CLASSES_FAST += \
   VysyxSoCFull \
   VysyxSoCFull___024root__0 \
   VysyxSoCFull___024root__1 \
+  VysyxSoCFull___024unit__0 \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \
   VysyxSoCFull__ConstPool__0__Slow \
   VysyxSoCFull___024root__Slow \
   VysyxSoCFull___024root__0__Slow \
-  VysyxSoCFull___024root__1__Slow \
+  VysyxSoCFull___024unit__Slow \
 
 # Generated support classes, fast-path, compile with highest optimization
 VM_SUPPORT_FAST += \
   VysyxSoCFull__Dpi \
   VysyxSoCFull__Trace__0 \
-  VysyxSoCFull__Trace__1 \
-  VysyxSoCFull__Trace__2 \
 
 # Generated support classes, non-fast-path, compile with low/medium optimization
 VM_SUPPORT_SLOW += \
   VysyxSoCFull__Syms__Slow \
   VysyxSoCFull__Trace__0__Slow \
-  VysyxSoCFull__Trace__1__Slow \
-  VysyxSoCFull__Trace__2__Slow \
   VysyxSoCFull__TraceDecls__0__Slow \
 
 # Global classes, need linked once per executable, fast-path, compile with highest optimization

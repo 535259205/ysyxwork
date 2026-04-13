@@ -7,11 +7,11 @@ IVERILOG_HOME = $(AM_HOME)/../iverilog_test
 INCLUDE = -I/home/ylqt/environment/oss_cad_suite/oss-cad-suite/include/iverilog
 
 # -include scripts/npc_net.mk
--include scripts/npc.mk
+# -include scripts/npc.mk
 # -include scripts/work_net.mk
 # -include scripts/work.mk
 
-# -include scripts/CI_test.mk
+-include scripts/CI_test.mk
 
 CSRCS = $(shell find $(IVERILOG_HOME)/csrc/ -name "*.cpp")
 CSRCS += $(NPC_HOME)/csrc/ex_api.cpp

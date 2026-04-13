@@ -1,11 +1,135 @@
 #include <am.h>
 
+
+static inline int scan_code_to_am_key(uint8_t scancode) {
+  switch (scancode) {
+    // First row
+    case 0x76: return AM_KEY_ESCAPE;
+    case 0x05: return AM_KEY_F1;
+    case 0x06: return AM_KEY_F2;
+    case 0x04: return AM_KEY_F3;
+    case 0x0C: return AM_KEY_F4;
+    case 0x03: return AM_KEY_F5;
+    case 0x0B: return AM_KEY_F6;
+    case 0x83: return AM_KEY_F7;
+    case 0x0A: return AM_KEY_F8;
+    case 0x01: return AM_KEY_F9;
+    case 0x09: return AM_KEY_F10;
+    case 0x78: return AM_KEY_F11;
+    case 0x07: return AM_KEY_F12;
+    
+    // Second row
+    case 0x0E: return AM_KEY_GRAVE;
+    case 0x16: return AM_KEY_1;
+    case 0x1E: return AM_KEY_2;
+    case 0x26: return AM_KEY_3;
+    case 0x25: return AM_KEY_4;
+    case 0x2E: return AM_KEY_5;
+    case 0x36: return AM_KEY_6;
+    case 0x3D: return AM_KEY_7;
+    case 0x3E: return AM_KEY_8;
+    case 0x46: return AM_KEY_9;
+    case 0x45: return AM_KEY_0;
+    case 0x4E: return AM_KEY_MINUS;
+    case 0x55: return AM_KEY_EQUALS;
+    case 0x66: return AM_KEY_BACKSPACE;
+    case 0x5D: return AM_KEY_BACKSLASH;
+    
+    // Third row
+    case 0x0D: return AM_KEY_TAB;
+    case 0x15: return AM_KEY_Q;
+    case 0x1D: return AM_KEY_W;
+    case 0x24: return AM_KEY_E;
+    case 0x2D: return AM_KEY_R;
+    case 0x2C: return AM_KEY_T;
+    case 0x35: return AM_KEY_Y;
+    case 0x3C: return AM_KEY_U;
+    case 0x43: return AM_KEY_I;
+    case 0x44: return AM_KEY_O;
+    case 0x4D: return AM_KEY_P;
+    case 0x54: return AM_KEY_LEFTBRACKET;
+    case 0x5B: return AM_KEY_RIGHTBRACKET;
+    
+    // Fourth row
+    case 0x58: return AM_KEY_CAPSLOCK;
+    case 0x1C: return AM_KEY_A;
+    case 0x1B: return AM_KEY_S;
+    case 0x23: return AM_KEY_D;
+    case 0x2B: return AM_KEY_F;
+    case 0x34: return AM_KEY_G;
+    case 0x33: return AM_KEY_H;
+    case 0x3B: return AM_KEY_J;
+    case 0x42: return AM_KEY_K;
+    case 0x4B: return AM_KEY_L;
+    case 0x4C: return AM_KEY_SEMICOLON;
+    case 0x52: return AM_KEY_APOSTROPHE;
+    case 0x5A: return AM_KEY_RETURN;
+    
+    // Fifth row
+    case 0x12: return AM_KEY_LSHIFT;
+    case 0x1A: return AM_KEY_Z;
+    case 0x22: return AM_KEY_X;
+    case 0x21: return AM_KEY_C;
+    case 0x2A: return AM_KEY_V;
+    case 0x32: return AM_KEY_B;
+    case 0x31: return AM_KEY_N;
+    case 0x3A: return AM_KEY_M;
+    case 0x41: return AM_KEY_COMMA;
+    case 0x49: return AM_KEY_PERIOD;
+    case 0x4A: return AM_KEY_SLASH;
+    case 0x59: return AM_KEY_RSHIFT;
+    
+    // Sixth row
+    case 0x14: return AM_KEY_LCTRL;
+    case 0x11: return AM_KEY_LALT;
+    case 0x29: return AM_KEY_SPACE;
+    
+    default: return AM_KEY_NONE;
+  }
+}
+
 void __am_input_keybrd(AM_INPUT_KEYBRD_T *kbd) {
   volatile char *keybrd_reg = (volatile char *)0x10011000;
   volatile unsigned char temp = *keybrd_reg;
-  kbd->keydown = 1;
-  kbd->keycode = temp;
-//做内部译码
-  // kbd->keydown = 0;
-  // kbd->keycode = 0;
+  static bool extended = false;
+  int keycode = AM_KEY_NONE;
+  bool keydown = false;
+
+  // 检查是否有按键数据
+  if (temp != 0) {
+    // 处理扩展扫描码
+    if (temp == 0xE0) {
+      extended = true;
+    } else {
+      // 检查按键状态（最高位为1表示释放）
+      keydown = !(temp & 0x80);
+      // 获取实际扫描码（清除最高位）
+      uint8_t scan_code = temp & 0x7F;
+
+      if (extended) {
+        // 处理扩展扫描码
+        switch (scan_code) {
+          case 0x72: keycode = AM_KEY_DOWN; break;
+          case 0x75: keycode = AM_KEY_UP; break;
+          case 0x6B: keycode = AM_KEY_LEFT; break;
+          case 0x74: keycode = AM_KEY_RIGHT; break;
+          case 0x70: keycode = AM_KEY_INSERT; break;
+          case 0x71: keycode = AM_KEY_DELETE; break;
+          case 0x6C: keycode = AM_KEY_HOME; break;
+          case 0x69: keycode = AM_KEY_END; break;
+          case 0x7D: keycode = AM_KEY_PAGEUP; break;
+          case 0x7A: keycode = AM_KEY_PAGEDOWN; break;
+          case 0x11: keycode = AM_KEY_RALT; break;
+          case 0x14: keycode = AM_KEY_RCTRL; break;
+        }
+        extended = false;
+      } else {
+        // 处理标准扫描码
+        keycode = scan_code_to_am_key(scan_code);
+      }
+    }
+  }
+
+  kbd->keydown = keydown;
+  kbd->keycode = keycode;
 }

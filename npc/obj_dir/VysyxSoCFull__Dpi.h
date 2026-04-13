@@ -16,18 +16,20 @@ extern "C" {
 
 
     // DPI IMPORTS
-    // DPI import at /home/ylqt/study/YSYX_data/ysyx-workbench/abstract-machine/../npc/vsrc_npc_net/fun/step_fun.v:9:30
+    // DPI import at /home/ylqt/study/YSYX_data/ysyx-workbench/abstract-machine/../npc/vsrc/fun/step_fun.v:9:30
     extern void SimStep1(int step_data);
-    // DPI import at /home/ylqt/study/YSYX_data/ysyx-workbench/abstract-machine/../npc/vsrc_npc_net/fun/debug_fun.v:13:30
+    // DPI import at /home/ylqt/study/YSYX_data/ysyx-workbench/abstract-machine/../npc/vsrc/fun/debug_fun.v:10:30
     extern void debug(int addr, int data);
-    // DPI import at /home/ylqt/study/YSYX_data/ysyx-workbench/abstract-machine/../npc/vsrc_npc_net/fun/mem_fun.v:19:29
-    extern int mem_r(int addr, int len);
-    // DPI import at /home/ylqt/study/YSYX_data/ysyx-workbench/abstract-machine/../npc/vsrc_npc_net/fun/mem_fun.v:18:30
-    extern void mem_w(int data, int addr, int len);
-    // DPI import at /home/ylqt/study/YSYX_data/ysyx-workbench/abstract-machine/../npc/vsrc_npc_net/fun/mmio_fun.v:18:29
-    extern int mmio_r(int addr, int len);
-    // DPI import at /home/ylqt/study/YSYX_data/ysyx-workbench/abstract-machine/../npc/vsrc_npc_net/fun/mmio_fun.v:17:30
-    extern void mmio_w(int addr, int data, int len);
+    // DPI import at /home/ylqt/study/YSYX_data/ysyx-workbench/abstract-machine/../npc/vsrc/fun/ebreak_fun.v:9:30
+    extern void ebreak(int test);
+    // DPI import at /home/ylqt/study/YSYX_data/ysyx-workbench/abstract-machine/../ysyxSoC/perip/flash/flash.v:100:30
+    extern void flash_read(int addr, int* data);
+    // DPI import at /home/ylqt/study/YSYX_data/ysyx-workbench/abstract-machine/../ysyxSoC/build/ysyxSoCFull.v:5544:30
+    extern void mrom_read(int raddr, int* rdata);
+    // DPI import at /home/ylqt/study/YSYX_data/ysyx-workbench/abstract-machine/../ysyxSoC/perip/psram/psram.v:8:29
+    extern int psram_ctr(int addr, int data, int write);
+    // DPI import at /home/ylqt/study/YSYX_data/ysyx-workbench/abstract-machine/../ysyxSoC/perip/sdram/sdram.v:17:29
+    extern int sdram_ctr(int addr, int data, int write);
 
 #ifdef __cplusplus
 }
