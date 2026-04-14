@@ -14,7 +14,7 @@
 #define SHOW_LIMIT 10
 #define USE_ITRACE 0
 #define USE_FTRACE 0
-#define USE_DIFFTEST 1lscanf
+#define USE_DIFFTEST 0
 #define OVER_CNT   UINT32_MAX
 
 

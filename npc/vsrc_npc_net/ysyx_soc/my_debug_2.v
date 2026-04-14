@@ -1,8 +1,8 @@
 // Generator : SpinalHDL v1.12.3    git head : 591e64062329e5e2e2b81f4d52422948053edb97
-// Component : my_debug_1
+// Component : my_debug_2
 
 `timescale 1ns/1ps 
-module my_debug_1 (
+module my_debug_2 (
   input  wire [31:0]   data_0,
   input  wire [31:0]   data_1,
   input  wire [31:0]   data_2,

@@ -85,12 +85,28 @@ clean:
 #在build目录下生成verilog代码ysyx_xxxxxxxx.V
 SPINAL_DIR := ../SpinalHDL/hw/spinal/MY_Prj
 SBT ?= sbt
-
+IVERILOG_HOME = $(AM_HOME)/../iverilog_test
 verilog:
 	mkdir -p ./build
+	rm -rf ./build/*
 	(cd $(AM_HOME)/../SpinalHDL && sbt "runMain SysConfig.MyTopLevelApp")
+	perl -i -pe 's|^\s*IF_IFt_pc <= 32\x27h30000000;|`ifdef USE_IVERILOG\n      IF_IFt_pc <= 32\x27h80000000;\n      `else\n      IF_IFt_pc <= 32\x27h30000000;\n      `endif|g' ./build/test_cpu.v
 
 
+#用于仿真0x80000000开始的内容
+sim-iverilog:
+	cp $(IMG) $(IVERILOG_HOME)/hex/test.bin
+	make -C $(IVERILOG_HOME) clean
+	make -C $(IVERILOG_HOME) build
+	make -C $(IVERILOG_HOME) run
 
+#NETLIST CELLS IMG
+sim-iverilog-netlist:
+	cp $(IMG) $(IVERILOG_HOME)/hex/test.bin
+	cp $(NETLIST) $(IVERILOG_HOME)/vsrc/CI_test/
+	cp $(CELLS) $(IVERILOG_HOME)/vsrc/CI_test/
+	make -C $(IVERILOG_HOME) clean
+	make -C $(IVERILOG_HOME) build
+	make -C $(IVERILOG_HOME) run
 
 include ../Makefile

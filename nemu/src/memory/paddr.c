@@ -18,7 +18,13 @@
 #include <device/mmio.h>
 #include <isa.h>
 
-#define USE_EXMEM 1
+#ifdef TARGET_SHARE
+  #define USE_EXMEM 1
+#else
+  #define USE_EXMEM 0
+#endif
+
+
 
 #if   defined(CONFIG_PMEM_MALLOC)
 static uint8_t *pmem = NULL;

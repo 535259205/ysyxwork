@@ -6,7 +6,7 @@
 #include "stdint.h"
 
 #define MEM_SIZE (0x40000)
-#define FLASH_SIZE (0x01000000)
+#define FLASH_SIZE (0x10000000)
 #define SDRAM_SIZE (0x4000000>>2)
 
 #define USE_MEM 2
@@ -55,7 +55,6 @@ uint32_t * mem_scan(uint32_t addr)
   // uint32_t *tar_addr = &mem[0];
   return 0;
 }
-
 
 uint32_t rom_read(uint32_t  addr)
 {

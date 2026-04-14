@@ -2,7 +2,7 @@
 #include "PMEM_ADDR.h"
 #include "stdio.h"
 #define USE_DEBUG 0
-#define MEM_SIZE (0x01000000)
+#define MEM_SIZE (0x10000000)
 // static uint32_t mem[MEM_SIZE];
 // static uint32_t rom[MEM_SIZE] = {0};
 extern uint32_t rom[];
@@ -22,6 +22,11 @@ extern "C" void mmio_w(int addr, int data, int len)
 extern void mem_w_api( int data, int addr, int len,uint32_t * rom);
 extern "C" void mem_w( int data, int addr, int len)
 {
+  // printf("mem_www: addr=0x%x, data=0x%x, len=0x%x\n\n", addr, data, len);
+  if(addr==0x10000000){
+    putchar(data);
+    return;
+  }
   mem_w_api(data, addr, len, rom);
 }
 
@@ -38,7 +43,9 @@ extern "C" int mmio_r(int addr, int len)
 extern int32_t mem_r_api( int addr, int len,uint32_t * rom);
 extern "C"  int mem_r( int addr, int len)
 {
-  return mem_r_api(addr, len, rom);
+  uint32_t r_Data = mem_r_api(addr, len, rom);
+  // printf("mem_r: addr=0x%x, len=0x%x, data=0x%x\n", addr, len, r_Data);
+  return r_Data;
 }
 
 
