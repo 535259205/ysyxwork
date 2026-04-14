@@ -133,4 +133,8 @@ void __am_input_keybrd(AM_INPUT_KEYBRD_T *kbd) {
   return;
   }
 
+  keycode = scan_code_to_am_key(temp);
+  kbd->keydown = true;
+  kbd->keycode = keycode;
+  return;
 }
