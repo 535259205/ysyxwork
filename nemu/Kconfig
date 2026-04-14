@@ -27,6 +27,23 @@ config FTRACE
     Enable ftrace feature. When enabled, NEMU will trace function calls
     and returns in trace_and_difftest() function after each instruction execution.
     Disable this option to improve performance if ftrace is not needed.
+config CACHE_SIM
+  bool "Enable cache simulation"
+  default n  # 默认关闭，避免影响性能
+  help
+    Enable cache simulation feature. When enabled, NEMU will simulate cache accesses
+    in trace_and_difftest() function after each instruction execution.
+    Disable this option to improve performance if cache simulation is not needed.
+config BRANCH_SIM
+  bool "Enable branch simulation"
+  default n  # 默认关闭，避免影响性能
+  help
+    Enable branch simulation feature. When enabled, NEMU will simulate branch
+    instructions in trace_and_difftest() function after each instruction execution.
+    Disable this option to improve performance if branch simulation is not needed.
+
+
+
 choice
   prompt "Base ISA"
   default ISA_riscv
