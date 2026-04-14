@@ -19,9 +19,9 @@
 #include <isa.h>
 
 #ifdef TARGET_SHARE
-#define USE_EXMEM 0
-#else
 #define USE_EXMEM 1
+#else
+#define USE_EXMEM 0
 #endif
 
 
