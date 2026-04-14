@@ -28,12 +28,12 @@ USE_WAVE ?=0
 
 
 # Capstone库设置
-LIBCAPSTONE = $(CURDIR)/../nemu/tools/capstone/repo/libcapstone.so.5
-INCCAPSTONE := -I$(CURDIR)/../nemu/tools/capstone/repo/include
+LIBCAPSTONE = $(AM_HOME)/../nemu/tools/capstone/repo/libcapstone.so.5
+INCCAPSTONE := -I$(AM_HOME)/../nemu/tools/capstone/repo/include
 #diff test链接库及.h文件设置
-LIBDIFFTEST := $(CURDIR)/../nemu/build/riscv32-nemu-interpreter-so
-INCDIFFTEST := -I$(CURDIR)/../nemu/include
-INCDIFFTEST += -I$(CURDIR)/../nemu/src/isa/riscv32/include
+LIBDIFFTEST := $(AM_HOME)/../nemu/build/riscv32-nemu-interpreter-so
+INCDIFFTEST := -I$(AM_HOME)/../nemu/include
+INCDIFFTEST += -I$(AM_HOME)/../nemu/src/isa/riscv32/include
 # 确保capstone库已编译
 $(LIBCAPSTONE):
 	$(MAKE) -C $(CURDIR)/../nemu/tools/capstone
@@ -89,24 +89,26 @@ IVERILOG_HOME = $(AM_HOME)/../iverilog_test
 verilog:
 	mkdir -p ./build
 	rm -rf ./build/*
-	(cd $(AM_HOME)/../SpinalHDL && sbt "runMain SysConfig.MyTopLevelApp")
-	perl -i -pe 's|^\s*IF_IFt_pc <= 32\x27h30000000;|`ifdef USE_IVERILOG\n      IF_IFt_pc <= 32\x27h80000000;\n      `else\n      IF_IFt_pc <= 32\x27h30000000;\n      `endif|g' ./build/test_cpu.v
+	(cd $(AM_HOME)/../SpinalHDL && sbt "runMain SysConfig.MyTopLevelApp mycpu")
+	(cd $(AM_HOME)/../SpinalHDL && sbt "runMain SysConfig.MyTopLevelApp pipcpu")
+	mv ./build/ysyx_26010010_ysyx_26010010.v ./build/ysyx_26010010.v
+	sed -i 's/module ysyx_26010010_ysyx_26010010/module ysyx_26010010/g' ./build/ysyx_26010010.v
 
-
+# perl -i -pe 's|^\s*IF_IFt_pc <= 32\x27h30000000;|`ifdef ysyx_26010010_USE_IVERILOG\n      IF_IFt_pc <= 32\x27h80000000;\n      `else\n      IF_IFt_pc <= 32\x27h30000000;\n      `endif|g' ./build/ysyx_26010010.v
 #用于仿真0x80000000开始的内容
 sim-iverilog:
 	cp $(IMG) $(IVERILOG_HOME)/hex/test.bin
-	make -C $(IVERILOG_HOME) clean
-	make -C $(IVERILOG_HOME) build
-	make -C $(IVERILOG_HOME) run
+	make -C $(IVERILOG_HOME) CELL=F clean
+	make -C $(IVERILOG_HOME) CELL=F build
+	make -C $(IVERILOG_HOME) CELL=F run
 
 #NETLIST CELLS IMG
 sim-iverilog-netlist:
 	cp $(IMG) $(IVERILOG_HOME)/hex/test.bin
-	cp $(NETLIST) $(IVERILOG_HOME)/vsrc/CI_test/
-	cp $(CELLS) $(IVERILOG_HOME)/vsrc/CI_test/
-	make -C $(IVERILOG_HOME) clean
-	make -C $(IVERILOG_HOME) build
-	make -C $(IVERILOG_HOME) run
+	cp $(NETLIST) $(IVERILOG_HOME)/vsrc/CI_test/net/ysyx_26010010.v
+	cp $(CELLS) $(IVERILOG_HOME)/vsrc/CI_test/net/
+	make -C $(IVERILOG_HOME) CELL=T clean
+	make -C $(IVERILOG_HOME) CELL=T build
+	make -C $(IVERILOG_HOME) CELL=T run
 
 include ../Makefile

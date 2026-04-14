@@ -98,7 +98,7 @@ word_t paddr_read(paddr_t addr, int len) {
   if (likely(in_pmem(addr)))
   {
     word_t ret = pmem_read(addr, len);
-    #if CONFIG_WATCHPOINT
+    #if CONFIG_MTRACE
     extern void iringbuf_memadd(const char *Prefix, vaddr_t addr, int len, word_t data);
     iringbuf_memadd("Rmem", addr, len, ret);
     #endif
@@ -128,7 +128,7 @@ void paddr_write(paddr_t addr, int len, word_t data) {
 
   if (likely(in_pmem(addr)))
   {
-    #if CONFIG_WATCHPOINT
+    #if CONFIG_MTRACE
     extern void iringbuf_memadd(const char *Prefix, vaddr_t addr, int len, word_t data);
     iringbuf_memadd("Wmem", addr, len, data);
     #endif
