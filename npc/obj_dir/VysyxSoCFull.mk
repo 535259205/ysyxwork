@@ -37,7 +37,7 @@ VM_PREFIX = VysyxSoCFull
 VM_MODPREFIX = VysyxSoCFull
 # User CFLAGS (from -CFLAGS on Verilator command line)
 VM_USER_CFLAGS = \
-  -I/home/ylqt/environment/oss_cad_suite/B/oss-cad-suite/share/verilator/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/abstract-machine/../npc/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/abstract-machine/../nemu/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/abstract-machine/../nemu/tools/capstone/repo/include  -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=ysyxSoCFull  \
+  -I/home/ylqt/environment/oss_cad_suite/B/oss-cad-suite/share/verilator/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/abstract-machine/../npc/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/abstract-machine/../nemu/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include -I/home/ylqt/study/YSYX_data/ysyx-workbench/abstract-machine/../nemu/tools/capstone/repo/include -DHAVE_CAPSTONE -DHAVE_DIFFTEST -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=ysyxSoCFull  \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \

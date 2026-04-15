@@ -14,32 +14,6 @@ import pipCPU.test_cpu
 import MY_Prj.ysyxcomm._
 
 
-
-
-// case class AXIXbar() extends Component{
-//   noIoPrefix()
-
-//   val io = new Bundle{
-//     val axi_m = Vec(slave(Axi4(axi4_config.copy(idWidth = 1))),2)//0:PC AXI 1:Encode AXI
-//     val axi_s = Vec(master(Axi4(axi4_config)),2)// 0:外部通信接口 1：AXI CLINT
-//   }
-//   val xbar = new Axi4CrossbarFactory()
-
-//   xbar.addSlaves(
-//     io.axi_s(0) -> (0x00000000L, 0x01000000 Bytes),
-//     // io.axi_s(0) -> (0x12000000L, 0x01000000 Bytes),
-//     io.axi_s(1) -> (0x02000000L, 0x1000 Bytes),
-//   )
-//   xbar.addConnections(
-//     io.axi_m(1) -> List(io.axi_s(1),io.axi_s(0)),
-//     io.axi_m(0) -> List(io.axi_s(0))
-
-//   )
-
-
-//   xbar.build()
-// }
-
 case class AXIXbar_new() extends Component{
   noIoPrefix()
   val io = new Bundle{
@@ -127,19 +101,64 @@ case class AXIClint() extends Component{
   val io = new Bundle{
     val axi = slave(Axi4(axi4_config))
   }
-  val axi = new Axi4SlaveFactory(io.axi)
-  val mtime_L = axi.createReadOnly(UInt(32 bits),0x02000000,0) init 0
-  val mtime_H = axi.createReadOnly(UInt(32 bits),0x02000004,0) init 0
+  // val axi = new Axi4SlaveFactory(io.axi)
+  // val mtime_L = axi.createReadOnly(UInt(32 bits),0x02000000,0) init 0
+  // val mtime_H = axi.createReadOnly(UInt(32 bits),0x02000004,0) init 0
+  val mtime=Reg(UInt(64 bits)) init 0
+  mtime:=mtime+1
+  // mtime_L:=mtime_L+1
+  // when(mtime_L===0xFFFFFFFFL){
+    // mtime_H:=mtime_H+1
+  // }
+  // axi.build()
 
-  mtime_L:=mtime_L+1
-  when(mtime_L===0xFFFFFFFFL){
-    mtime_H:=mtime_H+1
+  // io.axi.ar.setBlocked()
+  io.axi.r.setIdle()
+  io.axi.w.setBlocked()
+  io.axi.aw.setBlocked()
+  io.axi.b.setIdle()
+
+  val flag = Reg(Bool()) init False
+  io.axi.ar.ready.setAsReg() init True
+  io.axi.r.valid.setAsReg() init False
+  io.axi.r.last:=io.axi.r.valid
+
+  when(flag){
+    io.axi.r.data:=mtime(63 downto 32).asBits
+  }.otherwise{
+    io.axi.r.data:=mtime(31 downto 0).asBits
   }
-  axi.build()
 
-  val debug = new MyBlackBox.my_debug(39,2)
-  debug.io.data(0):=mtime_L.asBits
-  debug.io.data(1):=mtime_H.asBits
+  val r = new StateMachine{
+    val start : State = new State with EntryPoint{
+      whenIsActive{
+        io.axi.ar.ready:=True
+        when(io.axi.ar.fire){
+          io.axi.ar.ready:=False
+          when(io.axi.ar.addr===0x20000000){
+            flag:=True
+          }.otherwise{
+            flag:=False
+          }
+          goto(r)
+        }
+      }
+    }
+    val r : State = new State{
+      whenIsActive{
+        io.axi.r.valid:=True
+        when(io.axi.r.fire){
+          io.axi.r.valid:=True
+          goto(start)
+        }
+      }
+    }
+
+  }
+
+  // val debug = new MyBlackBox.my_debug(39,2)
+  // debug.io.data(0):=mtime_L.asBits
+  // debug.io.data(1):=mtime_H.asBits
 
 
 }

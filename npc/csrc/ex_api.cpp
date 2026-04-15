@@ -127,13 +127,13 @@ int32_t psram_api(int32_t addr, int32_t data, int32_t write,uint32_t *psram){
 int32_t mem_r_api( int addr, int len,uint32_t * rom)
 {
   uint32_t tar_addr = (addr&0x7fffffff)>>2;
-  if (tar_addr >= 0x10000000){
-    // uint32_t temp=pmem_r(addr, len);
-    // iringbuf_memadd("mio_r", addr, len, temp);
-    // return temp;
-    printf("ERR: mem_r addr=0x%08x, len=%d\n", addr, len);
-    return 0;
-  }
+  // if (tar_addr >= 0x10000000){
+  //   // uint32_t temp=pmem_r(addr, len);
+  //   // iringbuf_memadd("mio_r", addr, len, temp);
+  //   // return temp;
+  //   printf("ERR: mem_r addr=0x%08x, len=%d\n", addr, len);
+  //   return 0;
+  // }
   uint32_t data_temp=rom[tar_addr];
   uint32_t addrl=addr&0x3;
   uint32_t tar_data=data_temp;
@@ -157,8 +157,6 @@ int32_t mem_r_api( int addr, int len,uint32_t * rom)
 #endif
   return tar_data;
 }
-
-
 
 void mem_w_api( int data, int addr, int len,uint32_t * rom)
 {
@@ -241,11 +239,3 @@ void mem_w_api( int data, int addr, int len,uint32_t * rom)
       break;
   }
 }
-
-
-
-
-
-
-
-

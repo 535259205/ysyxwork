@@ -1,4 +1,3 @@
-From 9510a5232d07a07787a35525d62fed36f4a2adc5 Mon Sep 17 00:00:00 2001
 From: 535259205 <535259205@qq.com>
 Date: Tue, 14 Apr 2026 23:22:04 +0800
 Subject: [PATCH] =?UTF-8?q?=E6=81=A2=E5=A4=8D=E6=8F=90=E4=BA=A4?=
@@ -15,7 +14,7 @@ Content-Transfer-Encoding: 8bit
  perip/amba/axi4_delayer_my.lst       |   2 +
  perip/amba/axi4_delayer_my.v         | 817 +++++++++++++++++++++++++++
  perip/amba/enumdefine.v              |   1 +
- perip/bitrev/bitrev.v                |  44 +-
+ perip/bitrev/bitrev.v                |  28 +-
  perip/flash/flash.v                  |  31 +-
  perip/gpio/gpio_top_apb.v            |  27 +
  perip/gpio/my_gpio.v                 | 583 +++++++++++++++++++
@@ -37,7 +36,7 @@ Content-Transfer-Encoding: 8bit
  src/CPU.scala                        |   4 +-
  src/Top.scala                        |   2 +-
  src/device/MROM.scala                |   7 +
- 30 files changed, 3252 insertions(+), 49 deletions(-)
+ 30 files changed, 3235 insertions(+), 50 deletions(-)
  create mode 100644 gitaaaa.txt
  create mode 100644 perip/amba/apb_delayer_my.v
  create mode 100644 perip/amba/axi4_delayer_my.lst
@@ -1224,58 +1223,41 @@ index 00000000..8b137891
 @@ -0,0 +1 @@
 +
 diff --git a/perip/bitrev/bitrev.v b/perip/bitrev/bitrev.v
-index f1c3b363..d7919d87 100644
+index f1c3b363..4353e509 100644
 --- a/perip/bitrev/bitrev.v
 +++ b/perip/bitrev/bitrev.v
-@@ -2,7 +2,49 @@ module bitrev (
+@@ -2,7 +2,31 @@ module bitrev (
    input  sck,
    input  ss,
    input  mosi,
-+  // output reg miso,
-   output miso
-+  // input reset
+-  output miso
++  output reg miso
  );
 -  assign miso = 1'b1;
-+assign miso=1;
-+//   reg [7:0] cnt;
-+//   reg [7:0] data;
-+//   reg [7:0] sdata;
-+//   reg flag;
++reg [7:0] data;
++reg [3:0] rx_cnt, tx_cnt;
++reg flag;
++always @(posedge sck or posedge ss) begin
++    if(ss) begin
++        data <= 8'd0;
++        rx_cnt <= 4'd0;
++        flag <= 1'b0;
++    end else if(rx_cnt < 4'd8) begin
++        data <= {data[6:0], mosi};
++        rx_cnt <= rx_cnt + 1;
++        flag <= rx_cnt == 4'd7 ? 1'b1 : flag;
++    end
++end
++always @(negedge sck or posedge ss) begin
++    if(ss) begin
++        miso <= 1'b1;
++        tx_cnt <= 4'd0;
++    end else if(flag && tx_cnt < 4'd8) begin
++        miso <= data[tx_cnt[2:0]];
++        tx_cnt <= tx_cnt + 1;
++    end
++end
 +
-+
-+//   always @(negedge ss or negedge sck or posedge reset) begin
-+//     if(reset)
-+//     begin
-+//       cnt<=8'd0;
-+//       flag<=1'b0;
-+//     end
-+//     else
-+//     begin
-+//       if((!ss) & (!flag))
-+//       begin
-+//         flag<=1'b1;
-+//         cnt<=8'd0;
-+//       end
-+//       else
-+//       begin
-+//         cnt<=cnt+8'd1;
-+//       end 
-+//     end
-+//   end
-+// always@(negedge sck)begin
-+//   data[8'd7-cnt[2:0]]<=mosi;
-+// end
-+// always@(posedge sck)begin
-+//   miso<=data[8'd7-cnt[2:0]];
-+// end
-+
-+// integer      i ;
-+// always@(posedge ss)begin
-+//   for(i=0;i<=7;i=i+1)
-+//   begin
-+//     sdata[i]<=data[7-i];
-+//   end
-+// end
 +
  endmodule
 diff --git a/perip/flash/flash.v b/perip/flash/flash.v

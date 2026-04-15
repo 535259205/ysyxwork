@@ -44,6 +44,13 @@ else ifeq ($(ARCH),riscv32e-npc)
 	$(MAKE) -C $(AM_HOME)/../npc WORK=N all;
 	$(MAKE) -C $(AM_HOME)/../npc sim;
 
+else ifeq ($(ARCH),riscv32-npc)
+	@echo TEST $(AM_HOME)/../npc/hex/test.bin
+	@cp $(IMAGE).bin $(AM_HOME)/../npc/hex/test.bin
+	@cp $(IMAGE).bin $(AM_HOME)/../iverilog_test/hex/test.bin
+	@cp $(IMAGE).elf $(AM_HOME)/../npc/hex/test.elf
+	$(MAKE) -C $(AM_HOME)/../npc WORK=N all;
+	$(MAKE) -C $(AM_HOME)/../npc sim;
 
 else
 	@echo "TODO: add command here to run simulation for other architectures"

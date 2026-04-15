@@ -38,7 +38,7 @@ case class Icache(x_len:Int=1 , y_len:Int=16) extends Component{
     io.code.valid:=False
   }
 
-  val error_cnt =Reg(UInt(32 bits)) init 0
+  // val error_cnt =Reg(UInt(32 bits)) init 0
 
   val cache_mem =  Mem(UInt(32 bits),x_len*y_len)
   val cache_valid = Vec(Reg(Bool()) init False,y_len)
@@ -53,8 +53,8 @@ case class Icache(x_len:Int=1 , y_len:Int=16) extends Component{
   val pc_r_addr=(pc_index*x_len+pc_offset).resized
 
   val cache_tag = Reg(UInt(pc_tag.getWidth bits)) init 0
-
-  // when(io.fence_i){clear_valid()}
+  val fence_i_flag = Reg(Bool()) init False
+  when(io.fence_i){fence_i_flag:=True}
 
   val s = new StateMachine(){
       val pc_tag_reg = Reg(UInt(pc_tag.getWidth bits)) init 0
@@ -69,11 +69,11 @@ case class Icache(x_len:Int=1 , y_len:Int=16) extends Component{
         }.elsewhen(True){//ready信号拉高后进行地址判断
           when(cache_tag=/=pc_tag){//cache和pc索引不匹配
             cache_tag:=pc_tag
-            error_cnt:=error_cnt+1
+            // error_cnt:=error_cnt+1
             clear_valid()
             goto(axi_r)
           }.elsewhen(!cache_valid(pc_index)){
-            error_cnt:=error_cnt+1
+            // error_cnt:=error_cnt+1
             goto(axi_r)
           }.otherwise{
             io.code.payload:=cache_mem(pc_r_addr).asBits
@@ -102,7 +102,8 @@ case class Icache(x_len:Int=1 , y_len:Int=16) extends Component{
           //写入数据够x_len个时，缓存有效位设为True
           when(cnt===x_len-1){
             axi.r.ready:=False
-            cache_valid(pc_index_reg):=True
+            cache_valid(pc_index_reg):= ! fence_i_flag
+            fence_i_flag:=False
             goto(start)
           }
         }.otherwise{axi.r.ready:=True}

@@ -26,6 +26,7 @@ simv: $(VSRCS)
 
 
 build: $(VSRCS) $(CSRCS)
+	@mkdir -p $(BUILD_DIR)
 	@g++ -shared -fPIC -o $(BUILD_DIR)/main.so $(CSRCS) $(INCLUDE)
 	@iverilog -Wall \
 	-Wno-timescale \

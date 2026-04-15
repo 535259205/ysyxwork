@@ -15,6 +15,9 @@ ysyx_26010010_ysyx_soc_sim u_ysyxSoCTop(
 initial begin
     clk=0;
     rst=1;
+    `ifdef NET_FLAG
+    $display("TEST\n");
+    `endif
     // $dumpfile("ysyxsoc_tb.vcd");
     // $dumpvars(0, ysyxSoCFull_tb); // 记录所有层次的信号
     #2000

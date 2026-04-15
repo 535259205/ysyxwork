@@ -66,18 +66,18 @@ class ID_stage(
     val code = stage(CODE)
     val imm= stage.down(to_EX).imm
 
+  // 立即数计算提升到类体层级，每种类型只生成一份硬件节点
+  val rs1_t=code(19 downto 15).asUInt
+  val rs2_t=code(24 downto 20).asUInt
+  val rd_t =code(11 downto 7).asUInt
+  val imm_I=code(31 downto 20).asSInt.resize(32 bits)
+  val imm_U=Cat(code(31 downto 12),B(0,12 bits)).asBits
+  val imm_S=Cat(code(31 downto 25),code(11 downto 7)).asSInt.resize(32 bits)
+  val imm_B=Cat(code(31),code(7),code(30 downto 25),code(11 downto 8),B(0,1 bits)).asSInt.resize(32 bits)
+  val imm_J=Cat(code(31),code(19 downto 12),code(20),code(30 downto 21),B(0,1 bits)).asSInt.resize(32 bits)
+
   def setFun(fun: RVCode.E,TYPE : String)={
     stage.down(to_EX).fun.assignFromBits(fun.asBits)
-
-    val rs1_t=code(19 downto 15).asUInt
-    val rs2_t=code(24 downto 20).asUInt
-    val rd_t =code(11 downto 7).asUInt
-    val imm_I=code(31 downto 20).asSInt.resize(32 bits)
-    val imm_U=Cat(code(31 downto 12),B(0,12 bits)).asBits
-    val imm_S=Cat(code(31 downto 25),code(11 downto 7)).asSInt.resize(32 bits)
-    val imm_B=Cat(code(31),code(7),code(30 downto 25),code(11 downto 8),B(0,1 bits)).asSInt.resize(32 bits)
-    val imm_J=Cat(code(31),code(19 downto 12),code(20),code(30 downto 21),B(0,1 bits)).asSInt.resize(32 bits)
-
     TYPE match{
       case "R" =>
         rs1_sel:=rs1_t
@@ -233,7 +233,7 @@ class EX_stage(
 
     val csr_valid = stage.down(CSR_valid)
     val csr_sel = stage.down(CSR_sel)
-    csr_sel:=0
+    csr_sel:=imm(11 downto 0).asUInt
     csr_valid:=False
 
     rd_sel_down:=rd_sel_up
@@ -302,14 +302,14 @@ class EX_stage(
       rd_valid:=False
     }
 
-    is(ECALL ){csr_valid:=True;rd_valid:=False;}
-    is(MRET  ){csr_valid:=True;rd_valid:=False;}
-    is(CSRRW ){csr_valid:=True;rd_valid:=False;csr_sel:=imm(11 downto 0).asUInt}
-    is(CSRRS ){csr_valid:=True;rd_valid:=False;csr_sel:=imm(11 downto 0).asUInt}
-    is(CSRRC ){csr_valid:=True;rd_valid:=False;csr_sel:=imm(11 downto 0).asUInt}
-    is(CSRRWI){csr_valid:=True;rd_valid:=False;csr_sel:=imm(11 downto 0).asUInt}
-    is(CSRRSI){csr_valid:=True;rd_valid:=False;csr_sel:=imm(11 downto 0).asUInt}
-    is(CSRRCI){csr_valid:=True;rd_valid:=False;csr_sel:=imm(11 downto 0).asUInt}
+    is(ECALL ){csr_valid:=True;rd_valid:=False}
+    is(MRET  ){csr_valid:=True;rd_valid:=False}
+    is(CSRRW ){csr_valid:=True;rd_valid:=False}
+    is(CSRRS ){csr_valid:=True;rd_valid:=False}
+    is(CSRRC ){csr_valid:=True;rd_valid:=False}
+    is(CSRRWI){csr_valid:=True;rd_valid:=False}
+    is(CSRRSI){csr_valid:=True;rd_valid:=False}
+    is(CSRRCI){csr_valid:=True;rd_valid:=False}
     default{assert(False,"ERROR_CODE")}
   }}
 
@@ -523,17 +523,17 @@ case class CSR () extends Component{
   val r_data = io.r_data
   val w_data = io.w_data
   val w_valid = io.w_valid
-  val mcycle = Reg(Bits(64 bits))init 0
+  // val mcycle = Reg(Bits(64 bits))init 0
   val mstatus = Reg(Bits(32 bits))init 0x00001800
   val mcause = Reg(Bits(32 bits))init 0x00B
   val mepc = Reg(Bits(32 bits))init 0
   val mtvec = Reg(Bits(32 bits))init 0x30000000L
 
-  mcycle:=(mcycle.asUInt+1).asBits
+  // mcycle:=(mcycle.asUInt+1).asBits
 
   switch(io.csr_rsel){
-    is(0xB00){r_data:=mcycle(31 downto 0).asBits}
-    is(0xB80){r_data:=mcycle(63 downto 32).asBits}
+    // is(0xB00){r_data:=mcycle(31 downto 0).asBits}
+    // is(0xB80){r_data:=mcycle(63 downto 32).asBits}
     is(0x300){r_data:=mstatus}
     is(0x305){r_data:=mtvec}
     is(0x342){r_data:=mcause}
@@ -576,7 +576,12 @@ case class test_cpu()extends Component with RVCodeDef{
     }
     val pip = new StageCtrlPipeline()
 
-    val gpr = Vec(Reg(Bits(32 bits)) init 0,32)
+    val gpr_reg = Vec(Reg(Bits(32 bits)) init 0,15)
+    val gpr = Vec((Bits(32 bits)),16)
+    gpr(0):=0
+    for(i <- 0 until 15){
+      gpr(i+1):=gpr_reg(i)
+    }
 
     val PC =Payload(UInt(32 bits))
     val CODE =Payload(Bits(32 bits))
@@ -584,7 +589,7 @@ case class test_cpu()extends Component with RVCodeDef{
     val fence_i = Bool()
     val IF = new pip.Ctrl(1){ 
       import MY_Prj.RV_comm.Icache._
-      val axi_if = new Icache(16,8)
+      val axi_if = new Icache(1,1)
       val addr =UInt(32 bits)
       val code =  Stream(Bits(32 bits))
       io.axi_if<>axi_if.io.axi
@@ -680,14 +685,14 @@ case class test_cpu()extends Component with RVCodeDef{
     val WB = new pip.Ctrl(5){
 
       when((RD_valid)&& (RD_sel) =/= 0 && !MEM(CSR_valid)){
-        gpr((RD_sel)):=(RD)
+        gpr_reg((RD_sel - 1).resize(4 bits)):=(RD)
       }
 
       val csr = new CSR()
       // val CSR_rs1_imm = CODE(19 downto 15).asUInt
       val csr_rdata = csr.io.r_data
       val csr_wdata = csr.io.w_data
-      val gpr_rdata = gpr(CSR_rs1_imm)
+      val gpr_rdata = gpr(CSR_rs1_imm.resize(4 bits))
 
       csr.io.w_valid:=CSR_valid
       csr.io.csr_wsel:=CSR_sel
@@ -699,10 +704,10 @@ case class test_cpu()extends Component with RVCodeDef{
 
       when(CSR_valid){
       
-      when(RD_sel=/=0){gpr(RD_sel):=csr_rdata}
+      when(RD_sel=/=0){gpr_reg((RD_sel - 1).resize(4 bits)):=csr_rdata}
 
       switch(IDtoEX.fun){
-      import  RVCode._
+      import RVCode._
       is(ECALL ){
         csr.io.csr_wsel:=0x341
         csr.io.csr_rsel:=0x305
@@ -755,9 +760,9 @@ case class test_cpu()extends Component with RVCodeDef{
 //数据前递部分
 
     when(id_rs1_sel===WB(RD_sel) && WB(RD_sel)=/=0 && WB(RD_valid)){id_rs1:=WB(RD)}
-    .otherwise{id_rs1:=gpr(id_rs1_sel)}
+    .otherwise{id_rs1:=gpr(id_rs1_sel.resize(4 bits))}
     when(id_rs2_sel===WB(RD_sel) && WB(RD_sel)=/=0 && WB(RD_valid)){id_rs2:=WB(RD)}
-    .otherwise{id_rs2:=gpr(id_rs2_sel)}
+    .otherwise{id_rs2:=gpr(id_rs2_sel.resize(4 bits))}
 
     when(!IF.code.valid){
       pip.ctrl(1).haltIt()
@@ -770,44 +775,44 @@ case class test_cpu()extends Component with RVCodeDef{
 
 //接入外部的和Veriltor联调的部分
   val debug = new Area{
-  val gpr_debug = new MyBlackBox.my_debug(0,32)
-  for(i<-0 until 32){
-    gpr_debug.io.data(i):=RegNext(gpr(i))
-  }
+  // val gpr_debug = new MyBlackBox.my_debug(0,16)
+  // for(i<-0 until 16){
+  //   gpr_debug.io.data(i):=RegNext(gpr(i))
+  // }
 
-  val step = new MyBlackBox.step_fun()
-  step.io.clk:=ClockDomain.current.readClockWire
-  val flag =Reg(Bool()) init False
-  val step_flag =Bool()
+  // val step = new MyBlackBox.step_fun()
+  // step.io.clk:=ClockDomain.current.readClockWire
+  // val flag =Reg(Bool()) init False
+  // val step_flag =Bool()
   // step.io.step:=(pip.ctrl(4).down.valid)
-  step.io.step:=step_flag
+  // step.io.step:=step_flag
 
-  val difftest = new MyBlackBox.my_debug(32,3)
+  // val difftest = new MyBlackBox.my_debug(32,3)
 
 
-  step_flag:=False
-  difftest.io.data(0):=0
-  difftest.io.data(2):=WB(CODE).asBits
-  difftest.io.data(1):=RegNextWhen(EXtoIF.nPC,EXtoIF.valid).asBits
+  // step_flag:=False
+  // difftest.io.data(0):=0
+  // difftest.io.data(2):=WB(CODE).asBits
+  // difftest.io.data(1):=RegNextWhen(EXtoIF.nPC,EXtoIF.valid).asBits
 
-  when((MEM.up.isFiring)){
-    step_flag:=True
-    difftest.io.data(0):=MEM(PC).asBits
-    difftest.io.data(2):=MEM(CODE).asBits
+  // when((MEM.up.isFiring)){
+  //   step_flag:=True
+  //   difftest.io.data(0):=MEM(PC).asBits
+  //   difftest.io.data(2):=MEM(CODE).asBits
+  // }
+  // val performance = new MyBlackBox.my_debug(41,3)
+  // val IFU_cnt =Reg(UInt(32 bits)) init 0
+  // val IDU_cnt =Reg(UInt(32 bits)) init 0
+  // val EXU_cnt =Reg(UInt(32 bits)) init 0
+  // when(pip.ctrl(1).down.valid){IFU_cnt:=IFU_cnt+1}
+  // when(pip.ctrl(2).down.valid){IDU_cnt:=IDU_cnt+1}
+  // when(pip.ctrl(3).down.valid){EXU_cnt:=EXU_cnt+1}
+
+  // performance.io.data(0):=IFU_cnt.asBits
+  // performance.io.data(1):=IDU_cnt.asBits
+  // performance.io.data(2):=EXU_cnt.asBits
   }
-  val performance = new MyBlackBox.my_debug(41,3)
-  val IFU_cnt =Reg(UInt(32 bits)) init 0
-  val IDU_cnt =Reg(UInt(32 bits)) init 0
-  val EXU_cnt =Reg(UInt(32 bits)) init 0
-  when(pip.ctrl(1).down.valid){IFU_cnt:=IFU_cnt+1}
-  when(pip.ctrl(2).down.valid){IDU_cnt:=IDU_cnt+1}
-  when(pip.ctrl(3).down.valid){EXU_cnt:=EXU_cnt+1}
 
-  performance.io.data(0):=IFU_cnt.asBits
-  performance.io.data(1):=IDU_cnt.asBits
-  performance.io.data(2):=EXU_cnt.asBits
-    
-
-  }
+  
 }
 

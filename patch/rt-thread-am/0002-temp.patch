@@ -1,0 +1,396 @@
+From d3d3d37e158a183b8c0d63f1b7b611c1f50911e9 Mon Sep 17 00:00:00 2001
+From: 535259205 <535259205@qq.com>
+Date: Wed, 15 Apr 2026 12:43:55 +0800
+Subject: [PATCH 2/2] temp
+
+---
+ bsp/abstract-machine/integrate-am-apps.py |   2 +-
+ bsp/abstract-machine/src/init.c           |   2 +-
+ bsp/abstract-machine/src/uart.c           |   3 +-
+ error.txt                                 | 333 ++++++++++++++++++++++
+ 4 files changed, 336 insertions(+), 4 deletions(-)
+ create mode 100644 error.txt
+
+diff --git a/bsp/abstract-machine/integrate-am-apps.py b/bsp/abstract-machine/integrate-am-apps.py
+index 8968df387..ba4918536 100644
+--- a/bsp/abstract-machine/integrate-am-apps.py
++++ b/bsp/abstract-machine/integrate-am-apps.py
+@@ -11,7 +11,7 @@ app_dir_list = [
+   AM_KERNELS_HOME / "benchmarks" / "microbench",
+   AM_KERNELS_HOME / "kernels" / "typing-game",
+   AM_KERNELS_HOME / "kernels" / "snake",
+-  AM_KERNELS_HOME / ".." / "fceux-am",
++  # AM_KERNELS_HOME / ".." / "fceux-am",
+ ]
+ 
+ if len(sys.argv) != 3:
+diff --git a/bsp/abstract-machine/src/init.c b/bsp/abstract-machine/src/init.c
+index 913273d48..c72fa4246 100644
+--- a/bsp/abstract-machine/src/init.c
++++ b/bsp/abstract-machine/src/init.c
+@@ -3,7 +3,7 @@
+ #include <klib.h>
+ #include <klib-macros.h>
+ 
+-#define AM_APPS_HEAP_SIZE  0x1000000
++#define AM_APPS_HEAP_SIZE  0x0100000
+ #define RT_HW_HEAP_BEGIN heap.start
+ #define RT_HW_HEAP_END heap.end
+ 
+diff --git a/bsp/abstract-machine/src/uart.c b/bsp/abstract-machine/src/uart.c
+index 63bc70732..d08084b4d 100644
+--- a/bsp/abstract-machine/src/uart.c
++++ b/bsp/abstract-machine/src/uart.c
+@@ -45,9 +45,8 @@ static int _uart_getc(struct rt_serial_device *serial) {
+   //NEMU
+   #ifndef YSYX_SOC
+   static const char *p = "help\ndate\nversion\nfree\nps\npwd\nls\nmemtrace\nmemcheck\nutest_list\n";
+-  return (*p != '\0' ? *(p ++) : -1);
++  return (*p != '\0' ? *(p ++) : getch());
+   #else//YSY_SOC
+-  //NEMU
+   return getch();
+   #endif
+ 
+diff --git a/error.txt b/error.txt
+new file mode 100644
+index 000000000..c4095ab83
+--- /dev/null
++++ b/error.txt
+@@ -0,0 +1,333 @@
++Run cd $YSYX_HOME/rt-thread-am/bsp/abstract-machine
++  cd $YSYX_HOME/rt-thread-am/bsp/abstract-machine
++  make ARCH=riscv32e-ysyxsoc init
++  KEY=$(head -c 5 /dev/urandom | base32)
++  python $MONITOR_PY --good=$KEY make ARCH=riscv32e-ysyxsoc run
++  shell: /usr/bin/bash -e {0}
++  env:
++    OSS_CAD_SUITE_RELEASE_TAG: 2025-11-24
++    MONITOR_PY: /home/runner/work/ysyx-submit-test/ysyx-submit-test/monitor.py
++    YSYX_HOME: /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench
++    NEMU_HOME: /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/nemu
++    AM_HOME: /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine
++    NAVY_HOME: /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/navy-apps
++    NPC_HOME: /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/npc
++    NVBOARD_HOME: /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/nvboard
++    MAKEFLAGS: -j1
++    PATH: /home/runner/.local/bin:/snap/bin:/home/runner/.local/bin:/opt/pipx_bin:/home/runner/.cargo/bin:/home/runner/.config/composer/vendor/bin:/usr/local/.ghcup/bin:/home/runner/.dotnet/tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/bin
++# Building rtthread-init [riscv32e-ysyxsoc]
++mkdir -p build/riscv32e-ysyxsoc
++python3 integrate-am-apps.py ARCH=riscv32e-ysyxsoc CROSS_COMPILE=riscv64-linux-gnu-
++make[1]: Entering directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/am'
++# Building am-image [riscv32e-ysyxsoc]
+++ AS src/riscv/ysyxsoc/start.S
+++ CC src/riscv/ysyxsoc/trm.c
+++ CC src/riscv/ysyxsoc/ioe.c
+++ CC src/riscv/ysyxsoc/timer.c
+++ CC src/riscv/ysyxsoc/input.c
+++ CC src/riscv/ysyxsoc/cte.c
+++ AS src/riscv/ysyxsoc/trap.S
+++ CC src/riscv/ysyxsoc/uart.c
+++ CC src/platform/dummy/vme.c
+++ CC src/platform/dummy/mpe.c
+++ AS src/riscv/npc/libgcc/div.S
+++ AS src/riscv/npc/libgcc/muldi3.S
+++ CC src/riscv/npc/libgcc/multi3.c
+++ CC src/riscv/npc/libgcc/ashldi3.c
++make[2]: Entering directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/am'
++# Building am-archive [riscv32e-ysyxsoc]
+++ CC src/riscv/npc/libgcc/unused.c
++make[2]: Entering directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/klib'
++# Building klib-archive [riscv32e-ysyxsoc]
+++ AR -> build/am-riscv32e-ysyxsoc.a
+++ CC src/stdio.c
+++ CC src/cpp.c
+++ CC src/stdlib.c
+++ CC src/string.c
+++ CC src/int64.c
+++ AR -> build/klib-riscv32e-ysyxsoc.a
++make[2]: Leaving directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/klib'
++make[2]: Leaving directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/am'
++# Creating image [riscv32e-ysyxsoc]
+++ LD -> build/am-riscv32e-ysyxsoc.elf
++riscv64-linux-gnu-ld: /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/am/build/riscv32e-ysyxsoc/src/riscv/ysyxsoc/trm.o: in function `.L0 ':
++trm.c:(.text.real_main+0x14): undefined reference to `main'
++make[1]: *** [/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/Makefile:154: /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/am/build/am-riscv32e-ysyxsoc.elf] Error 1
++make[1]: Leaving directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/am'
++make[1]: Entering directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/am-kernels/kernels/hello'
++# Building hello-image [riscv32e-ysyxsoc]
++make[2]: Entering directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/am'
++# Building am-archive [riscv32e-ysyxsoc]
++make[2]: Entering directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/klib'
++# Building klib-archive [riscv32e-ysyxsoc]
+++ CC hello.c
++make[2]: Leaving directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/klib'
++make[2]: Leaving directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/am'
++# Creating image [riscv32e-ysyxsoc]
+++ LD -> build/hello-riscv32e-ysyxsoc.elf
+++ OBJCOPY -> build/hello-riscv32e-ysyxsoc.bin
++make[1]: Leaving directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/am-kernels/kernels/hello'
++make[1]: Entering directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/am-kernels/benchmarks/microbench'
++# Building microbench-image [riscv32e-ysyxsoc]
+++ CC src/queen/queen.c
+++ CXX src/dinic/dinic.cc
+++ CC src/fib/fib.c
+++ CC src/md5/md5.c
+++ CC src/sieve/sieve.c
+++ CC src/qsort/qsort.c
+++ CC src/bf/bf.c
+++ CXX src/15pz/15pz.cc
+++ CC src/lzip/lzip.c
+++ CC src/lzip/quicklz.c
+++ CXX src/ssort/ssort.cc
++make[2]: Entering directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/am'
++make[2]: Entering directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/klib'
++# Building klib-archive [riscv32e-ysyxsoc]
++# Building am-archive [riscv32e-ysyxsoc]
+++ CC src/bench.c
++make[2]: Leaving directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/klib'
++make[2]: Leaving directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/am'
++# Creating image [riscv32e-ysyxsoc]
+++ LD -> build/microbench-riscv32e-ysyxsoc.elf
+++ OBJCOPY -> build/microbench-riscv32e-ysyxsoc.bin
++make[1]: Leaving directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/am-kernels/benchmarks/microbench'
++make[1]: Entering directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/am-kernels/kernels/typing-game'
++# Building typing-game-image [riscv32e-ysyxsoc]
+++ CC game.c
++make[2]: Entering directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/am'
++# Building am-archive [riscv32e-ysyxsoc]
++make[2]: Entering directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/klib'
++# Building klib-archive [riscv32e-ysyxsoc]
+++ CC font.c
++make[2]: Leaving directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/klib'
++make[2]: Leaving directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/am'
++# Creating image [riscv32e-ysyxsoc]
+++ LD -> build/typing-game-riscv32e-ysyxsoc.elf
+++ OBJCOPY -> build/typing-game-riscv32e-ysyxsoc.bin
++make[1]: Leaving directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/am-kernels/kernels/typing-game'
++make[1]: Entering directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/am-kernels/kernels/snake'
++# Building snake-image [riscv32e-ysyxsoc]
++make[2]: Entering directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/am'
++# Building am-archive [riscv32e-ysyxsoc]
++make[2]: Entering directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/klib'
++# Building klib-archive [riscv32e-ysyxsoc]
+++ CC snake.c
++make[2]: Leaving directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/am'
++make[2]: Leaving directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/klib'
++# Creating image [riscv32e-ysyxsoc]
+++ LD -> build/snake-riscv32e-ysyxsoc.elf
+++ OBJCOPY -> build/snake-riscv32e-ysyxsoc.bin
++make[1]: Leaving directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/am-kernels/kernels/snake'
++# Building rtthread-init [riscv32e-ysyxsoc]
++touch rtconfig.h
++scons --useconfig=.config
++scons: Reading SConscript files ...
++if [ "`sed -n '3p' rtconfig.h`"x = x ]; then sed -i -e '2a#include "extra.h"' rtconfig.h; fi
++scons -c
++scons: Reading SConscript files ...
++scons: done reading SConscript files.
++scons: Cleaning targets ...
++scons: done cleaning targets.
++scons --verbose -n > .tmp.files.mk
++cat .tmp.files.mk | grep -o '[^ ]*.c$' | awk '{print "SRCS += " $1}' > files.mk
++cat .tmp.files.mk | grep 'gcc ' | head -n 1 | grep -o " -I[^ ]*" | awk '{print "CFLAGS += " $1}' >> files.mk
++grep: write error: Broken pipe
++rm .tmp.files.mk
++../Makefile:46: warning: overriding recipe for target '.git_commit'
++../Makefile:28: warning: ignoring old recipe for target '.git_commit'
++%Warning-TIMESCALEMOD: /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/vsrc/fun/step_fun.v:1:8: Timescale missing on this module as other modules have it (IEEE 1800-2023 3.14.2.3)
++    1 | module step_fun(
++      |        ^~~~~~~~
++                       /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/build/ysyx_26010010.v:6:8: ... Location of module with timescale
++    6 | module ysyx_26010010 (
++      |        ^~~~~~~~~~~~~
++                       ... For warning description see https://verilator.org/warn/TIMESCALEMOD?v=5.043
++                       ... Use "/* verilator lint_off TIMESCALEMOD */" and lint_on around source to disable this message.
++%Warning-TIMESCALEMOD: /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/vsrc/fun/ebreak_fun.v:1:8: Timescale missing on this module as other modules have it (IEEE 1800-2023 3.14.2.3)
++    1 | module ebreak_fun(
++      |        ^~~~~~~~~~
++                       /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/build/ysyx_26010010.v:6:8: ... Location of module with timescale
++    6 | module ysyx_26010010 (
++      |        ^~~~~~~~~~~~~
++%Warning-TIMESCALEMOD: /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/vsrc/fun/debug_fun.v:1:8: Timescale missing on this module as other modules have it (IEEE 1800-2023 3.14.2.3)
++    1 | module debug_fun(
++      |        ^~~~~~~~~
++                       /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/build/ysyx_26010010.v:6:8: ... Location of module with timescale
++    6 | module ysyx_26010010 (
++      |        ^~~~~~~~~~~~~
++%Warning-TIMESCALEMOD: /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/vsrc/core/core_wrapper.v:1:8: Timescale missing on this module as other modules have it (IEEE 1800-2023 3.14.2.3)
++    1 | module core_wrapper(
++      |        ^~~~~~~~~~~~
++                       /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/build/ysyx_26010010.v:6:8: ... Location of module with timescale
++    6 | module ysyx_26010010 (
++      |        ^~~~~~~~~~~~~
++%Warning-CASEINCOMPLETE: /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../ysyxSoC/perip/psram/psram.v:116:3: Case values incompletely covered (example pattern 0x0)
++  116 |   case(cnt)
++      |   ^~~~
++                         ... For warning description see https://verilator.org/warn/CASEINCOMPLETE?v=5.043
++                         ... Use "/* verilator lint_off CASEINCOMPLETE */" and lint_on around source to disable this message.
++# Building rtthread-run [riscv32e-ysyxsoc]
+++ CC src/context.c
+++ CC src/uart.c
+++ CC src/libc.c
+++ CC src/hello.c
+++ CC src/interrupt.c
+++ CC src/init.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/dfs/dfs_v1/filesystems/devfs/devfs.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/dfs/dfs_v1/filesystems/elmfat/dfs_elm.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/dfs/dfs_v1/filesystems/elmfat/ff.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/dfs/dfs_v1/filesystems/elmfat/ffunicode.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/dfs/dfs_v1/filesystems/romfs/dfs_romfs.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/dfs/dfs_v1/filesystems/romfs/romfs.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/dfs/dfs_v1/src/dfs.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/dfs/dfs_v1/src/dfs_file.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/dfs/dfs_v1/src/dfs_fs.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/dfs/dfs_v1/src/dfs_posix.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/drivers/cputime/cputime.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/drivers/cputime/cputimer.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/drivers/ipc/completion.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/drivers/ipc/dataqueue.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/drivers/ipc/pipe.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/drivers/ipc/ringblk_buf.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/drivers/ipc/ringbuffer.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/drivers/ipc/waitqueue.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/drivers/ipc/workqueue.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/drivers/misc/rt_null.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/drivers/misc/rt_random.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/drivers/misc/rt_zero.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/drivers/rtc/rtc.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/drivers/serial/serial.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/finsh/cmd.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/finsh/msh.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/finsh/msh_file.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/finsh/msh_parse.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/finsh/shell.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/libc/compilers/common/cctype.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/libc/compilers/common/cstdio.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/libc/compilers/common/cstdlib.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/libc/compilers/common/cstring.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/libc/compilers/common/ctime.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/libc/compilers/common/cwchar.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/utilities/libadt/avl.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/components/utilities/utest/utest.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/src/clock.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/src/components.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/src/device.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/src/idle.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/src/ipc.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/src/irq.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/src/kservice.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/src/mem.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/src/mempool.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/src/object.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/src/scheduler_up.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/src/thread.c
+++ CC /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/rt-thread-am/src/timer.c
+++ CC build/am-apps.c
++# Building am-archive [riscv32e-ysyxsoc]
++# Building klib-archive [riscv32e-ysyxsoc]
++# Creating image [riscv32e-ysyxsoc]
+++ LD -> build/rtthread-riscv32e-ysyxsoc.elf
+++ OBJCOPY -> build/rtthread-riscv32e-ysyxsoc.bin
++mainargs=
++TEST /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/hex/test.bin
++make -C /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc all;
++make[1]: Entering directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/npc'
++- V e r i l a t i o n   R e p o r t: Verilator 5.043 devel rev v5.042-99-g201416a0c
++- Verilator: Built from 30.408 MB sources in 97 modules, into 2.847 MB in 14 C++ files needing 0.001 MB
++- Verilator: Walltime 1.063 s (elab=0.116, cvt=0.769, bld=0.000); cpu 1.063 s on 1 threads; alloced 60.191 MB
++make[2]: Entering directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/npc/obj_dir'
++../csrc/ftrace.cpp: In function ‘int FtraceInit(char*)’:
++../csrc/ftrace.cpp:52:36: warning: pointer of type ‘void *’ used in arithmetic [-Wpointer-arith]
++   52 |     shdr = (Elf32_Shdr *)(elf_base + ehdr->e_shoff);
++      |                           ~~~~~~~~~^~~~~~~~~~~~~~~
++../csrc/ftrace.cpp:53:34: warning: pointer of type ‘void *’ used in arithmetic [-Wpointer-arith]
++   53 |     shstrtab = (char *)(elf_base + shdr[ehdr->e_shstrndx].sh_offset);
++      |                         ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++../csrc/ftrace.cpp:69:45: warning: pointer of type ‘void *’ used in arithmetic [-Wpointer-arith]
++   69 |             symtab = (Elf32_Sym *)(elf_base + shdr[i].sh_offset);
++      |                                    ~~~~~~~~~^~~~~~~~~~~~~~~~~~~
++../csrc/ftrace.cpp:75:40: warning: pointer of type ‘void *’ used in arithmetic [-Wpointer-arith]
++   75 |             strtab = (char *)(elf_base + shdr[strtab_idx].sh_offset);
++      |                               ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
++../csrc/main.cpp: In function ‘int main(int, char**)’:
++../csrc/main.cpp:30:14: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
++   30 |   FtraceInit("./hex/test.elf");
++      |              ^~~~~~~~~~~~~~~~
++../csrc/mem.cpp: In function ‘void mem_init(const char*)’:
++../csrc/mem.cpp:74:8: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
++   74 |   fread(rom, sizeof(uint32_t), FLASH_SIZE, fp);
++      |   ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++g++  -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=ysyxS
++g++  -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=ysyxS
++g++  -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=ysyxS
++g++  -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=ysyxS
++g++  -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=ysyxS
++g++  -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=ysyxS
++g++  -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=ysyxS
++../csrc/timer.cpp: In function ‘uint32_t timer_handle(uint32_t, int)’:
++../csrc/timer.cpp:12:25: warning: NULL used in arithmetic [-Wpointer-arith]
++   12 |     if(TimStart.tv_sec==NULL)
++      |                         ^~~~
++g++  -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=ysyxS
++g++  -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=ysyxS
++g++  -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=ysyxS
++g++  -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=ysyxS
++g++  -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=ysyxS
++g++ -Os  -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=y
++g++ -Os  -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=y
++g++ -Os  -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=y
++g++ -Os  -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=y
++g++ -Os  -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=y
++g++ -Os  -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=y
++g++ -Os  -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=y
++g++ -Os  -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=y
++g++ -Os  -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=y
++g++ -Os  -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=y
++g++ -Os  -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=y
++g++   -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=ysyx
++g++   -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=ysyx
++g++   -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=ysyx
++g++   -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=ysyx
++g++   -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=ysyx
++../Makefile:46: warning: overriding recipe for target '.git_commit'
++../Makefile:28: warning: ignoring old recipe for target '.git_commit'
++Makefile:46: warning: overriding recipe for target '.git_commit'
++Makefile:28: warning: ignoring old recipe for target '.git_commit'
++g++   -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=ysyx
++g++   -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=ysyx
++g++   -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=ysyx
++g++   -I.  -MMD -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/oss-cad-suite/share/verilator/include/vltstd -DVERILATOR=1 -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TIMING=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -DVM_TRACE_SAIF=0 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-int-in-bool-context -Wno-shadow -Wno-sign-compare -Wno-subobject-linkage -Wno-tautological-compare -Wno-uninitialized -Wno-unused-but-set-parameter -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable    -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/include -I/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/src/isa/riscv32/include    -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=ysyx
++g++    difftest.o disasm.o ex_api.o ftrace.o iringbuf.o main.o mem.o npc_api.o probe.o sdb.o sim.o timer.o verilated.o verilated_dpi.o verilated_vcd_c.o verilated_threads.o VysyxSoCFull__ALL.a   -lreadline  -fsanitize=address  -pthread -lpthread -latomic   -o VysyxSoCFull
++rm VysyxSoCFull__ALL.verilator_deplist.tmp
++make[2]: Leaving directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/npc/obj_dir'
++make[1]: Leaving directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/npc'
++make -C /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc sim;
++make[1]: Entering directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/npc'
++riscv64-linux-gnu-objdump -D -m riscv:rv64 -EL /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/hex/test.elf > /home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../npc/hex/disasm_result.txt
++make[2]: Entering directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench'
++git tracer is disabled
++make[2]: Leaving directory '/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench'
++LD_LIBRARY_PATH=:/home/runner/work/ysyx-submit-test/ysyx-submit-test/tmp.dJF7c32tLW/ysyx-workbench/abstract-machine/../nemu/tools/capstone/repo ./obj_dir/VysyxSoCFull
++diff_MEMCOPY
++===== Section Info =====
++Section  0:                                          | Type:    0 | Size:        0 | Addr: 0x0
++Section  1: .boot                                    | Type:    1 | Size:      112 | Addr: 0x30000000
++Section  2: .ssbl                                    | Type:    1 | Size:      244 | Addr: 0xf000000
++Section  3: .text                                    | Type:    1 | Size:   159232 | Addr: 0xa1000000
++Section  4: .data                                    | Type:    1 | Size:     3156 | Addr: 0xa0000000
++Section  5: .bss                                     | Type:    8 | Size:    80308 | Addr: 0xa0000c58
++Section  6: .sbss.uart0                              | Type:    8 | Size:        8 | Addr: 0xa001460c
++Section  7: .sbss.am_apps_bss                        | Type:    8 | Size:        8 | Addr: 0xa0014614
++Section  8: .sbss.am_apps_data                       | Type:    8 | Size:        8 | Addr: 0xa001461c
++Section  9: .sbss.am_apps_data_content               | Type:    8 | Size:        4 | Addr: 0xa0014624
++Section 10: .sbss.am_apps_heap                       | Type:    8 | Size:        8 | Addr: 0xa0014628
++Section 11: .sbss.disk                               | Type:    8 | Size:        8 | Addr: 0xa0014630
++Section 12: .sbss.FatFs                              | Type:    8 | Size:        8 | Addr: 0xa0014638
++Section 13: .sbss.Fsid                               | Type:    8 | Size:        2 | Addr: 0xa0014640
++Section 14: .sbss._fdtab                             | Type:    8 | Size:        8 | Addr: 0xa0014644
++Section 15: .sbss.init_ok.4                          | Type:    8 | Size:        4 | Addr: 0xa001464c
++Section 16: .sbss.sys_workq                          | Type:    8 | Size:        4 | Addr: 0xa0014650
++Section 17: .sbss.init_ok.1                          | Type:    8 | Size:       12 | Addr: 0xa0014654
++Section 18: .sbss.init_ok.3                          | Type:    8 | Size:        4 | Addr: 0xa0014660
++Section 19: .sbss.seed                               | Type:    8 | Size:        4 | Addr: 0xa0014664
+-- 
+2.43.0
+

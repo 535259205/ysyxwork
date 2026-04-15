@@ -13,7 +13,7 @@ begin
     debug(addr,data);
 end
   `else 
-always @(negedge clk)
+always @(posedge clk)
 begin
     $sys_ctr(addr,data);
 end

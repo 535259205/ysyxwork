@@ -136,9 +136,9 @@ case class PC() extends Component{
   when(axi.ar.fire){axi.ar.valid:=False;axi.r.ready:=True}
   .elsewhen(io.read_en  && !flag){axi.ar.valid:=True;flag:=True}//使能的同时不准备
 
-  when(!io.read_en){flag:=False;npc_flag:=False}
+  when(!io.read_en){flag:=False;}
 
-  when(axi.r.fire){axi.r.ready:=False;io.finish:=True}
+  when(axi.r.fire){axi.r.ready:=False;io.finish:=True;npc_flag:=False}
   // .elsewhen(axi.r.valid){axi.r.ready:=True}
 
   axi.ar.payload.addr:=PC.asUInt

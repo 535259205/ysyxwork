@@ -61,7 +61,7 @@ module AllCtrl (
   `endif
 
 
-  step_fun step_fun_1 (
+  ysyx_26010010_step_fun step_fun (
     .step (step ), //i
     .clk  (clock)  //i
   );

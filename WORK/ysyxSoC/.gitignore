@@ -1,0 +1,13 @@
+build/
+out/
+
+# IDE files
+.bsp/
+.idea/
+.metals/
+.vscode/
+.bloop/
+
+.direnv/
+
+.DS_Store

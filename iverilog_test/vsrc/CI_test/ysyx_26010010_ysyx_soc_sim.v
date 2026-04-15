@@ -125,7 +125,7 @@ module ysyx_26010010_ysyx_soc_sim (
     .axi_m_w_payload_last   (soc_axi_m_w_payload_last            ), //o
     .axi_m_b_valid          (soc_axi_m_b_valid                   ), //i
     .axi_m_b_ready          (soc_axi_m_b_ready                   ), //o
-    .axi_m_b_payload_id     (4'b0                             ), //i
+    .axi_m_b_payload_id     (4'b0                                ), //i
     .axi_m_b_payload_resp   (soc_axi_m_b_payload_resp[1:0]       ), //i
     .axi_m_ar_valid         (soc_axi_m_ar_valid                  ), //o
     .axi_m_ar_ready         (soc_axi_m_ar_ready                  ), //i
@@ -142,15 +142,15 @@ module ysyx_26010010_ysyx_soc_sim (
     .axi_m_r_payload_last   (soc_axi_m_r_payload_last            ), //i
     .axi_s_aw_valid         (1'b0                                ), //i
     .axi_s_aw_ready         (soc_axi_s_aw_ready                  ), //o
-    .axi_s_aw_payload_addr  (32'b0), //i
-    .axi_s_aw_payload_id    (4'b0                            ), //i
-    .axi_s_aw_payload_len   (8'b0                         ), //i
-    .axi_s_aw_payload_size  (3'b0                              ), //i
-    .axi_s_aw_payload_burst (2'b0                               ), //i
+    .axi_s_aw_payload_addr  (32'b0                               ), //i
+    .axi_s_aw_payload_id    (4'b0                                ), //i
+    .axi_s_aw_payload_len   (8'b0                                ), //i
+    .axi_s_aw_payload_size  (3'b0                                ), //i
+    .axi_s_aw_payload_burst (2'b0                                ), //i
     .axi_s_w_valid          (1'b0                                ), //i
     .axi_s_w_ready          (soc_axi_s_w_ready                   ), //o
-    .axi_s_w_payload_data   (32'b0), //i
-    .axi_s_w_payload_strb   (4'b0                             ), //i
+    .axi_s_w_payload_data   (32'b0                               ), //i
+    .axi_s_w_payload_strb   (4'b0                                ), //i
     .axi_s_w_payload_last   (1'b0                                ), //i
     .axi_s_b_valid          (soc_axi_s_b_valid                   ), //o
     .axi_s_b_ready          (1'b0                                ), //i
@@ -158,11 +158,11 @@ module ysyx_26010010_ysyx_soc_sim (
     .axi_s_b_payload_resp   (soc_axi_s_b_payload_resp[1:0]       ), //o
     .axi_s_ar_valid         (1'b0                                ), //i
     .axi_s_ar_ready         (soc_axi_s_ar_ready                  ), //o
-    .axi_s_ar_payload_addr  (32'b0), //i
-    .axi_s_ar_payload_id    (4'b0                            ), //i
-    .axi_s_ar_payload_len   (8'b0                        ), //i
-    .axi_s_ar_payload_size  (3'b0                              ), //i
-    .axi_s_ar_payload_burst (2'b0                               ), //i
+    .axi_s_ar_payload_addr  (32'b0                               ), //i
+    .axi_s_ar_payload_id    (4'b0                                ), //i
+    .axi_s_ar_payload_len   (8'b0                                ), //i
+    .axi_s_ar_payload_size  (3'b0                                ), //i
+    .axi_s_ar_payload_burst (2'b0                                ), //i
     .axi_s_r_valid          (soc_axi_s_r_valid                   ), //o
     .axi_s_r_ready          (1'b0                                ), //i
     .axi_s_r_payload_data   (soc_axi_s_r_payload_data[31:0]      ), //o

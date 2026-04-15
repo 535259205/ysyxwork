@@ -1,6 +1,6 @@
 
 NPC_HOME:= $(AM_HOME)/../npc
-WORK_HOME:= $(NPC_HOME)/../WORK
+WORK_HOME:= $(NPC_HOME)/../../WORK
 
 TOP_MODULE :=TOPmod
 

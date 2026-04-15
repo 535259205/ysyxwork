@@ -333,7 +333,7 @@ module Encode (
   assign _zz_com_grp_rd_42 = (pc_pc + imm_U);
   assign _zz_com_pc_nPC_7 = (pc_pc + imm_J);
   assign _zz_com_grp_rd_43 = (pc_pc + 32'h00000004);
-  ebreak_fun ebreak_module (
+  ysyx_26010010_ebreak_fun ebreak_module (
     .ebreak_flag (ebreak)  //i
   );
   always @(*) begin

@@ -39,162 +39,162 @@ module my_debug_2 (
 );
 
 
-  debug_fun debug_fun_1 (
+  ysyx_26010010_debug_fun debug_fun (
     .clk  (clock       ), //i
     .addr (32'h0       ), //i
     .data (data_0[31:0])  //i
   );
-  debug_fun debug_fun_2 (
+  ysyx_26010010_debug_fun debug_fun_1 (
     .clk  (clock       ), //i
     .addr (32'h00000001), //i
     .data (data_1[31:0])  //i
   );
-  debug_fun debug_fun_3 (
+  ysyx_26010010_debug_fun debug_fun_2 (
     .clk  (clock       ), //i
     .addr (32'h00000002), //i
     .data (data_2[31:0])  //i
   );
-  debug_fun debug_fun_4 (
+  ysyx_26010010_debug_fun debug_fun_3 (
     .clk  (clock       ), //i
     .addr (32'h00000003), //i
     .data (data_3[31:0])  //i
   );
-  debug_fun debug_fun_5 (
+  ysyx_26010010_debug_fun debug_fun_4 (
     .clk  (clock       ), //i
     .addr (32'h00000004), //i
     .data (data_4[31:0])  //i
   );
-  debug_fun debug_fun_6 (
+  ysyx_26010010_debug_fun debug_fun_5 (
     .clk  (clock       ), //i
     .addr (32'h00000005), //i
     .data (data_5[31:0])  //i
   );
-  debug_fun debug_fun_7 (
+  ysyx_26010010_debug_fun debug_fun_6 (
     .clk  (clock       ), //i
     .addr (32'h00000006), //i
     .data (data_6[31:0])  //i
   );
-  debug_fun debug_fun_8 (
+  ysyx_26010010_debug_fun debug_fun_7 (
     .clk  (clock       ), //i
     .addr (32'h00000007), //i
     .data (data_7[31:0])  //i
   );
-  debug_fun debug_fun_9 (
+  ysyx_26010010_debug_fun debug_fun_8 (
     .clk  (clock       ), //i
     .addr (32'h00000008), //i
     .data (data_8[31:0])  //i
   );
-  debug_fun debug_fun_10 (
+  ysyx_26010010_debug_fun debug_fun_9 (
     .clk  (clock       ), //i
     .addr (32'h00000009), //i
     .data (data_9[31:0])  //i
   );
-  debug_fun debug_fun_11 (
+  ysyx_26010010_debug_fun debug_fun_10 (
     .clk  (clock        ), //i
     .addr (32'h0000000a ), //i
     .data (data_10[31:0])  //i
   );
-  debug_fun debug_fun_12 (
+  ysyx_26010010_debug_fun debug_fun_11 (
     .clk  (clock        ), //i
     .addr (32'h0000000b ), //i
     .data (data_11[31:0])  //i
   );
-  debug_fun debug_fun_13 (
+  ysyx_26010010_debug_fun debug_fun_12 (
     .clk  (clock        ), //i
     .addr (32'h0000000c ), //i
     .data (data_12[31:0])  //i
   );
-  debug_fun debug_fun_14 (
+  ysyx_26010010_debug_fun debug_fun_13 (
     .clk  (clock        ), //i
     .addr (32'h0000000d ), //i
     .data (data_13[31:0])  //i
   );
-  debug_fun debug_fun_15 (
+  ysyx_26010010_debug_fun debug_fun_14 (
     .clk  (clock        ), //i
     .addr (32'h0000000e ), //i
     .data (data_14[31:0])  //i
   );
-  debug_fun debug_fun_16 (
+  ysyx_26010010_debug_fun debug_fun_15 (
     .clk  (clock        ), //i
     .addr (32'h0000000f ), //i
     .data (data_15[31:0])  //i
   );
-  debug_fun debug_fun_17 (
+  ysyx_26010010_debug_fun debug_fun_16 (
     .clk  (clock        ), //i
     .addr (32'h00000010 ), //i
     .data (data_16[31:0])  //i
   );
-  debug_fun debug_fun_18 (
+  ysyx_26010010_debug_fun debug_fun_17 (
     .clk  (clock        ), //i
     .addr (32'h00000011 ), //i
     .data (data_17[31:0])  //i
   );
-  debug_fun debug_fun_19 (
+  ysyx_26010010_debug_fun debug_fun_18 (
     .clk  (clock        ), //i
     .addr (32'h00000012 ), //i
     .data (data_18[31:0])  //i
   );
-  debug_fun debug_fun_20 (
+  ysyx_26010010_debug_fun debug_fun_19 (
     .clk  (clock        ), //i
     .addr (32'h00000013 ), //i
     .data (data_19[31:0])  //i
   );
-  debug_fun debug_fun_21 (
+  ysyx_26010010_debug_fun debug_fun_20 (
     .clk  (clock        ), //i
     .addr (32'h00000014 ), //i
     .data (data_20[31:0])  //i
   );
-  debug_fun debug_fun_22 (
+  ysyx_26010010_debug_fun debug_fun_21 (
     .clk  (clock        ), //i
     .addr (32'h00000015 ), //i
     .data (data_21[31:0])  //i
   );
-  debug_fun debug_fun_23 (
+  ysyx_26010010_debug_fun debug_fun_22 (
     .clk  (clock        ), //i
     .addr (32'h00000016 ), //i
     .data (data_22[31:0])  //i
   );
-  debug_fun debug_fun_24 (
+  ysyx_26010010_debug_fun debug_fun_23 (
     .clk  (clock        ), //i
     .addr (32'h00000017 ), //i
     .data (data_23[31:0])  //i
   );
-  debug_fun debug_fun_25 (
+  ysyx_26010010_debug_fun debug_fun_24 (
     .clk  (clock        ), //i
     .addr (32'h00000018 ), //i
     .data (data_24[31:0])  //i
   );
-  debug_fun debug_fun_26 (
+  ysyx_26010010_debug_fun debug_fun_25 (
     .clk  (clock        ), //i
     .addr (32'h00000019 ), //i
     .data (data_25[31:0])  //i
   );
-  debug_fun debug_fun_27 (
+  ysyx_26010010_debug_fun debug_fun_26 (
     .clk  (clock        ), //i
     .addr (32'h0000001a ), //i
     .data (data_26[31:0])  //i
   );
-  debug_fun debug_fun_28 (
+  ysyx_26010010_debug_fun debug_fun_27 (
     .clk  (clock        ), //i
     .addr (32'h0000001b ), //i
     .data (data_27[31:0])  //i
   );
-  debug_fun debug_fun_29 (
+  ysyx_26010010_debug_fun debug_fun_28 (
     .clk  (clock        ), //i
     .addr (32'h0000001c ), //i
     .data (data_28[31:0])  //i
   );
-  debug_fun debug_fun_30 (
+  ysyx_26010010_debug_fun debug_fun_29 (
     .clk  (clock        ), //i
     .addr (32'h0000001d ), //i
     .data (data_29[31:0])  //i
   );
-  debug_fun debug_fun_31 (
+  ysyx_26010010_debug_fun debug_fun_30 (
     .clk  (clock        ), //i
     .addr (32'h0000001e ), //i
     .data (data_30[31:0])  //i
   );
-  debug_fun debug_fun_32 (
+  ysyx_26010010_debug_fun debug_fun_31 (
     .clk  (clock        ), //i
     .addr (32'h0000001f ), //i
     .data (data_31[31:0])  //i

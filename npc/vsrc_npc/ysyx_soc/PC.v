@@ -91,6 +91,8 @@ module PC (
       end
       if(when_MyCpu_l139) begin
         flag <= 1'b0;
+      end
+      if(axi4lite_r_fire) begin
         npc_flag <= 1'b0;
       end
       if(when_MyCpu_l150) begin

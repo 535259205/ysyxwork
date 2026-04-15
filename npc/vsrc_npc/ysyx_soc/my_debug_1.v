@@ -13,32 +13,32 @@ module my_debug_1 (
 );
 
 
-  debug_fun debug_fun_1 (
+  ysyx_26010010_debug_fun debug_fun (
     .clk  (clock       ), //i
     .addr (32'h00000023), //i
     .data (data_0[31:0])  //i
   );
-  debug_fun debug_fun_2 (
+  ysyx_26010010_debug_fun debug_fun_1 (
     .clk  (clock       ), //i
     .addr (32'h00000024), //i
     .data (data_1[31:0])  //i
   );
-  debug_fun debug_fun_3 (
+  ysyx_26010010_debug_fun debug_fun_2 (
     .clk  (clock       ), //i
     .addr (32'h00000025), //i
     .data (data_2[31:0])  //i
   );
-  debug_fun debug_fun_4 (
+  ysyx_26010010_debug_fun debug_fun_3 (
     .clk  (clock       ), //i
     .addr (32'h00000026), //i
     .data (data_3[31:0])  //i
   );
-  debug_fun debug_fun_5 (
+  ysyx_26010010_debug_fun debug_fun_4 (
     .clk  (clock       ), //i
     .addr (32'h00000027), //i
     .data (data_4[31:0])  //i
   );
-  debug_fun debug_fun_6 (
+  ysyx_26010010_debug_fun debug_fun_5 (
     .clk  (clock       ), //i
     .addr (32'h00000028), //i
     .data (data_5[31:0])  //i

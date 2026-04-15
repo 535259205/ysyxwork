@@ -85,14 +85,16 @@ object MyTopLevelApp extends App {
       inlineRom = true,
       enumPrefixEnable = true,
       nameWhenByFile = true,
+
       inlineConditionalExpression = true,//内联条件表达式
       cutLongExpressions = true,//拆分过长的表达式
       romReuse = true,//复用相同的rom模块
-      dontCareGenAsZero = true ,//将dontCare信号生成的Verilog代码设为0
+      // dontCareGenAsZero = true ,//将dontCare信号生成的Verilog代码设为0
       noAssert = true,//是否禁用断言
       oneFilePerComponent = false,//每个组件生成一个Verilog文件
     )
     spinalConfig.targetDirectory="../npc/build/"
+    // spinalConfig.targetDirectory="./hw/verilog/ysyx_soc"
     spinalConfig.generateVerilog(new MY_Prj.pipCPU_TOP.ysyx_26010010()).printPruned()
   }
 
@@ -108,8 +110,10 @@ object MyTopLevelApp extends App {
     val spinalConfig =Sys.spinalConfig
     println("Generating MyCpu.TOP...")
     spinalConfig.targetDirectory="../npc/vsrc_npc/ysyx_soc"
+
     spinalConfig.generateVerilog(new MyCpu.MyCpu.ysyxSoCFull).printPruned()
   }
+
 }
 
 

@@ -223,6 +223,37 @@ case class ebreak_fun() extends BlackBox{
   val io = new Bundle{
     val ebreak_flag=in(Bool)
   }
+  this.setBlackBoxName("ysyx_26010010_ebreak_fun")
+setInlineVerilog(
+"""
+    |module ysyx_26010010_ebreak_fun(
+    |  input ebreak_flag
+    |);
+    |
+    |`ifndef SYNTHESIS
+    |  `ifndef USE_IVERILOG
+    |import "DPI-C" function void ebreak(input int test);
+    |always@(*)
+    |begin
+    |  if(ebreak_flag)
+    |    ebreak(1);
+    |end 
+    |
+    |  `else
+    |always@(*)
+    |begin
+    |  if(ebreak_flag)
+    |    $sys_ctr(32'd800,32'd1);
+    |end 
+    |
+    |  `endif
+    |`endif
+    |
+    |endmodule
+  |    """.stripMargin
+  )
+
+
 }
 
 case class debug_fun() extends BlackBox{
@@ -232,7 +263,36 @@ case class debug_fun() extends BlackBox{
     val addr=in(Bits(32 bits))
     val data=in(Bits(32 bits))
   }
-  
+  this.setBlackBoxName("ysyx_26010010_debug_fun")
+  setInlineVerilog(
+"""
+    |module ysyx_26010010_debug_fun(
+    |  input               clk,
+    |  input         [31:0]addr,
+    |  input         [31:0]data
+    |);
+    |`ifndef SYNTHESIS
+    |
+    |  `ifndef USE_IVERILOG
+    |
+    |import "DPI-C" function void debug(input int addr,input int data);
+    |always @(posedge clk)
+    |begin
+    |    debug(addr,data);
+    |end
+    |  `else 
+    |always @(posedge clk)
+    |begin
+    |    $sys_ctr(addr,data);
+    |end
+    |
+    |  `endif
+    |`endif
+    |
+    |
+    |endmodule
+  |    """.stripMargin
+  )
 }
 
 case class step_fun() extends BlackBox{
@@ -241,6 +301,37 @@ case class step_fun() extends BlackBox{
     val step=in(Bool())
     val clk = in(Bool())
   }
+  this.setBlackBoxName("ysyx_26010010_step_fun")
+  setInlineVerilog(
+"""
+      |module ysyx_26010010_step_fun(
+      |  input step,
+      |  input clk
+      |);
+      |`ifndef SYNTHESIS
+      |
+      |`ifndef USE_IVERILOG
+      |import "DPI-C" function void SimStep1(input int step_data);
+      |always@(posedge clk)
+      |begin
+      |    if(step)
+      |    SimStep1(1);
+      |end 
+      |`else
+      |
+      |always@(posedge step)
+      |begin
+      |    $sys_ctr(32'd801,1);
+      |end 
+      |
+      |`endif 
+      |`endif
+      |endmodule
+
+
+  |    """.stripMargin
+  )
+
 }
 
 case class my_debug(start_addr:Int , num:Int) extends Component{

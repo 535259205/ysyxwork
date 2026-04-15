@@ -1,5 +1,3 @@
-
-`timescale 1ns/1ns
 module ebreak_fun(
   input ebreak_flag
 );

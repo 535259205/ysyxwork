@@ -7,6 +7,9 @@
 #include "stdio.h"
 #include "sdb.h"
 #include "debug.h"
+#include <fcntl.h>
+#include <unistd.h>
+#include <string>
 
 
 #define USE_WAVE1 0
@@ -18,11 +21,52 @@
 #define OVER_CNT   UINT32_MAX
 
 
-// VTOPmod *dut = new VTOPmod(); 
-VysyxSoCFull *dut = new VysyxSoCFull(); 
+// VTOPmod *dut = new VTOPmod();
+VysyxSoCFull *dut = new VysyxSoCFull();
 
 vluint64_t sim_time = 0;
 VerilatedVcdC *m_trace = new VerilatedVcdC();
+
+// DLL=1, 16x 过采样 → 每 bit 16 个时钟周期
+static int16_t     uart_divisor     = 16;
+static int16_t     uart_divisor_cnt = 15;
+static int         rx_state         = 0;  // 0=idle 1-8=data 9=stop
+static uint8_t     rx_data          = 0;
+static std::string rx_buf;
+
+static void uart_rx_getchar(uint8_t ch) { rx_buf += ch; }
+
+// 非阻塞读 stdin，把字符压入 rx_buf
+static void poll_stdin() {
+  int c;
+  while ((c = getchar_unlocked()) != EOF)
+    uart_rx_getchar((uint8_t)c);
+}
+
+//返回当前应驱动到 uart_rx 引脚的电平
+static uint8_t uart_rx_tick() {
+  poll_stdin();
+
+  if (--uart_divisor_cnt >= 0)          // 尚未到 bit 边界，保持现有电平
+    return dut->externalPins_uart_rx;
+
+  uart_divisor_cnt = uart_divisor - 1;  // 重装计数器
+
+  if (rx_state == 0) {                  // idle
+    if (rx_buf.empty()) return 1;
+    rx_data = rx_buf[0]; rx_buf.erase(0, 1);
+    rx_state = 1;
+    return 0;                           // start bit
+  } else if (rx_state <= 8) {           // data bits，LSB first
+    uint8_t bit = rx_data & 1;
+    rx_data >>= 1; rx_state++;
+    return bit;
+  } else {                              // stop bit
+    rx_state = 0;
+    return 1;
+  }
+}
+// -----------------------------------------------------------
 
 extern int ebreak_flag;
 static struct SdbReg infoa;
@@ -61,6 +105,7 @@ int SimStep(uint32_t n)
         }
         if (ebreak_flag)
         {
+            ebreak:
             struct cpuex_info infoex;
             info_exu(&infoex);
             uint64_t cycle = ((uint64_t)(infoa.cycle_h)<<32)|infoa.cycle_l;
@@ -77,6 +122,7 @@ int SimStep(uint32_t n)
             for (int j = 0; j < 2; j++)
             {
             dut->clock=!dut->clock;
+            if (dut->clock) dut->externalPins_uart_rx = uart_rx_tick();
             dut->eval();
             #if USE_WAVE1
             if(sim_time>=WAVE_START)
@@ -93,6 +139,9 @@ int SimStep(uint32_t n)
             }
             #endif
             }
+            if(ebreak_flag){
+                goto ebreak;
+            }
             if(step_flag>=1)
             {
                 change_step_flag(step_flag-1);
@@ -101,6 +150,7 @@ int SimStep(uint32_t n)
         }
     }
     return 0;
+
 }
 
 
@@ -119,6 +169,9 @@ void SimInit(int argc, char **argv)
     extern void difftest_reg_init(void);
     difftest_reg_init();
     #endif
+
+    fcntl(STDIN_FILENO, F_SETFL, O_NONBLOCK);  // stdin 非阻塞
+    dut->externalPins_uart_rx = 1;             // 空闲电平为高
 
     //设备复位
     for(int i=0;i<=3000-1;i++){

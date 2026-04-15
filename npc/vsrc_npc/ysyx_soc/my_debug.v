@@ -10,17 +10,17 @@ module my_debug (
 );
 
 
-  debug_fun debug_fun_1 (
+  ysyx_26010010_debug_fun debug_fun (
     .clk  (clock       ), //i
     .addr (32'h00000020), //i
     .data (data_0[31:0])  //i
   );
-  debug_fun debug_fun_2 (
+  ysyx_26010010_debug_fun debug_fun_1 (
     .clk  (clock       ), //i
     .addr (32'h00000021), //i
     .data (data_1[31:0])  //i
   );
-  debug_fun debug_fun_3 (
+  ysyx_26010010_debug_fun debug_fun_2 (
     .clk  (clock       ), //i
     .addr (32'h00000022), //i
     .data (data_2[31:0])  //i

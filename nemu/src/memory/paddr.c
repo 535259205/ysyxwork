@@ -18,7 +18,7 @@
 #include <device/mmio.h>
 #include <isa.h>
 
-#ifdef TARGET_SHARE
+#ifdef CONFIG_TARGET_SHARE
   #define USE_EXMEM 1
 #else
   #define USE_EXMEM 0
@@ -58,7 +58,7 @@ void init_mem() {
   Log("physical memory area [" FMT_PADDR ", " FMT_PADDR "]", PMEM_LEFT, PMEM_RIGHT);
 }
 
-static uint8_t sram[0x4000] = {0};
+static uint8_t sram[0x1000000] = {0};
 #define SRAM_BASE 0x0f000000
 void sram_write(paddr_t addr, int len, word_t data) {
   // printf("sram_write: addr = " FMT_PADDR ", len = %d, data = " FMT_WORD "\n", addr, len, data);

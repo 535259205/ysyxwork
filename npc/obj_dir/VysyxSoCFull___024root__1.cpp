@@ -4,8 +4,8 @@
 
 #include "VysyxSoCFull__pch.h"
 
-void VysyxSoCFull___024root___nba_sequent__TOP__13(VysyxSoCFull___024root* vlSelf) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VysyxSoCFull___024root___nba_sequent__TOP__13\n"); );
+void VysyxSoCFull___024root___nba_sequent__TOP__15(VysyxSoCFull___024root* vlSelf) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VysyxSoCFull___024root___nba_sequent__TOP__15\n"); );
     VysyxSoCFull__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     auto& vlSelfRef = std::ref(*vlSelf).get();
     // Body
@@ -15,6 +15,26 @@ void VysyxSoCFull___024root___nba_sequent__TOP__13(VysyxSoCFull___024root* vlSel
     vlSelfRef.ysyxSoCFull__DOT__flash__DOT__counter 
         = vlSelfRef.__Vdly__ysyxSoCFull__DOT__flash__DOT__counter;
     vlSelfRef.ysyxSoCFull__DOT__flash__DOT__state = vlSelfRef.__Vdly__ysyxSoCFull__DOT__flash__DOT__state;
+}
+
+void VysyxSoCFull___024root___nba_sequent__TOP__16(VysyxSoCFull___024root* vlSelf) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VysyxSoCFull___024root___nba_sequent__TOP__16\n"); );
+    VysyxSoCFull__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    auto& vlSelfRef = std::ref(*vlSelf).get();
+    // Body
+    if ((0x00000080U & (IData)(vlSelfRef.ysyxSoCFull__DOT__asic__DOT__lspi__DOT__mspi__DOT__spi_ss))) {
+        vlSelfRef.ysyxSoCFull__DOT___bitrev_miso = 1U;
+        vlSelfRef.__Vdly__ysyxSoCFull__DOT__bitrev__DOT__tx_cnt = 0U;
+    } else if (((IData)(vlSelfRef.ysyxSoCFull__DOT__bitrev__DOT__flag) 
+                & (8U > (IData)(vlSelfRef.ysyxSoCFull__DOT__bitrev__DOT__tx_cnt)))) {
+        vlSelfRef.ysyxSoCFull__DOT___bitrev_miso = 
+            (1U & ((IData)(vlSelfRef.ysyxSoCFull__DOT__bitrev__DOT__data) 
+                   >> (7U & (IData)(vlSelfRef.ysyxSoCFull__DOT__bitrev__DOT__tx_cnt))));
+        vlSelfRef.__Vdly__ysyxSoCFull__DOT__bitrev__DOT__tx_cnt 
+            = (0x0000000fU & ((IData)(1U) + (IData)(vlSelfRef.ysyxSoCFull__DOT__bitrev__DOT__tx_cnt)));
+    }
+    vlSelfRef.ysyxSoCFull__DOT__bitrev__DOT__tx_cnt 
+        = vlSelfRef.__Vdly__ysyxSoCFull__DOT__bitrev__DOT__tx_cnt;
 }
 
 void VysyxSoCFull___024root___nba_comb__TOP__1(VysyxSoCFull___024root* vlSelf) {
@@ -102,12 +122,20 @@ void VysyxSoCFull___024root___nba_comb__TOP__1(VysyxSoCFull___024root* vlSelf) {
 
 extern const VlUnpacked<VlWide<3>/*79:0*/, 16> VysyxSoCFull__ConstPool__TABLE_h4d22c338_0;
 
-void VysyxSoCFull___024root___nba_sequent__TOP__14(VysyxSoCFull___024root* vlSelf) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VysyxSoCFull___024root___nba_sequent__TOP__14\n"); );
+void VysyxSoCFull___024root___nba_sequent__TOP__17(VysyxSoCFull___024root* vlSelf) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VysyxSoCFull___024root___nba_sequent__TOP__17\n"); );
     VysyxSoCFull__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     auto& vlSelfRef = std::ref(*vlSelf).get();
     // Body
     vlSelfRef.ysyxSoCFull__DOT___asic_spi_mosi = vlSelfRef.__Vdly__ysyxSoCFull__DOT___asic_spi_mosi;
+    vlSelfRef.ysyxSoCFull__DOT__asic__DOT__lspi__DOT__mspi__DOT__spi_ss 
+        = (0x000000ffU & (~ ((IData)(vlSelfRef.ysyxSoCFull__DOT__asic__DOT__lspi__DOT__mspi__DOT__u0_spi_top__DOT__ss) 
+                             & ((- (IData)(((IData)(vlSelfRef.ysyxSoCFull__DOT__asic__DOT__lspi__DOT__mspi__DOT__u0_spi_top__DOT__tip) 
+                                            & ((IData)(vlSelfRef.ysyxSoCFull__DOT__asic__DOT__lspi__DOT__mspi__DOT__u0_spi_top__DOT__ctrl) 
+                                               >> 0x0000000dU)))) 
+                                | (- (IData)((1U & 
+                                              (~ ((IData)(vlSelfRef.ysyxSoCFull__DOT__asic__DOT__lspi__DOT__mspi__DOT__u0_spi_top__DOT__ctrl) 
+                                                  >> 0x0000000dU)))))))));
     if (vlSelfRef.reset) {
         vlSelfRef.ysyxSoCFull__DOT__asic__DOT__lsdram_apb__DOT__msdram__DOT__u_sdram_ctrl__DOT__bank_q = 0U;
         vlSelfRef.ysyxSoCFull__DOT__asic__DOT__lsdram_apb__DOT__msdram__DOT__u_sdram_ctrl__DOT__addr_q = 0U;
@@ -260,8 +288,8 @@ void VysyxSoCFull___024root___nba_sequent__TOP__14(VysyxSoCFull___024root* vlSel
         [vlSelfRef.__Vtableidx56][2U];
 }
 
-void VysyxSoCFull___024root___nba_sequent__TOP__15(VysyxSoCFull___024root* vlSelf) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VysyxSoCFull___024root___nba_sequent__TOP__15\n"); );
+void VysyxSoCFull___024root___nba_sequent__TOP__18(VysyxSoCFull___024root* vlSelf) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VysyxSoCFull___024root___nba_sequent__TOP__18\n"); );
     VysyxSoCFull__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     auto& vlSelfRef = std::ref(*vlSelf).get();
     // Body
@@ -269,8 +297,8 @@ void VysyxSoCFull___024root___nba_sequent__TOP__15(VysyxSoCFull___024root* vlSel
         = vlSelfRef.__Vdly__ysyxSoCFull__DOT__psram__DOT__w_data;
 }
 
-void VysyxSoCFull___024root___nba_sequent__TOP__16(VysyxSoCFull___024root* vlSelf) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VysyxSoCFull___024root___nba_sequent__TOP__16\n"); );
+void VysyxSoCFull___024root___nba_sequent__TOP__19(VysyxSoCFull___024root* vlSelf) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VysyxSoCFull___024root___nba_sequent__TOP__19\n"); );
     VysyxSoCFull__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     auto& vlSelfRef = std::ref(*vlSelf).get();
     // Body
@@ -320,8 +348,17 @@ void VysyxSoCFull___024root___nba_comb__TOP__2(VysyxSoCFull___024root* vlSelf) {
                                              ? 0U : (IData)(vlSelfRef.ysyxSoCFull__DOT__asic__DOT__lsdram_apb__DOT__msdram__DOT__u_sdram_ctrl__DOT__data_q)))))));
 }
 
-void VysyxSoCFull___024root___nba_sequent__TOP__17(VysyxSoCFull___024root* vlSelf) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    VysyxSoCFull___024root___nba_sequent__TOP__17\n"); );
+void VysyxSoCFull___024root___nba_sequent__TOP__20(VysyxSoCFull___024root* vlSelf) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VysyxSoCFull___024root___nba_sequent__TOP__20\n"); );
+    VysyxSoCFull__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    auto& vlSelfRef = std::ref(*vlSelf).get();
+    // Body
+    vlSelfRef.ysyxSoCFull__DOT__bitrev__DOT__flag = vlSelfRef.__Vdly__ysyxSoCFull__DOT__bitrev__DOT__flag;
+    vlSelfRef.ysyxSoCFull__DOT__bitrev__DOT__data = vlSelfRef.__Vdly__ysyxSoCFull__DOT__bitrev__DOT__data;
+}
+
+void VysyxSoCFull___024root___nba_sequent__TOP__21(VysyxSoCFull___024root* vlSelf) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VysyxSoCFull___024root___nba_sequent__TOP__21\n"); );
     VysyxSoCFull__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     auto& vlSelfRef = std::ref(*vlSelf).get();
     // Body
@@ -1234,6 +1271,8 @@ void VysyxSoCFull___024root___nba_sequent__TOP__9(VysyxSoCFull___024root* vlSelf
 void VysyxSoCFull___024root___nba_sequent__TOP__10(VysyxSoCFull___024root* vlSelf);
 void VysyxSoCFull___024root___nba_sequent__TOP__11(VysyxSoCFull___024root* vlSelf);
 void VysyxSoCFull___024root___nba_sequent__TOP__12(VysyxSoCFull___024root* vlSelf);
+void VysyxSoCFull___024root___nba_sequent__TOP__13(VysyxSoCFull___024root* vlSelf);
+void VysyxSoCFull___024root___nba_sequent__TOP__14(VysyxSoCFull___024root* vlSelf);
 void VysyxSoCFull___024root___nba_comb__TOP__0(VysyxSoCFull___024root* vlSelf);
 
 void VysyxSoCFull___024root___eval_nba(VysyxSoCFull___024root* vlSelf) {
@@ -1245,46 +1284,52 @@ void VysyxSoCFull___024root___eval_nba(VysyxSoCFull___024root* vlSelf) {
         VysyxSoCFull___024root___nba_sequent__TOP__0(vlSelf);
         vlSelfRef.__Vm_traceActivity[2U] = 1U;
     }
-    if ((0x0000000000000060ULL & vlSelfRef.__VnbaTriggered[0U])) {
+    if ((0x0000000000000180ULL & vlSelfRef.__VnbaTriggered[0U])) {
         VysyxSoCFull___024root___nba_sequent__TOP__1(vlSelf);
     }
-    if ((0x0000000000000018ULL & vlSelfRef.__VnbaTriggered[0U])) {
+    if ((0x0000000000000060ULL & vlSelfRef.__VnbaTriggered[0U])) {
         VysyxSoCFull___024root___nba_sequent__TOP__2(vlSelf);
     }
-    if ((3ULL & vlSelfRef.__VnbaTriggered[0U])) {
+    if ((0x0000000000000018ULL & vlSelfRef.__VnbaTriggered[0U])) {
         VysyxSoCFull___024root___nba_sequent__TOP__3(vlSelf);
-        vlSelfRef.__Vm_traceActivity[3U] = 1U;
     }
-    if ((0x0000000000000040ULL & vlSelfRef.__VnbaTriggered[0U])) {
+    if ((0x0000000000000028ULL & vlSelfRef.__VnbaTriggered[0U])) {
         VysyxSoCFull___024root___nba_sequent__TOP__4(vlSelf);
     }
-    if ((5ULL & vlSelfRef.__VnbaTriggered[0U])) {
+    if ((0x0000000000000100ULL & vlSelfRef.__VnbaTriggered[0U])) {
         VysyxSoCFull___024root___nba_sequent__TOP__5(vlSelf);
+    }
+    if ((3ULL & vlSelfRef.__VnbaTriggered[0U])) {
+        VysyxSoCFull___024root___nba_sequent__TOP__6(vlSelf);
+        vlSelfRef.__Vm_traceActivity[3U] = 1U;
+    }
+    if ((5ULL & vlSelfRef.__VnbaTriggered[0U])) {
+        VysyxSoCFull___024root___nba_sequent__TOP__7(vlSelf);
         vlSelfRef.__Vm_traceActivity[4U] = 1U;
     }
-    if ((0x0000000000000100ULL & vlSelfRef.__VnbaTriggered[0U])) {
-        VysyxSoCFull___024root___nba_sequent__TOP__6(vlSelf);
+    if ((0x0000000000000400ULL & vlSelfRef.__VnbaTriggered[0U])) {
+        VysyxSoCFull___024root___nba_sequent__TOP__8(vlSelf);
         vlSelfRef.__Vm_traceActivity[5U] = 1U;
     }
-    if ((0x0000000000000200ULL & vlSelfRef.__VnbaTriggered[0U])) {
-        VysyxSoCFull___024root___nba_sequent__TOP__7(vlSelf);
+    if ((0x0000000000000800ULL & vlSelfRef.__VnbaTriggered[0U])) {
+        VysyxSoCFull___024root___nba_sequent__TOP__9(vlSelf);
         vlSelfRef.__Vm_traceActivity[6U] = 1U;
     }
     if ((8ULL & vlSelfRef.__VnbaTriggered[0U])) {
-        VysyxSoCFull___024root___nba_sequent__TOP__8(vlSelf);
-    }
-    if ((0x0000000000000020ULL & vlSelfRef.__VnbaTriggered[0U])) {
-        VysyxSoCFull___024root___nba_sequent__TOP__9(vlSelf);
+        VysyxSoCFull___024root___nba_sequent__TOP__10(vlSelf);
     }
     if ((0x0000000000000080ULL & vlSelfRef.__VnbaTriggered[0U])) {
-        VysyxSoCFull___024root___nba_sequent__TOP__10(vlSelf);
-        vlSelfRef.__Vm_traceActivity[7U] = 1U;
-    }
-    if ((0x0000000000000500ULL & vlSelfRef.__VnbaTriggered[0U])) {
         VysyxSoCFull___024root___nba_sequent__TOP__11(vlSelf);
     }
-    if ((1ULL & vlSelfRef.__VnbaTriggered[0U])) {
+    if ((0x0000000000000200ULL & vlSelfRef.__VnbaTriggered[0U])) {
         VysyxSoCFull___024root___nba_sequent__TOP__12(vlSelf);
+        vlSelfRef.__Vm_traceActivity[7U] = 1U;
+    }
+    if ((0x0000000000001400ULL & vlSelfRef.__VnbaTriggered[0U])) {
+        VysyxSoCFull___024root___nba_sequent__TOP__13(vlSelf);
+    }
+    if ((1ULL & vlSelfRef.__VnbaTriggered[0U])) {
+        VysyxSoCFull___024root___nba_sequent__TOP__14(vlSelf);
         vlSelfRef.__Vm_traceActivity[8U] = 1U;
     }
     if ((3ULL & vlSelfRef.__VnbaTriggered[0U])) {
@@ -1292,39 +1337,45 @@ void VysyxSoCFull___024root___eval_nba(VysyxSoCFull___024root* vlSelf) {
         vlSelfRef.__Vm_traceActivity[9U] = 1U;
     }
     if ((0x0000000000000018ULL & vlSelfRef.__VnbaTriggered[0U])) {
-        VysyxSoCFull___024root___nba_sequent__TOP__13(vlSelf);
+        VysyxSoCFull___024root___nba_sequent__TOP__15(vlSelf);
         vlSelfRef.__Vm_traceActivity[10U] = 1U;
+    }
+    if ((0x0000000000000060ULL & vlSelfRef.__VnbaTriggered[0U])) {
+        VysyxSoCFull___024root___nba_sequent__TOP__16(vlSelf);
     }
     if ((5ULL & vlSelfRef.__VnbaTriggered[0U])) {
         VysyxSoCFull___024root___nba_comb__TOP__1(vlSelf);
         vlSelfRef.__Vm_traceActivity[11U] = 1U;
     }
     if ((5ULL & vlSelfRef.__VnbaTriggered[0U])) {
-        VysyxSoCFull___024root___nba_sequent__TOP__14(vlSelf);
+        VysyxSoCFull___024root___nba_sequent__TOP__17(vlSelf);
         vlSelfRef.__Vm_traceActivity[12U] = 1U;
     }
-    if ((0x0000000000000040ULL & vlSelfRef.__VnbaTriggered[0U])) {
-        VysyxSoCFull___024root___nba_sequent__TOP__15(vlSelf);
+    if ((0x0000000000000100ULL & vlSelfRef.__VnbaTriggered[0U])) {
+        VysyxSoCFull___024root___nba_sequent__TOP__18(vlSelf);
     }
-    if ((0x0000000000000060ULL & vlSelfRef.__VnbaTriggered[0U])) {
-        VysyxSoCFull___024root___nba_sequent__TOP__16(vlSelf);
+    if ((0x0000000000000180ULL & vlSelfRef.__VnbaTriggered[0U])) {
+        VysyxSoCFull___024root___nba_sequent__TOP__19(vlSelf);
         vlSelfRef.__Vm_traceActivity[13U] = 1U;
     }
-    if ((0x0000000000000505ULL & vlSelfRef.__VnbaTriggered[0U])) {
+    if ((0x0000000000001405ULL & vlSelfRef.__VnbaTriggered[0U])) {
         VysyxSoCFull___024root___nba_comb__TOP__2(vlSelf);
     }
+    if ((0x0000000000000028ULL & vlSelfRef.__VnbaTriggered[0U])) {
+        VysyxSoCFull___024root___nba_sequent__TOP__20(vlSelf);
+    }
     if ((1ULL & vlSelfRef.__VnbaTriggered[0U])) {
-        VysyxSoCFull___024root___nba_sequent__TOP__17(vlSelf);
+        VysyxSoCFull___024root___nba_sequent__TOP__21(vlSelf);
         vlSelfRef.__Vm_traceActivity[14U] = 1U;
     }
-    if ((0x0000000000000205ULL & vlSelfRef.__VnbaTriggered[0U])) {
+    if ((0x0000000000000805ULL & vlSelfRef.__VnbaTriggered[0U])) {
         VysyxSoCFull___024root___nba_comb__TOP__3(vlSelf);
     }
     if ((5ULL & vlSelfRef.__VnbaTriggered[0U])) {
         VysyxSoCFull___024root___nba_comb__TOP__4(vlSelf);
         vlSelfRef.__Vm_traceActivity[15U] = 1U;
     }
-    if ((0x00000000000000e5ULL & vlSelfRef.__VnbaTriggered[0U])) {
+    if ((0x0000000000000385ULL & vlSelfRef.__VnbaTriggered[0U])) {
         VysyxSoCFull___024root___nba_comb__TOP__5(vlSelf);
     }
 }

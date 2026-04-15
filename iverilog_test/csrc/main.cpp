@@ -2,7 +2,7 @@
 #include "vpi_user.h"
 #include "stdint.h"
 
-#define ROM_SIZE 0x1000000
+#define ROM_SIZE   0x8000000
 #define SDRAM_SIZE 0x100000
 #define PSRAM_SIZE 0x8000000
 

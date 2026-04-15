@@ -1,8 +1,12 @@
+#include "sdb.h"
+#include <cstdint>
+
+#ifdef HAVE_DIFFTEST
+
 #include <isa.h>
 #include <cpu/cpu.h>
 #include <difftest-def.h>
 #include <memory/paddr.h>
-#include "sdb.h"
 #include <cstdio>
 
 extern "C" {
@@ -44,22 +48,26 @@ int difftest_comp(struct SdbReg *info)
         printf("pc diff: 0x%x != 0x%x\n", cpu_ref.pc, info->pc);
         flag = 0;
     }
-    // if(cpu_ref.mtvec!=info->mtvec){ // 使用 -> 访问指针成员
-    //     printf("mtvec diff: 0x%x != 0x%x\n", cpu_ref.mtvec, info->mtvec);
-    //     flag = 0;
-    // }
-    // if(cpu_ref.mcause!=info->mcause){ // 使用 -> 访问指针成员
-    //     printf("mcause diff: 0x%x != 0x%x\n", cpu_ref.mcause, info->mcause);
-    //     flag = 0;
-    // }
-    // if(cpu_ref.mstatus!=info->mstatus){ // 使用 -> 访问指针成员
-    //     printf("mstatus diff: 0x%x != 0x%x\n", cpu_ref.mstatus, info->mstatus);
-    //     flag = 0;
-    // }
-    // if(cpu_ref.mepc!=info->mepc){ // 使用 -> 访问指针成员
-    //     printf("mepc diff: 0x%x != 0x%x\n", cpu_ref.mepc, info->mepc);
-    //     flag = 0;
-    // }
+    if(cpu_ref.mstatus!=info->mstatus){ // 使用 -> 访问指针成员
+        printf("mstatus diff: 0x%x != 0x%x\n", cpu_ref.mstatus, info->mstatus);
+        flag = 0;
+    }
+    if(cpu_ref.mcause!=info->mcause){ // 使用 -> 访问指针成员
+        printf("mcause diff: 0x%x != 0x%x\n", cpu_ref.mcause, info->mcause);
+               flag = 0;
+    }
+    if(cpu_ref.mepc!=info->mepc){ // 使用 -> 访问指针成员
+        printf("mepc diff: 0x%x != 0x%x\n", cpu_ref.mepc, info->mepc);
+        flag = 0;
+    }
+    if(cpu_ref.mtvec!=info->mtvec){ // 使用 -> 访问指针成员
+        printf("mtvec diff: 0x%x != 0x%x\n", cpu_ref.mtvec, info->mtvec);
+        flag = 0;
+    }
+
+
+
+
     return flag;
 }
 
@@ -101,3 +109,13 @@ void difftest_myinit(void)
 {
     difftest_init(0);
 }
+
+#else
+// NEMU 不可用时的空实现
+void difftest_reg_init(void) {}
+int difftest_comp(struct SdbReg *info) { (void)info; return 1; }
+int difftest_exec_reg(struct SdbReg *info) { (void)info; return 1; }
+void difftest_cpymem(uint32_t * data, uint32_t len) { (void)data; (void)len; }
+void difftest_myinit(void) {}
+
+#endif
