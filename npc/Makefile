@@ -12,13 +12,13 @@ csrc := ./csrc/*.cpp
 
 # TOP_MODULE := ysyxSoCFull
 WORK ?=F
-
+NPC_HOME := $(AM_HOME)/../npc
 ifeq ($(WORK),F)
--include ./scripts/ysyx_study.mk
+-include $(NPC_HOME)/scripts/ysyx_study.mk
 else ifeq ($(WORK),T)
--include ./scripts/ysyx_work_net.mk
+-include $(NPC_HOME)/scripts/ysyx_work_net.mk
 else ifeq ($(WORK),N)
--include ./scripts/npc.mk
+-include $(NPC_HOME)/scripts/npc.mk
 endif
 
 # VERILATOR_INC := $(shell dirname $(shell find ~/environment -name "verilated.h"))
@@ -36,9 +36,10 @@ INCDIFFTEST := -I$(AM_HOME)/../nemu/include
 INCDIFFTEST += -I$(AM_HOME)/../nemu/src/isa/riscv32/include
 # 确保capstone库已编译
 $(LIBCAPSTONE):
-	$(MAKE) -C $(CURDIR)/../nemu/tools/capstone
+#	$(MAKE) -C $(AM_HOME)/../nemu/tools/capstone
+
 # 编译前确保capstone库已准备好
-$(CURDIR)/csrc/disasm.cpp: $(LIBCAPSTONE)
+# $(CURDIR)/csrc/disasm.cpp: $(LIBCAPSTONE)
 #-g -fsanitize=address
 all: $(LIBCAPSTONE)
 	@@verilator --trace  -cc --top-module $(TOP_MODULE) $(VSRCS)  --exe $(csrc) \
@@ -62,8 +63,8 @@ all: $(LIBCAPSTONE)
 		-Wno-ASSIGNIN\
 		--no-timing\
 		$(V_INCS)\
-		-CFLAGS "-I$(VERILATOR_INC) -I$(CURDIR)/include $(INCDIFFTEST) $(INCCAPSTONE)  -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=$(TOP_MODULE) " \
-		-LDFLAGS "-L$(CURDIR)/../nemu/tools/capstone/repo -lcapstone -lreadline $(LIBDIFFTEST) -fsanitize=address"
+		-CFLAGS "-I$(VERILATOR_INC) -I$(NPC_HOME)/include $(INCDIFFTEST) $(INCCAPSTONE)  -D__GUEST_ISA__=riscv32 -DTOP_MODULE_NAME=$(TOP_MODULE) " \
+		-LDFLAGS "-L$(AM_HOME)/../nemu/tools/capstone/repo -lcapstone -lreadline $(LIBDIFFTEST) -fsanitize=address"
 	@@make -C obj_dir -f V$(TOP_MODULE).mk V$(TOP_MODULE)
 #-DBATCH_MODE
 # 6. 仿真目标
@@ -75,7 +76,7 @@ ifeq ($(USE_WAVE),1)
 endif
 
 encode :
-	# riscv64-linux-gnu-objdump -D -m riscv:rv64 -EL ./hex/test.elf > ./hex/disasm_result.txt
+	# riscv64-linux-gnu-objdump -D -m riscv:rv64 -EL $(AM_HOME)/../npc/hex/test.elf > $(AM_HOME)/../npc/hex/disasm_result.txt
 gtk :
 	gtkwave waveform.vcd wave_sign.gtkw
 # 7. 清理目标
@@ -84,16 +85,16 @@ clean:
 
 #添加用于进行CI测试部分
 #在build目录下生成verilog代码ysyx_xxxxxxxx.V
-SPINAL_DIR := ../SpinalHDL/hw/spinal/MY_Prj
+SPINAL_DIR := $(AM_HOME)/../SpinalHDL/hw/spinal/MY_Prj
 SBT ?= sbt
 IVERILOG_HOME = $(AM_HOME)/../iverilog_test
 verilog:
-	mkdir -p ./build
-	rm -rf ./build/*
+	mkdir -p $(AM_HOME)/../npc/build
+	rm -rf $(AM_HOME)/../npc/build/*
 	(cd $(AM_HOME)/../SpinalHDL && sbt "runMain SysConfig.MyTopLevelApp mycpu")
 	(cd $(AM_HOME)/../SpinalHDL && sbt "runMain SysConfig.MyTopLevelApp pipcpu")
-	mv ./build/ysyx_26010010_ysyx_26010010.v ./build/ysyx_26010010.v
-	sed -i 's/module ysyx_26010010_ysyx_26010010/module ysyx_26010010/g' ./build/ysyx_26010010.v
+	mv $(AM_HOME)/../npc/build/ysyx_26010010_ysyx_26010010.v $(AM_HOME)/../npc/build/ysyx_26010010.v
+	sed -i 's/module ysyx_26010010_ysyx_26010010/module ysyx_26010010/g' $(AM_HOME)/../npc/build/ysyx_26010010.v
 
 # perl -i -pe 's|^\s*IF_IFt_pc <= 32\x27h30000000;|`ifdef ysyx_26010010_USE_IVERILOG\n      IF_IFt_pc <= 32\x27h80000000;\n      `else\n      IF_IFt_pc <= 32\x27h30000000;\n      `endif|g' ./build/ysyx_26010010.v
 #用于仿真0x80000000开始的内容

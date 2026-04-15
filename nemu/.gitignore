@@ -8,5 +8,12 @@
 !.gitignore
 !README.md
 !Kconfig
-include/config
-include/generated
+!include/config
+!include/generated
+!build/riscv32-nemu-interpreter-so
+!include/**
+!src/**
+!tools/**
+!test/**
+!.config
+!.config.old

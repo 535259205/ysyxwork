@@ -1,4 +1,4 @@
-From 83326f66cdb8d6f35328be456e7d21af97798be6 Mon Sep 17 00:00:00 2001
+From 9510a5232d07a07787a35525d62fed36f4a2adc5 Mon Sep 17 00:00:00 2001
 From: 535259205 <535259205@qq.com>
 Date: Tue, 14 Apr 2026 23:22:04 +0800
 Subject: [PATCH] =?UTF-8?q?=E6=81=A2=E5=A4=8D=E6=8F=90=E4=BA=A4?=
@@ -8,22 +8,50 @@ Content-Transfer-Encoding: 8bit
 
 ---
  .gitignore                           |   1 +
- perip/amba/apb_delayer.v             |  71 ++++++++++-----
- perip/amba/axi4_delayer.v            |  64 ++++++++++++-
- perip/bitrev/bitrev.v                |  44 ++++++++-
- perip/flash/flash.v                  |  31 ++++++-
- perip/gpio/gpio_top_apb.v            |  27 ++++++
- perip/ps2/ps2_top_apb.v              |  17 ++++
+ gitaaaa.txt                          |  13 +
+ perip/amba/apb_delayer.v             |  71 ++-
+ perip/amba/apb_delayer_my.v          | 136 +++++
+ perip/amba/axi4_delayer.v            |  64 ++-
+ perip/amba/axi4_delayer_my.lst       |   2 +
+ perip/amba/axi4_delayer_my.v         | 817 +++++++++++++++++++++++++++
+ perip/amba/enumdefine.v              |   1 +
+ perip/bitrev/bitrev.v                |  44 +-
+ perip/flash/flash.v                  |  31 +-
+ perip/gpio/gpio_top_apb.v            |  27 +
+ perip/gpio/my_gpio.v                 | 583 +++++++++++++++++++
+ perip/ps2/StreamFifo.v               | 163 ++++++
+ perip/ps2/my_ps2.v                   | 133 +++++
+ perip/ps2/ps2_keyboard.v             |  54 ++
+ perip/ps2/ps2_top_apb.v              |  17 +
  perip/psram/efabless/EF_PSRAM_CTRL.v |   4 +-
- perip/psram/psram.v                  | 131 ++++++++++++++++++++++++++-
- perip/sdram/sdram.v                  | 124 ++++++++++++++++++++++++-
- perip/sdram/sdram_top_apb.v          |  11 ++-
- perip/spi/rtl/spi_top_apb.v          |  72 +++++++++++++--
- perip/vga/vga_top_apb.v              |  21 +++++
+ perip/psram/psram.v                  | 131 ++++-
+ perip/sdram/sdram.v                  | 124 +++-
+ perip/sdram/sdram_top_apb.v          |  11 +-
+ perip/spi/rtl/enumdefine.v           |   1 +
+ perip/spi/rtl/spi_top_apb.v          |  72 ++-
+ perip/spi/rtl/spi_xip.lst            |   2 +
+ perip/spi/rtl/spi_xip.v              | 576 +++++++++++++++++++
+ perip/vga/my_vga.v                   | 131 +++++
+ perip/vga/vga_ctrl.v                 |  58 ++
+ perip/vga/vga_top_apb.v              |  21 +
  src/CPU.scala                        |   4 +-
  src/Top.scala                        |   2 +-
- src/device/MROM.scala                |   7 ++
- 16 files changed, 582 insertions(+), 49 deletions(-)
+ src/device/MROM.scala                |   7 +
+ 30 files changed, 3252 insertions(+), 49 deletions(-)
+ create mode 100644 gitaaaa.txt
+ create mode 100644 perip/amba/apb_delayer_my.v
+ create mode 100644 perip/amba/axi4_delayer_my.lst
+ create mode 100644 perip/amba/axi4_delayer_my.v
+ create mode 100644 perip/amba/enumdefine.v
+ create mode 100644 perip/gpio/my_gpio.v
+ create mode 100644 perip/ps2/StreamFifo.v
+ create mode 100644 perip/ps2/my_ps2.v
+ create mode 100644 perip/ps2/ps2_keyboard.v
+ create mode 100644 perip/spi/rtl/enumdefine.v
+ create mode 100644 perip/spi/rtl/spi_xip.lst
+ create mode 100644 perip/spi/rtl/spi_xip.v
+ create mode 100644 perip/vga/my_vga.v
+ create mode 100644 perip/vga/vga_ctrl.v
 
 diff --git a/.gitignore b/.gitignore
 index 3c0160d0..315db007 100644
@@ -33,6 +61,26 @@ index 3c0160d0..315db007 100644
  build/
  out/
 +patch/firtool/
+diff --git a/gitaaaa.txt b/gitaaaa.txt
+new file mode 100644
+index 00000000..102891e5
+--- /dev/null
++++ b/gitaaaa.txt
+@@ -0,0 +1,13 @@
++git format-patch origin/master -o ../patch/ysyxSoC -- perip/ \
++  ':(exclude)perip/amba/apb_delayer_my.v' \
++  ':(exclude)perip/amba/apb_delayer_my.v' \
++  ':(exclude)perip/amba/axi4_delayer_my.v' \
++  ':(exclude)perip/amba/enumdefine.v' \
++  ':(exclude)perip/gpio/my_gpio.v' \
++  ':(exclude)perip/ps2/StreamFifo.v' \
++  ':(exclude)perip/ps2/my_ps2.v' \
++  ':(exclude)perip/ps2/ps2_keyboard.v' \
++  ':(exclude)perip/spi/rtl/enumdefine.v' \
++  ':(exclude)perip/spi/rtl/spi_xip.v' \
++  ':(exclude)perip/vga/my_vga.v' \
++  ':(exclude)perip/vga/vga_ctrl.v' \
+\ No newline at end of file
 diff --git a/perip/amba/apb_delayer.v b/perip/amba/apb_delayer.v
 index c0d20764..8f30c5e5 100644
 --- a/perip/amba/apb_delayer.v
@@ -115,6 +163,148 @@ index c0d20764..8f30c5e5 100644
    assign out_paddr   = in_paddr;
    assign out_psel    = in_psel;
    assign out_penable = in_penable;
+diff --git a/perip/amba/apb_delayer_my.v b/perip/amba/apb_delayer_my.v
+new file mode 100644
+index 00000000..5f5cf9bf
+--- /dev/null
++++ b/perip/amba/apb_delayer_my.v
+@@ -0,0 +1,136 @@
++// Generator : SpinalHDL v1.12.3    git head : 591e64062329e5e2e2b81f4d52422948053edb97
++// Component : apb_delayer_my
++
++`timescale 1ns/1ps 
++module apb_delayer_my (
++  input  wire [31:0]   in_in_paddr,
++  input  wire          in_in_psel,
++  input  wire          in_in_penable,
++  input  wire [2:0]    in_in_pprot,
++  input  wire          in_in_pwrite,
++  input  wire [31:0]   in_in_pwdata,
++  input  wire [3:0]    in_in_pstrb,
++  output reg           in_in_pready,
++  output reg  [31:0]   in_in_prdata,
++  output wire          in_in_pslverr,
++  output reg  [31:0]   out_in_paddr,
++  output reg           out_in_psel,
++  output reg           out_in_penable,
++  output reg  [2:0]    out_in_pprot,
++  output reg           out_in_pwrite,
++  output reg  [31:0]   out_in_pwdata,
++  output reg  [3:0]    out_in_pstrb,
++  input  wire          out_in_pready,
++  input  wire [31:0]   out_in_prdata,
++  input  wire          out_in_pslverr,
++  input  wire          clock,
++  input  wire          reset
++);
++
++  wire                _zz_when;
++  wire                _zz_when_1;
++  reg        [31:0]   delay_cnt;
++  reg        [31:0]   r_data;
++  reg                 flag;
++
++  assign _zz_when_1 = (32'h00060187 <= delay_cnt);
++  assign _zz_when = (! flag);
++  always @(*) begin
++    in_in_prdata = 32'h0;
++    if(flag) begin
++      if(_zz_when_1) begin
++        in_in_prdata = r_data;
++      end
++    end
++  end
++
++  assign in_in_pslverr = 1'b0;
++  always @(*) begin
++    in_in_pready = 1'b0;
++    if(flag) begin
++      if(_zz_when_1) begin
++        in_in_pready = 1'b1;
++      end
++    end
++  end
++
++  always @(*) begin
++    if(_zz_when) begin
++      out_in_paddr = in_in_paddr;
++    end else begin
++      out_in_paddr = 32'h0;
++    end
++  end
++
++  always @(*) begin
++    if(_zz_when) begin
++      out_in_psel = in_in_psel;
++    end else begin
++      out_in_psel = 1'b0;
++    end
++  end
++
++  always @(*) begin
++    if(_zz_when) begin
++      out_in_penable = in_in_penable;
++    end else begin
++      out_in_penable = 1'b0;
++    end
++  end
++
++  always @(*) begin
++    if(_zz_when) begin
++      out_in_pprot = in_in_pprot;
++    end else begin
++      out_in_pprot = 3'b000;
++    end
++  end
++
++  always @(*) begin
++    if(_zz_when) begin
++      out_in_pwrite = in_in_pwrite;
++    end else begin
++      out_in_pwrite = 1'b0;
++    end
++  end
++
++  always @(*) begin
++    if(_zz_when) begin
++      out_in_pwdata = in_in_pwdata;
++    end else begin
++      out_in_pwdata = 32'h0;
++    end
++  end
++
++  always @(*) begin
++    if(_zz_when) begin
++      out_in_pstrb = in_in_pstrb;
++    end else begin
++      out_in_pstrb = 4'b0000;
++    end
++  end
++
++  always @(posedge clock) begin
++    if(reset) begin
++      delay_cnt <= 32'h0;
++      r_data <= 32'h0;
++      flag <= 1'b0;
++    end else begin
++      if(_zz_when) begin
++        if(out_in_pready) begin
++          r_data <= out_in_prdata;
++          flag <= 1'b1;
++        end
++      end
++      if(flag) begin
++        delay_cnt <= (delay_cnt + 32'h000186a0);
++        if(_zz_when_1) begin
++          delay_cnt <= (delay_cnt - 32'h00060187);
++          flag <= 1'b0;
++        end
++      end
++    end
++  end
++
++
++endmodule
 diff --git a/perip/amba/axi4_delayer.v b/perip/amba/axi4_delayer.v
 index f692803b..f7c0e273 100644
 --- a/perip/amba/axi4_delayer.v
@@ -195,6 +385,844 @@ index f692803b..f7c0e273 100644
 -endmodule
 +endmodule
 \ No newline at end of file
+diff --git a/perip/amba/axi4_delayer_my.lst b/perip/amba/axi4_delayer_my.lst
+new file mode 100644
+index 00000000..40dade37
+--- /dev/null
++++ b/perip/amba/axi4_delayer_my.lst
+@@ -0,0 +1,2 @@
++/home/ylqt/study/YSYX_data/ysyx-workbench/YSYX_SOC/ysyxSoC/perip/amba/enumdefine.v
++/home/ylqt/study/YSYX_data/ysyx-workbench/YSYX_SOC/ysyxSoC/perip/amba/axi4_delayer_my.v
+diff --git a/perip/amba/axi4_delayer_my.v b/perip/amba/axi4_delayer_my.v
+new file mode 100644
+index 00000000..7bb64727
+--- /dev/null
++++ b/perip/amba/axi4_delayer_my.v
+@@ -0,0 +1,817 @@
++// Generator : SpinalHDL v1.12.3    git head : 591e64062329e5e2e2b81f4d52422948053edb97
++// Component : axi4_delayer_my
++
++`timescale 1ns/1ps 
++module axi4_delayer_my (
++  output reg           in_arready,
++  input  wire          in_arvalid,
++  input  wire [3:0]    in_arid,
++  input  wire [31:0]   in_araddr,
++  input  wire [7:0]    in_arlen,
++  input  wire [2:0]    in_arsize,
++  input  wire [1:0]    in_arburst,
++  input  wire          in_rready,
++  output reg           in_rvalid,
++  output reg  [3:0]    in_rid,
++  output reg  [31:0]   in_rdata,
++  output reg  [1:0]    in_rresp,
++  output reg           in_rlast,
++  output reg           in_awready,
++  input  wire          in_awvalid,
++  input  wire [3:0]    in_awid,
++  input  wire [31:0]   in_awaddr,
++  input  wire [7:0]    in_awlen,
++  input  wire [2:0]    in_awsize,
++  input  wire [1:0]    in_awburst,
++  output reg           in_wready,
++  input  wire          in_wvalid,
++  input  wire [31:0]   in_wdata,
++  input  wire [3:0]    in_wstrb,
++  input  wire          in_wlast,
++  input  wire          in_bready,
++  output reg           in_bvalid,
++  output wire [3:0]    in_bid,
++  output wire [1:0]    in_bresp,
++  input  wire          out_arready,
++  output reg           out_arvalid,
++  output reg  [3:0]    out_arid,
++  output reg  [31:0]   out_araddr,
++  output reg  [7:0]    out_arlen,
++  output reg  [2:0]    out_arsize,
++  output reg  [1:0]    out_arburst,
++  output reg           out_rready,
++  input  wire          out_rvalid,
++  input  wire [3:0]    out_rid,
++  input  wire [31:0]   out_rdata,
++  input  wire [1:0]    out_rresp,
++  input  wire          out_rlast,
++  input  wire          out_awready,
++  output reg           out_awvalid,
++  output reg  [3:0]    out_awid,
++  output reg  [31:0]   out_awaddr,
++  output reg  [7:0]    out_awlen,
++  output reg  [2:0]    out_awsize,
++  output reg  [1:0]    out_awburst,
++  input  wire          out_wready,
++  output reg           out_wvalid,
++  output reg  [31:0]   out_wdata,
++  output reg  [3:0]    out_wstrb,
++  output wire          out_wlast,
++  output wire          out_bready,
++  input  wire          out_bvalid,
++  input  wire [3:0]    out_bid,
++  input  wire [1:0]    out_bresp,
++  input  wire          clock,
++  input  wire          reset
++);
++  localparam r_BOOT = 2'd0;
++  localparam r_ar = 2'd1;
++  localparam r_r = 2'd2;
++  localparam w_BOOT = 1'd0;
++  localparam w_aw = 1'd1;
++
++  wire       [31:0]   r_r_data_spinal_port1;
++  wire       [31:0]   _zz_r_r_data_port;
++  wire                _zz_when;
++  wire       [50:0]   _zz_r_max_cnt;
++  wire       [50:0]   _zz_r_max_cnt_1;
++  wire       [50:0]   _zz_r_max_cnt_2;
++  wire       [31:0]   _zz_r_max_cnt_3;
++  wire       [50:0]   _zz_r_max_cnt_4;
++  wire                _zz_when_1;
++  wire                _zz_when_2;
++  wire                _zz_when_3;
++  wire       [50:0]   _zz_r_max_cnt_5;
++  wire       [50:0]   _zz_r_max_cnt_6;
++  wire       [50:0]   _zz_r_max_cnt_7;
++  wire       [31:0]   _zz_r_max_cnt_8;
++  wire       [50:0]   _zz_r_max_cnt_9;
++  wire                _zz_when_4;
++  wire                _zz_when_5;
++  wire       [2:0]    _zz_when_6;
++  wire                _zz_when_7;
++  wire                _zz_when_8;
++  wire       [50:0]   _zz_w_max_cnt;
++  wire       [50:0]   _zz_w_max_cnt_1;
++  wire       [50:0]   _zz_w_max_cnt_2;
++  wire       [31:0]   _zz_w_max_cnt_3;
++  wire       [50:0]   _zz_w_max_cnt_4;
++  wire       [50:0]   _zz_w_max_cnt_b;
++  wire       [50:0]   _zz_w_max_cnt_b_1;
++  wire       [50:0]   _zz_w_max_cnt_b_2;
++  wire       [31:0]   _zz_w_max_cnt_b_3;
++  wire       [50:0]   _zz_w_max_cnt_b_4;
++  wire                _zz_when_9;
++  reg                 _zz_1;
++  wire                r_wantExit;
++  reg                 r_wantStart;
++  wire                r_wantKill;
++  reg        [31:0]   r_cnt;
++  reg        [31:0]   r_max_cnt;
++  reg        [31:0]   r_t0;
++  reg                 r_flag;
++  reg        [2:0]    r_r_mem_index;
++  reg        [2:0]    r_r_r_index;
++  wire                w_wantExit;
++  reg                 w_wantStart;
++  wire                w_wantKill;
++  reg        [31:0]   w_cnt;
++  reg        [31:0]   w_max_cnt;
++  reg        [31:0]   w_max_cnt_b;
++  reg        [31:0]   w_t0;
++  reg                 w_flag;
++  reg                 w_aw_flag;
++  reg        [1:0]    r_stateReg;
++  reg        [1:0]    r_stateNext;
++  wire                r_onExit_BOOT;
++  wire                r_onExit_ar;
++  wire                r_onExit_r;
++  wire                r_onEntry_BOOT;
++  wire                r_onEntry_ar;
++  wire                r_onEntry_r;
++  reg        [0:0]    w_stateReg;
++  reg        [0:0]    w_stateNext;
++  wire                w_onExit_BOOT;
++  wire                w_onExit_aw;
++  wire                w_onEntry_BOOT;
++  wire                w_onEntry_aw;
++  `ifndef SYNTHESIS
++  reg [31:0] r_stateReg_string;
++  reg [31:0] r_stateNext_string;
++  reg [31:0] w_stateReg_string;
++  reg [31:0] w_stateNext_string;
++  `endif
++
++  (* ram_style = "distributed" *) reg [31:0] r_r_data [0:7];
++
++  assign _zz_when_2 = (out_rvalid && (! r_flag));
++  assign _zz_when = (r_max_cnt <= r_cnt);
++  assign _zz_when_4 = (r_max_cnt <= r_cnt);
++  assign _zz_when_5 = (_zz_when_6 == r_r_mem_index);
++  assign _zz_when_1 = (in_arvalid && (! r_flag));
++  assign _zz_when_3 = ((in_rready && out_rvalid) && (! r_flag));
++  assign _zz_when_7 = (w_max_cnt_b <= w_cnt);
++  assign _zz_when_8 = (w_max_cnt <= w_cnt);
++  assign _zz_when_9 = (in_awvalid && (! w_aw_flag));
++  assign _zz_r_max_cnt = (_zz_r_max_cnt_1 + _zz_r_max_cnt_4);
++  assign _zz_r_max_cnt_1 = (_zz_r_max_cnt_2 / 17'h186a0);
++  assign _zz_r_max_cnt_2 = (_zz_r_max_cnt_3 * 19'h60187);
++  assign _zz_r_max_cnt_3 = (r_cnt - r_t0);
++  assign _zz_r_max_cnt_4 = {19'd0, r_t0};
++  assign _zz_r_max_cnt_5 = (_zz_r_max_cnt_6 + _zz_r_max_cnt_9);
++  assign _zz_r_max_cnt_6 = (_zz_r_max_cnt_7 / 17'h186a0);
++  assign _zz_r_max_cnt_7 = (_zz_r_max_cnt_8 * 19'h60187);
++  assign _zz_r_max_cnt_8 = (r_cnt - r_t0);
++  assign _zz_r_max_cnt_9 = {19'd0, r_t0};
++  assign _zz_when_6 = (r_r_r_index + 3'b001);
++  assign _zz_w_max_cnt = (_zz_w_max_cnt_1 + _zz_w_max_cnt_4);
++  assign _zz_w_max_cnt_1 = (_zz_w_max_cnt_2 / 17'h186a0);
++  assign _zz_w_max_cnt_2 = (_zz_w_max_cnt_3 * 19'h60187);
++  assign _zz_w_max_cnt_3 = (w_cnt - w_t0);
++  assign _zz_w_max_cnt_4 = {19'd0, w_t0};
++  assign _zz_w_max_cnt_b = (_zz_w_max_cnt_b_1 + _zz_w_max_cnt_b_4);
++  assign _zz_w_max_cnt_b_1 = (_zz_w_max_cnt_b_2 / 17'h186a0);
++  assign _zz_w_max_cnt_b_2 = (_zz_w_max_cnt_b_3 * 19'h60187);
++  assign _zz_w_max_cnt_b_3 = (w_cnt - w_t0);
++  assign _zz_w_max_cnt_b_4 = {19'd0, w_t0};
++  assign _zz_r_r_data_port = out_rdata;
++  always @(posedge clock) begin
++    if(_zz_1) begin
++      r_r_data[r_r_mem_index] <= _zz_r_r_data_port;
++    end
++  end
++
++  assign r_r_data_spinal_port1 = r_r_data[r_r_r_index];
++  `ifndef SYNTHESIS
++  always @(*) begin
++    case(r_stateReg)
++      r_BOOT : r_stateReg_string = "BOOT";
++      r_ar : r_stateReg_string = "ar  ";
++      r_r : r_stateReg_string = "r   ";
++      default : r_stateReg_string = "????";
++    endcase
++  end
++  always @(*) begin
++    case(r_stateNext)
++      r_BOOT : r_stateNext_string = "BOOT";
++      r_ar : r_stateNext_string = "ar  ";
++      r_r : r_stateNext_string = "r   ";
++      default : r_stateNext_string = "????";
++    endcase
++  end
++  always @(*) begin
++    case(w_stateReg)
++      w_BOOT : w_stateReg_string = "BOOT";
++      w_aw : w_stateReg_string = "aw  ";
++      default : w_stateReg_string = "????";
++    endcase
++  end
++  always @(*) begin
++    case(w_stateNext)
++      w_BOOT : w_stateNext_string = "BOOT";
++      w_aw : w_stateNext_string = "aw  ";
++      default : w_stateNext_string = "????";
++    endcase
++  end
++  `endif
++
++  always @(*) begin
++    _zz_1 = 1'b0;
++    case(r_stateReg)
++      r_ar : begin
++      end
++      r_r : begin
++        if(_zz_when_2) begin
++          _zz_1 = 1'b1;
++        end
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    in_arready = 1'b0;
++    case(r_stateReg)
++      r_ar : begin
++        if(r_flag) begin
++          if(_zz_when) begin
++            in_arready = 1'b1;
++          end
++        end
++      end
++      r_r : begin
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    in_rvalid = 1'b0;
++    case(r_stateReg)
++      r_ar : begin
++      end
++      r_r : begin
++        if(r_flag) begin
++          if(_zz_when_4) begin
++            in_rvalid = 1'b1;
++          end
++        end
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    in_rid = 4'b0000;
++    case(r_stateReg)
++      r_ar : begin
++      end
++      r_r : begin
++        if(r_flag) begin
++          if(_zz_when_4) begin
++            in_rid = 4'b0000;
++          end
++        end
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    in_rdata = 32'h0;
++    case(r_stateReg)
++      r_ar : begin
++      end
++      r_r : begin
++        if(r_flag) begin
++          if(_zz_when_4) begin
++            in_rdata = r_r_data_spinal_port1;
++          end
++        end
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    in_rresp = 2'b00;
++    case(r_stateReg)
++      r_ar : begin
++      end
++      r_r : begin
++        if(r_flag) begin
++          if(_zz_when_4) begin
++            in_rresp = 2'b00;
++          end
++        end
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    in_rlast = 1'b0;
++    case(r_stateReg)
++      r_ar : begin
++      end
++      r_r : begin
++        if(r_flag) begin
++          if(_zz_when_4) begin
++            if(_zz_when_5) begin
++              in_rlast = 1'b1;
++            end
++          end
++        end
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    out_arvalid = 1'b0;
++    case(r_stateReg)
++      r_ar : begin
++        if(_zz_when_1) begin
++          out_arvalid = 1'b1;
++        end
++      end
++      r_r : begin
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    out_arid = 4'b0000;
++    case(r_stateReg)
++      r_ar : begin
++        if(_zz_when_1) begin
++          out_arid = in_arid;
++        end
++      end
++      r_r : begin
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    out_araddr = 32'h0;
++    case(r_stateReg)
++      r_ar : begin
++        if(_zz_when_1) begin
++          out_araddr = in_araddr;
++        end
++      end
++      r_r : begin
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    out_arlen = 8'h0;
++    case(r_stateReg)
++      r_ar : begin
++        if(_zz_when_1) begin
++          out_arlen = in_arlen;
++        end
++      end
++      r_r : begin
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    out_arsize = 3'b000;
++    case(r_stateReg)
++      r_ar : begin
++        if(_zz_when_1) begin
++          out_arsize = in_arsize;
++        end
++      end
++      r_r : begin
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    out_arburst = 2'b00;
++    case(r_stateReg)
++      r_ar : begin
++        if(_zz_when_1) begin
++          out_arburst = in_arburst;
++        end
++      end
++      r_r : begin
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    out_rready = 1'b0;
++    case(r_stateReg)
++      r_ar : begin
++      end
++      r_r : begin
++        if(_zz_when_3) begin
++          out_rready = 1'b1;
++        end
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    in_awready = 1'b0;
++    case(w_stateReg)
++      w_aw : begin
++        if(w_flag) begin
++          if(!_zz_when_7) begin
++            if(_zz_when_8) begin
++              in_awready = 1'b1;
++            end
++          end
++        end
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    in_wready = 1'b0;
++    case(w_stateReg)
++      w_aw : begin
++        if(w_flag) begin
++          if(!_zz_when_7) begin
++            if(_zz_when_8) begin
++              in_wready = 1'b1;
++            end
++          end
++        end
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    in_bvalid = 1'b0;
++    case(w_stateReg)
++      w_aw : begin
++        if(w_flag) begin
++          if(_zz_when_7) begin
++            in_bvalid = 1'b1;
++          end
++        end
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  assign in_bid = 4'b0000;
++  assign in_bresp = 2'b00;
++  always @(*) begin
++    out_awvalid = 1'b0;
++    case(w_stateReg)
++      w_aw : begin
++        if(_zz_when_9) begin
++          out_awvalid = 1'b1;
++        end
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    out_awid = 4'b0000;
++    case(w_stateReg)
++      w_aw : begin
++        if(_zz_when_9) begin
++          out_awid = in_awid;
++        end
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    out_awaddr = 32'h0;
++    case(w_stateReg)
++      w_aw : begin
++        if(_zz_when_9) begin
++          out_awaddr = in_awaddr;
++        end
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    out_awlen = 8'h0;
++    case(w_stateReg)
++      w_aw : begin
++        if(_zz_when_9) begin
++          out_awlen = in_awlen;
++        end
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    out_awsize = 3'b000;
++    case(w_stateReg)
++      w_aw : begin
++        if(_zz_when_9) begin
++          out_awsize = in_awsize;
++        end
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    out_awburst = 2'b00;
++    case(w_stateReg)
++      w_aw : begin
++        if(_zz_when_9) begin
++          out_awburst = in_awburst;
++        end
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    out_wvalid = 1'b0;
++    case(w_stateReg)
++      w_aw : begin
++        if(_zz_when_9) begin
++          out_wvalid = in_wvalid;
++        end
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    out_wdata = 32'h0;
++    case(w_stateReg)
++      w_aw : begin
++        if(_zz_when_9) begin
++          out_wdata = in_wdata;
++        end
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    out_wstrb = 4'b0000;
++    case(w_stateReg)
++      w_aw : begin
++        if(_zz_when_9) begin
++          out_wstrb = in_wstrb;
++        end
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  assign out_wlast = 1'b1;
++  assign out_bready = 1'b1;
++  assign r_wantExit = 1'b0;
++  always @(*) begin
++    r_wantStart = 1'b0;
++    case(r_stateReg)
++      r_ar : begin
++      end
++      r_r : begin
++      end
++      default : begin
++        r_wantStart = 1'b1;
++      end
++    endcase
++  end
++
++  assign r_wantKill = 1'b0;
++  assign w_wantExit = 1'b0;
++  always @(*) begin
++    w_wantStart = 1'b0;
++    case(w_stateReg)
++      w_aw : begin
++      end
++      default : begin
++        w_wantStart = 1'b1;
++      end
++    endcase
++  end
++
++  assign w_wantKill = 1'b0;
++  always @(*) begin
++    r_stateNext = r_stateReg;
++    case(r_stateReg)
++      r_ar : begin
++        if(r_flag) begin
++          if(_zz_when) begin
++            r_stateNext = r_r;
++          end
++        end
++      end
++      r_r : begin
++        if(r_flag) begin
++          if(_zz_when_4) begin
++            if(_zz_when_5) begin
++              r_stateNext = r_ar;
++            end
++          end
++        end
++      end
++      default : begin
++      end
++    endcase
++    if(r_wantStart) begin
++      r_stateNext = r_ar;
++    end
++    if(r_wantKill) begin
++      r_stateNext = r_BOOT;
++    end
++  end
++
++  assign r_onExit_BOOT = ((r_stateNext != r_BOOT) && (r_stateReg == r_BOOT));
++  assign r_onExit_ar = ((r_stateNext != r_ar) && (r_stateReg == r_ar));
++  assign r_onExit_r = ((r_stateNext != r_r) && (r_stateReg == r_r));
++  assign r_onEntry_BOOT = ((r_stateNext == r_BOOT) && (r_stateReg != r_BOOT));
++  assign r_onEntry_ar = ((r_stateNext == r_ar) && (r_stateReg != r_ar));
++  assign r_onEntry_r = ((r_stateNext == r_r) && (r_stateReg != r_r));
++  always @(*) begin
++    w_stateNext = w_stateReg;
++    if(w_wantStart) begin
++      w_stateNext = w_aw;
++    end
++    if(w_wantKill) begin
++      w_stateNext = w_BOOT;
++    end
++  end
++
++  assign w_onExit_BOOT = ((w_stateNext != w_BOOT) && (w_stateReg == w_BOOT));
++  assign w_onExit_aw = ((w_stateNext != w_aw) && (w_stateReg == w_aw));
++  assign w_onEntry_BOOT = ((w_stateNext == w_BOOT) && (w_stateReg != w_BOOT));
++  assign w_onEntry_aw = ((w_stateNext == w_aw) && (w_stateReg != w_aw));
++  always @(posedge clock) begin
++    if(reset) begin
++      r_cnt <= 32'h0;
++      r_max_cnt <= 32'h0;
++      r_t0 <= 32'h0;
++      r_flag <= 1'b0;
++      r_r_mem_index <= 3'b000;
++      r_r_r_index <= 3'b000;
++      w_cnt <= 32'h0;
++      w_max_cnt <= 32'h0;
++      w_max_cnt_b <= 32'h0;
++      w_t0 <= 32'h0;
++      w_flag <= 1'b0;
++      w_aw_flag <= 1'b0;
++      r_stateReg <= r_BOOT;
++      w_stateReg <= w_BOOT;
++    end else begin
++      r_stateReg <= r_stateNext;
++      case(r_stateReg)
++        r_ar : begin
++          if(r_flag) begin
++            if(_zz_when) begin
++              r_cnt <= (r_cnt - r_max_cnt);
++              r_flag <= 1'b0;
++              r_t0 <= (r_cnt - r_max_cnt);
++            end else begin
++              r_cnt <= (r_cnt + 32'h000186a0);
++            end
++          end else begin
++            if(out_arready) begin
++              r_max_cnt <= _zz_r_max_cnt[31:0];
++              r_flag <= 1'b1;
++              r_cnt <= (r_cnt + 32'h000186a0);
++              `ifndef SYNTHESIS
++                `ifdef FORMAL
++                  assert((r_t0 <= r_cnt)); // MY_Device.scala:L554
++                `else
++                  if(!(r_t0 <= r_cnt)) begin
++                    $display("FAILURE "); // MY_Device.scala:L554
++                    $finish;
++                  end
++                `endif
++              `endif
++            end
++          end
++          if(_zz_when_1) begin
++            r_cnt <= (r_cnt + 32'h000186a0);
++          end
++        end
++        r_r : begin
++          if(_zz_when_2) begin
++            r_r_mem_index <= (r_r_mem_index + 3'b001);
++          end
++          if(_zz_when_3) begin
++            r_cnt <= (r_cnt + 32'h000186a0);
++            if(out_rlast) begin
++              r_max_cnt <= _zz_r_max_cnt_5[31:0];
++              r_flag <= 1'b1;
++            end
++          end
++          if(r_flag) begin
++            if(_zz_when_4) begin
++              r_cnt <= (r_cnt - r_max_cnt);
++              r_r_r_index <= (r_r_r_index + 3'b001);
++              if(_zz_when_5) begin
++                r_flag <= 1'b0;
++                r_t0 <= (r_cnt - r_max_cnt);
++              end
++            end else begin
++              r_cnt <= (r_cnt + 32'h000186a0);
++            end
++          end
++        end
++        default : begin
++        end
++      endcase
++      if(r_onEntry_ar) begin
++        r_flag <= 1'b0;
++      end
++      if(r_onEntry_r) begin
++        r_r_mem_index <= 3'b000;
++        r_r_r_index <= 3'b000;
++      end
++      w_stateReg <= w_stateNext;
++      case(w_stateReg)
++        w_aw : begin
++          if(w_flag) begin
++            if(_zz_when_7) begin
++              w_flag <= 1'b0;
++              w_aw_flag <= 1'b0;
++              w_cnt <= (w_cnt - w_max_cnt_b);
++              w_t0 <= (w_cnt - w_max_cnt);
++            end else begin
++              if(_zz_when_8) begin
++                w_cnt <= (w_cnt + 32'h000186a0);
++              end else begin
++                w_cnt <= (w_cnt + 32'h000186a0);
++              end
++            end
++          end else begin
++            if(out_awready) begin
++              w_max_cnt <= _zz_w_max_cnt[31:0];
++              w_cnt <= (w_cnt + 32'h000186a0);
++              w_aw_flag <= 1'b1;
++            end else begin
++              if(out_bvalid) begin
++                w_max_cnt_b <= _zz_w_max_cnt_b[31:0];
++                w_flag <= 1'b1;
++                w_cnt <= (w_cnt + 32'h000186a0);
++              end
++            end
++          end
++          if(_zz_when_9) begin
++            w_cnt <= (w_cnt + 32'h000186a0);
++          end
++        end
++        default : begin
++        end
++      endcase
++      if(w_onEntry_aw) begin
++        w_flag <= 1'b0;
++        w_t0 <= w_cnt;
++      end
++    end
++  end
++
++
++endmodule
+diff --git a/perip/amba/enumdefine.v b/perip/amba/enumdefine.v
+new file mode 100644
+index 00000000..8b137891
+--- /dev/null
++++ b/perip/amba/enumdefine.v
+@@ -0,0 +1 @@
++
 diff --git a/perip/bitrev/bitrev.v b/perip/bitrev/bitrev.v
 index f1c3b363..d7919d87 100644
 --- a/perip/bitrev/bitrev.v
@@ -361,6 +1389,964 @@ index ec51ffe5..1c5af71d 100644
 + 
 +
  endmodule
+diff --git a/perip/gpio/my_gpio.v b/perip/gpio/my_gpio.v
+new file mode 100644
+index 00000000..822ef147
+--- /dev/null
++++ b/perip/gpio/my_gpio.v
+@@ -0,0 +1,583 @@
++// Generator : SpinalHDL v1.12.3    git head : 591e64062329e5e2e2b81f4d52422948053edb97
++// Component : my_gpio
++
++`timescale 1ns/1ps 
++module my_gpio (
++  input  wire [31:0]   apb_in_paddr,
++  input  wire          apb_in_psel,
++  input  wire          apb_in_penable,
++  input  wire [2:0]    apb_in_pprot,
++  input  wire          apb_in_pwrite,
++  input  wire [31:0]   apb_in_pwdata,
++  input  wire [3:0]    apb_in_pstrb,
++  output reg           apb_in_pready,
++  output reg  [31:0]   apb_in_prdata,
++  output reg           apb_in_pslverr,
++  output wire [15:0]   gpio_out,
++  input  wire [15:0]   gpio_in,
++  output wire [7:0]    gpio_seg_0,
++  output wire [7:0]    gpio_seg_1,
++  output wire [7:0]    gpio_seg_2,
++  output wire [7:0]    gpio_seg_3,
++  output wire [7:0]    gpio_seg_4,
++  output wire [7:0]    gpio_seg_5,
++  output wire [7:0]    gpio_seg_6,
++  output wire [7:0]    gpio_seg_7,
++  input  wire          clk,
++  input  wire          reset
++);
++
++  wire       [3:0]    _zz_1;
++  wire       [3:0]    _zz_2;
++  wire       [3:0]    _zz_3;
++  wire       [3:0]    _zz_4;
++  wire       [3:0]    _zz_5;
++  wire       [3:0]    _zz_6;
++  wire       [3:0]    _zz_7;
++  wire       [3:0]    _zz_8;
++  wire                _zz_when;
++  wire                _zz_when_1;
++  reg        [15:0]   led_reg;
++  reg        [15:0]   sw_reg;
++  reg        [31:0]   seg_reg;
++  reg        [7:0]    _zz_gpio_seg_0;
++  reg        [7:0]    _zz_gpio_seg_1;
++  reg        [7:0]    _zz_gpio_seg_2;
++  reg        [7:0]    _zz_gpio_seg_3;
++  reg        [7:0]    _zz_gpio_seg_4;
++  reg        [7:0]    _zz_gpio_seg_5;
++  reg        [7:0]    _zz_gpio_seg_6;
++  reg        [7:0]    _zz_gpio_seg_7;
++  wire                valid;
++
++  assign _zz_when = (valid && apb_in_pwrite);
++  assign _zz_when_1 = (valid && (! apb_in_pwrite));
++  assign _zz_1 = seg_reg[3 : 0];
++  assign _zz_2 = seg_reg[7 : 4];
++  assign _zz_3 = seg_reg[11 : 8];
++  assign _zz_4 = seg_reg[15 : 12];
++  assign _zz_5 = seg_reg[19 : 16];
++  assign _zz_6 = seg_reg[23 : 20];
++  assign _zz_7 = seg_reg[27 : 24];
++  assign _zz_8 = seg_reg[31 : 28];
++  assign gpio_out = led_reg;
++  always @(*) begin
++    case(_zz_1)
++      4'b0000 : begin
++        _zz_gpio_seg_0 = 8'hfc;
++      end
++      4'b0001 : begin
++        _zz_gpio_seg_0 = 8'h60;
++      end
++      4'b0010 : begin
++        _zz_gpio_seg_0 = 8'hda;
++      end
++      4'b0011 : begin
++        _zz_gpio_seg_0 = 8'hf2;
++      end
++      4'b0100 : begin
++        _zz_gpio_seg_0 = 8'h66;
++      end
++      4'b0101 : begin
++        _zz_gpio_seg_0 = 8'hb6;
++      end
++      4'b0110 : begin
++        _zz_gpio_seg_0 = 8'hbe;
++      end
++      4'b0111 : begin
++        _zz_gpio_seg_0 = 8'he0;
++      end
++      4'b1000 : begin
++        _zz_gpio_seg_0 = 8'hfe;
++      end
++      4'b1001 : begin
++        _zz_gpio_seg_0 = 8'hf6;
++      end
++      4'b1010 : begin
++        _zz_gpio_seg_0 = 8'hee;
++      end
++      4'b1011 : begin
++        _zz_gpio_seg_0 = 8'h3e;
++      end
++      4'b1100 : begin
++        _zz_gpio_seg_0 = 8'h9c;
++      end
++      4'b1101 : begin
++        _zz_gpio_seg_0 = 8'h7a;
++      end
++      4'b1110 : begin
++        _zz_gpio_seg_0 = 8'h9e;
++      end
++      default : begin
++        _zz_gpio_seg_0 = 8'h8e;
++      end
++    endcase
++  end
++
++  assign gpio_seg_0 = (~ _zz_gpio_seg_0);
++  always @(*) begin
++    case(_zz_2)
++      4'b0000 : begin
++        _zz_gpio_seg_1 = 8'hfc;
++      end
++      4'b0001 : begin
++        _zz_gpio_seg_1 = 8'h60;
++      end
++      4'b0010 : begin
++        _zz_gpio_seg_1 = 8'hda;
++      end
++      4'b0011 : begin
++        _zz_gpio_seg_1 = 8'hf2;
++      end
++      4'b0100 : begin
++        _zz_gpio_seg_1 = 8'h66;
++      end
++      4'b0101 : begin
++        _zz_gpio_seg_1 = 8'hb6;
++      end
++      4'b0110 : begin
++        _zz_gpio_seg_1 = 8'hbe;
++      end
++      4'b0111 : begin
++        _zz_gpio_seg_1 = 8'he0;
++      end
++      4'b1000 : begin
++        _zz_gpio_seg_1 = 8'hfe;
++      end
++      4'b1001 : begin
++        _zz_gpio_seg_1 = 8'hf6;
++      end
++      4'b1010 : begin
++        _zz_gpio_seg_1 = 8'hee;
++      end
++      4'b1011 : begin
++        _zz_gpio_seg_1 = 8'h3e;
++      end
++      4'b1100 : begin
++        _zz_gpio_seg_1 = 8'h9c;
++      end
++      4'b1101 : begin
++        _zz_gpio_seg_1 = 8'h7a;
++      end
++      4'b1110 : begin
++        _zz_gpio_seg_1 = 8'h9e;
++      end
++      default : begin
++        _zz_gpio_seg_1 = 8'h8e;
++      end
++    endcase
++  end
++
++  assign gpio_seg_1 = (~ _zz_gpio_seg_1);
++  always @(*) begin
++    case(_zz_3)
++      4'b0000 : begin
++        _zz_gpio_seg_2 = 8'hfc;
++      end
++      4'b0001 : begin
++        _zz_gpio_seg_2 = 8'h60;
++      end
++      4'b0010 : begin
++        _zz_gpio_seg_2 = 8'hda;
++      end
++      4'b0011 : begin
++        _zz_gpio_seg_2 = 8'hf2;
++      end
++      4'b0100 : begin
++        _zz_gpio_seg_2 = 8'h66;
++      end
++      4'b0101 : begin
++        _zz_gpio_seg_2 = 8'hb6;
++      end
++      4'b0110 : begin
++        _zz_gpio_seg_2 = 8'hbe;
++      end
++      4'b0111 : begin
++        _zz_gpio_seg_2 = 8'he0;
++      end
++      4'b1000 : begin
++        _zz_gpio_seg_2 = 8'hfe;
++      end
++      4'b1001 : begin
++        _zz_gpio_seg_2 = 8'hf6;
++      end
++      4'b1010 : begin
++        _zz_gpio_seg_2 = 8'hee;
++      end
++      4'b1011 : begin
++        _zz_gpio_seg_2 = 8'h3e;
++      end
++      4'b1100 : begin
++        _zz_gpio_seg_2 = 8'h9c;
++      end
++      4'b1101 : begin
++        _zz_gpio_seg_2 = 8'h7a;
++      end
++      4'b1110 : begin
++        _zz_gpio_seg_2 = 8'h9e;
++      end
++      default : begin
++        _zz_gpio_seg_2 = 8'h8e;
++      end
++    endcase
++  end
++
++  assign gpio_seg_2 = (~ _zz_gpio_seg_2);
++  always @(*) begin
++    case(_zz_4)
++      4'b0000 : begin
++        _zz_gpio_seg_3 = 8'hfc;
++      end
++      4'b0001 : begin
++        _zz_gpio_seg_3 = 8'h60;
++      end
++      4'b0010 : begin
++        _zz_gpio_seg_3 = 8'hda;
++      end
++      4'b0011 : begin
++        _zz_gpio_seg_3 = 8'hf2;
++      end
++      4'b0100 : begin
++        _zz_gpio_seg_3 = 8'h66;
++      end
++      4'b0101 : begin
++        _zz_gpio_seg_3 = 8'hb6;
++      end
++      4'b0110 : begin
++        _zz_gpio_seg_3 = 8'hbe;
++      end
++      4'b0111 : begin
++        _zz_gpio_seg_3 = 8'he0;
++      end
++      4'b1000 : begin
++        _zz_gpio_seg_3 = 8'hfe;
++      end
++      4'b1001 : begin
++        _zz_gpio_seg_3 = 8'hf6;
++      end
++      4'b1010 : begin
++        _zz_gpio_seg_3 = 8'hee;
++      end
++      4'b1011 : begin
++        _zz_gpio_seg_3 = 8'h3e;
++      end
++      4'b1100 : begin
++        _zz_gpio_seg_3 = 8'h9c;
++      end
++      4'b1101 : begin
++        _zz_gpio_seg_3 = 8'h7a;
++      end
++      4'b1110 : begin
++        _zz_gpio_seg_3 = 8'h9e;
++      end
++      default : begin
++        _zz_gpio_seg_3 = 8'h8e;
++      end
++    endcase
++  end
++
++  assign gpio_seg_3 = (~ _zz_gpio_seg_3);
++  always @(*) begin
++    case(_zz_5)
++      4'b0000 : begin
++        _zz_gpio_seg_4 = 8'hfc;
++      end
++      4'b0001 : begin
++        _zz_gpio_seg_4 = 8'h60;
++      end
++      4'b0010 : begin
++        _zz_gpio_seg_4 = 8'hda;
++      end
++      4'b0011 : begin
++        _zz_gpio_seg_4 = 8'hf2;
++      end
++      4'b0100 : begin
++        _zz_gpio_seg_4 = 8'h66;
++      end
++      4'b0101 : begin
++        _zz_gpio_seg_4 = 8'hb6;
++      end
++      4'b0110 : begin
++        _zz_gpio_seg_4 = 8'hbe;
++      end
++      4'b0111 : begin
++        _zz_gpio_seg_4 = 8'he0;
++      end
++      4'b1000 : begin
++        _zz_gpio_seg_4 = 8'hfe;
++      end
++      4'b1001 : begin
++        _zz_gpio_seg_4 = 8'hf6;
++      end
++      4'b1010 : begin
++        _zz_gpio_seg_4 = 8'hee;
++      end
++      4'b1011 : begin
++        _zz_gpio_seg_4 = 8'h3e;
++      end
++      4'b1100 : begin
++        _zz_gpio_seg_4 = 8'h9c;
++      end
++      4'b1101 : begin
++        _zz_gpio_seg_4 = 8'h7a;
++      end
++      4'b1110 : begin
++        _zz_gpio_seg_4 = 8'h9e;
++      end
++      default : begin
++        _zz_gpio_seg_4 = 8'h8e;
++      end
++    endcase
++  end
++
++  assign gpio_seg_4 = (~ _zz_gpio_seg_4);
++  always @(*) begin
++    case(_zz_6)
++      4'b0000 : begin
++        _zz_gpio_seg_5 = 8'hfc;
++      end
++      4'b0001 : begin
++        _zz_gpio_seg_5 = 8'h60;
++      end
++      4'b0010 : begin
++        _zz_gpio_seg_5 = 8'hda;
++      end
++      4'b0011 : begin
++        _zz_gpio_seg_5 = 8'hf2;
++      end
++      4'b0100 : begin
++        _zz_gpio_seg_5 = 8'h66;
++      end
++      4'b0101 : begin
++        _zz_gpio_seg_5 = 8'hb6;
++      end
++      4'b0110 : begin
++        _zz_gpio_seg_5 = 8'hbe;
++      end
++      4'b0111 : begin
++        _zz_gpio_seg_5 = 8'he0;
++      end
++      4'b1000 : begin
++        _zz_gpio_seg_5 = 8'hfe;
++      end
++      4'b1001 : begin
++        _zz_gpio_seg_5 = 8'hf6;
++      end
++      4'b1010 : begin
++        _zz_gpio_seg_5 = 8'hee;
++      end
++      4'b1011 : begin
++        _zz_gpio_seg_5 = 8'h3e;
++      end
++      4'b1100 : begin
++        _zz_gpio_seg_5 = 8'h9c;
++      end
++      4'b1101 : begin
++        _zz_gpio_seg_5 = 8'h7a;
++      end
++      4'b1110 : begin
++        _zz_gpio_seg_5 = 8'h9e;
++      end
++      default : begin
++        _zz_gpio_seg_5 = 8'h8e;
++      end
++    endcase
++  end
++
++  assign gpio_seg_5 = (~ _zz_gpio_seg_5);
++  always @(*) begin
++    case(_zz_7)
++      4'b0000 : begin
++        _zz_gpio_seg_6 = 8'hfc;
++      end
++      4'b0001 : begin
++        _zz_gpio_seg_6 = 8'h60;
++      end
++      4'b0010 : begin
++        _zz_gpio_seg_6 = 8'hda;
++      end
++      4'b0011 : begin
++        _zz_gpio_seg_6 = 8'hf2;
++      end
++      4'b0100 : begin
++        _zz_gpio_seg_6 = 8'h66;
++      end
++      4'b0101 : begin
++        _zz_gpio_seg_6 = 8'hb6;
++      end
++      4'b0110 : begin
++        _zz_gpio_seg_6 = 8'hbe;
++      end
++      4'b0111 : begin
++        _zz_gpio_seg_6 = 8'he0;
++      end
++      4'b1000 : begin
++        _zz_gpio_seg_6 = 8'hfe;
++      end
++      4'b1001 : begin
++        _zz_gpio_seg_6 = 8'hf6;
++      end
++      4'b1010 : begin
++        _zz_gpio_seg_6 = 8'hee;
++      end
++      4'b1011 : begin
++        _zz_gpio_seg_6 = 8'h3e;
++      end
++      4'b1100 : begin
++        _zz_gpio_seg_6 = 8'h9c;
++      end
++      4'b1101 : begin
++        _zz_gpio_seg_6 = 8'h7a;
++      end
++      4'b1110 : begin
++        _zz_gpio_seg_6 = 8'h9e;
++      end
++      default : begin
++        _zz_gpio_seg_6 = 8'h8e;
++      end
++    endcase
++  end
++
++  assign gpio_seg_6 = (~ _zz_gpio_seg_6);
++  always @(*) begin
++    case(_zz_8)
++      4'b0000 : begin
++        _zz_gpio_seg_7 = 8'hfc;
++      end
++      4'b0001 : begin
++        _zz_gpio_seg_7 = 8'h60;
++      end
++      4'b0010 : begin
++        _zz_gpio_seg_7 = 8'hda;
++      end
++      4'b0011 : begin
++        _zz_gpio_seg_7 = 8'hf2;
++      end
++      4'b0100 : begin
++        _zz_gpio_seg_7 = 8'h66;
++      end
++      4'b0101 : begin
++        _zz_gpio_seg_7 = 8'hb6;
++      end
++      4'b0110 : begin
++        _zz_gpio_seg_7 = 8'hbe;
++      end
++      4'b0111 : begin
++        _zz_gpio_seg_7 = 8'he0;
++      end
++      4'b1000 : begin
++        _zz_gpio_seg_7 = 8'hfe;
++      end
++      4'b1001 : begin
++        _zz_gpio_seg_7 = 8'hf6;
++      end
++      4'b1010 : begin
++        _zz_gpio_seg_7 = 8'hee;
++      end
++      4'b1011 : begin
++        _zz_gpio_seg_7 = 8'h3e;
++      end
++      4'b1100 : begin
++        _zz_gpio_seg_7 = 8'h9c;
++      end
++      4'b1101 : begin
++        _zz_gpio_seg_7 = 8'h7a;
++      end
++      4'b1110 : begin
++        _zz_gpio_seg_7 = 8'h9e;
++      end
++      default : begin
++        _zz_gpio_seg_7 = 8'h8e;
++      end
++    endcase
++  end
++
++  assign gpio_seg_7 = (~ _zz_gpio_seg_7);
++  always @(*) begin
++    apb_in_pready = 1'b0;
++    if(_zz_when) begin
++      apb_in_pready = 1'b1;
++      case(apb_in_paddr)
++        32'h10002000 : begin
++        end
++        32'h10002008 : begin
++        end
++        default : begin
++          apb_in_pready = 1'b0;
++        end
++      endcase
++    end
++    if(_zz_when_1) begin
++      apb_in_pready = 1'b1;
++      case(apb_in_paddr)
++        32'h10002004 : begin
++        end
++        default : begin
++          apb_in_pready = 1'b0;
++        end
++      endcase
++    end
++  end
++
++  always @(*) begin
++    apb_in_prdata = 32'h0;
++    if(_zz_when_1) begin
++      case(apb_in_paddr)
++        32'h10002004 : begin
++          apb_in_prdata = {16'd0, sw_reg};
++        end
++        default : begin
++        end
++      endcase
++    end
++  end
++
++  always @(*) begin
++    apb_in_pslverr = 1'b0;
++    if(_zz_when) begin
++      case(apb_in_paddr)
++        32'h10002000 : begin
++        end
++        32'h10002008 : begin
++        end
++        default : begin
++          apb_in_pslverr = 1'b1;
++        end
++      endcase
++    end
++    if(_zz_when_1) begin
++      case(apb_in_paddr)
++        32'h10002004 : begin
++        end
++        default : begin
++          apb_in_pslverr = 1'b1;
++        end
++      endcase
++    end
++  end
++
++  assign valid = (apb_in_penable && apb_in_psel);
++  always @(posedge clk) begin
++    if(reset) begin
++      led_reg <= 16'h0;
++      sw_reg <= 16'h0;
++      seg_reg <= 32'h0;
++    end else begin
++      sw_reg <= gpio_in;
++      if(_zz_when) begin
++        case(apb_in_paddr)
++          32'h10002000 : begin
++            led_reg <= apb_in_pwdata[15:0];
++          end
++          32'h10002008 : begin
++            seg_reg <= apb_in_pwdata;
++          end
++          default : begin
++          end
++        endcase
++      end
++    end
++  end
++
++
++endmodule
+diff --git a/perip/ps2/StreamFifo.v b/perip/ps2/StreamFifo.v
+new file mode 100644
+index 00000000..e588940b
+--- /dev/null
++++ b/perip/ps2/StreamFifo.v
+@@ -0,0 +1,163 @@
++// Generator : SpinalHDL v1.12.3    git head : 591e64062329e5e2e2b81f4d52422948053edb97
++// Component : StreamFifo
++
++`timescale 1ns/1ps 
++module StreamFifo (
++  input  wire          io_push_valid,
++  output wire          io_push_ready,
++  input  wire [7:0]    io_push_payload,
++  output wire          io_pop_valid,
++  input  wire          io_pop_ready,
++  output wire [7:0]    io_pop_payload,
++  input  wire          io_flush,
++  output wire [4:0]    io_occupancy,
++  output wire [4:0]    io_availability,
++  input  wire          clk,
++  input  wire          reset
++);
++
++  reg        [7:0]    logic_ram_spinal_port1;
++  wire       [7:0]    _zz_logic_ram_port;
++  reg                 _zz_1;
++  wire                logic_ptr_doPush;
++  wire                logic_ptr_doPop;
++  wire                logic_ptr_full;
++  wire                logic_ptr_empty;
++  reg        [4:0]    logic_ptr_push;
++  reg        [4:0]    logic_ptr_pop;
++  wire       [4:0]    logic_ptr_occupancy;
++  wire       [4:0]    logic_ptr_popOnIo;
++  wire                when_Stream_l1455;
++  reg                 logic_ptr_wentUp;
++  wire                io_push_fire;
++  wire                logic_push_onRam_write_valid;
++  wire       [3:0]    logic_push_onRam_write_payload_address;
++  wire       [7:0]    logic_push_onRam_write_payload_data;
++  wire                logic_pop_addressGen_valid;
++  reg                 logic_pop_addressGen_ready;
++  wire       [3:0]    logic_pop_addressGen_payload;
++  wire                logic_pop_addressGen_fire;
++  wire                logic_pop_sync_readArbitation_valid;
++  wire                logic_pop_sync_readArbitation_ready;
++  wire       [3:0]    logic_pop_sync_readArbitation_payload;
++  reg                 logic_pop_addressGen_rValid;
++  reg        [3:0]    logic_pop_addressGen_rData;
++  wire                when_Stream_l477;
++  wire                logic_pop_sync_readPort_cmd_valid;
++  wire       [3:0]    logic_pop_sync_readPort_cmd_payload;
++  wire       [7:0]    logic_pop_sync_readPort_rsp;
++  wire                logic_pop_addressGen_toFlowFire_valid;
++  wire       [3:0]    logic_pop_addressGen_toFlowFire_payload;
++  wire                logic_pop_sync_readArbitation_translated_valid;
++  wire                logic_pop_sync_readArbitation_translated_ready;
++  wire       [7:0]    logic_pop_sync_readArbitation_translated_payload;
++  wire                logic_pop_sync_readArbitation_fire;
++  reg        [4:0]    logic_pop_sync_popReg;
++  reg [7:0] logic_ram [0:15];
++
++  assign _zz_logic_ram_port = logic_push_onRam_write_payload_data;
++  always @(posedge clk) begin
++    if(_zz_1) begin
++      logic_ram[logic_push_onRam_write_payload_address] <= _zz_logic_ram_port;
++    end
++  end
++
++  always @(posedge clk) begin
++    if(logic_pop_sync_readPort_cmd_valid) begin
++      logic_ram_spinal_port1 <= logic_ram[logic_pop_sync_readPort_cmd_payload];
++    end
++  end
++
++  always @(*) begin
++    _zz_1 = 1'b0;
++    if(logic_push_onRam_write_valid) begin
++      _zz_1 = 1'b1;
++    end
++  end
++
++  assign when_Stream_l1455 = (logic_ptr_doPush != logic_ptr_doPop);
++  assign logic_ptr_full = (((logic_ptr_push ^ logic_ptr_popOnIo) ^ 5'h10) == 5'h0);
++  assign logic_ptr_empty = (logic_ptr_push == logic_ptr_pop);
++  assign logic_ptr_occupancy = (logic_ptr_push - logic_ptr_popOnIo);
++  assign io_push_ready = (! logic_ptr_full);
++  assign io_push_fire = (io_push_valid && io_push_ready);
++  assign logic_ptr_doPush = io_push_fire;
++  assign logic_push_onRam_write_valid = io_push_fire;
++  assign logic_push_onRam_write_payload_address = logic_ptr_push[3:0];
++  assign logic_push_onRam_write_payload_data = io_push_payload;
++  assign logic_pop_addressGen_valid = (! logic_ptr_empty);
++  assign logic_pop_addressGen_payload = logic_ptr_pop[3:0];
++  assign logic_pop_addressGen_fire = (logic_pop_addressGen_valid && logic_pop_addressGen_ready);
++  assign logic_ptr_doPop = logic_pop_addressGen_fire;
++  always @(*) begin
++    logic_pop_addressGen_ready = logic_pop_sync_readArbitation_ready;
++    if(when_Stream_l477) begin
++      logic_pop_addressGen_ready = 1'b1;
++    end
++  end
++
++  assign when_Stream_l477 = (! logic_pop_sync_readArbitation_valid);
++  assign logic_pop_sync_readArbitation_valid = logic_pop_addressGen_rValid;
++  assign logic_pop_sync_readArbitation_payload = logic_pop_addressGen_rData;
++  assign logic_pop_sync_readPort_rsp = logic_ram_spinal_port1;
++  assign logic_pop_addressGen_toFlowFire_valid = logic_pop_addressGen_fire;
++  assign logic_pop_addressGen_toFlowFire_payload = logic_pop_addressGen_payload;
++  assign logic_pop_sync_readPort_cmd_valid = logic_pop_addressGen_toFlowFire_valid;
++  assign logic_pop_sync_readPort_cmd_payload = logic_pop_addressGen_toFlowFire_payload;
++  assign logic_pop_sync_readArbitation_translated_valid = logic_pop_sync_readArbitation_valid;
++  assign logic_pop_sync_readArbitation_ready = logic_pop_sync_readArbitation_translated_ready;
++  assign logic_pop_sync_readArbitation_translated_payload = logic_pop_sync_readPort_rsp;
++  assign io_pop_valid = logic_pop_sync_readArbitation_translated_valid;
++  assign logic_pop_sync_readArbitation_translated_ready = io_pop_ready;
++  assign io_pop_payload = logic_pop_sync_readArbitation_translated_payload;
++  assign logic_pop_sync_readArbitation_fire = (logic_pop_sync_readArbitation_valid && logic_pop_sync_readArbitation_ready);
++  assign logic_ptr_popOnIo = logic_pop_sync_popReg;
++  assign io_occupancy = logic_ptr_occupancy;
++  assign io_availability = (5'h10 - logic_ptr_occupancy);
++  always @(posedge clk or posedge reset) begin
++    if(reset) begin
++      logic_ptr_push <= 5'h0;
++      logic_ptr_pop <= 5'h0;
++      logic_ptr_wentUp <= 1'b0;
++      logic_pop_addressGen_rValid <= 1'b0;
++      logic_pop_sync_popReg <= 5'h0;
++    end else begin
++      if(when_Stream_l1455) begin
++        logic_ptr_wentUp <= logic_ptr_doPush;
++      end
++      if(io_flush) begin
++        logic_ptr_wentUp <= 1'b0;
++      end
++      if(logic_ptr_doPush) begin
++        logic_ptr_push <= (logic_ptr_push + 5'h01);
++      end
++      if(logic_ptr_doPop) begin
++        logic_ptr_pop <= (logic_ptr_pop + 5'h01);
++      end
++      if(io_flush) begin
++        logic_ptr_push <= 5'h0;
++        logic_ptr_pop <= 5'h0;
++      end
++      if(logic_pop_addressGen_ready) begin
++        logic_pop_addressGen_rValid <= logic_pop_addressGen_valid;
++      end
++      if(io_flush) begin
++        logic_pop_addressGen_rValid <= 1'b0;
++      end
++      if(logic_pop_sync_readArbitation_fire) begin
++        logic_pop_sync_popReg <= logic_ptr_pop;
++      end
++      if(io_flush) begin
++        logic_pop_sync_popReg <= 5'h0;
++      end
++    end
++  end
++
++  always @(posedge clk) begin
++    if(logic_pop_addressGen_ready) begin
++      logic_pop_addressGen_rData <= logic_pop_addressGen_payload;
++    end
++  end
++
++
++endmodule
+diff --git a/perip/ps2/my_ps2.v b/perip/ps2/my_ps2.v
+new file mode 100644
+index 00000000..871a9438
+--- /dev/null
++++ b/perip/ps2/my_ps2.v
+@@ -0,0 +1,133 @@
++// Generator : SpinalHDL v1.12.3    git head : 591e64062329e5e2e2b81f4d52422948053edb97
++// Component : my_ps2
++
++`timescale 1ns/1ps 
++module my_ps2 (
++  input  wire [31:0]   apb_in_paddr,
++  input  wire          apb_in_psel,
++  input  wire          apb_in_penable,
++  input  wire [2:0]    apb_in_pprot,
++  input  wire          apb_in_pwrite,
++  input  wire [31:0]   apb_in_pwdata,
++  input  wire [3:0]    apb_in_pstrb,
++  output reg           apb_in_pready,
++  output reg  [31:0]   apb_in_prdata,
++  output reg           apb_in_pslverr,
++  input  wire          ps2_clk,
++  input  wire          ps2_data,
++  input  wire          clk,
++  input  wire          reset
++);
++
++  wire                ps2_resetn;
++  wire                fifo_io_push_valid;
++  reg                 fifo_io_pop_ready;
++  wire                ps2_ps2_get;
++  wire       [7:0]    ps2_ps2_getdata;
++  wire                fifo_io_push_ready;
++  wire                fifo_io_pop_valid;
++  wire       [7:0]    fifo_io_pop_payload;
++  wire       [4:0]    fifo_io_occupancy;
++  wire       [4:0]    fifo_io_availability;
++  wire       [7:0]    ps2_data_1;
++  reg                 ps2_get_regNext;
++  wire                valid;
++  wire                when_MYDevice_l281;
++  wire                when_MYDevice_l286;
++
++  ps2_keyboard ps2 (
++    .clk         (clk                 ), //i
++    .resetn      (ps2_resetn          ), //i
++    .ps2_clk     (ps2_clk             ), //i
++    .ps2_data    (ps2_data            ), //i
++    .ps2_get     (ps2_ps2_get         ), //o
++    .ps2_getdata (ps2_ps2_getdata[7:0])  //o
++  );
++  StreamFifo fifo (
++    .io_push_valid   (fifo_io_push_valid       ), //i
++    .io_push_ready   (fifo_io_push_ready       ), //o
++    .io_push_payload (ps2_ps2_getdata[7:0]     ), //i
++    .io_pop_valid    (fifo_io_pop_valid        ), //o
++    .io_pop_ready    (fifo_io_pop_ready        ), //i
++    .io_pop_payload  (fifo_io_pop_payload[7:0] ), //o
++    .io_flush        (1'b0                     ), //i
++    .io_occupancy    (fifo_io_occupancy[4:0]   ), //o
++    .io_availability (fifo_io_availability[4:0]), //o
++    .clk             (clk                      ), //i
++    .reset           (reset                    )  //i
++  );
++  assign ps2_data_1 = 8'h0;
++  assign ps2_resetn = (! reset);
++  assign fifo_io_push_valid = (ps2_ps2_get && (! ps2_get_regNext));
++  always @(*) begin
++    fifo_io_pop_ready = 1'b0;
++    if(when_MYDevice_l286) begin
++      case(apb_in_paddr)
++        32'h10011000 : begin
++          fifo_io_pop_ready = 1'b1;
++        end
++        default : begin
++        end
++      endcase
++    end
++  end
++
++  always @(*) begin
++    apb_in_pready = 1'b0;
++    if(when_MYDevice_l281) begin
++      apb_in_pready = 1'b1;
++    end
++    if(when_MYDevice_l286) begin
++      apb_in_pready = 1'b1;
++      case(apb_in_paddr)
++        32'h10011000 : begin
++        end
++        default : begin
++          apb_in_pready = 1'b0;
++        end
++      endcase
++    end
++  end
++
++  always @(*) begin
++    apb_in_prdata = 32'h0;
++    if(when_MYDevice_l286) begin
++      case(apb_in_paddr)
++        32'h10011000 : begin
++          if(fifo_io_pop_valid) begin
++            apb_in_prdata = {24'd0, fifo_io_pop_payload};
++          end else begin
++            apb_in_prdata = 32'h0;
++          end
++        end
++        default : begin
++        end
++      endcase
++    end
++  end
++
++  always @(*) begin
++    apb_in_pslverr = 1'b0;
++    if(when_MYDevice_l281) begin
++      apb_in_pslverr = 1'b1;
++    end
++    if(when_MYDevice_l286) begin
++      case(apb_in_paddr)
++        32'h10011000 : begin
++        end
++        default : begin
++          apb_in_pslverr = 1'b1;
++        end
++      endcase
++    end
++  end
++
++  assign valid = (apb_in_penable && apb_in_psel);
++  assign when_MYDevice_l281 = (valid && apb_in_pwrite);
++  assign when_MYDevice_l286 = (valid && (! apb_in_pwrite));
++  always @(posedge clk) begin
++    ps2_get_regNext <= ps2_ps2_get;
++  end
++
++
++endmodule
+diff --git a/perip/ps2/ps2_keyboard.v b/perip/ps2/ps2_keyboard.v
+new file mode 100644
+index 00000000..b51afbd7
+--- /dev/null
++++ b/perip/ps2/ps2_keyboard.v
+@@ -0,0 +1,54 @@
++module ps2_keyboard(clk,resetn,ps2_clk,ps2_data,ps2_get,ps2_getdata);
++    input clk,resetn,ps2_clk,ps2_data;
++    output reg ps2_get;
++    output reg [7:0]ps2_getdata;
++    reg [9:0] buffer;        // ps2_data bits
++    reg [3:0] count;  // count ps2_data bits
++    reg [2:0] ps2_clk_sync;
++
++    always @(posedge clk) begin
++        ps2_clk_sync <=  {ps2_clk_sync[1:0],ps2_clk};
++    end
++
++    wire sampling = ps2_clk_sync[2] & ~ps2_clk_sync[1];
++
++    always @(posedge clk) begin
++        if (resetn == 0) begin // reset
++            count <= 0;
++            ps2_get<=0;
++
++        end
++        else begin
++            if (sampling) begin
++              if (count == 4'd10) begin
++                if ((buffer[0] == 0) &&  // start bit
++                    (ps2_data)       &&  // stop bit
++                    (^buffer[9:1])) begin      // odd  parity
++                    // $display("receive %x", buffer[8:1]);
++                    ps2_get<=1;
++
++                end
++                count <= 0;     // for next
++              end else begin
++                buffer[count] <= ps2_data;  // store ps2_data
++                count <= count + 3'b1;
++              end
++            end
++            else
++            begin
++            ps2_get<=0;
++            end
++        end
++    end
++
++    always@(posedge clk)begin
++        if(resetn==0)begin
++            ps2_getdata<=8'd0;
++        end
++        else if(^buffer[9:1])begin
++            ps2_getdata<=buffer[8:1];
++        end
++
++    end
++
++endmodule
+\ No newline at end of file
 diff --git a/perip/ps2/ps2_top_apb.v b/perip/ps2/ps2_top_apb.v
 index 080d38fa..05613e46 100644
 --- a/perip/ps2/ps2_top_apb.v
@@ -716,6 +2702,13 @@ index 3bc5b93b..c23c07e6 100644
    sdram_axi_core #(
      .SDRAM_MHZ(100),
      .SDRAM_ADDR_W(24),
+diff --git a/perip/spi/rtl/enumdefine.v b/perip/spi/rtl/enumdefine.v
+new file mode 100644
+index 00000000..8b137891
+--- /dev/null
++++ b/perip/spi/rtl/enumdefine.v
+@@ -0,0 +1 @@
++
 diff --git a/perip/spi/rtl/spi_top_apb.v b/perip/spi/rtl/spi_top_apb.v
 index 92d37516..e98a0f2b 100644
 --- a/perip/spi/rtl/spi_top_apb.v
@@ -808,6 +2801,797 @@ index 92d37516..e98a0f2b 100644
    .wb_int_o(spi_irq_out),
  
    .ss_pad_o(spi_ss),
+diff --git a/perip/spi/rtl/spi_xip.lst b/perip/spi/rtl/spi_xip.lst
+new file mode 100644
+index 00000000..1b9f1df4
+--- /dev/null
++++ b/perip/spi/rtl/spi_xip.lst
+@@ -0,0 +1,2 @@
++/home/ylqt/study/YSYX_data/ysyx-workbench/YSYX_SOC/ysyxSoC/perip/spi/rtl/enumdefine.v
++/home/ylqt/study/YSYX_data/ysyx-workbench/YSYX_SOC/ysyxSoC/perip/spi/rtl/spi_xip.v
+diff --git a/perip/spi/rtl/spi_xip.v b/perip/spi/rtl/spi_xip.v
+new file mode 100644
+index 00000000..9399e906
+--- /dev/null
++++ b/perip/spi/rtl/spi_xip.v
+@@ -0,0 +1,576 @@
++// Generator : SpinalHDL v1.12.3    git head : 591e64062329e5e2e2b81f4d52422948053edb97
++// Component : spi_xip
++
++`timescale 1ns/1ps 
++module spi_xip (
++  input  wire [31:0]   flash_addr_start,
++  input  wire [31:0]   flash_addr_end,
++  input  wire [31:0]   apb_in_paddr,
++  input  wire          apb_in_psel,
++  input  wire          apb_in_penable,
++  input  wire [2:0]    apb_in_pprot,
++  input  wire          apb_in_pwrite,
++  input  wire [31:0]   apb_in_pwdata,
++  input  wire [3:0]    apb_in_pstrb,
++  output reg           apb_in_pready,
++  output reg  [31:0]   apb_in_prdata,
++  output reg           apb_in_pslverr,
++  output reg  [31:0]   spi_in_paddr,
++  output reg           spi_in_psel,
++  output reg           spi_in_penable,
++  output reg  [2:0]    spi_in_pprot,
++  output reg           spi_in_pwrite,
++  output reg  [31:0]   spi_in_pwdata,
++  output reg  [3:0]    spi_in_pstrb,
++  input  wire          spi_in_pready,
++  input  wire [31:0]   spi_in_prdata,
++  input  wire          spi_in_pslverr,
++  input  wire          clk,
++  input  wire          reset
++);
++  localparam BOOT = 3'd0;
++  localparam entry = 3'd1;
++  localparam start = 3'd2;
++  localparam read_reg = 3'd3;
++  localparam write_reg = 3'd4;
++
++  wire                _zz_when;
++  reg        [31:0]   my_spi_in_paddr;
++  reg                 my_spi_in_psel;
++  reg                 my_spi_in_penable;
++  reg        [2:0]    my_spi_in_pprot;
++  reg                 my_spi_in_pwrite;
++  reg        [31:0]   my_spi_in_pwdata;
++  reg        [3:0]    my_spi_in_pstrb;
++  wire                my_spi_in_pready;
++  wire       [31:0]   my_spi_in_prdata;
++  wire                my_spi_in_pslverr;
++  reg                 my_flag;
++  wire                s_wantExit;
++  reg                 s_wantStart;
++  wire                s_wantKill;
++  reg        [31:0]   s_addr;
++  reg        [31:0]   s_data;
++  reg        [3:0]    s_cnt;
++  reg        [2:0]    s_stateReg;
++  reg        [2:0]    s_stateNext;
++  wire                s_onExit_BOOT;
++  wire                s_onExit_entry;
++  wire                s_onExit_start;
++  wire                s_onExit_read_reg;
++  wire                s_onExit_write_reg;
++  wire                s_onEntry_BOOT;
++  wire                s_onEntry_entry;
++  wire                s_onEntry_start;
++  wire                s_onEntry_read_reg;
++  wire                s_onEntry_write_reg;
++  `ifndef SYNTHESIS
++  reg [71:0] s_stateReg_string;
++  reg [71:0] s_stateNext_string;
++  `endif
++
++
++  assign _zz_when = ((flash_addr_start <= apb_in_paddr) && (apb_in_paddr <= flash_addr_end));
++  `ifndef SYNTHESIS
++  always @(*) begin
++    case(s_stateReg)
++      BOOT : s_stateReg_string = "BOOT     ";
++      entry : s_stateReg_string = "entry    ";
++      start : s_stateReg_string = "start    ";
++      read_reg : s_stateReg_string = "read_reg ";
++      write_reg : s_stateReg_string = "write_reg";
++      default : s_stateReg_string = "?????????";
++    endcase
++  end
++  always @(*) begin
++    case(s_stateNext)
++      BOOT : s_stateNext_string = "BOOT     ";
++      entry : s_stateNext_string = "entry    ";
++      start : s_stateNext_string = "start    ";
++      read_reg : s_stateNext_string = "read_reg ";
++      write_reg : s_stateNext_string = "write_reg";
++      default : s_stateNext_string = "?????????";
++    endcase
++  end
++  `endif
++
++  always @(*) begin
++    my_spi_in_paddr = 32'h0;
++    case(s_stateReg)
++      entry : begin
++      end
++      start : begin
++      end
++      read_reg : begin
++        my_spi_in_paddr = s_addr;
++      end
++      write_reg : begin
++        my_spi_in_paddr = s_addr;
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    my_spi_in_psel = 1'b0;
++    case(s_stateReg)
++      entry : begin
++      end
++      start : begin
++      end
++      read_reg : begin
++        my_spi_in_psel = 1'b1;
++      end
++      write_reg : begin
++        my_spi_in_psel = 1'b1;
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    my_spi_in_penable = 1'b0;
++    case(s_stateReg)
++      entry : begin
++      end
++      start : begin
++      end
++      read_reg : begin
++        my_spi_in_penable = 1'b1;
++      end
++      write_reg : begin
++        my_spi_in_penable = 1'b1;
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    my_spi_in_pprot = 3'b000;
++    case(s_stateReg)
++      entry : begin
++      end
++      start : begin
++      end
++      read_reg : begin
++        my_spi_in_pprot = 3'b001;
++      end
++      write_reg : begin
++        my_spi_in_pprot = 3'b001;
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    my_spi_in_pwrite = 1'b0;
++    case(s_stateReg)
++      entry : begin
++      end
++      start : begin
++      end
++      read_reg : begin
++        my_spi_in_pwrite = 1'b0;
++      end
++      write_reg : begin
++        my_spi_in_pwrite = 1'b1;
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    my_spi_in_pwdata = 32'h0;
++    case(s_stateReg)
++      entry : begin
++      end
++      start : begin
++      end
++      read_reg : begin
++        my_spi_in_pwdata = 32'h0;
++      end
++      write_reg : begin
++        my_spi_in_pwdata = s_data;
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    my_spi_in_pstrb = 4'b0000;
++    case(s_stateReg)
++      entry : begin
++      end
++      start : begin
++      end
++      read_reg : begin
++        my_spi_in_pstrb = 4'b1111;
++      end
++      write_reg : begin
++        my_spi_in_pstrb = 4'b1111;
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  assign my_spi_in_pready = spi_in_pready;
++  assign my_spi_in_prdata = spi_in_prdata;
++  assign my_spi_in_pslverr = spi_in_pslverr;
++  always @(*) begin
++    apb_in_pready = 1'b0;
++    if(!_zz_when) begin
++      apb_in_pready = spi_in_pready;
++    end
++    case(s_stateReg)
++      entry : begin
++      end
++      start : begin
++        case(s_cnt)
++          4'b0000 : begin
++          end
++          4'b0001 : begin
++          end
++          4'b0010 : begin
++          end
++          4'b0011 : begin
++          end
++          4'b0100 : begin
++          end
++          4'b0101 : begin
++          end
++          4'b0110 : begin
++          end
++          4'b0111 : begin
++          end
++          4'b1000 : begin
++          end
++          4'b1001 : begin
++          end
++          4'b1010 : begin
++          end
++          4'b1011 : begin
++            apb_in_pready = 1'b1;
++          end
++          default : begin
++          end
++        endcase
++      end
++      read_reg : begin
++      end
++      write_reg : begin
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    apb_in_prdata = 32'h0;
++    if(!_zz_when) begin
++      apb_in_prdata = spi_in_prdata;
++    end
++    case(s_stateReg)
++      entry : begin
++      end
++      start : begin
++        case(s_cnt)
++          4'b0000 : begin
++          end
++          4'b0001 : begin
++          end
++          4'b0010 : begin
++          end
++          4'b0011 : begin
++          end
++          4'b0100 : begin
++          end
++          4'b0101 : begin
++          end
++          4'b0110 : begin
++          end
++          4'b0111 : begin
++          end
++          4'b1000 : begin
++          end
++          4'b1001 : begin
++          end
++          4'b1010 : begin
++          end
++          4'b1011 : begin
++            apb_in_prdata = s_data;
++          end
++          default : begin
++          end
++        endcase
++      end
++      read_reg : begin
++      end
++      write_reg : begin
++      end
++      default : begin
++      end
++    endcase
++  end
++
++  always @(*) begin
++    apb_in_pslverr = 1'b0;
++    if(!_zz_when) begin
++      apb_in_pslverr = spi_in_pslverr;
++    end
++  end
++
++  assign s_wantExit = 1'b0;
++  always @(*) begin
++    s_wantStart = 1'b0;
++    case(s_stateReg)
++      entry : begin
++      end
++      start : begin
++      end
++      read_reg : begin
++      end
++      write_reg : begin
++      end
++      default : begin
++        s_wantStart = 1'b1;
++      end
++    endcase
++  end
++
++  assign s_wantKill = 1'b0;
++  always @(*) begin
++    if(_zz_when) begin
++      my_flag = 1'b1;
++    end else begin
++      my_flag = 1'b0;
++    end
++  end
++
++  always @(*) begin
++    if(_zz_when) begin
++      spi_in_paddr = my_spi_in_paddr;
++    end else begin
++      spi_in_paddr = apb_in_paddr;
++    end
++  end
++
++  always @(*) begin
++    if(_zz_when) begin
++      spi_in_psel = my_spi_in_psel;
++    end else begin
++      spi_in_psel = apb_in_psel;
++    end
++  end
++
++  always @(*) begin
++    if(_zz_when) begin
++      spi_in_penable = my_spi_in_penable;
++    end else begin
++      spi_in_penable = apb_in_penable;
++    end
++  end
++
++  always @(*) begin
++    if(_zz_when) begin
++      spi_in_pprot = my_spi_in_pprot;
++    end else begin
++      spi_in_pprot = apb_in_pprot;
++    end
++  end
++
++  always @(*) begin
++    if(_zz_when) begin
++      spi_in_pwrite = my_spi_in_pwrite;
++    end else begin
++      spi_in_pwrite = apb_in_pwrite;
++    end
++  end
++
++  always @(*) begin
++    if(_zz_when) begin
++      spi_in_pwdata = my_spi_in_pwdata;
++    end else begin
++      spi_in_pwdata = apb_in_pwdata;
++    end
++  end
++
++  always @(*) begin
++    if(_zz_when) begin
++      spi_in_pstrb = my_spi_in_pstrb;
++    end else begin
++      spi_in_pstrb = apb_in_pstrb;
++    end
++  end
++
++  always @(*) begin
++    s_stateNext = s_stateReg;
++    case(s_stateReg)
++      entry : begin
++        if((my_flag && apb_in_penable)) begin
++          s_stateNext = start;
++        end
++      end
++      start : begin
++        case(s_cnt)
++          4'b0000 : begin
++            s_stateNext = write_reg;
++          end
++          4'b0001 : begin
++            s_stateNext = write_reg;
++          end
++          4'b0010 : begin
++            s_stateNext = write_reg;
++          end
++          4'b0011 : begin
++            s_stateNext = read_reg;
++          end
++          4'b0100 : begin
++          end
++          4'b0101 : begin
++            s_stateNext = write_reg;
++          end
++          4'b0110 : begin
++            s_stateNext = write_reg;
++          end
++          4'b0111 : begin
++            s_stateNext = write_reg;
++          end
++          4'b1000 : begin
++            s_stateNext = read_reg;
++          end
++          4'b1001 : begin
++          end
++          4'b1010 : begin
++            s_stateNext = read_reg;
++          end
++          4'b1011 : begin
++            s_stateNext = entry;
++          end
++          default : begin
++          end
++        endcase
++      end
++      read_reg : begin
++        if(my_spi_in_pready) begin
++          s_stateNext = start;
++        end
++      end
++      write_reg : begin
++        if(my_spi_in_pready) begin
++          s_stateNext = start;
++        end
++      end
++      default : begin
++      end
++    endcase
++    if(s_wantStart) begin
++      s_stateNext = entry;
++    end
++    if(s_wantKill) begin
++      s_stateNext = BOOT;
++    end
++  end
++
++  assign s_onExit_BOOT = ((s_stateNext != BOOT) && (s_stateReg == BOOT));
++  assign s_onExit_entry = ((s_stateNext != entry) && (s_stateReg == entry));
++  assign s_onExit_start = ((s_stateNext != start) && (s_stateReg == start));
++  assign s_onExit_read_reg = ((s_stateNext != read_reg) && (s_stateReg == read_reg));
++  assign s_onExit_write_reg = ((s_stateNext != write_reg) && (s_stateReg == write_reg));
++  assign s_onEntry_BOOT = ((s_stateNext == BOOT) && (s_stateReg != BOOT));
++  assign s_onEntry_entry = ((s_stateNext == entry) && (s_stateReg != entry));
++  assign s_onEntry_start = ((s_stateNext == start) && (s_stateReg != start));
++  assign s_onEntry_read_reg = ((s_stateNext == read_reg) && (s_stateReg != read_reg));
++  assign s_onEntry_write_reg = ((s_stateNext == write_reg) && (s_stateReg != write_reg));
++  always @(posedge clk) begin
++    if(reset) begin
++      s_addr <= 32'h0;
++      s_data <= 32'h0;
++      s_cnt <= 4'b0000;
++      s_stateReg <= BOOT;
++    end else begin
++      s_stateReg <= s_stateNext;
++      case(s_stateReg)
++        entry : begin
++        end
++        start : begin
++          case(s_cnt)
++            4'b0000 : begin
++              s_addr <= 32'h10001010;
++              s_data <= 32'h00002040;
++            end
++            4'b0001 : begin
++              s_addr <= 32'h10001014;
++              s_data <= 32'h00000002;
++            end
++            4'b0010 : begin
++              s_addr <= 32'h10001018;
++              s_data <= 32'h00000001;
++            end
++            4'b0011 : begin
++              s_addr <= 32'h10001010;
++            end
++            4'b0100 : begin
++              if(s_data[8]) begin
++                s_cnt <= (s_cnt - 4'b0001);
++              end else begin
++                s_cnt <= (s_cnt + 4'b0001);
++              end
++            end
++            4'b0101 : begin
++              s_addr <= 32'h10001000;
++              s_data <= {8'h03,{2'b00,apb_in_paddr[23 : 2]}};
++            end
++            4'b0110 : begin
++              s_addr <= 32'h10001004;
++              s_data <= {8'h03,{2'b00,apb_in_paddr[23 : 2]}};
++            end
++            4'b0111 : begin
++              s_addr <= 32'h10001010;
++              s_data <= 32'h00002140;
++            end
++            4'b1000 : begin
++              s_addr <= 32'h10001010;
++            end
++            4'b1001 : begin
++              if(s_data[8]) begin
++                s_cnt <= (s_cnt - 4'b0001);
++              end else begin
++                s_cnt <= (s_cnt + 4'b0001);
++              end
++            end
++            4'b1010 : begin
++              s_addr <= 32'h10001000;
++            end
++            4'b1011 : begin
++              s_cnt <= 4'b0000;
++            end
++            default : begin
++            end
++          endcase
++        end
++        read_reg : begin
++          if(my_spi_in_pready) begin
++            s_data <= my_spi_in_prdata;
++            s_cnt <= (s_cnt + 4'b0001);
++          end
++        end
++        write_reg : begin
++          if(my_spi_in_pready) begin
++            s_cnt <= (s_cnt + 4'b0001);
++          end
++        end
++        default : begin
++        end
++      endcase
++    end
++  end
++
++
++endmodule
+diff --git a/perip/vga/my_vga.v b/perip/vga/my_vga.v
+new file mode 100644
+index 00000000..34ddae9c
+--- /dev/null
++++ b/perip/vga/my_vga.v
+@@ -0,0 +1,131 @@
++// Generator : SpinalHDL v1.12.3    git head : 591e64062329e5e2e2b81f4d52422948053edb97
++// Component : my_vga
++
++`timescale 1ns/1ps 
++module my_vga (
++  input  wire [31:0]   apb_in_paddr,
++  input  wire          apb_in_psel,
++  input  wire          apb_in_penable,
++  input  wire [2:0]    apb_in_pprot,
++  input  wire          apb_in_pwrite,
++  input  wire [31:0]   apb_in_pwdata,
++  input  wire [3:0]    apb_in_pstrb,
++  output reg           apb_in_pready,
++  output reg  [31:0]   apb_in_prdata,
++  output reg           apb_in_pslverr,
++  output wire [7:0]    vga_r,
++  output wire [7:0]    vga_g,
++  output wire [7:0]    vga_b,
++  output wire          vga_hsync,
++  output wire          vga_vsync,
++  output wire          vga_valid,
++  input  wire          clk,
++  input  wire          reset
++);
++
++  wire       [23:0]   vga_vga_data;
++  wire       [31:0]   vga_ram_spinal_port0;
++  wire       [31:0]   vga_ram_spinal_port2;
++  wire       [9:0]    vga_h_addr;
++  wire       [9:0]    vga_v_addr;
++  wire                vga_hsync_1;
++  wire                vga_vsync_1;
++  wire                vga_valid_1;
++  wire       [7:0]    vga_vga_r;
++  wire       [7:0]    vga_vga_g;
++  wire       [7:0]    vga_vga_b;
++  wire       [19:0]   _zz__zz_vga_data;
++  wire       [19:0]   _zz__zz_vga_data_1;
++  wire       [18:0]   _zz_vga_ram_port;
++  wire       [31:0]   _zz_vga_data_1;
++  wire       [18:0]   _zz_vga_data_2;
++  wire                _zz_when;
++  wire       [18:0]   _zz_vga_ram_port_1;
++  wire       [29:0]   _zz_vga_ram_port_2;
++  wire       [31:0]   _zz_vga_ram_port_3;
++  wire                _zz_when_1;
++  wire       [18:0]   _zz_apb_in_prdata_1;
++  wire       [18:0]   _zz_vga_ram_port_4;
++  reg                 _zz_1;
++  wire       [19:0]   _zz_vga_data;
++  wire                valid;
++  wire       [29:0]   _zz_apb_in_prdata;
++  reg [31:0] vga_ram [0:307199];
++
++  assign _zz_when = (valid && apb_in_pwrite);
++  assign _zz_when_1 = (valid && (! apb_in_pwrite));
++  assign _zz__zz_vga_data = (vga_v_addr * 10'h280);
++  assign _zz__zz_vga_data_1 = {10'd0, vga_h_addr};
++  assign _zz_vga_data_2 = _zz_vga_data[18:0];
++  assign _zz_vga_data_1 = vga_ram_spinal_port0;
++  assign _zz_vga_ram_port_2 = (apb_in_paddr >>> 2'd2);
++  assign _zz_vga_ram_port_1 = _zz_vga_ram_port_2[18:0];
++  assign _zz_vga_ram_port_4 = _zz_apb_in_prdata[18:0];
++  assign _zz_vga_ram_port_3 = apb_in_pwdata;
++  assign vga_ram_spinal_port0 = vga_ram[_zz_vga_data_2];
++  always @(posedge clk) begin
++    if(_zz_1) begin
++      vga_ram[_zz_vga_ram_port_1] <= _zz_vga_ram_port_3;
++    end
++  end
++
++  assign vga_ram_spinal_port2 = vga_ram[_zz_vga_ram_port_4];
++  vga_ctrl vga (
++    .pclk     (clk               ), //i
++    .reset    (reset             ), //i
++    .vga_data (vga_vga_data[23:0]), //i
++    .h_addr   (vga_h_addr[9:0]   ), //o
++    .v_addr   (vga_v_addr[9:0]   ), //o
++    .hsync    (vga_hsync_1       ), //o
++    .vsync    (vga_vsync_1       ), //o
++    .valid    (vga_valid_1       ), //o
++    .vga_r    (vga_vga_r[7:0]    ), //o
++    .vga_g    (vga_vga_g[7:0]    ), //o
++    .vga_b    (vga_vga_b[7:0]    )  //o
++  );
++  always @(*) begin
++    _zz_1 = 1'b0;
++    if(_zz_when) begin
++      _zz_1 = 1'b1;
++    end
++  end
++
++  assign _zz_vga_data = (_zz__zz_vga_data + _zz__zz_vga_data_1);
++  assign vga_vga_data = _zz_vga_data_1[23:0];
++  assign vga_r = vga_vga_r;
++  assign vga_g = vga_vga_g;
++  assign vga_b = vga_vga_b;
++  assign vga_hsync = vga_hsync_1;
++  assign vga_vsync = vga_vsync_1;
++  assign vga_valid = vga_valid_1;
++  always @(*) begin
++    apb_in_pready = 1'b0;
++    if(_zz_when) begin
++      apb_in_pready = 1'b1;
++    end
++    if(_zz_when_1) begin
++      apb_in_pready = 1'b1;
++    end
++  end
++
++  always @(*) begin
++    apb_in_prdata = 32'h0;
++    if(_zz_when_1) begin
++      apb_in_prdata = vga_ram_spinal_port2;
++    end
++  end
++
++  always @(*) begin
++    apb_in_pslverr = 1'b0;
++    if(_zz_when) begin
++      apb_in_pslverr = 1'b0;
++    end
++    if(_zz_when_1) begin
++      apb_in_pslverr = 1'b0;
++    end
++  end
++
++  assign valid = (apb_in_penable && apb_in_psel);
++  assign _zz_apb_in_prdata = (apb_in_paddr >>> 2'd2);
++
++endmodule
+diff --git a/perip/vga/vga_ctrl.v b/perip/vga/vga_ctrl.v
+new file mode 100644
+index 00000000..cee94c77
+--- /dev/null
++++ b/perip/vga/vga_ctrl.v
+@@ -0,0 +1,58 @@
++module vga_ctrl (
++    input pclk,
++    input reset,
++    input [23:0] vga_data,
++    output [9:0] h_addr,
++    output [9:0] v_addr,
++    output hsync,
++    output vsync,
++    output valid,
++    output [7:0] vga_r,
++    output [7:0] vga_g,
++    output [7:0] vga_b
++);
++
++parameter h_frontporch = 96;
++parameter h_active = 144;
++parameter h_backporch = 784;
++parameter h_total = 800;
++
++parameter v_frontporch = 2;
++parameter v_active = 35;
++parameter v_backporch = 515;
++parameter v_total = 525;
++
++reg [9:0] x_cnt;
++reg [9:0] y_cnt;
++wire h_valid;
++wire v_valid;
++
++always @(posedge pclk) begin
++    if(reset == 1'b1) begin
++        x_cnt <= 1;
++        y_cnt <= 1;
++    end
++    else begin
++        if(x_cnt == h_total)begin
++            x_cnt <= 1;
++            if(y_cnt == v_total) y_cnt <= 1;
++            else y_cnt <= y_cnt + 1;
++        end
++        else x_cnt <= x_cnt + 1;
++    end
++end
++
++//生成同步信号    
++assign hsync = (x_cnt > h_frontporch);
++assign vsync = (y_cnt > v_frontporch);
++//生成消隐信号
++assign h_valid = (x_cnt > h_active) & (x_cnt <= h_backporch);
++assign v_valid = (y_cnt > v_active) & (y_cnt <= v_backporch);
++assign valid = h_valid & v_valid;
++//计算当前有效像素坐标
++assign h_addr = h_valid ? (x_cnt - 10'd145) : 10'd0;
++assign v_addr = v_valid ? (y_cnt - 10'd36) : 10'd0;
++//设置输出的颜色值
++assign {vga_r, vga_g, vga_b} = vga_data;
++
++endmodule
 diff --git a/perip/vga/vga_top_apb.v b/perip/vga/vga_top_apb.v
 index 5c74cfbe..0663efb6 100644
 --- a/perip/vga/vga_top_apb.v

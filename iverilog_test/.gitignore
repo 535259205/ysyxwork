@@ -1,6 +1,3 @@
 simv
 build/
-hex/test.bin
-hex/test.elf
-hex/test.mem
 error.txt
