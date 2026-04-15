@@ -68,6 +68,7 @@ all: $(LIBCAPSTONE)
 #-DBATCH_MODE
 # 6. 仿真目标
 sim: encode
+	$(call git_commit, "sim RTL")
 	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):$(AM_HOME)/../nemu/tools/capstone/repo ./obj_dir/V$(TOP_MODULE)
 ifeq ($(USE_WAVE),1)
 	gtkwave waveform.vcd
