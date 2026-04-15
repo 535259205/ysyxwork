@@ -68,13 +68,13 @@ all: $(LIBCAPSTONE)
 #-DBATCH_MODE
 # 6. 仿真目标
 sim: encode
-	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):$(CURDIR)/../nemu/tools/capstone/repo ./obj_dir/V$(TOP_MODULE)
+	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):$(AM_HOME)/../nemu/tools/capstone/repo ./obj_dir/V$(TOP_MODULE)
 ifeq ($(USE_WAVE),1)
 	gtkwave waveform.vcd
 endif
 
 encode :
-	riscv64-linux-gnu-objdump -D -m riscv:rv64 -EL ./hex/test.elf > ./hex/disasm_result.txt
+	# riscv64-linux-gnu-objdump -D -m riscv:rv64 -EL ./hex/test.elf > ./hex/disasm_result.txt
 gtk :
 	gtkwave waveform.vcd wave_sign.gtkw
 # 7. 清理目标
