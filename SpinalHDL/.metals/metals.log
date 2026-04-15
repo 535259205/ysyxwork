@@ -1,0 +1,483 @@
+2026.04.14 20:34:13 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.13.18[0m
+2026.04.14 20:34:16 INFO  Started: Metals version 1.6.7 in folders '/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL' for client Visual Studio Code 1.96.4.[0m
+2026.04.14 20:34:16 INFO  Memory monitor started[0m
+2026.04.14 20:34:17 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.[0m
+2026.04.14 20:34:17 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:34:19 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:34:21 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:34:21 INFO  Attempting to connect to the build server...[0m
+2026.04.14 20:34:21 INFO  Found a Bloop server running[0m
+2026.04.14 20:34:21 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/bsp.trace.json or /home/ylqt/.cache/metals/bsp.trace.json[0m
+2026.04.14 20:34:21 WARN  Failed to write workspace settings: /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.bloop/bloop.settings.json[0m
+2026.04.14 20:34:21 INFO  Attempting to connect to the build server...[0m
+2026.04.14 20:34:21 INFO  Found a Bloop server running[0m
+2026.04.14 20:34:21 INFO  Attempting to connect to the build server...[0m
+2026.04.14 20:34:21 INFO  Found a Bloop server running[0m
+2026.04.14 20:34:21 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/project/project/.metals/bsp.trace.json or /home/ylqt/.cache/metals/bsp.trace.json[0m
+2026.04.14 20:34:21 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/project/.metals/bsp.trace.json or /home/ylqt/.cache/metals/bsp.trace.json[0m
+2026.04.14 20:34:21 INFO  time: Connected to build server in 2.49s[0m
+2026.04.14 20:34:21 INFO  Connected to Build server: Bloop v2.0.19[0m
+2026.04.14 20:34:21 INFO  Created report: Optional.empty[0m
+2026.04.14 20:34:21 INFO  Empty build targets. Expected at least one build target identifier. (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/bloop/2026-04-14/r_Empty build targets...._20-34-22-066.md")[0m
+2026.04.14 20:34:21 INFO  Empty build targets. Expected at least one build target identifier. (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/bloop/2026-04-14/r_Empty build targets...._20-34-22-066.md")[0m
+2026.04.14 20:34:21 INFO  Empty build targets. Expected at least one build target identifier. (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/bloop/2026-04-14/r_Empty build targets...._20-34-22-066.md")[0m
+2026.04.14 20:34:21 INFO  Empty build targets. Expected at least one build target identifier. (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/bloop/2026-04-14/r_Empty build targets...._20-34-22-066.md")[0m
+2026.04.14 20:34:21 INFO  Empty build targets. Expected at least one build target identifier. (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/bloop/2026-04-14/r_Empty build targets...._20-34-22-066.md")[0m
+2026.04.14 20:34:22 INFO  time: Imported build in 0.16s[0m
+2026.04.14 20:34:24 WARN  Could not find java sources in /usr/lib/jvm/src.zip, /usr/lib/jvm/lib/src.zip, /usr/lib/jvm/java-17-openjdk-amd64/src.zip, /usr/lib/jvm/java-17-openjdk-amd64/lib/src.zip. Java symbols will not be available.[0m
+2026.04.14 20:34:28 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:34:31 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:34:31 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:34:31 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:34:31 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:34:34 INFO  time: indexed workspace in 13s[0m
+2026.04.14 20:34:34 WARN  no build target for: /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 20:34:34 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:34:34 WARN  no build target for: /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 20:34:34 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:34:37 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:34:43 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:34:43 WARN  no build target for: /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 20:34:43 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:34:43 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:34:43 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:34:45 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:34:45 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:34:46 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:34:46 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:35:10 INFO  Disconnecting from Bloop session...[0m
+2026.04.14 20:35:10 INFO  Shut down connection with build server.[0m
+2026.04.14 20:35:10 INFO  Shut down connection with build server.[0m
+2026.04.14 20:35:10 INFO  Shut down connection with build server.[0m
+2026.04.14 20:35:11 INFO  Attempting to connect to the build server...[0m
+2026.04.14 20:35:11 INFO  No running Bloop server found, starting one.[0m
+2026.04.14 20:35:12 INFO  Starting compilation server[0m
+2026.04.14 20:35:12 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:35:12 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:35:13 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/bsp.trace.json or /home/ylqt/.cache/metals/bsp.trace.json[0m
+2026.04.14 20:35:13 INFO  Attempting to connect to the build server...[0m
+2026.04.14 20:35:13 INFO  Found a Bloop server running[0m
+2026.04.14 20:35:13 INFO  Attempting to connect to the build server...[0m
+2026.04.14 20:35:13 INFO  Found a Bloop server running[0m
+2026.04.14 20:35:13 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/project/.metals/bsp.trace.json or /home/ylqt/.cache/metals/bsp.trace.json[0m
+2026.04.14 20:35:13 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/project/project/.metals/bsp.trace.json or /home/ylqt/.cache/metals/bsp.trace.json[0m
+2026.04.14 20:35:13 INFO  time: Connected to build server in 2.25s[0m
+2026.04.14 20:35:13 INFO  Connected to Build server: Bloop v2.0.19[0m
+2026.04.14 20:35:13 INFO  Empty build targets. Expected at least one build target identifier. (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/bloop/2026-04-14/r_Empty build targets...._20-34-22-066.md")[0m
+2026.04.14 20:35:13 INFO  Empty build targets. Expected at least one build target identifier. (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/bloop/2026-04-14/r_Empty build targets...._20-34-22-066.md")[0m
+2026.04.14 20:35:13 INFO  Empty build targets. Expected at least one build target identifier. (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/bloop/2026-04-14/r_Empty build targets...._20-34-22-066.md")[0m
+2026.04.14 20:35:13 INFO  Empty build targets. Expected at least one build target identifier. (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/bloop/2026-04-14/r_Empty build targets...._20-34-22-066.md")[0m
+2026.04.14 20:35:13 INFO  Empty build targets. Expected at least one build target identifier. (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/bloop/2026-04-14/r_Empty build targets...._20-34-22-066.md")[0m
+2026.04.14 20:35:13 INFO  time: Imported build in 0.12s[0m
+2026.04.14 20:35:13 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:35:13 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:35:14 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:35:14 WARN  no build target for: /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 20:35:14 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:35:15 WARN  Could not find java sources in /usr/lib/jvm/src.zip, /usr/lib/jvm/lib/src.zip, /usr/lib/jvm/java-17-openjdk-amd64/src.zip, /usr/lib/jvm/java-17-openjdk-amd64/lib/src.zip. Java symbols will not be available.[0m
+2026.04.14 20:35:15 INFO  time: indexed workspace in 1.84s[0m
+2026.04.14 20:35:15 WARN  no build target for: /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 20:35:15 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:35:15 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:35:15 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:35:17 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:35:20 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:35:20 INFO  Shutting down server[0m
+2026.04.14 20:35:20 INFO  Memory monitor stopped[0m
+2026.04.14 20:35:20 INFO  shutting down Metals[0m
+2026.04.14 20:35:21 INFO  Shut down connection with build server.[0m
+2026.04.14 20:35:21 INFO  Shut down connection with build server.[0m
+2026.04.14 20:35:21 INFO  Shut down connection with build server.[0m
+2026.04.14 20:35:20 INFO  Exiting server[0m
+2026.04.14 20:35:32 INFO  Started: Metals version 1.6.7 in folders '/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL' for client Visual Studio Code 1.96.4.[0m
+2026.04.14 20:35:32 INFO  Memory monitor started[0m
+2026.04.14 20:35:32 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.[0m
+2026.04.14 20:35:32 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:35:33 INFO  skipping build import with status 'Installed'[0m
+2026.04.14 20:35:33 WARN  no build target for: /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 20:35:33 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:35:34 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:35:35 INFO  time: code lens generation in 1.45s[0m
+2026.04.14 20:35:35 INFO  time: code lens generation in 1.47s[0m
+2026.04.14 20:35:37 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:35:41 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:35:41 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:35:45 INFO  Shutting down server[0m
+2026.04.14 20:35:45 INFO  Memory monitor stopped[0m
+2026.04.14 20:35:45 INFO  shutting down Metals[0m
+2026.04.14 20:35:45 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.[0m
+2026.04.14 20:35:45 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:35:45 INFO  Exiting server[0m
+2026.04.14 20:35:47 INFO  Started: Metals version 1.6.7 in folders '/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL' for client Visual Studio Code 1.96.4.[0m
+2026.04.14 20:35:47 INFO  Memory monitor started[0m
+2026.04.14 20:35:47 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.[0m
+2026.04.14 20:35:47 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:35:49 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:35:49 INFO  skipping build import with status 'Installed'[0m
+2026.04.14 20:35:49 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:35:49 WARN  no build target for: /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 20:35:49 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:35:49 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:35:51 INFO  time: code lens generation in 1.61s[0m
+2026.04.14 20:35:52 WARN  no build target for: /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/MY_mod.scala[0m
+2026.04.14 20:35:52 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/MY_mod.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:35:52 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/MY_mod.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:35:52 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/MY_mod.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:36:03 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/MY_mod.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:36:03 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/MY_mod.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:36:03 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/MY_mod.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:35:54 WARN  no build target for: /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/MY_mod.scala[0m
+2026.04.14 20:35:54 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/MY_mod.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:35:55 INFO  Created report: Optional[file:///home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/MY_mod.scala][0m
+2026.04.14 20:35:55 INFO  empty definition using pc, found symbol in pc:  (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_20-35-55-230.md")[0m
+2026.04.14 20:35:56 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/MY_mod.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:36:03 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/MY_mod.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:36:03 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/MY_mod.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:35:56 INFO  Created report: Optional[file:///home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/MY_mod.scala][0m
+2026.04.14 20:35:56 INFO  empty definition using pc, found symbol in pc:  (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_20-35-57-341.md")[0m
+2026.04.14 20:35:57 WARN  no build target for: /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/MY_mod.scala[0m
+2026.04.14 20:35:57 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/MY_mod.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:35:58 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/MY_mod.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:36:03 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/MY_mod.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:36:03 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/MY_mod.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:36:06 INFO  Resetting notifications for notification 'DoctorWarning'[0m
+2026.04.14 20:36:06 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/MY_mod.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:36:08 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:36:08 WARN  no build target for: /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 20:36:08 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:36:08 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:36:08 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:36:16 INFO  Attempting to connect to the build server...[0m
+2026.04.14 20:36:16 INFO  Found a Bloop server running[0m
+2026.04.14 20:36:16 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 20:36:16 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/bsp.trace.json or /home/ylqt/.cache/metals/bsp.trace.json[0m
+2026.04.14 20:36:16 INFO  Attempting to connect to the build server...[0m
+2026.04.14 20:36:16 INFO  Found a Bloop server running[0m
+2026.04.14 20:36:16 INFO  Attempting to connect to the build server...[0m
+2026.04.14 20:36:16 INFO  Found a Bloop server running[0m
+2026.04.14 20:36:16 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/project/project/.metals/bsp.trace.json or /home/ylqt/.cache/metals/bsp.trace.json[0m
+2026.04.14 20:36:16 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/project/.metals/bsp.trace.json or /home/ylqt/.cache/metals/bsp.trace.json[0m
+2026.04.14 20:36:16 INFO  time: Connected to build server in 0.29s[0m
+2026.04.14 20:36:16 INFO  Connected to Build server: Bloop v2.0.19[0m
+2026.04.14 20:36:16 INFO  Empty build targets. Expected at least one build target identifier. (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/bloop/2026-04-14/r_Empty build targets...._20-34-22-066.md")[0m
+2026.04.14 20:36:16 INFO  Empty build targets. Expected at least one build target identifier. (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/bloop/2026-04-14/r_Empty build targets...._20-34-22-066.md")[0m
+2026.04.14 20:36:16 INFO  Empty build targets. Expected at least one build target identifier. (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/bloop/2026-04-14/r_Empty build targets...._20-34-22-066.md")[0m
+2026.04.14 20:36:16 INFO  Empty build targets. Expected at least one build target identifier. (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/bloop/2026-04-14/r_Empty build targets...._20-34-22-066.md")[0m
+2026.04.14 20:36:16 INFO  Empty build targets. Expected at least one build target identifier. (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/bloop/2026-04-14/r_Empty build targets...._20-34-22-066.md")[0m
+2026.04.14 20:36:16 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:36:18 WARN  Could not find java sources in /usr/lib/jvm/src.zip, /usr/lib/jvm/lib/src.zip, /usr/lib/jvm/java-17-openjdk-amd64/src.zip, /usr/lib/jvm/java-17-openjdk-amd64/lib/src.zip. Java symbols will not be available.[0m
+2026.04.14 20:36:20 INFO  time: code lens generation in 3.49s[0m
+2026.04.14 20:36:23 INFO  time: indexed workspace in 6.79s[0m
+2026.04.14 20:36:23 WARN  no build target for: /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 20:36:23 WARN  no build target for: /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/MY_mod.scala[0m
+2026.04.14 20:36:23 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:37:30 INFO  running '/usr/bin/sbt -Dbloop.export-jar-classifiers=sources bloopInstall'[0m
+2026.04.14 20:37:30 INFO  skipping build import with status 'Started'[0m
+2026.04.14 20:37:30 WARN  no build target for: /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/project/project/metals.sbt[0m
+2026.04.14 20:37:30 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/project/project/metals.sbt. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:37:31 INFO  [info] welcome to sbt 1.10.2 (Ubuntu Java 17.0.18)[0m
+2026.04.14 20:37:34 INFO  [info] loading settings for project spinalhdl-build-build-build from metals.sbt ...[0m
+2026.04.14 20:37:34 INFO  [info] loading project definition from /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/project/project/project[0m
+2026.04.14 20:37:36 INFO  [info] loading settings for project spinalhdl-build-build from metals.sbt ...[0m
+2026.04.14 20:37:36 INFO  [info] loading project definition from /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/project/project[0m
+2026.04.14 20:37:37 INFO  [success] Generated .bloop/spinalhdl-build-build.json[0m
+2026.04.14 20:37:37 INFO  [success] Total time: 2 s, completed Apr 14, 2026, 8:37:37 PM[0m
+2026.04.14 20:37:37 INFO  [info] loading settings for project spinalhdl-build from metals.sbt,plugins.sbt ...[0m
+2026.04.14 20:37:37 INFO  [info] loading project definition from /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/project[0m
+2026.04.14 20:37:39 INFO  [success] Generated .bloop/spinalhdl-build.json[0m
+2026.04.14 20:37:39 INFO  [success] Total time: 1 s, completed Apr 14, 2026, 8:37:39 PM[0m
+2026.04.14 20:37:39 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:37:39 WARN  no build target for: /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 20:37:39 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:37:41 INFO  [info] loading settings for project projectname from build.sbt ...[0m
+2026.04.14 20:37:41 INFO  [info] set current project to myproject (in build file:/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/)[0m
+2026.04.14 20:37:41 INFO  [success] Generated .bloop/projectname.json[0m
+2026.04.14 20:37:41 INFO  [success] Generated .bloop/projectname-test.json[0m
+2026.04.14 20:37:41 INFO  [success] Total time: 0 s, completed Apr 14, 2026, 8:37:41 PM[0m
+2026.04.14 20:37:41 INFO  time: ran 'sbt bloopInstall' in 12s[0m
+2026.04.14 20:37:41 INFO  Disconnecting from Bloop session...[0m
+2026.04.14 20:37:41 INFO  Shut down connection with build server.[0m
+2026.04.14 20:37:41 INFO  Shut down connection with build server.[0m
+2026.04.14 20:37:41 INFO  Shut down connection with build server.[0m
+2026.04.14 20:37:41 INFO  Attempting to connect to the build server...[0m
+2026.04.14 20:37:41 INFO  Found a Bloop server running[0m
+2026.04.14 20:37:41 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/bsp.trace.json or /home/ylqt/.cache/metals/bsp.trace.json[0m
+2026.04.14 20:37:53 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:37:53 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:37:45 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 2.12.19[0m
+2026.04.14 20:37:45 INFO  Attempting to connect to the build server...[0m
+2026.04.14 20:37:45 INFO  Found a Bloop server running[0m
+2026.04.14 20:37:45 INFO  Attempting to connect to the build server...[0m
+2026.04.14 20:37:45 INFO  Found a Bloop server running[0m
+2026.04.14 20:37:45 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/project/.metals/bsp.trace.json or /home/ylqt/.cache/metals/bsp.trace.json[0m
+2026.04.14 20:37:46 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/project/project/.metals/bsp.trace.json or /home/ylqt/.cache/metals/bsp.trace.json[0m
+2026.04.14 20:37:46 INFO  time: Connected to build server in 4.52s[0m
+2026.04.14 20:37:46 INFO  Connected to Build server: Bloop v2.0.19[0m
+2026.04.14 20:37:46 WARN  2.13.14 is no longer supported in the current Metals versions, using the last known supported version 1.6.3[0m
+2026.04.14 20:37:48 WARN  Could not find java sources in /usr/lib/jvm/src.zip, /usr/lib/jvm/lib/src.zip, /usr/lib/jvm/java-17-openjdk-amd64/src.zip, /usr/lib/jvm/java-17-openjdk-amd64/lib/src.zip. Java symbols will not be available.[0m
+2026.04.14 20:37:48 INFO  Created report: Optional[file:///home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/jar:file:/home/ylqt/.cache/coursier/v1/https/repo1.maven.org/maven2/com/github/spinalhdl/spinalhdl-core_2.13/1.12.3/spinalhdl-core_2.13-1.12.3-sources.jar!/spinal/core/Data.scala][0m
+2026.04.14 20:37:48 INFO  expected identifier; obtained def (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals/2026-04-14/r_scala-toplevel-mtags_20-37-49-142.md")[0m
+2026.04.14 20:37:48 INFO  Created report: Optional[file:///home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/jar:file:/home/ylqt/.cache/coursier/v1/https/repo1.maven.org/maven2/com/github/spinalhdl/spinalhdl-core_2.13/1.12.3/spinalhdl-core_2.13-1.12.3-sources.jar!/spinal/core/Data.scala][0m
+2026.04.14 20:37:48 INFO  expected identifier; obtained def (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals/2026-04-14/r_scala-toplevel-mtags_20-37-49-148.md")[0m
+2026.04.14 20:37:51 INFO  time: indexed workspace in 5.97s[0m
+2026.04.14 20:37:52 INFO  compiling projectname (13 scala sources)[0m
+2026.04.14 20:38:07 WARN  6 deprecations[0m
+2026.04.14 20:38:07 WARN  13 deprecations (since 2.13.0)[0m
+2026.04.14 20:38:07 WARN  22 deprecations (since 2.13.3)[0m
+2026.04.14 20:38:07 WARN  41 deprecations in total; re-run with -deprecation for details[0m
+2026.04.14 20:38:07 WARN  1 feature warning; re-run with -feature for details[0m
+2026.04.14 20:38:07 INFO  time: compiled projectname in 17s[0m
+2026.04.14 20:47:53 INFO  Created report: Optional[file:///home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala][0m
+2026.04.14 20:47:53 INFO  empty definition using pc, found symbol in pc:  (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_20-47-53-555.md")[0m
+2026.04.14 20:47:53 INFO  empty definition using pc, found symbol in pc:  (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_20-47-53-555.md")[0m
+2026.04.14 20:48:05 INFO  compiling projectname (1 scala source)[0m
+2026.04.14 20:48:05 INFO  time: compiled projectname in 2.22s[0m
+Apr 14, 2026 8:48:04 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 149
+Apr 14, 2026 8:48:09 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 173
+2026.04.14 20:51:53 INFO  empty definition using pc, found symbol in pc:  (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_20-47-53-555.md")[0m
+2026.04.14 20:51:54 INFO  compiling projectname (1 scala source)[0m
+2026.04.14 20:51:56 INFO  time: compiled projectname in 2.69s[0m
+2026.04.14 20:55:34 INFO  Deduplicating compilation of projectname from bsp client 'Metals 1.6.7' (since 6m 13.133s)[0m
+2026.04.14 20:55:34 INFO  compiling projectname (1 scala source)[0m
+2026.04.14 20:55:35 INFO  time: compiled projectname in 1.35s[0m
+2026.04.14 20:55:48 INFO  empty definition using pc, found symbol in pc:  (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_20-47-53-555.md")[0m
+2026.04.14 20:55:50 INFO  Deduplicating compilation of projectname from bsp client 'Metals 1.6.7' (since 6m 29.85s)[0m
+2026.04.14 20:55:50 INFO  compiling projectname (1 scala source)[0m
+2026.04.14 20:55:50 INFO  time: compiled projectname in 1.07s[0m
+Exception in thread "pool-26-thread-1" java.lang.InterruptedException
+	at scala.meta.internal.metals.FutureCancelToken.checkCanceled(FutureCancelToken.scala:29)
+	at scala.meta.internal.pc.CompilerAccess.$anonfun$onCompilerJobQueue$1(CompilerAccess.scala:207)
+	at scala.meta.internal.pc.CompilerJobQueue$Job.run(CompilerJobQueue.scala:152)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2026.04.14 21:01:21 INFO  Created report: Optional[file:///home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/pipCPU/pipCPU_TOP.scala][0m
+2026.04.14 21:01:21 INFO  Created report: Optional[file:///home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/pipCPU/pipCPU_TOP.scala][0m
+2026.04.14 21:01:21 INFO  Created report: Optional[file:///home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/pipCPU/pipCPU_TOP.scala][0m
+2026.04.14 21:01:21 INFO  empty definition using pc, found symbol in pc: axi_m (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_21-01-21-316.md")[0m
+2026.04.14 21:01:21 INFO  empty definition using pc, found symbol in pc: axi_s (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_21-01-21-317.md")[0m
+2026.04.14 21:01:21 INFO  empty definition using pc, found symbol in pc: io_master (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_21-01-21-316.md")[0m
+Exception in thread "pool-26-thread-2" java.lang.InterruptedException
+	at scala.meta.internal.metals.FutureCancelToken.checkCanceled(FutureCancelToken.scala:29)
+	at scala.meta.internal.pc.CompilerAccess.$anonfun$onCompilerJobQueue$1(CompilerAccess.scala:207)
+	at scala.meta.internal.pc.CompilerJobQueue$Job.run(CompilerJobQueue.scala:152)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2026.04.14 21:01:23 INFO  Deduplicating compilation of projectname from bsp client 'Metals 1.6.7' (since 12m 2.376s)[0m
+2026.04.14 21:01:23 INFO  compiling projectname (1 scala source)[0m
+2026.04.14 21:01:25 INFO  time: compiled projectname in 1.82s[0m
+2026.04.14 21:02:14 INFO  empty definition using pc, found symbol in pc:  (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_20-47-53-555.md")[0m
+2026.04.14 21:02:16 INFO  Deduplicating compilation of projectname from bsp client 'Metals 1.6.7' (since 12m 54.932s)[0m
+2026.04.14 21:02:16 INFO  compiling projectname (1 scala source)[0m
+2026.04.14 21:02:26 WARN  Could not load snapshot text for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 21:02:17 INFO  time: compiled projectname in 1.4s[0m
+2026.04.14 21:03:36 INFO  empty definition using pc, found symbol in pc:  (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_20-47-53-555.md")[0m
+2026.04.14 21:03:46 INFO  empty definition using pc, found symbol in pc:  (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_20-47-53-555.md")[0m
+2026.04.14 21:03:37 INFO  Deduplicating compilation of projectname from bsp client 'Metals 1.6.7' (since 14m 16.517s)[0m
+2026.04.14 21:03:37 INFO  compiling projectname (1 scala source)[0m
+2026.04.14 21:03:38 INFO  time: compiled projectname in 1.25s[0m
+Apr 14, 2026 9:04:15 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 717
+2026.04.14 21:04:16 INFO  Deduplicating compilation of projectname from bsp client 'Metals 1.6.7' (since 14m 55.078s)[0m
+2026.04.14 21:04:16 INFO  compiling projectname (1 scala source)[0m
+2026.04.14 21:04:16 INFO  time: compiled projectname in 1.3s[0m
+Apr 14, 2026 9:20:26 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 819
+2026.04.14 21:20:51 INFO  Deduplicating compilation of projectname from bsp client 'Metals 1.6.7' (since 31m 30.251s)[0m
+2026.04.14 21:20:51 INFO  compiling projectname (1 scala source)[0m
+2026.04.14 21:20:51 INFO  Created report: Optional[file:///home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/pipCPU/pipCPU_TOP.scala][0m
+2026.04.14 21:20:51 INFO  empty definition using pc, found symbol in pc: MY_Prj/ysyxcomm/Ysyx.AXITrun_sim# (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_21-20-51-456.md")[0m
+2026.04.14 21:20:53 WARN  3 deprecations[0m
+2026.04.14 21:20:53 WARN  1 deprecation (since 2.13.3)[0m
+2026.04.14 21:20:53 WARN  4 deprecations in total; re-run with -deprecation for details[0m
+2026.04.14 21:20:53 INFO  time: compiled projectname in 2.15s[0m
+2026.04.14 21:20:53 INFO  compiling projectname (1 scala source)[0m
+2026.04.14 21:20:53 INFO  time: compiled projectname in 0.3s[0m
+2026.04.14 21:20:57 INFO  empty definition using pc, found symbol in pc: MY_Prj/ysyxcomm/Ysyx.AXITrun_sim# (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_21-20-51-456.md")[0m
+2026.04.14 21:20:57 INFO  empty definition using pc, found symbol in pc: MY_Prj/ysyxcomm/Ysyx.AXITrun_sim# (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_21-20-51-456.md")[0m
+2026.04.14 21:20:59 INFO  Deduplicating compilation of projectname from bsp client 'Metals 1.6.7' (since 31m 37.924s)[0m
+2026.04.14 21:20:59 INFO  compiling projectname (2 scala sources)[0m
+2026.04.14 21:21:00 WARN  3 deprecations[0m
+2026.04.14 21:21:00 WARN  2 deprecations (since 2.13.3)[0m
+2026.04.14 21:21:00 WARN  5 deprecations in total; re-run with -deprecation for details[0m
+2026.04.14 21:21:00 INFO  time: compiled projectname in 1.97s[0m
+Apr 14, 2026 9:21:31 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 1028
+2026.04.14 21:21:43 INFO  Deduplicating compilation of projectname from bsp client 'Metals 1.6.7' (since 32m 22s)[0m
+2026.04.14 21:21:43 INFO  compiling projectname (1 scala source)[0m
+2026.04.14 21:21:43 INFO  time: compiled projectname in 0.87s[0m
+2026.04.14 21:21:58 INFO  Created report: Optional[file:///home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/pipCPU/pipCPU_TOP.scala][0m
+2026.04.14 21:21:58 INFO  empty definition using pc, found symbol in pc:  (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_21-21-58-207.md")[0m
+2026.04.14 21:21:48 INFO  empty definition using pc, found symbol in pc: axi_m (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_21-01-21-316.md")[0m
+2026.04.14 21:21:48 INFO  empty definition using pc, found symbol in pc: io_master (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_21-01-21-316.md")[0m
+2026.04.14 21:21:48 INFO  Created report: Optional[file:///home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/pipCPU/pipCPU_TOP.scala][0m
+2026.04.14 21:21:48 INFO  empty definition using pc, found symbol in pc: io_slave (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_21-21-48-441.md")[0m
+Exception in thread "pool-26-thread-3" java.lang.InterruptedException
+	at scala.meta.internal.metals.FutureCancelToken.checkCanceled(FutureCancelToken.scala:29)
+	at scala.meta.internal.pc.CompilerAccess.$anonfun$onCompilerJobQueue$1(CompilerAccess.scala:207)
+	at scala.meta.internal.pc.CompilerJobQueue$Job.run(CompilerJobQueue.scala:152)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2026.04.14 21:21:50 INFO  Deduplicating compilation of projectname from bsp client 'Metals 1.6.7' (since 32m 29.848s)[0m
+2026.04.14 21:21:50 INFO  compiling projectname (1 scala source)[0m
+2026.04.14 21:21:51 WARN  Could not load snapshot text for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 21:21:50 INFO  time: compiled projectname in 0.8s[0m
+2026.04.14 21:24:42 INFO  Deduplicating compilation of projectname from bsp client 'Metals 1.6.7' (since 35m 21.867s)[0m
+2026.04.14 21:24:42 INFO  compiling projectname (1 scala source)[0m
+2026.04.14 21:24:42 INFO  time: compiled projectname in 1.12s[0m
+Apr 14, 2026 9:24:44 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 1179
+2026.04.14 21:24:47 INFO  empty definition using pc, found symbol in pc:  (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_20-47-53-555.md")[0m
+Apr 14, 2026 9:24:48 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 1211
+2026.04.14 21:24:49 INFO  Deduplicating compilation of projectname from bsp client 'Metals 1.6.7' (since 35m 28.475s)[0m
+2026.04.14 21:24:49 INFO  compiling projectname (1 scala source)[0m
+2026.04.14 21:24:49 WARN  Could not load snapshot text for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 21:24:50 INFO  time: compiled projectname in 1.05s[0m
+2026.04.14 21:40:01 INFO  empty definition using pc, found symbol in pc: io_master (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_21-01-21-316.md")[0m
+2026.04.14 21:40:01 INFO  empty definition using pc, found symbol in pc: axi_m (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_21-01-21-316.md")[0m
+2026.04.14 21:40:01 INFO  empty definition using pc, found symbol in pc: axi_s (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_21-01-21-317.md")[0m
+2026.04.14 21:40:01 INFO  empty definition using pc, found symbol in pc: io_slave (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_21-21-48-441.md")[0m
+Exception in thread "pool-26-thread-4" java.lang.InterruptedException
+	at scala.meta.internal.metals.FutureCancelToken.checkCanceled(FutureCancelToken.scala:29)
+	at scala.meta.internal.pc.CompilerAccess.$anonfun$onCompilerJobQueue$1(CompilerAccess.scala:207)
+	at scala.meta.internal.pc.CompilerJobQueue$Job.run(CompilerJobQueue.scala:152)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Exception in thread "pool-26-thread-5" java.lang.InterruptedException
+	at scala.meta.internal.metals.FutureCancelToken.checkCanceled(FutureCancelToken.scala:29)
+	at scala.meta.internal.pc.CompilerAccess.$anonfun$onCompilerJobQueue$1(CompilerAccess.scala:207)
+	at scala.meta.internal.pc.CompilerJobQueue$Job.run(CompilerJobQueue.scala:152)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+Apr 14, 2026 9:40:02 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 1266
+Apr 14, 2026 9:40:02 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 1267
+2026.04.14 21:40:04 INFO  Deduplicating compilation of projectname from bsp client 'Metals 1.6.7' (since 50m 43.32s)[0m
+2026.04.14 21:40:04 INFO  compiling projectname (1 scala source)[0m
+2026.04.14 21:40:05 INFO  time: compiled projectname in 1.55s[0m
+2026.04.14 21:40:06 INFO  empty definition using pc, found symbol in pc:  (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_20-47-53-555.md")[0m
+2026.04.14 21:40:06 INFO  empty definition using pc, found symbol in pc:  (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_20-47-53-555.md")[0m
+2026.04.14 21:40:07 WARN  Could not load snapshot text for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 21:40:07 INFO  Deduplicating compilation of projectname from bsp client 'Metals 1.6.7' (since 50m 46.37s)[0m
+2026.04.14 21:40:07 INFO  compiling projectname (1 scala source)[0m
+2026.04.14 21:40:07 WARN  Could not load snapshot text for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 21:40:07 INFO  time: compiled projectname in 0.95s[0m
+2026.04.14 21:40:33 INFO  Deduplicating compilation of projectname from bsp client 'Metals 1.6.7' (since 51m 12.426s)[0m
+2026.04.14 21:40:33 INFO  compiling projectname (1 scala source)[0m
+2026.04.14 21:40:34 INFO  time: compiled projectname in 1.07s[0m
+2026.04.14 22:04:32 INFO  empty definition using pc, found symbol in pc:  (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_20-47-53-555.md")[0m
+2026.04.14 22:04:34 INFO  empty definition using pc, found symbol in pc:  (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_20-47-53-555.md")[0m
+2026.04.14 22:04:35 INFO  empty definition using pc, found symbol in pc:  (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_20-47-53-555.md")[0m
+2026.04.14 22:04:34 INFO  empty definition using pc, found symbol in pc:  (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_20-47-53-555.md")[0m
+2026.04.14 22:04:36 INFO  Deduplicating compilation of projectname from bsp client 'Metals 1.6.7' (since 1h 15m 15.746s)[0m
+2026.04.14 22:04:36 INFO  compiling projectname (1 scala source)[0m
+2026.04.14 22:04:37 WARN  Could not load snapshot text for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 22:04:47 INFO  time: compiled projectname in 0.62s[0m
+2026.04.14 22:04:47 INFO  Deduplicating compilation of projectname from bsp client 'Metals 1.6.7' (since 1h 15m 16.376s)[0m
+2026.04.14 22:04:47 INFO  compiling projectname (1 scala source)[0m
+2026.04.14 22:04:47 INFO  time: compiled projectname in 0.28s[0m
+2026.04.14 22:04:37 WARN  Could not load snapshot text for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 22:04:38 WARN  Could not load snapshot text for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 22:04:38 WARN  Could not load snapshot text for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 22:04:38 WARN  Could not load snapshot text for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 22:04:38 INFO  empty definition using pc, found symbol in pc:  (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_20-47-53-555.md")[0m
+2026.04.14 22:04:40 WARN  Could not load snapshot text for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 22:04:40 WARN  Could not load snapshot text for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 22:04:40 INFO  empty definition using pc, found symbol in pc:  (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_20-47-53-555.md")[0m
+2026.04.14 22:04:44 WARN  Could not load snapshot text for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 22:04:44 WARN  Could not load snapshot text for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 22:04:44 INFO  empty definition using pc, found symbol in pc:  (full report at: "/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/.reports/metals-full/2026-04-14/r_empty-definition_(projectname)_20-47-53-555.md")[0m
+2026.04.14 22:04:44 WARN  Could not load snapshot text for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 22:04:45 WARN  Could not load snapshot text for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 22:04:45 WARN  Could not load snapshot text for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 22:04:45 WARN  Could not load snapshot text for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 22:04:57 INFO  Deduplicating compilation of projectname from bsp client 'Metals 1.6.7' (since 1h 15m 36.049s)[0m
+2026.04.14 22:04:57 INFO  compiling projectname (1 scala source)[0m
+2026.04.14 22:04:57 INFO  time: compiled projectname in 0.43s[0m
+Apr 14, 2026 10:04:49 PM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 1606
+2026.04.14 22:05:05 INFO  Deduplicating compilation of projectname from bsp client 'Metals 1.6.7' (since 1h 15m 44.724s)[0m
+2026.04.14 22:05:05 INFO  compiling projectname (1 scala source)[0m
+2026.04.14 22:05:06 INFO  time: compiled projectname in 1.07s[0m
+2026.04.14 22:05:25 INFO  Deduplicating compilation of projectname from bsp client 'Metals 1.6.7' (since 1h 16m 4.3s)[0m
+2026.04.14 22:05:25 INFO  compiling projectname (1 scala source)[0m
+2026.04.14 22:05:25 WARN  Could not load snapshot text for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 22:05:25 WARN  Could not load snapshot text for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 22:05:25 WARN  Could not load snapshot text for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 22:05:25 WARN  Could not load snapshot text for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 22:05:26 WARN  Could not load snapshot text for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala[0m
+2026.04.14 22:05:26 INFO  time: compiled projectname in 1.18s[0m
+2026.04.14 23:14:08 INFO  Shutting down server[0m
+2026.04.14 23:14:08 INFO  Memory monitor stopped[0m
+2026.04.14 23:14:08 INFO  shutting down Metals[0m
+2026.04.14 23:14:08 INFO  Shut down connection with build server.[0m
+2026.04.14 23:14:08 INFO  Shut down connection with build server.[0m
+2026.04.14 23:14:08 INFO  Shut down connection with build server.[0m
+2026.04.14 23:14:08 INFO  Exiting server[0m
+2026.04.14 23:14:47 INFO  Started: Metals version 1.6.7 in folders '/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL' for client Visual Studio Code 1.96.4.[0m
+2026.04.14 23:14:47 INFO  Memory monitor started[0m
+2026.04.14 23:14:48 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.[0m
+2026.04.14 23:14:48 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 23:14:50 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.14 23:14:51 INFO  Attempting to connect to the build server...[0m
+2026.04.14 23:14:51 INFO  No running Bloop server found, starting one.[0m
+2026.04.14 23:14:53 INFO  Starting compilation server[0m
+2026.04.14 23:14:55 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/bsp.trace.json or /home/ylqt/.cache/metals/bsp.trace.json[0m
+2026.04.14 23:15:01 INFO  Attempting to connect to the build server...[0m
+2026.04.14 23:15:01 INFO  Found a Bloop server running[0m
+2026.04.14 23:15:01 INFO  Attempting to connect to the build server...[0m
+2026.04.14 23:15:01 INFO  Found a Bloop server running[0m
+2026.04.14 23:15:01 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/project/.metals/bsp.trace.json or /home/ylqt/.cache/metals/bsp.trace.json[0m
+2026.04.14 23:15:01 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/project/project/.metals/bsp.trace.json or /home/ylqt/.cache/metals/bsp.trace.json[0m
+2026.04.14 23:15:01 INFO  time: Connected to build server in 10s[0m
+2026.04.14 23:15:01 INFO  Connected to Build server: Bloop v2.0.19[0m
+2026.04.14 23:15:01 INFO  time: Imported build in 0.2s[0m
+2026.04.14 23:15:01 WARN  2.13.14 is no longer supported in the current Metals versions, using the last known supported version 1.6.3[0m
+2026.04.14 23:15:05 WARN  Could not find java sources in /usr/lib/jvm/src.zip, /usr/lib/jvm/lib/src.zip, /usr/lib/jvm/java-17-openjdk-amd64/src.zip, /usr/lib/jvm/java-17-openjdk-amd64/lib/src.zip. Java symbols will not be available.[0m
+2026.04.14 23:15:07 INFO  time: indexed workspace in 5.76s[0m
+2026.04.15 00:01:44 INFO  Shutting down server[0m
+2026.04.15 00:01:44 INFO  Memory monitor stopped[0m
+2026.04.15 00:01:44 INFO  shutting down Metals[0m
+2026.04.15 00:01:44 INFO  Shut down connection with build server.[0m
+2026.04.15 00:01:44 INFO  Shut down connection with build server.[0m
+2026.04.15 00:01:44 INFO  Shut down connection with build server.[0m
+2026.04.15 00:01:44 INFO  Exiting server[0m
+2026.04.15 09:29:23 INFO  Started: Metals version 1.6.7 in folders '/home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL' for client Visual Studio Code 1.96.4.[0m
+2026.04.15 09:29:23 INFO  Memory monitor started[0m
+2026.04.15 09:29:23 WARN  Using H2 2.4.240 which is newer than the version Flyway has been verified with. The latest verified version of H2 is 2.3.232.[0m
+2026.04.15 09:29:23 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.15 09:29:24 INFO  Attempting to connect to the build server...[0m
+2026.04.15 09:29:24 INFO  No running Bloop server found, starting one.[0m
+2026.04.15 09:29:26 INFO  Starting compilation server[0m
+2026.04.15 09:29:26 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+2026.04.15 09:29:26 INFO  no build target found for /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/hw/spinal/MY_Prj/SysConfig.scala. Using presentation compiler with project's scala-library version: 3.3.7[0m
+Apr 15, 2026 9:29:26 AM org.eclipse.lsp4j.jsonrpc.RemoteEndpoint handleCancellation
+WARNING: Unmatched cancel notification for request id 3
+2026.04.15 09:29:27 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/.metals/bsp.trace.json or /home/ylqt/.cache/metals/bsp.trace.json[0m
+2026.04.15 09:29:26 INFO  Attempting to connect to the build server...[0m
+2026.04.15 09:29:26 INFO  Found a Bloop server running[0m
+2026.04.15 09:29:26 INFO  Attempting to connect to the build server...[0m
+2026.04.15 09:29:26 INFO  Found a Bloop server running[0m
+2026.04.15 09:29:27 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/project/project/.metals/bsp.trace.json or /home/ylqt/.cache/metals/bsp.trace.json[0m
+2026.04.15 09:29:27 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/ylqt/study/YSYX_data/ysyx-workbench/SpinalHDL/project/.metals/bsp.trace.json or /home/ylqt/.cache/metals/bsp.trace.json[0m
+2026.04.15 09:29:27 INFO  time: Connected to build server in 12s[0m
+2026.04.15 09:29:27 INFO  Connected to Build server: Bloop v2.0.19[0m
+2026.04.15 09:29:27 INFO  time: Imported build in 0.23s[0m
+2026.04.15 09:29:27 WARN  2.13.14 is no longer supported in the current Metals versions, using the last known supported version 1.6.3[0m
+2026.04.15 09:29:31 WARN  Could not find java sources in /usr/lib/jvm/src.zip, /usr/lib/jvm/lib/src.zip, /usr/lib/jvm/java-17-openjdk-amd64/src.zip, /usr/lib/jvm/java-17-openjdk-amd64/lib/src.zip. Java symbols will not be available.[0m
+2026.04.15 09:29:34 INFO  time: indexed workspace in 6.8s[0m
+2026.04.15 09:48:20 INFO  Shutting down server[0m
+2026.04.15 09:48:20 INFO  Memory monitor stopped[0m
+2026.04.15 09:48:20 INFO  shutting down Metals[0m
+2026.04.15 09:48:20 INFO  Shut down connection with build server.[0m
+2026.04.15 09:48:20 INFO  Shut down connection with build server.[0m
+2026.04.15 09:48:20 INFO  Shut down connection with build server.[0m
+2026.04.15 09:48:20 INFO  Exiting server[0m

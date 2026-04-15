@@ -1,0 +1,14 @@
+hw/verilog/ysyx_soc/enumdefine.v
+hw/verilog/ysyx_soc/my_debug.v
+hw/verilog/ysyx_soc/Icache.v
+hw/verilog/ysyx_soc/CSR.v
+hw/verilog/ysyx_soc/my_debug_1.v
+hw/verilog/ysyx_soc/my_debug_2.v
+hw/verilog/ysyx_soc/my_debug_3.v
+hw/verilog/ysyx_soc/my_debug_4.v
+hw/verilog/ysyx_soc/test_cpu.v
+hw/verilog/ysyx_soc/AXIXbar_new.v
+hw/verilog/ysyx_soc/AXIClint.v
+hw/verilog/ysyx_soc/AXITrun.v
+hw/verilog/ysyx_soc/Soc.v
+hw/verilog/ysyx_soc/ysyx_26010010.v

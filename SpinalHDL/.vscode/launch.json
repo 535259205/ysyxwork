@@ -1,0 +1,25 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "scala",
+      "request": "launch",
+      "name": "TestIdentity",
+      "mainClass": "TOP.TestIdentity",
+      "buildTarget": "file:/home/ylqt/VSCode/SpinalHDL/SpinalTemplateSbt-master/?id=projectname",
+      "args": [],
+      "jvmOptions": [],
+      "env": {}
+    },
+    {
+      "type": "scala",
+      "request": "launch",
+      "name": "MyTopLevelApp",
+      "mainClass": "TOP.MyTopLevelApp",
+      "buildTarget": "file:/home/ylqt/VSCode/SpinalHDL/SpinalTemplateSbt-master/?id=projectname",
+      "args": [],
+      "jvmOptions": [],
+      "env": {}
+    }
+  ]
+}

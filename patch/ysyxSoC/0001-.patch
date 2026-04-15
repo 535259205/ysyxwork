@@ -1,0 +1,901 @@
+From 83326f66cdb8d6f35328be456e7d21af97798be6 Mon Sep 17 00:00:00 2001
+From: 535259205 <535259205@qq.com>
+Date: Tue, 14 Apr 2026 23:22:04 +0800
+Subject: [PATCH] =?UTF-8?q?=E6=81=A2=E5=A4=8D=E6=8F=90=E4=BA=A4?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ .gitignore                           |   1 +
+ perip/amba/apb_delayer.v             |  71 ++++++++++-----
+ perip/amba/axi4_delayer.v            |  64 ++++++++++++-
+ perip/bitrev/bitrev.v                |  44 ++++++++-
+ perip/flash/flash.v                  |  31 ++++++-
+ perip/gpio/gpio_top_apb.v            |  27 ++++++
+ perip/ps2/ps2_top_apb.v              |  17 ++++
+ perip/psram/efabless/EF_PSRAM_CTRL.v |   4 +-
+ perip/psram/psram.v                  | 131 ++++++++++++++++++++++++++-
+ perip/sdram/sdram.v                  | 124 ++++++++++++++++++++++++-
+ perip/sdram/sdram_top_apb.v          |  11 ++-
+ perip/spi/rtl/spi_top_apb.v          |  72 +++++++++++++--
+ perip/vga/vga_top_apb.v              |  21 +++++
+ src/CPU.scala                        |   4 +-
+ src/Top.scala                        |   2 +-
+ src/device/MROM.scala                |   7 ++
+ 16 files changed, 582 insertions(+), 49 deletions(-)
+
+diff --git a/.gitignore b/.gitignore
+index 3c0160d0..315db007 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1,2 +1,3 @@
+ build/
+ out/
++patch/firtool/
+diff --git a/perip/amba/apb_delayer.v b/perip/amba/apb_delayer.v
+index c0d20764..8f30c5e5 100644
+--- a/perip/amba/apb_delayer.v
++++ b/perip/amba/apb_delayer.v
+@@ -1,29 +1,54 @@
+-module apb_delayer(
+-  input         clock,
+-  input         reset,
+-  input  [31:0] in_paddr,
+-  input         in_psel,
+-  input         in_penable,
+-  input  [2:0]  in_pprot,
+-  input         in_pwrite,
+-  input  [31:0] in_pwdata,
+-  input  [3:0]  in_pstrb,
+-  output        in_pready,
+-  output [31:0] in_prdata,
+-  output        in_pslverr,
+ 
+-  output [31:0] out_paddr,
+-  output        out_psel,
+-  output        out_penable,
+-  output [2:0]  out_pprot,
+-  output        out_pwrite,
+-  output [31:0] out_pwdata,
+-  output [3:0]  out_pstrb,
+-  input         out_pready,
+-  input  [31:0] out_prdata,
+-  input         out_pslverr
++module apb_delayer (
++  input  wire [31:0]   in_paddr,
++  input  wire          in_psel,
++  input  wire          in_penable,
++  input  wire [2:0]    in_pprot,
++  input  wire          in_pwrite,
++  input  wire [31:0]   in_pwdata,
++  input  wire [3:0]    in_pstrb,
++  output reg           in_pready,
++  output reg  [31:0]   in_prdata,
++  output wire          in_pslverr,
++  output reg  [31:0]   out_paddr,
++  output reg           out_psel,
++  output reg           out_penable,
++  output reg  [2:0]    out_pprot,
++  output reg           out_pwrite,
++  output reg  [31:0]   out_pwdata,
++  output reg  [3:0]    out_pstrb,
++  input  wire          out_pready,
++  input  wire [31:0]   out_prdata,
++  input  wire          out_pslverr,
++  input  wire          clock,
++  input  wire          reset
+ );
+ 
++  // apb_delayer_my apb_delayer_my_inst(
++  //   .in_in_paddr    (in_paddr),
++  //   .in_in_psel     (in_psel),
++  //   .in_in_penable  (in_penable),
++  //   .in_in_pprot    (in_pprot),
++  //   .in_in_pwrite   (in_pwrite),
++  //   .in_in_pwdata   (in_pwdata),
++  //   .in_in_pstrb    (in_pstrb),
++  //   .in_in_pready   (in_pready),
++  //   .in_in_prdata   (in_prdata),
++  //   .in_in_pslverr  (in_pslverr),
++  //   .out_in_paddr   (out_paddr),
++  //   .out_in_psel    (out_psel),
++  //   .out_in_penable (out_penable),
++  //   .out_in_pprot   (out_pprot),
++  //   .out_in_pwrite  (out_pwrite),
++  //   .out_in_pwdata  (out_pwdata),
++  //   .out_in_pstrb   (out_pstrb),
++  //   .out_in_pready  (out_pready),
++  //   .out_in_prdata  (out_prdata),
++  //   .out_in_pslverr (out_pslverr),
++  //   .clock          (clock),
++  //   .reset          (reset)
++  // );
++
+   assign out_paddr   = in_paddr;
+   assign out_psel    = in_psel;
+   assign out_penable = in_penable;
+diff --git a/perip/amba/axi4_delayer.v b/perip/amba/axi4_delayer.v
+index f692803b..f7c0e273 100644
+--- a/perip/amba/axi4_delayer.v
++++ b/perip/amba/axi4_delayer.v
+@@ -63,6 +63,68 @@ module axi4_delayer(
+   input  [1:0]  out_bresp
+ );
+ 
++  // axi4_delayer_my u_axi4_delayer_my(
++  //   .clock       (clock),
++  //   .reset       (reset),
++  //   .in_arready  (in_arready),
++  //   .in_arvalid  (in_arvalid),
++  //   .in_arid     (in_arid),
++  //   .in_araddr   (in_araddr),
++  //   .in_arlen    (in_arlen),
++  //   .in_arsize   (in_arsize),
++  //   .in_arburst  (in_arburst),
++  //   .in_rready   (in_rready),
++  //   .in_rvalid   (in_rvalid),
++  //   .in_rid      (in_rid),
++  //   .in_rdata    (in_rdata),
++  //   .in_rresp    (in_rresp),
++  //   .in_rlast    (in_rlast),
++  //   .in_awready  (in_awready),
++  //   .in_awvalid  (in_awvalid),
++  //   .in_awid     (in_awid),
++  //   .in_awaddr   (in_awaddr),
++  //   .in_awlen    (in_awlen),
++  //   .in_awsize   (in_awsize),
++  //   .in_awburst  (in_awburst),
++  //   .in_wready   (in_wready),
++  //   .in_wvalid   (in_wvalid),
++  //   .in_wdata    (in_wdata),
++  //   .in_wstrb    (in_wstrb),
++  //   .in_wlast    (in_wlast),
++  //   .in_bready   (in_bready),
++  //   .in_bvalid   (in_bvalid),
++  //   .in_bid      (in_bid),
++  //   .in_bresp    (in_bresp),
++  //   .out_arready (out_arready),
++  //   .out_arvalid (out_arvalid),
++  //   .out_arid    (out_arid),
++  //   .out_araddr  (out_araddr),
++  //   .out_arlen   (out_arlen),
++  //   .out_arsize  (out_arsize),
++  //   .out_arburst (out_arburst),
++  //   .out_rready  (out_rready),
++  //   .out_rvalid  (out_rvalid),
++  //   .out_rid     (out_rid),
++  //   .out_rdata   (out_rdata),
++  //   .out_rresp   (out_rresp),
++  //   .out_rlast   (out_rlast),
++  //   .out_awready (out_awready),
++  //   .out_awvalid (out_awvalid),
++  //   .out_awid    (out_awid),
++  //   .out_awaddr  (out_awaddr),
++  //   .out_awlen   (out_awlen),
++  //   .out_awsize  (out_awsize),
++  //   .out_awburst (out_awburst),
++  //   .out_wready  (out_wready),
++  //   .out_wvalid  (out_wvalid),
++  //   .out_wdata   (out_wdata),
++  //   .out_wstrb   (out_wstrb),
++  //   .out_wlast   (out_wlast),
++  //   .out_bready  (out_bready),
++  //   .out_bvalid  (out_bvalid),
++  //   .out_bid     (out_bid),
++  //   .out_bresp   (out_bresp)
++  // );
+   assign in_arready = out_arready;
+   assign out_arvalid = in_arvalid;
+   assign out_arid = in_arid;
+@@ -93,4 +155,4 @@ module axi4_delayer(
+   assign in_bid = out_bid;
+   assign in_bresp = out_bresp;
+ 
+-endmodule
++endmodule
+\ No newline at end of file
+diff --git a/perip/bitrev/bitrev.v b/perip/bitrev/bitrev.v
+index f1c3b363..d7919d87 100644
+--- a/perip/bitrev/bitrev.v
++++ b/perip/bitrev/bitrev.v
+@@ -2,7 +2,49 @@ module bitrev (
+   input  sck,
+   input  ss,
+   input  mosi,
++  // output reg miso,
+   output miso
++  // input reset
+ );
+-  assign miso = 1'b1;
++assign miso=1;
++//   reg [7:0] cnt;
++//   reg [7:0] data;
++//   reg [7:0] sdata;
++//   reg flag;
++
++
++//   always @(negedge ss or negedge sck or posedge reset) begin
++//     if(reset)
++//     begin
++//       cnt<=8'd0;
++//       flag<=1'b0;
++//     end
++//     else
++//     begin
++//       if((!ss) & (!flag))
++//       begin
++//         flag<=1'b1;
++//         cnt<=8'd0;
++//       end
++//       else
++//       begin
++//         cnt<=cnt+8'd1;
++//       end 
++//     end
++//   end
++// always@(negedge sck)begin
++//   data[8'd7-cnt[2:0]]<=mosi;
++// end
++// always@(posedge sck)begin
++//   miso<=data[8'd7-cnt[2:0]];
++// end
++
++// integer      i ;
++// always@(posedge ss)begin
++//   for(i=0;i<=7;i=i+1)
++//   begin
++//     sdata[i]<=data[7-i];
++//   end
++// end
++
+ endmodule
+diff --git a/perip/flash/flash.v b/perip/flash/flash.v
+index 480d7092..8b58b2f6 100644
+--- a/perip/flash/flash.v
++++ b/perip/flash/flash.v
+@@ -1,5 +1,4 @@
+ `timescale 1ns / 10ps
+-
+ // Refer to the data sheet for the flash instructions at
+ // https://www.winbond.com/hq/product/code-storage-flash-memory/serial-nor-flash/?__locale=zh
+ 
+@@ -9,9 +8,18 @@ module flash (
+   input  mosi,
+   output miso
+ );
++
++
+   wire reset = ss;
+ 
++  `ifndef USE_IVERILOG
+   typedef enum [2:0] { cmd_t, addr_t, data_t, err_t } state_t;
++  `else
++  wire [2:0] cmd_t=3'd0;
++  wire [2:0] addr_t=3'd1;
++  wire [2:0] data_t=3'd2;
++  wire [2:0] err_t=3'd3;
++  `endif
+   reg [2:0]  state;
+   reg [7:0]  counter;
+   reg [7:0]  cmd;
+@@ -73,16 +81,24 @@ module flash (
+   always@(posedge sck or posedge reset) begin
+     if (reset) data <= 32'd0;
+     else if (state == data_t) begin
++    `ifndef USE_IVERILOG
+       data <= { {counter == 8'd0 ? data_bswap : data}[30:0], 1'b0 };
++    `else
++      data <= { {counter == 8'd0 ? data_bswap[30:0] : data[30:0]}, 1'b0 };
++    `endif
+     end
+   end
+-
++  `ifndef USE_IVERILOG
+   assign miso = ss ? 1'b1 : ({(state == data_t && counter == 8'd0) ? data_bswap : data}[31]);
++  `else
++  assign miso = ss ? 1'b1 : ({(state == data_t && counter == 8'd0) ? data_bswap[31] : data[31]});
++  `endif 
+ 
+ endmodule
+ 
++`ifndef USE_IVERILOG
+ import "DPI-C" function void flash_read(input int addr, output int data);
+-
++`endif
+ module flash_cmd(
+   input             clock,
+   input             valid,
+@@ -92,10 +108,17 @@ module flash_cmd(
+ );
+   always@(posedge clock) begin
+     if (valid)
+-      if (cmd == 8'h03) flash_read(addr, data);
++      if (cmd == 8'h03) 
++      `ifndef USE_IVERILOG
++        flash_read(addr, data);
++      `else
++        data=$mem_ctr(32'd0,addr,32'h0,32'h80000000);
++      `endif
+       else begin
+         $fwrite(32'h80000002, "Assertion failed: Unsupport command `%xh`, only support `03h` read command\n", cmd);
+         $fatal;
+       end
+   end
++
++
+ endmodule
+diff --git a/perip/gpio/gpio_top_apb.v b/perip/gpio/gpio_top_apb.v
+index ec51ffe5..1c5af71d 100644
+--- a/perip/gpio/gpio_top_apb.v
++++ b/perip/gpio/gpio_top_apb.v
+@@ -24,4 +24,31 @@ module gpio_top_apb(
+   output [7:0]  gpio_seg_7
+ );
+ 
++  // Instantiate my_gpio module
++  my_gpio u_my_gpio(
++    .apb_in_paddr    (in_paddr),
++    .apb_in_psel     (in_psel),
++    .apb_in_penable  (in_penable),
++    .apb_in_pprot    (in_pprot),
++    .apb_in_pwrite   (in_pwrite),
++    .apb_in_pwdata   (in_pwdata),
++    .apb_in_pstrb    (in_pstrb),
++    .apb_in_pready   (in_pready),
++    .apb_in_prdata   (in_prdata),
++    .apb_in_pslverr  (in_pslverr),
++    .gpio_out        (gpio_out),
++    .gpio_in         (gpio_in),
++    .gpio_seg_0      (gpio_seg_0[7:0]),  // Connect lower 4 bits
++    .gpio_seg_1      (gpio_seg_1[7:0]),
++    .gpio_seg_2      (gpio_seg_2[7:0]),
++    .gpio_seg_3      (gpio_seg_3[7:0]),
++    .gpio_seg_4      (gpio_seg_4[7:0]),
++    .gpio_seg_5      (gpio_seg_5[7:0]),
++    .gpio_seg_6      (gpio_seg_6[7:0]),
++    .gpio_seg_7      (gpio_seg_7[7:0]),
++    .clk             (clock),
++    .reset           (reset)
++  );
++ 
++
+ endmodule
+diff --git a/perip/ps2/ps2_top_apb.v b/perip/ps2/ps2_top_apb.v
+index 080d38fa..05613e46 100644
+--- a/perip/ps2/ps2_top_apb.v
++++ b/perip/ps2/ps2_top_apb.v
+@@ -16,4 +16,21 @@ module ps2_top_apb(
+   input         ps2_data
+ );
+ 
++  my_ps2 my_ps2_inst(
++    .apb_in_paddr  (in_paddr),
++    .apb_in_psel   (in_psel),
++    .apb_in_penable(in_penable),
++    .apb_in_pprot  (in_pprot),
++    .apb_in_pwrite (in_pwrite),
++    .apb_in_pwdata (in_pwdata),
++    .apb_in_pstrb  (in_pstrb),
++    .apb_in_pready (in_pready),
++    .apb_in_prdata (in_prdata),
++    .apb_in_pslverr(in_pslverr),
++    .ps2_clk       (ps2_clk),
++    .ps2_data      (ps2_data),
++    .clk           (clock),
++    .reset         (reset)
++  );
++
+ endmodule
+diff --git a/perip/psram/efabless/EF_PSRAM_CTRL.v b/perip/psram/efabless/EF_PSRAM_CTRL.v
+index b6e737e9..a0568759 100644
+--- a/perip/psram/efabless/EF_PSRAM_CTRL.v
++++ b/perip/psram/efabless/EF_PSRAM_CTRL.v
+@@ -113,7 +113,9 @@ module PSRAM_READER (
+             saddr <= {addr[23:0]};
+ 
+     // Sample with the negedge of sck
+-    wire[1:0] byte_index = {counter[7:1] - 8'd10}[1:0];
++    // wire[1:0] byte_index = (counter[7:1] - 8'd10)[1:0];
++wire [7:0] temp = counter[7:1] - 8'd10;
++wire [1:0] byte_index = temp[1:0];
+     always @ (posedge clk)
+         if(counter >= 20 && counter <= FINAL_COUNT)
+             if(sck)
+diff --git a/perip/psram/psram.v b/perip/psram/psram.v
+index d9bdd882..2f9cbe66 100644
+--- a/perip/psram/psram.v
++++ b/perip/psram/psram.v
+@@ -1,9 +1,136 @@
+ module psram(
+   input sck,
+   input ce_n,
+-  inout [3:0] dio
++  inout [3:0] dio 
+ );
+ 
+-  assign dio = 4'bz;
++`ifndef USE_IVERILOG
++import "DPI-C" function int psram_ctr(input int addr, input int data, input int write);
++`endif
++//写操作没有延迟
++//读操作有6个时钟周期的延迟
++localparam W_CMD = 8'h38;
++localparam R_CMD = 8'hEB;
++localparam EN_QPI = 8'h11;
++localparam DIS_QPI = 8'h22;
++
++reg out_en;
++reg [3:0]out_data;
++reg [7:0]cmd_data;
++reg [7:0]cnt;
++reg [23:0]addr_z;
++reg [31:0]w_data;
++reg [31:0]r_data;
++
++
++wire start_flag;
++assign start_flag=ce_n;
++assign dio = out_en?out_data:4'bz;
++// assign dio = 4'bz;
++
++
++initial
++begin
++out_en=0;
++out_data=0;
++cmd_data=0;
++cnt=0;
++addr_z=0;
++w_data=0;
++r_data=0;
++end
++
++//传输计数器
++always@(posedge sck or posedge ce_n)
++begin
++  if(start_flag)
++    cnt<=8'd0;
++  else
++    cnt<=cnt+8'd1;
++end
++//获取命令
++always@(posedge sck or posedge ce_n)
++begin
++  if(ce_n)
++    cmd_data<=8'd0;
++  else if(cnt<8'd8)
++    cmd_data[7-cnt]<=dio[0];
++end 
++//获取目标地址
++always@(posedge sck or posedge ce_n)
++begin
++  if(start_flag)
++    addr_z<=8'd0;
++  else if(cnt>=8'd8 && cnt<8'd14)
++    addr_z<={addr_z[19:0],dio};
++end
++//控制输出使能
++always@(posedge sck or posedge ce_n)
++begin
++  if(start_flag)
++    out_en<=0;
++  else if(cnt==8'd14)
++  begin
++    if(cmd_data==R_CMD)
++      out_en<=1;
++    else
++      out_en<=0;
++  end
++end
++//读取要输出的数据
++always@(negedge sck)
++begin
++  if(cnt==8'd15 && out_en)
++  begin
++  `ifndef USE_IVERILOG
++    r_data<=psram_ctr(addr_z,0,0);
++  `else
++    r_data<=$mem_ctr(32'd2,addr_z,0,0);
++  `endif
++  end 
++
++  // else if(cnt>=8'd20 && out_en)
++    // r_data<=r_data>>4;
++end
++wire [31:0]end_wdata;
++assign end_wdata={w_data[27:24],w_data[31:28],w_data[19:16],w_data[23:20],w_data[11:8],w_data[15:12],w_data[3:0],w_data[7:4]};
++
++wire [31:0]end_rdata;
++assign end_rdata={r_data[27:24],r_data[31:28],r_data[19:16],r_data[23:20],r_data[11:8],r_data[15:12],r_data[3:0],r_data[7:4]};
++
++
++//写数据
++always@(posedge ce_n)
++begin
++  if(!out_en)
++  `ifndef USE_IVERILOG
++    psram_ctr(addr_z,end_wdata,cnt);
++  `else
++    $mem_ctr(32'd2,addr_z,end_wdata,cnt);
++  `endif
++end
++//读数据
++always@(negedge sck)
++begin
++  if(cnt>=8'd20 && out_en)
++  case(cnt)
++    8'd20:    out_data<=end_rdata[3:0];
++    8'd21:    out_data<=end_rdata[7:4];
++    8'd22:    out_data<=end_rdata[11:8];
++    8'd23:    out_data<=end_rdata[15:12];
++    8'd24:    out_data<=end_rdata[19:16];
++    8'd25:    out_data<=end_rdata[23:20];
++    8'd26:    out_data<=end_rdata[27:24];
++    8'd27:    out_data<=end_rdata[31:28];
++
++  endcase
++end
++
++always@(posedge sck)
++begin
++  if(cnt>=8'd14 && !out_en)
++    w_data<={dio,w_data[31:4]};
++end
++
+ 
+ endmodule
+diff --git a/perip/sdram/sdram.v b/perip/sdram/sdram.v
+index 3613b231..5b9e9d61 100644
+--- a/perip/sdram/sdram.v
++++ b/perip/sdram/sdram.v
+@@ -1,3 +1,4 @@
++
+ module sdram(
+   input        clk,
+   input        cke,
+@@ -10,7 +11,128 @@ module sdram(
+   input [ 1:0] dqm,
+   inout [15:0] dq
+ );
++`ifndef SYNTHESIS
++
++`ifndef USE_IVERILOG
++import "DPI-C" function int sdram_ctr(input int addr, input int data, input int write);
++`endif
++
++reg [15:0]dq_out;
++reg dq_oen;
++reg read_flag;
++reg write_flag;
++
++
++
++reg [2:0]CAS_latch;
++reg [2:0]BURST_length;
++
++wire [3:0]cmd;
++wire CMD_NOP;
++wire CMD_ACTIVE;
++wire CMD_READ;
++wire CMD_WRITE;
++wire CMD_BURST_STOP;
++wire CMD_PRECHARGE;
++wire CMD_AUTO_REFRESH;
++wire CMD_LOAD_MODE_REGISTER;
++
++assign cmd={cs,ras,cas,we};
++assign CMD_NOP=(cmd==4'b0111);
++assign CMD_ACTIVE=(cmd==4'b0011);
++assign CMD_READ=(cmd==4'b0101);
++assign CMD_WRITE=(cmd==4'b0100);
++assign CMD_BURST_STOP=(cmd==4'b0110);
++assign CMD_PRECHARGE=(cmd==4'b0010);
++assign CMD_AUTO_REFRESH=(cmd==4'b0001);
++assign CMD_LOAD_MODE_REGISTER=(cmd==4'b0000);
++
++assign dq = dq_oen?dq_out:16'bz;
++// assign dq =16'bz;
++
++// Mode: Burst Length = 4 bytes, CAS=2
++always @(posedge clk) begin
++  if(CMD_LOAD_MODE_REGISTER)
++  begin
++    CAS_latch<=a[6:4];
++    BURST_length<=a[2:0];
++  end
++  
++end
++reg [12:0] active_row[3:0];  // 当前激活的行地址
++reg [1:0] active_bank[3:0];  // 当前激活的 bank
++wire [31:0] full_addr = {active_row[ba],active_bank[ba],a[8:0],1'b0} ;
++
++always @(posedge CMD_ACTIVE) begin
++
++  if(CMD_ACTIVE) begin
++    active_row[ba] <= a;
++    active_bank[ba] <= ba;
++  end
++end
++
++
++
++reg [3:0]cmd_write_q;
++reg [3:0]cmd_read_q;
++reg [3:0]dqm_q;
++reg [31:0]wdata;
++reg [31:0]rdata;
++always@(posedge clk)
++begin
++  cmd_write_q<={cmd_write_q[2:0],CMD_WRITE};
++  cmd_read_q<={cmd_read_q[2:0],CMD_READ};
++end
++
++always@(posedge clk)
++begin
++  if(CMD_ACTIVE)
++  begin
++    wdata<=32'd0;
++    dqm_q<=4'hf;
++  end
++  else if(cmd_write_q[0])
++  begin
++    wdata[31:16]<=dq;
++    `ifndef USE_IVERILOG
++    sdram_ctr(full_addr,{dq,wdata[15:0]},{dqm,dqm_q[1:0]});
++    `else
++    $mem_ctr(32'd1,full_addr,{dq,wdata[15:0]},{dqm,dqm_q[1:0]});
++    `endif
++  end
++  else if(CMD_WRITE)
++  begin
++    wdata[15:0]<=dq;
++    dqm_q[1:0]<=dqm;
++  end
++end 
++
++
++always@(posedge clk)
++begin
++  if(cmd_read_q[1])
++    dq_out<=rdata[31:16];
++  else if(cmd_read_q[0])
++    dq_out<=rdata[15:0];
++end 
++
++always@(posedge clk or posedge CMD_WRITE)
++begin
++  if(CMD_WRITE)
++  begin
++    dq_oen<=0;
++  end
++  else if(CMD_READ)
++  begin
++    dq_oen<=1;
++    `ifndef USE_IVERILOG
++    rdata<=sdram_ctr(full_addr,0,32'h80000000+dqm);
++    `else
++    rdata<=$mem_ctr(32'd1,full_addr,0,32'h80000000+dqm);
++    `endif
++  end
++end
+ 
+-  assign dq = 16'bz;
++`endif
+ 
+ endmodule
+diff --git a/perip/sdram/sdram_top_apb.v b/perip/sdram/sdram_top_apb.v
+index 3bc5b93b..c23c07e6 100644
+--- a/perip/sdram/sdram_top_apb.v
++++ b/perip/sdram/sdram_top_apb.v
+@@ -28,10 +28,16 @@ module sdram_top_apb (
+   wire [15:0] sdram_dout;
+   assign sdram_dq = sdram_dout_en ? sdram_dout : 16'bz;
+ 
+-  typedef enum [1:0] { ST_IDLE, ST_WAIT_ACCEPT, ST_WAIT_ACK } state_t;
++  // typedef enum [1:0] { ST_IDLE, ST_WAIT_ACCEPT, ST_WAIT_ACK } state_t;
++  wire [1:0]ST_IDLE=2'd0;
++  wire [1:0]ST_WAIT_ACCEPT=2'd1;
++  wire [1:0]ST_WAIT_ACK=2'd2;
+   reg [1:0] state;
+   wire req_accept;
+ 
++  wire is_read  = ((in_psel && !in_penable) || (state == ST_WAIT_ACCEPT)) && !in_pwrite;
++  wire is_write = ((in_psel && !in_penable) || (state == ST_WAIT_ACCEPT)) &&  in_pwrite;
++
+   always @(posedge clock) begin
+     if (reset) state <= ST_IDLE;
+     else
+@@ -43,8 +49,7 @@ module sdram_top_apb (
+       endcase
+   end
+ 
+-  wire is_read  = ((in_psel && !in_penable) || (state == ST_WAIT_ACCEPT)) && !in_pwrite;
+-  wire is_write = ((in_psel && !in_penable) || (state == ST_WAIT_ACCEPT)) &&  in_pwrite;
++
+   sdram_axi_core #(
+     .SDRAM_MHZ(100),
+     .SDRAM_ADDR_W(24),
+diff --git a/perip/spi/rtl/spi_top_apb.v b/perip/spi/rtl/spi_top_apb.v
+index 92d37516..e98a0f2b 100644
+--- a/perip/spi/rtl/spi_top_apb.v
++++ b/perip/spi/rtl/spi_top_apb.v
+@@ -1,6 +1,6 @@
+ // define this macro to enable fast behavior simulation
+ // for flash by skipping SPI transfers
+-//`define FAST_FLASH
++// `define FAST_FLASH
+ 
+ module spi_top_apb #(
+   parameter flash_addr_start = 32'h30000000,
+@@ -48,18 +48,70 @@ assign in_prdata  = data[31:0];
+ 
+ `else
+ 
++
++//怎么弄？输入先判断地址是否在目标区间内
++//如果在FLASH区间 移交控制权限给状态机
++//如果不在FLASH区间 就直接接入SPI
++//USER 非FAST FLASH
++
++// Wire declarations for module interconnection
++wire [31:0] spi_in_paddr_o;
++wire        spi_in_psel_o;
++wire        spi_in_penable_o;
++wire [2:0]  spi_in_pprot_o;
++wire        spi_in_pwrite_o;
++wire [31:0] spi_in_pwdata_o;
++wire [3:0]  spi_in_pstrb_o;
++wire        spi_in_pready_i;
++wire [31:0] spi_in_prdata_i;
++wire        spi_in_pslverr_i;
++
++spi_xip u_spi_xip (
++  // 配置参数：Flash地址范围
++  .flash_addr_start    (flash_addr_start),  // Flash起始地址（输入）
++  .flash_addr_end      (flash_addr_end),    // Flash结束地址（输入）
++  // APB主设备→spi_xip模块的输入信号
++  .apb_in_paddr        (in_paddr),      // APB地址总线（输入）
++  .apb_in_psel         (in_psel),       // APB从设备选择（输入）
++  .apb_in_penable      (in_penable),    // APB传输使能（输入）
++  .apb_in_pprot        (in_pprot),      // APB保护属性（输入）
++  .apb_in_pwrite       (in_pwrite),     // APB读写方向（输入）
++  .apb_in_pwdata       (in_pwdata),     // APB写数据总线（输入）
++  .apb_in_pstrb        (in_pstrb),      // APB字节写选通（输入）
++  // spi_xip模块→APB主设备的输出信号
++  .apb_in_pready       (in_pready),     // APB就绪信号（输出）
++  .apb_in_prdata       (in_prdata),     // APB读数据总线（输出）
++  .apb_in_pslverr      (in_pslverr),    // APB从设备错误（输出）
++  // spi_xip模块→SPI从设备的输出信号
++  .spi_in_paddr        (spi_in_paddr_o),      // 转发到SPI的APB地址（输出）
++  .spi_in_psel         (spi_in_psel_o),       // 转发到SPI的APB选择（输出）
++  .spi_in_penable      (spi_in_penable_o),    // 转发到SPI的APB使能（输出）
++  .spi_in_pprot        (spi_in_pprot_o),      // 转发到SPI的APB保护属性（输出）
++  .spi_in_pwrite       (spi_in_pwrite_o),     // 转发到SPI的APB读写方向（输出）
++  .spi_in_pwdata       (spi_in_pwdata_o),     // 转发到SPI的APB写数据（输出）
++  .spi_in_pstrb        (spi_in_pstrb_o),      // 转发到SPI的APB字节选通（输出）
++  // SPI从设备→spi_xip模块的输入信号
++  .spi_in_pready       (spi_in_pready_i),     // SPI返回的APB就绪（输入）
++  .spi_in_prdata       (spi_in_prdata_i),     // SPI返回的APB读数据（输入）
++  .spi_in_pslverr      (spi_in_pslverr_i),    // SPI返回的APB错误（输入）
++  // 时钟与复位
++  .clk                 (clock),             
++  .reset               (reset)              
++);
++
++
+ spi_top u0_spi_top (
+   .wb_clk_i(clock),
+   .wb_rst_i(reset),
+-  .wb_adr_i(in_paddr[4:0]),
+-  .wb_dat_i(in_pwdata),
+-  .wb_dat_o(in_prdata),
+-  .wb_sel_i(in_pstrb),
+-  .wb_we_i (in_pwrite),
+-  .wb_stb_i(in_psel),
+-  .wb_cyc_i(in_penable),
+-  .wb_ack_o(in_pready),
+-  .wb_err_o(in_pslverr),
++  .wb_adr_i(spi_in_paddr_o[4:0]),
++  .wb_dat_i(spi_in_pwdata_o),
++  .wb_dat_o(spi_in_prdata_i),
++  .wb_sel_i(spi_in_pstrb_o),
++  .wb_we_i (spi_in_pwrite_o),
++  .wb_stb_i(spi_in_psel_o),
++  .wb_cyc_i(spi_in_penable_o),
++  .wb_ack_o(spi_in_pready_i),
++  .wb_err_o(spi_in_pslverr_i),
+   .wb_int_o(spi_irq_out),
+ 
+   .ss_pad_o(spi_ss),
+diff --git a/perip/vga/vga_top_apb.v b/perip/vga/vga_top_apb.v
+index 5c74cfbe..0663efb6 100644
+--- a/perip/vga/vga_top_apb.v
++++ b/perip/vga/vga_top_apb.v
+@@ -19,5 +19,26 @@ module vga_top_apb(
+   output        vga_vsync,
+   output        vga_valid
+ );
++  // assign vga_b=8'hff;
++  my_vga my_vga_inst(
++    .apb_in_paddr  (in_paddr),
++    .apb_in_psel   (in_psel),
++    .apb_in_penable(in_penable),
++    .apb_in_pprot  (in_pprot),
++    .apb_in_pwrite (in_pwrite),
++    .apb_in_pwdata (in_pwdata),
++    .apb_in_pstrb  (in_pstrb),
++    .apb_in_pready (in_pready),
++    .apb_in_prdata (in_prdata),
++    .apb_in_pslverr(in_pslverr),
++    .vga_r         (vga_r),
++    .vga_g         (vga_g),
++    .vga_b         (vga_b),
++    .vga_hsync     (vga_hsync),
++    .vga_vsync     (vga_vsync),
++    .vga_valid     (vga_valid),
++    .clk           (clock),
++    .reset         (reset)
++  );
+ 
+ endmodule
+diff --git a/src/CPU.scala b/src/CPU.scala
+index 7559195f..daa0071d 100644
+--- a/src/CPU.scala
++++ b/src/CPU.scala
+@@ -13,7 +13,7 @@ object CPUAXI4BundleParameters {
+   def apply() = AXI4BundleParameters(addrBits = 32, dataBits = 32, idBits = ChipLinkParam.idBits)
+ }
+ 
+-class ysyx_00000000 extends BlackBox {
++class ysyx_26010010 extends BlackBox {
+   val io = IO(new Bundle {
+     val clock = Input(Clock())
+     val reset = Input(Reset())
+@@ -35,7 +35,7 @@ class CPU(idBits: Int)(implicit p: Parameters) extends LazyModule {
+     val interrupt = IO(Input(Bool()))
+     val slave = IO(Flipped(AXI4Bundle(CPUAXI4BundleParameters())))
+ 
+-    val cpu = Module(new ysyx_00000000)
++    val cpu = Module(new ysyx_26010010)
+     cpu.io.clock := clock
+     cpu.io.reset := reset
+     cpu.io.io_interrupt := interrupt
+diff --git a/src/Top.scala b/src/Top.scala
+index c00378a6..aaf8a6c6 100644
+--- a/src/Top.scala
++++ b/src/Top.scala
+@@ -21,6 +21,6 @@ class ysyxSoCTop extends Module {
+ }
+ 
+ object Elaborate extends App {
+-  val firtoolOptions = Array("--disable-annotation-unknown")
++  val firtoolOptions = Array("--disable-annotation-unknown", "--lowering-options=disallowLocalVariables,disallowPackedArrays")
+   circt.stage.ChiselStage.emitSystemVerilogFile(new ysyxSoCTop, args, firtoolOptions)
+ }
+diff --git a/src/device/MROM.scala b/src/device/MROM.scala
+index f2492344..4e4ed014 100644
+--- a/src/device/MROM.scala
++++ b/src/device/MROM.scala
+@@ -20,11 +20,18 @@ class MROMHelper extends BlackBox with HasBlackBoxInline {
+       |  input ren,
+       |  output reg [31:0] rdata
+       |);
++      |`ifndef USE_IVERILOG
+       |import "DPI-C" function void mrom_read(input int raddr, output int rdata);
+       |always @(*) begin
+       |  if (ren) mrom_read(raddr, rdata);
+       |  else rdata = 0;
+       |end
++      |`else
++      |always @(*) begin
++      |  rdata = 0;
++      |end
++      |`endif
++      |
+       |endmodule
+     """.stripMargin)
+ }
+-- 
+2.43.0
+

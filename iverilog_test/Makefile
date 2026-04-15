@@ -4,7 +4,7 @@ IVERILOG = iverilog
 VVP = vvp
 
 IVERILOG_HOME = $(AM_HOME)/../iverilog_test
-INCLUDE = -I/home/ylqt/environment/oss_cad_suite/oss-cad-suite/include/iverilog
+INCLUDE = -I$(shell dirname $(shell which iverilog))/../include/iverilog
 
 # -include scripts/npc_net.mk
 # -include scripts/npc.mk

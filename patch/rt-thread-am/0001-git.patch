@@ -1,0 +1,250 @@
+From ca978006a4cdf0f51fc241de0837a4c4f3c3918b Mon Sep 17 00:00:00 2001
+From: 535259205 <535259205@qq.com>
+Date: Tue, 14 Apr 2026 22:54:00 +0800
+Subject: [PATCH] =?UTF-8?q?=E6=81=A2=E5=A4=8Dgit=20=E9=87=8D=E6=96=B0?=
+ =?UTF-8?q?=E6=8F=90=E4=BA=A4?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ bsp/abstract-machine/Makefile      |  5 ++
+ bsp/abstract-machine/extra.ld      |  1 +
+ bsp/abstract-machine/extra_soc.ld  | 47 ++++++++++++++++++
+ bsp/abstract-machine/src/context.c | 77 ++++++++++++++++++++++++++----
+ bsp/abstract-machine/src/init.c    |  2 +-
+ bsp/abstract-machine/src/uart.c    | 17 +++++++
+ 6 files changed, 140 insertions(+), 9 deletions(-)
+ create mode 100644 bsp/abstract-machine/extra_soc.ld
+
+diff --git a/bsp/abstract-machine/Makefile b/bsp/abstract-machine/Makefile
+index 8d70f310b..7ea5d89a7 100644
+--- a/bsp/abstract-machine/Makefile
++++ b/bsp/abstract-machine/Makefile
+@@ -8,7 +8,12 @@ NAME = rtthread
+ SRCS = $(shell find src -name "*.c")
+ CFLAGS += -DHAVE_CCONFIG_H -D__RTTHREAD__
+ CFLAGS += -Wno-nonnull-compare
++ifeq ($(ARCH),riscv32e-ysyxsoc)
++LDFLAGS += -T extra_soc.ld
++CFLAGS += -DYSYX_SOC
++else
+ LDFLAGS += -T extra.ld
++endif
+ -include $(FILE_MK)
+ -include $(AM_APPS_MK)
+ include $(AM_HOME)/Makefile
+diff --git a/bsp/abstract-machine/extra.ld b/bsp/abstract-machine/extra.ld
+index 5cdc65670..61e9f2b22 100644
+--- a/bsp/abstract-machine/extra.ld
++++ b/bsp/abstract-machine/extra.ld
+@@ -43,3 +43,4 @@ SECTIONS {
+   }
+ }
+ INSERT BEFORE .bss;
++
+diff --git a/bsp/abstract-machine/extra_soc.ld b/bsp/abstract-machine/extra_soc.ld
+new file mode 100644
+index 000000000..57b2b51f2
+--- /dev/null
++++ b/bsp/abstract-machine/extra_soc.ld
+@@ -0,0 +1,47 @@
++SECTIONS {
++  .data.extra : {
++    /* section information for finsh shell */
++    __fsymtab_start = .;
++    KEEP(*(FSymTab))
++    __fsymtab_end = .;
++    . = ALIGN(8);
++    __vsymtab_start = .;
++    KEEP(*(VSymTab))
++    __vsymtab_end = .;
++    . = ALIGN(8);
++
++    /* section information for initial. */
++    . = ALIGN(8);
++    __rt_init_start = .;
++    KEEP(*(SORT(.rti_fn*)))
++    __rt_init_end = .;
++    . = ALIGN(8);
++
++    __rt_utest_tc_tab_start = .;
++    KEEP(*(UtestTcTab))
++    __rt_utest_tc_tab_end = .;
++
++    . = ALIGN(8);
++    __am_apps_data_start = .;
++    *(__am_apps.data*)
++    *(__am_apps.sdata*)
++    __am_apps_data_end = .;
++    . = ALIGN(8);
++  } >SDRAM AT> FLASH
++  _data_end = .;
++}
++/* INSERT BEFORE .data; */
++INSERT AFTER .data;
++SECTIONS {
++  .bss.extra : {
++    . = ALIGN(8);
++    __am_apps_bss_start = .;
++    *(__am_apps.bss*)
++    *(__am_apps.sbss*)
++    *(__am_apps.scommon*)
++    __am_apps_bss_end = .;
++    . = ALIGN(8);
++  } >SDRAM AT> FLASH
++}
++/* INSERT BEFORE .bss; */
++INSERT AFTER .bss;
+diff --git a/bsp/abstract-machine/src/context.c b/bsp/abstract-machine/src/context.c
+index ee38829ae..aa84b114b 100644
+--- a/bsp/abstract-machine/src/context.c
++++ b/bsp/abstract-machine/src/context.c
+@@ -2,30 +2,91 @@
+ #include <klib.h>
+ #include <rtthread.h>
+ 
+-static Context* ev_handler(Event e, Context *c) {
++//线程上下文切换
++typedef struct {
++  rt_ubase_t to;
++  rt_ubase_t from;
++} ctx_switch_ud_t;
++
++//线程入口
++typedef struct {
++  void (*tentry)(void*);
++  void* parameter;
++  void (*texit)(void);
++} thread_args_t;
++
++//线程启动
++static void context_wrapper(thread_args_t* args) {
++  args->tentry(args->parameter);
++  args->texit();
++  while (1);  // 不应返回
++}
++
++//事件处理
++static Context* ev_handler(Event e, Context* c) {
+   switch (e.event) {
+-    default: printf("Unhandled event ID = %d\n", e.event); assert(0);
++    case EVENT_YIELD: {
++      rt_thread_t current = rt_thread_self();
++      ctx_switch_ud_t *ud = (ctx_switch_ud_t *)current->user_data;
++      if (ud->from) *((Context**)ud->from) = c;
++      c = *(Context**)ud->to;
++      break;
++    }
++    case EVENT_IRQ_TIMER:
++      return c;
++    case EVENT_IRQ_IODEV:
++      return c;
++    default:
++      printf("Unhandled event ID = %d\n", e.event);
++      assert(0);
+   }
+   return c;
+ }
+ 
++//初始化
+ void __am_cte_init() {
+   cte_init(ev_handler);
+ }
+ 
++//线程切换
+ void rt_hw_context_switch_to(rt_ubase_t to) {
+-  assert(0);
++  rt_thread_t current = rt_thread_self();
++  ctx_switch_ud_t ud;
++  ud.to   = to;
++  ud.from = 0;
++  rt_ubase_t old_ud = current->user_data;
++  current->user_data = (rt_ubase_t)&ud;
++  yield();
++  current->user_data = old_ud;
+ }
+ 
++//线程上下文切换
+ void rt_hw_context_switch(rt_ubase_t from, rt_ubase_t to) {
+-  assert(0);
++  rt_thread_t current = rt_thread_self();
++  ctx_switch_ud_t ud;
++  ud.to   = to;
++  ud.from = from;
++  rt_ubase_t old_ud = current->user_data;
++  current->user_data = (rt_ubase_t)&ud;
++  yield();
++  current->user_data = old_ud;
+ }
+ 
++//
+ void rt_hw_context_switch_interrupt(void *context, rt_ubase_t from, rt_ubase_t to, struct rt_thread *to_thread) {
+   assert(0);
+ }
+ 
+-rt_uint8_t *rt_hw_stack_init(void *tentry, void *parameter, rt_uint8_t *stack_addr, void *texit) {
+-  assert(0);
+-  return NULL;
+-}
++//线程初始化
++rt_uint8_t* rt_hw_stack_init(void* tentry, void* parameter, rt_uint8_t* stack_addr, void* texit) {
++  stack_addr = (rt_uint8_t*)(((uintptr_t)stack_addr + sizeof(uintptr_t) - 1) & ~(sizeof(uintptr_t) - 1));
++  stack_addr -= sizeof(thread_args_t); // 在栈上分配参数结构体空间
++  thread_args_t* args = (thread_args_t*)stack_addr; // 转型
++  // 设置参数
++  args->tentry = (void (*)(void*))tentry;
++  args->parameter = parameter;
++  args->texit = (void (*)(void))texit;
++  Area stack_area = {.end = (rt_uint8_t*)stack_addr};  // 设置栈区域
++  rt_uint8_t* c = (rt_uint8_t*)kcontext(stack_area, (void*)context_wrapper, args);
++  return c;
++}
+\ No newline at end of file
+diff --git a/bsp/abstract-machine/src/init.c b/bsp/abstract-machine/src/init.c
+index 93e271154..913273d48 100644
+--- a/bsp/abstract-machine/src/init.c
++++ b/bsp/abstract-machine/src/init.c
+@@ -3,7 +3,7 @@
+ #include <klib.h>
+ #include <klib-macros.h>
+ 
+-#define AM_APPS_HEAP_SIZE  0x2000000
++#define AM_APPS_HEAP_SIZE  0x1000000
+ #define RT_HW_HEAP_BEGIN heap.start
+ #define RT_HW_HEAP_END heap.end
+ 
+diff --git a/bsp/abstract-machine/src/uart.c b/bsp/abstract-machine/src/uart.c
+index e4eb86689..63bc70732 100644
+--- a/bsp/abstract-machine/src/uart.c
++++ b/bsp/abstract-machine/src/uart.c
+@@ -36,9 +36,26 @@ static int _uart_putc(struct rt_serial_device *serial, char c) {
+   return 1;
+ }
+ 
++extern char getch(void);
+ static int _uart_getc(struct rt_serial_device *serial) {
++
++  // static const char *p = "help\ndate\nversion\nfree\nps\npwd\nls\nmemtrace\nmemcheck\nutest_list\n";
++  // return (*p != '\0' ? *(p ++) : -1);
++
++  //NEMU
++  #ifndef YSYX_SOC
+   static const char *p = "help\ndate\nversion\nfree\nps\npwd\nls\nmemtrace\nmemcheck\nutest_list\n";
+   return (*p != '\0' ? *(p ++) : -1);
++  #else//YSY_SOC
++  //NEMU
++  return getch();
++  #endif
++
++  // return getch();
++   // 读取数据寄存器
++  //
++  // return getch();
++
+ }
+ 
+ const struct rt_uart_ops _uart_ops = {
+-- 
+2.43.0
+

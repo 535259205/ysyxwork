@@ -1,0 +1,35 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Mon Apr 13 09:36:02 2026
+[*]
+[dumpfile] "/home/ylqt/study/YSYX_data/ysyx-workbench/iverilog_test/ysyxsoc_tb.vcd"
+[dumpfile_mtime] "Mon Apr 13 09:34:47 2026"
+[dumpfile_size] 6879518
+[savefile] "/home/ylqt/study/YSYX_data/ysyx-workbench/iverilog_test/wave.gtkw"
+[timestart] 4403680
+[size] 1920 985
+[pos] -1 -1
+*-12.900002 4422520 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] ysyxSoCFull_tb.
+[treeopen] ysyxSoCFull_tb.u_ysyxSoCFull.
+[sst_width] 559
+[signals_width] 274
+[sst_expanded] 1
+[sst_vpaned_height] 292
+@28
+ysyxSoCFull_tb.u_ysyxSoCFull.mem_fun_1.clk
+@22
+ysyxSoCFull_tb.u_ysyxSoCFull.mem_fun_1.r_addr[31:0]
+ysyxSoCFull_tb.u_ysyxSoCFull.mem_fun_1.r_data[31:0]
+@28
+ysyxSoCFull_tb.u_ysyxSoCFull.mem_fun_1.r_len[1:0]
+ysyxSoCFull_tb.u_ysyxSoCFull.mem_fun_1.ren
+ysyxSoCFull_tb.u_ysyxSoCFull.mem_fun_1.rst
+@22
+ysyxSoCFull_tb.u_ysyxSoCFull.mem_fun_1.w_addr[31:0]
+ysyxSoCFull_tb.u_ysyxSoCFull.mem_fun_1.w_data[31:0]
+@28
+ysyxSoCFull_tb.u_ysyxSoCFull.mem_fun_1.w_len[1:0]
+ysyxSoCFull_tb.u_ysyxSoCFull.mem_fun_1.wen
+[pattern_trace] 1
+[pattern_trace] 0
