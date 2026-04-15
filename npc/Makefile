@@ -36,9 +36,10 @@ INCDIFFTEST := -I$(AM_HOME)/../nemu/include
 INCDIFFTEST += -I$(AM_HOME)/../nemu/src/isa/riscv32/include
 # 确保capstone库已编译
 $(LIBCAPSTONE):
-	$(MAKE) -C $(CURDIR)/../nemu/tools/capstone
+#	$(MAKE) -C $(AM_HOME)/../nemu/tools/capstone
+
 # 编译前确保capstone库已准备好
-$(CURDIR)/csrc/disasm.cpp: $(LIBCAPSTONE)
+# $(CURDIR)/csrc/disasm.cpp: $(LIBCAPSTONE)
 #-g -fsanitize=address
 all: $(LIBCAPSTONE)
 	@@verilator --trace  -cc --top-module $(TOP_MODULE) $(VSRCS)  --exe $(csrc) \

@@ -10,6 +10,9 @@
 !README.md
 !.gitignore
 !init.sh
+!/patch/**
+!/SpinalHDL/**
+!/iverilog_test/**
 /fceux-am
 /am-kernels
 /nvboard

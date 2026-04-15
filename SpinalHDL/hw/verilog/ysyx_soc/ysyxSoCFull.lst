@@ -1,0 +1,15 @@
+hw/verilog/ysyx_soc/enumdefine.v
+hw/verilog/ysyx_soc/my_debug.v
+hw/verilog/ysyx_soc/my_debug_1.v
+hw/verilog/ysyx_soc/my_debug_2.v
+hw/verilog/ysyx_soc/PC.v
+hw/verilog/ysyx_soc/Encode.v
+hw/verilog/ysyx_soc/CSR.v
+hw/verilog/ysyx_soc/GRP.v
+hw/verilog/ysyx_soc/AXIArbiter.v
+hw/verilog/ysyx_soc/AllCtrl.v
+hw/verilog/ysyx_soc/CPU.v
+hw/verilog/ysyx_soc/AXIUart.v
+hw/verilog/ysyx_soc/AXImem.v
+hw/verilog/ysyx_soc/AXIClint.v
+hw/verilog/ysyx_soc/ysyxSoCFull.v
